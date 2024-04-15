@@ -1,0 +1,20 @@
+.recuadro_main {
+    width: 300px;
+    height: 400px;
+    margin: 0 auto;
+    border: 1px solid lightgray;
+    background-color: white;
+}
+.recuadro {
+    width: 300px;
+    height: 30px;
+    margin: 0 auto;
+    border-bottom: 1px solid lightgray;
+    background-color: #64b7c0;
+    display: grid;
+    place-items: center;
+    justify-content: center;
+    color: white ;
+    font-size: 15px;
+
+}
