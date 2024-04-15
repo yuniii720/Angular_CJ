@@ -51,10 +51,9 @@ input[type=submit] {
     cursor: pointer;
   }
 
-  input[type=submit]:hover {
+input[type=submit]:hover {
     height: 26px;
     width: 185px;
-    transition: ease 1s;
     background-color:white;
     color: #009fac;
     border: 1px solid #009fac;
@@ -63,4 +62,9 @@ input[type=submit] {
 
 p {
     font-size: 12px;
+}
+
+p:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
