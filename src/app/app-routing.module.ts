@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ForgottenpasswordComponent } from './forgottenpassword/forgottenpassword.component';
+import { HeaderComponent } from './header/header.component';
+
 const routes: Routes = [
   {
     path: 'login',
