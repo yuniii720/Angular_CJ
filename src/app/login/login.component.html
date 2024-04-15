@@ -1,19 +1,19 @@
 <div class="recuadro_main">
-    <div class="recuadro">Acceso Administración</div>
-    <div class="img"><img src="../../assets/img/logo_c.png" name="logo_c"></div>
-        <div class="formulario">
-    <form>
-
-        <label>Usuario</label><br>
-        <input type="text" required><br><br>
-
-        <label>Contraseña</label><br>
-        <input type="password" required><br><br>
-
-        <input type="submit" value="Entrar">
-
-    </form><br>
-    <p id="ProblemasClavesDeAcceso">¿Problemas con tus claves de acceso?</p>
-        </div>
-
-</div>
+    <div class="recuadro">
+      <div class="recuadro">Acceso Administración</div>
+      <div class="img"><img src="../../assets/img/logo_c.png" name="logo_c"></div>
+      <div class="formulario">
+        <form>
+          <label>Usuario</label><br>
+          <input type="text" required><br><br>
+          <label>Contraseña</label><br>
+          <input type="password" required><br><br>
+          <input type="submit" value="Entrar">
+        </form><br>
+        <a id="ProblemasClavesDeAcceso" [routerLink]="['', { outlets: { auth: ['forgot'] } }]">
+          ¿Problemas con tus claves de acceso?
+        </a>
+      </div>
+    </div>
+  </div>
+  
