@@ -1,0 +1,89 @@
+.recuadroverde1 {
+  background-color:#009fac;
+  width:100vw;
+  height:150px;
+}
+
+.recuadroverde2 {
+  background-color:#009fac;
+  height:100vh;
+  width: 83px;
+}
+
+.foto1 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  border: 1px solid black;
+}
+
+.div1 {
+ position: absolute;
+  bottom: 10%;
+  left: 6%;
+  top: 9.5%;
+  display: flex;
+
+}
+
+.div2 {
+  position: absolute;
+   left: 9.5%;
+   top: 8.4%;
+   display: block;
+   width: 300px;
+   font-size: 20px;
+   color: white;
+ 
+ }
+
+img {
+  width: 40px;
+  height: 40px;
+}
+
+table.comicGreen {
+  border: 2px solid#009fac;
+  background-color: #EEEEEE;
+  width: 80%;
+  height: 35%;
+  text-align: center;
+  border-collapse: collapse;
+  position: absolute;
+  top: 36%;
+  left: 14%;
+}
+table.comicGreen td, table.comicGreen th {
+  border: 1px solid #009fac;
+  padding: 3px 2px;
+}
+table.comicGreen tbody td {
+  font-size: 15px;
+  font-weight: bold;
+  color: #009fac;
+}
+table.comicGreen tr:nth-child(even) {
+  background: #CEE0CC;
+}
+table.comicGreen thead {
+  background: #009fac;
+ 
+  border-bottom: 1px solid #444444;
+}
+table.comicGreen thead th {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #D0E4F5;
+}
+table.comicGreen thead th:first-child {
+  border-left: none;
+}
+
+table.comicGreen tfoot td {
+  font-size: px;
+}
