@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { ForgottenpasswordComponent } from './forgottenpassword/forgottenpassword.component';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main/main.component';
+import { TablausuariosComponent } from './tablausuarios/tablausuarios.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { MainComponent } from './main/main.component';
     LoginComponent,
     ForgottenpasswordComponent,
     HeaderComponent,
-    MainComponent
+    MainComponent,
+    TablausuariosComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,
