@@ -1,5 +1,6 @@
 .button-container {
-  margin: 120px 1635px;
+  margin: 100px 1465px;
+  z-index: 1;
 }
 
 .button-4 {

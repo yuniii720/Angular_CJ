@@ -21,12 +21,8 @@ import { BtnAddUserComponent } from './btn-add-user/btn-add-user.component';
     MainComponent,
     TablaUsuariosComponent,
     BotonestablaComponent,
-<<<<<<< Updated upstream
-    
-=======
     AddUserComponent,
     BtnAddUserComponent,
->>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
