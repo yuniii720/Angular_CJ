@@ -22,12 +22,13 @@ import { BtnAddUserComponent } from './btn-add-user/btn-add-user.component';
     TablaUsuariosComponent,
     BotonestablaComponent,
     AddUserComponent,
-    BtnAddUserComponent,
+    BtnAddUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
+
   ],
   providers: [
     provideClientHydration()
