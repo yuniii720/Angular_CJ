@@ -22,6 +22,7 @@
     vertical-align: middle;
     white-space: nowrap;
     word-wrap: break-word;
+    margin-left: 7px;
   }
   
   .button-4:hover {

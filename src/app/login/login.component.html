@@ -7,8 +7,8 @@
           <label>Usuario</label><br><br>
           <input type="text" required><br><br>
           <label>Contraseña</label><br><br>
-          <input type="password" required><br><br>
-          <input type="submit" value="Entrar">
+          <input type="password" required><br><br><br>
+          <input type="submit" value="Entrar"  id="ProblemasClavesDeAcceso" [routerLink]="['', { outlets: { auth: ['main'] } }]" >
         </form><br>
         <a id="ProblemasClavesDeAcceso" [routerLink]="['', { outlets: { auth: ['forgot'] } }]">
           ¿Problemas con tus claves de acceso?
@@ -17,3 +17,5 @@
     </div>
   </div>
   
+
+
