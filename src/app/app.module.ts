@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main/main.component';
 import { TablausuariosComponent } from './tablausuarios/tablausuarios.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BotonestablaComponent } from './botonestabla/botonestabla.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     MainComponent,
     TablausuariosComponent,
+    BotonestablaComponent,
   ],
   imports: [
     BrowserModule,
