@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ForgottenpasswordComponent } from './forgottenpassword/forgottenpassword.component';
 import { MainComponent } from './main/main.component';
+import { TablausuariosComponent } from './tablausuarios/tablausuarios.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,13 @@ const routes: Routes = [
   {
     path: 'main',
     component: MainComponent,
+    outlet: 'auth',
+    pathMatch: 'full'
+  },
+
+  {
+    path: 'cliente',
+    component: TablausuariosComponent,
     outlet: 'auth',
     pathMatch: 'full'
   }

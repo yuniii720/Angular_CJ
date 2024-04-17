@@ -1,7 +1,7 @@
 <div class="header">
-  <a href="#default" class="logo"><div class="img"><img src="../../assets/img/cajamar-logo.png" name="cajamar_logo"></div></a>
+  <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo"><div class="img"><img src="../../assets/img/cajamar-logo.png" name="cajamar_logo"></div></a>
   <nav class="menu">
-    <a class="active" href="#clientes">Clientes</a>
+    <a class="active" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
     <a href="#cuentas">Cuentas</a>
     <a href="#transferencias">Transferencias</a>
   </nav>
