@@ -9,6 +9,8 @@ import { MainComponent } from './main/main.component';
 import { TablaUsuariosComponent } from './tablausuarios/tablausuarios.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BotonestablaComponent } from './botonestabla/botonestabla.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { BtnAddUserComponent } from './btn-add-user/btn-add-user.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,12 @@ import { BotonestablaComponent } from './botonestabla/botonestabla.component';
     MainComponent,
     TablaUsuariosComponent,
     BotonestablaComponent,
+<<<<<<< Updated upstream
     
+=======
+    AddUserComponent,
+    BtnAddUserComponent,
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,

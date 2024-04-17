@@ -3,7 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ForgottenpasswordComponent } from './forgottenpassword/forgottenpassword.component';
 import { MainComponent } from './main/main.component';
+<<<<<<< Updated upstream
 import { TablaUsuariosComponent } from './tablausuarios/tablausuarios.component';
+=======
+import { TablausuariosComponent } from './tablausuarios/tablausuarios.component';
+import { AddUserComponent } from './add-user/add-user.component';
+>>>>>>> Stashed changes
 
 const routes: Routes = [
   {
@@ -39,6 +44,13 @@ const routes: Routes = [
   {
     path: 'cliente',
     component: TablaUsuariosComponent,
+    outlet: 'auth',
+    pathMatch: 'full'
+  },
+
+  {
+    path: 'add-user',
+    component: AddUserComponent,
     outlet: 'auth',
     pathMatch: 'full'
   }
