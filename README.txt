@@ -1,0 +1,6 @@
+- Lógica
+- Páginas transferencias (?)
+- Página cuentas (?)
+- Añadir clientes (Tabla usuarios)
+- Borrar clientes (Tabla usuarios)
+- Editar clientes (Tabla usuarios)
