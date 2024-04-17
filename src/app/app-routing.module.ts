@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ForgottenpasswordComponent } from './forgottenpassword/forgottenpassword.component';
 import { MainComponent } from './main/main.component';
-import { TablausuariosComponent } from './tablausuarios/tablausuarios.component';
+import { TablaUsuariosComponent } from './tablausuarios/tablausuarios.component';
 
 const routes: Routes = [
   {
@@ -38,7 +38,7 @@ const routes: Routes = [
 
   {
     path: 'cliente',
-    component: TablausuariosComponent,
+    component: TablaUsuariosComponent,
     outlet: 'auth',
     pathMatch: 'full'
   }

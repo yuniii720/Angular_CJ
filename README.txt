@@ -4,3 +4,4 @@
 - Añadir clientes (Tabla usuarios)
 - Borrar clientes (Tabla usuarios)
 - Editar clientes (Tabla usuarios)
+- Favicon

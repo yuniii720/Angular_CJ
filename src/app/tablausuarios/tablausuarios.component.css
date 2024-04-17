@@ -45,7 +45,7 @@ img {
   height: 40px;
 }
 
-table.comicGreen {
+table.TablaCJ {
   border: 2px solid#009fac;
   background-color: #EEEEEE;
   width: 80%;
@@ -56,34 +56,34 @@ table.comicGreen {
   top: 36%;
   left: 14%;
 }
-table.comicGreen td, table.comicGreen th {
+table.TablaCJ td, table.TablaCJ th {
   border: 1px solid #009fac;
   padding: 3px 2px;
 }
-table.comicGreen tbody td {
+table.TablaCJ tbody td {
   font-size: 15px;
   font-weight: bold;
   color: #009fac;
 }
-table.comicGreen tr:nth-child(even) {
+table.TablaCJ tr:nth-child(even) {
   background: #CEE0CC;
 }
-table.comicGreen thead {
+table.TablaCJ thead {
   background: #009fac;
  
   border-bottom: 1px solid #444444;
 }
-table.comicGreen thead th {
+table.TablaCJ thead th {
   font-size: 20px;
   font-weight: bold;
   color: #FFFFFF;
   text-align: center;
   border-left: 2px solid #D0E4F5;
 }
-table.comicGreen thead th:first-child {
+table.TablaCJ thead th:first-child {
   border-left: none;
 }
 
-table.comicGreen tfoot td {
+table.TablaCJ tfoot td {
   font-size: px;
 }

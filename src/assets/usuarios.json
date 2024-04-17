@@ -1,21 +1,105 @@
-[
+{
+  "usuarios": [
     {
       "id": 1,
-      "name": "John Doe",
-      "email": "johndoe@example.com",
-      "password": "password123"
+      "nombre": "María López",
+      "dni": "12345678A",
+      "numero_cuenta": "ES12345678901234567890",
+      "numero_tarjeta": "1234 5678 9012 3456",
+      "correo_electronico": "maria@example.com",
+      "fecha_nacimiento": "1990-05-15",
+      "fecha_alta": "2024-04-17"
     },
     {
       "id": 2,
-      "name": "Jane Doe",
-      "email": "janedoe@example.com",
-      "password": "password123"
+      "nombre": "Juan García",
+      "dni": "87654321B",
+      "numero_cuenta": "ES09876543210987654321",
+      "numero_tarjeta": "9876 5432 1098 7654",
+      "correo_electronico": "juan@example.com",
+      "fecha_nacimiento": "1985-09-20",
+      "fecha_alta": "2024-04-16"
     },
     {
       "id": 3,
-      "name": "Bob Smith",
-      "email": "bobsmith@example.com",
-      "password": "password123"
+      "nombre": "Laura Martínez",
+      "dni": "23456789C",
+      "numero_cuenta": "ES23456789012345678901",
+      "numero_tarjeta": "2345 6789 0123 4567",
+      "correo_electronico": "laura@example.com",
+      "fecha_nacimiento": "1995-02-10",
+      "fecha_alta": "2024-04-15"
+    },
+    {
+      "id": 4,
+      "nombre": "Pedro Sánchez",
+      "dni": "34567890D",
+      "numero_cuenta": "ES34567890123456789012",
+      "numero_tarjeta": "3456 7890 1234 5678",
+      "correo_electronico": "pedro@example.com",
+      "fecha_nacimiento": "1982-11-25",
+      "fecha_alta": "2024-04-14"
+    },
+    {
+      "id": 5,
+      "nombre": "Ana Rodríguez",
+      "dni": "45678901E",
+      "numero_cuenta": "ES45678901234567890123",
+      "numero_tarjeta": "4567 8901 2345 6789",
+      "correo_electronico": "ana@example.com",
+      "fecha_nacimiento": "1993-08-30",
+      "fecha_alta": "2024-04-13"
+    },
+    {
+      "id": 6,
+      "nombre": "Carlos Pérez",
+      "dni": "56789012F",
+      "numero_cuenta": "ES56789012345678901234",
+      "numero_tarjeta": "5678 9012 3456 7890",
+      "correo_electronico": "carlos@example.com",
+      "fecha_nacimiento": "1988-04-05",
+      "fecha_alta": "2024-04-12"
+    },
+    {
+      "id": 7,
+      "nombre": "Sofía González",
+      "dni": "67890123G",
+      "numero_cuenta": "ES67890123456789012345",
+      "numero_tarjeta": "6789 0123 4567 8901",
+      "correo_electronico": "sofia@example.com",
+      "fecha_nacimiento": "1997-01-20",
+      "fecha_alta": "2024-04-11"
+    },
+    {
+      "id": 8,
+      "nombre": "David Fernández",
+      "dni": "78901234H",
+      "numero_cuenta": "ES78901234567890123456",
+      "numero_tarjeta": "7890 1234 5678 9012",
+      "correo_electronico": "david@example.com",
+      "fecha_nacimiento": "1991-06-12",
+      "fecha_alta": "2024-04-10"
+    },
+    {
+      "id": 9,
+      "nombre": "Elena Ruiz",
+      "dni": "89012345I",
+      "numero_cuenta": "ES89012345678901234567",
+      "numero_tarjeta": "8901 2345 6789 0123",
+      "correo_electronico": "elena@example.com",
+      "fecha_nacimiento": "1986-03-18",
+      "fecha_alta": "2024-04-09"
+    },
+    {
+      "id": 10,
+      "nombre": "Miguel Torres",
+      "dni": "90123456J",
+      "numero_cuenta": "ES90123456789012345678",
+      "numero_tarjeta": "9012 3456 7890 1234",
+      "correo_electronico": "miguel@example.com",
+      "fecha_nacimiento": "1994-12-07",
+      "fecha_alta": "2024-04-08"
     }
-  ]
-  
+  ],
+  "status":200
+}
