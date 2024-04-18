@@ -5,6 +5,7 @@ import { ForgottenpasswordComponent } from './forgottenpassword/forgottenpasswor
 import { MainComponent } from './main/main.component';
 import { TablaUsuariosComponent } from './tablausuarios/tablausuarios.component';
 import { AddUserComponent } from './add-user/add-user.component';
+import { TablaClientesComponent } from './tablaclientes/tablaclientes.component';
 
 const routes: Routes = [
   {
@@ -41,8 +42,14 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'cliente',
+    path: 'usuario',
     component: TablaUsuariosComponent,
+    outlet: 'auth',
+    pathMatch: 'full'
+  },
+  {
+    path: 'cliente',
+    component: TablaClientesComponent,
     outlet: 'auth',
     pathMatch: 'full'
   },

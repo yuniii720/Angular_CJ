@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BotonestablaComponent } from './botonestabla/botonestabla.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { BtnAddUserComponent } from './btn-add-user/btn-add-user.component';
+import { TablaClientesComponent } from './tablaclientes/tablaclientes.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { BtnAddUserComponent } from './btn-add-user/btn-add-user.component';
     TablaUsuariosComponent,
     BotonestablaComponent,
     AddUserComponent,
-    BtnAddUserComponent
+    BtnAddUserComponent,
+    TablaClientesComponent
   ],
   imports: [
     BrowserModule,
