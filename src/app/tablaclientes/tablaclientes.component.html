@@ -28,13 +28,12 @@
     <tbody>
         <tr *ngFor="let cliente of clientes">
             <td>{{ cliente.id }}</td>
-            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.name }}</td>
             <td>{{ cliente.dni }}</td>
-            <td>{{ cliente.numero_cuenta }}</td>
-            <td>{{ cliente.numero_tarjeta }}</td>
-            <td>{{ cliente.correo_electronico }}</td>
-            <td>{{ cliente.fecha_nacimiento }}</td>
-            <td>{{ cliente.fecha_alta }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.birth_date }}</td>
+            <td>{{ cliente.city }}</td>
+            <td>{{ cliente.created_at }}</td>
             <td><app-botonestabla></app-botonestabla></td>
         </tr>
     </tbody>
