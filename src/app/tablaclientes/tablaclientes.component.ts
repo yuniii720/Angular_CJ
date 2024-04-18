@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
+import { Cliente } from '../models/cliente.model'; // Asegúrate de que la ruta sea correcta basada en tu estructura de archivos
 
 @Component({
   selector: 'app-tablaclientes',
   templateUrl: './tablaclientes.component.html',
-  styleUrls: ['./tablaclientes.component.css'] // Asegúrate de que el nombre del archivo es correcto
+  styleUrls: ['./tablaclientes.component.css']
 })
 export class TablaClientesComponent implements OnInit {
 
-  clientes: any[] = []; // Inicializa la variable para almacenar los clientes
+  clientes: Cliente[] = []; // Usa el modelo Cliente para la tipificación de tu array de clientes
 
   constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
-    this.loadClientes(); // Carga los clientes al inicializar el componente
+    this.loadClientes();
   }
 
-  // Método para cargar los clientes
   loadClientes(): void {
-    this.supabaseService.getAllClientes() // Suponiendo que este método ya está implementado en SupabaseService
+    this.supabaseService.getAllClientes()
       .then(clientes => {
         this.clientes = clientes;
         console.log('Clientes cargados:', this.clientes);
@@ -28,12 +28,20 @@ export class TablaClientesComponent implements OnInit {
       });
   }
 
-  // Método para añadir un nuevo cliente
   addNewCliente(): void {
-    this.supabaseService.addCliente('Juan Perez', '12345678D', 'juan@example.com', '1990-01-01', new Date().toISOString())
+    const newCliente: Cliente = {
+      name: 'Juan Perez',
+      dni: '12345678D',
+      email: 'juan@example.com',
+      birth_date: '1990-01-01', // Asegúrate de que el formato de fecha sea correcto
+      city: 'Almería',
+      created_at: new Date().toISOString() // Asegúrate de que el formato sea el esperado por tu DB
+    };
+
+    this.supabaseService.addCliente(newCliente)
       .then(data => {
         console.log('Cliente añadido', data);
-        this.loadClientes(); // Recarga la lista de clientes después de añadir uno nuevo
+        this.loadClientes();
       })
       .catch(error => {
         console.error('Error al añadir cliente', error);

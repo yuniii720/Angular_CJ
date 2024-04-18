@@ -1,27 +1,30 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Cliente } from './models/cliente.model';
+import { environment } from '../app/environments/environment'; // Asegúrate de que la ruta al archivo sea correcta
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupabaseService {
-  private supabaseUrl = 'https://pbjdatvfbfkhaqrxrzdg.supabase.co';
-  private supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBiamRhdHZmYmZraGFxcnhyemRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM0MzA0OTUsImV4cCI6MjAyOTAwNjQ5NX0.c-OqL72CZnVcBSMMRitbiN5VUzZF6SDrRuwLHA-i7jk'; // Usa tu ANON KEY aquí
+  private supabaseUrl = environment.supabaseUrl;
+  private supabaseKey = environment.supabaseKey;
   public supabase: SupabaseClient;
 
   constructor() {
     this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
   }
-  async addCliente(nombre: string, dni: string, email: string, fechaNacimiento: string, fechaAlta: string) {
+  async addCliente(cliente: Cliente) {
     const { data, error } = await this.supabase
       .from('Clientes')
       .insert([
-        { nombre, dni, email, fecha_nacimiento: fechaNacimiento, fecha_alta: fechaAlta }
+        cliente
       ]);
 
     if (error) throw error;
     return data;
   }
+
   async getAllClientes() {
     const { data, error } = await this.supabase
       .from('Clientes')

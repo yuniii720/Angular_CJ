@@ -7,34 +7,34 @@
     <div class="div2">
       <p>Gestión de Clientes</p>
     </div>
-</div>
+  </div>
 
-<app-btn-add-user></app-btn-add-user>
+  <app-btn-add-user></app-btn-add-user>
 
-<table class="TablaCJ">
+  <table class="TablaCJ">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>DNI</th>
-            <th>Número de cuenta</th>
-            <th>Número de tarjeta</th>
-            <th>Correo electrónico</th>
-            <th>Fecha de nacimiento</th>
-            <th>Fecha de alta</th>
-            <th>Gestionar</th>
-        </tr>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>DNI</th>
+        <th>Correo electrónico</th>
+        <th>Ciudad</th>
+        <th>Fecha de nacimiento</th>
+        <th>Fecha de alta</th>
+        <th>Gestionar</th>
+      </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let cliente of clientes">
-            <td>{{ cliente.id }}</td>
-            <td>{{ cliente.name }}</td>
-            <td>{{ cliente.dni }}</td>
-            <td>{{ cliente.email }}</td>
-            <td>{{ cliente.birth_date }}</td>
-            <td>{{ cliente.city }}</td>
-            <td>{{ cliente.created_at }}</td>
-            <td><app-botonestabla></app-botonestabla></td>
-        </tr>
+      <tr *ngFor="let cliente of clientes">
+        <td>{{ cliente.id }}</td>
+        <td>{{ cliente.name }}</td>
+        <td>{{ cliente.dni }}</td>
+        <td>{{ cliente.email }}</td>
+        <td>{{ cliente.birth_date | date: 'yyyy-MM-dd' }}</td> <!-- Formatea la fecha según sea necesario -->
+        <td>{{ cliente.city }}</td>
+        <td>{{ cliente.created_at | date: 'yyyy-MM-dd HH:mm' }}</td> <!-- Formatea el timestamp según sea necesario -->
+        <td><app-botonestabla></app-botonestabla></td>
+      </tr>
     </tbody>
-</table>
+
+  </table>
