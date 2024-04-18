@@ -34,7 +34,6 @@ const routes: Routes = [
     outlet: 'auth',
     pathMatch: 'full'
   },
-
   {
     path: 'main',
     component: MainComponent,
