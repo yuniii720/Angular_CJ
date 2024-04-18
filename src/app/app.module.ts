@@ -12,6 +12,8 @@ import { BotonestablaComponent } from './botonestabla/botonestabla.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { BtnAddUserComponent } from './btn-add-user/btn-add-user.component';
 import { TablaClientesComponent } from './tablaclientes/tablaclientes.component';
+import { TablacuentasComponent } from './tablacuentas/tablacuentas.component';
+import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { TablaClientesComponent } from './tablaclientes/tablaclientes.component'
     BotonestablaComponent,
     AddUserComponent,
     BtnAddUserComponent,
-    TablaClientesComponent
+    TablaClientesComponent,
+    TablacuentasComponent,
+    TablatarjetasComponent
   ],
   imports: [
     BrowserModule,
