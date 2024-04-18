@@ -41,22 +41,18 @@ const routes: Routes = [
     outlet: 'auth',
     pathMatch: 'full'
   },
-
   {
     path: 'cliente',
     component: TablaUsuariosComponent,
     outlet: 'auth',
     pathMatch: 'full'
   },
-
   {
     path: 'adduser',
     component: AddUserComponent,
     outlet: 'auth',
     pathMatch: 'full'
   },
-
-  { path: '**', pathMatch: 'full', redirectTo: 'login' }
 ];
 
 @NgModule({
