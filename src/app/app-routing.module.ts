@@ -8,6 +8,11 @@ import { AddUserComponent } from './add-user/add-user.component';
 
 const routes: Routes = [
   {
+    path: '',
+    component: LoginComponent,
+    outlet: 'auth'
+  },
+  {
     path: 'login',
     component: LoginComponent,
     outlet: 'auth'
@@ -49,7 +54,9 @@ const routes: Routes = [
     component: AddUserComponent,
     outlet: 'auth',
     pathMatch: 'full'
-  }
+  },
+
+  { path: '**', pathMatch: 'full', redirectTo: 'login' }
 ];
 
 @NgModule({
