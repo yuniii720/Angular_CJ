@@ -1,21 +1,19 @@
 <div class="recuadro_main">
-    <div class="recuadro">
-      <div class="recuadro">Acceso Administración</div>
-      <div class="img"><img src="../../assets/img/logo_c.png" name="logo_c"></div>
-      <div class="formulario">
-        <form>
-          <label>Usuario</label><br><br>
-          <input type="text" required><br><br>
-          <label>Contraseña</label><br><br>
-          <input type="password" required><br><br><br>
-          <input type="submit" value="Entrar"  id="ProblemasClavesDeAcceso" [routerLink]="['', { outlets: { auth: ['main'] } }]" >
-        </form><br>
-        <a id="ProblemasClavesDeAcceso" [routerLink]="['', { outlets: { auth: ['forgot'] } }]">
-          ¿Problemas con tus claves de acceso?
-        </a>
-      </div>
+  <div class="recuadro">
+    <div class="recuadro">Acceso Administración</div>
+    <div class="img"><img src="../../assets/img/logo_c.png" name="logo_c"></div>
+    <div class="formulario">
+      <form>
+        <label>Usuario</label><br><br>
+        <input type="text" placeholder="Introduce nombre de usuario" required><br><br>
+        <label>Contraseña</label><br><br>
+        <input type="password" placeholder="Introduce contraseña" required><br><br><br>
+        <input type="submit" value="Entrar" id="ProblemasClavesDeAcceso"
+          [routerLink]="['', { outlets: { auth: ['main'] } }]">
+      </form><br>
+      <a id="ProblemasClavesDeAcceso" [routerLink]="['', { outlets: { auth: ['forgot'] } }]">
+        ¿Problemas con tus claves de acceso?
+      </a>
     </div>
   </div>
-
-
-
+</div>
