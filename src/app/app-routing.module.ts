@@ -6,6 +6,8 @@ import { MainComponent } from './main/main.component';
 import { TablaUsuariosComponent } from './tablausuarios/tablausuarios.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { TablaClientesComponent } from './tablaclientes/tablaclientes.component';
+import { TablacuentasComponent } from './tablacuentas/tablacuentas.component';
+import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component';
 
 const routes: Routes = [
   {
@@ -56,6 +58,18 @@ const routes: Routes = [
   {
     path: 'adduser',
     component: AddUserComponent,
+    outlet: 'auth',
+    pathMatch: 'full'
+  },
+  {
+    path: 'Cuentas',
+    component: TablacuentasComponent,
+    outlet: 'auth',
+    pathMatch: 'full'
+  },
+  {
+    path: 'Tarjetas',
+    component: TablatarjetasComponent,
     outlet: 'auth',
     pathMatch: 'full'
   },
