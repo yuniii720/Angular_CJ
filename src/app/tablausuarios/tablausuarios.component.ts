@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-// Importamos SupabaseService en lugar de HttpClient y UsuariosService
 import { SupabaseService } from '../supabase.service';
+import { Usuario } from '../models/usuario.model';
 
 @Component({
   selector: 'app-tabla-usuarios',
@@ -9,37 +9,43 @@ import { SupabaseService } from '../supabase.service';
 })
 export class TablaUsuariosComponent implements OnInit {
 
-  usuarios: any;
+  usuarios: Usuario[] = [];
 
-  // Injectamos SupabaseService en el constructor en lugar de UsuariosService
   constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
-    (async () => {
-      const { data: usuarios, error } = await this.supabaseService.supabase
-        .from('usuarios')
-        .select('*');
+    this.loadUsuarios();
+  }
 
-      if (error) {
-        console.error('Error al cargar los usuarios:', error);
-      } else {
+  loadUsuarios(): void {
+    this.supabaseService.getAllUsuarios()
+      .then(usuarios => {
         this.usuarios = usuarios;
         console.log('Usuarios cargados:', this.usuarios);
-      }
-    })();
+      })
+      .catch(error => {
+        console.error('Error al cargar los usuarios:', error);
+      });
   }
 
-  async addUser(email: string, password: string) {
-    const { data, error } = await this.supabaseService.supabase
-      .from('usuarios')
-      .insert([
-        { email: email, password: password }
-      ]);
+  addNewUsuario(): void {
+    const newUsuario: Usuario = {
+      username: 'jperez',
+      name: 'Juan Pérez',
+      email: 'juan@example.com',
+      password: '1234',
+      type: 'Administrador',
+      created_at: new Date().toISOString()
+    };
 
-    if (error) {
-      console.error('Error al insertar el usuario:', error);
-    } else {
-      console.log('Usuario insertado:', data);
-    }
+    this.supabaseService.addUsuario(newUsuario)
+      .then(data => {
+        console.log('Usuario añadido', data);
+        this.loadUsuarios();
+      })
+      .catch(error => {
+        console.error('Error al añadir Usuario', error);
+      });
   }
+
 }

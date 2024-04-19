@@ -7,35 +7,33 @@
     <div class="div2">
       <p>Gestión de Usuarios </p>
     </div>
-</div>
+  </div>
 
-<app-btn-add-user></app-btn-add-user>
+  <app-btn-add-user></app-btn-add-user>
 
-<table class="TablaCJ">
+  <table class="TablaCJ">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>DNI</th>
-            <th>Número de cuenta</th>
-            <th>Número de tarjeta</th>
-            <th>Correo electrónico</th>
-            <th>Fecha de nacimiento</th>
-            <th>Fecha de alta</th>
-            <th>Gestionar</th>
-        </tr>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Correo electrónico</th>
+        <!-- <th>Contraseña</th> -->
+        <th>Tipo</th>
+        <th>Fecha de alta</th>
+        <th>Gestionar</th>
+      </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><app-botonestabla></app-botonestabla></td>
-        </tr>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.id }}</td>
+        <td>{{ usuario.username }}</td>
+        <td>{{ usuario.name }}</td>
+        <td>{{ usuario.email }}</td>
+        <!-- <td>{{ usuario.password }}</td> -->
+        <td>{{ usuario.type }}</td>
+        <td>{{ usuario.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td><app-botonestabla></app-botonestabla></td>
+      </tr>
     </tbody>
-</table>
+  </table>
