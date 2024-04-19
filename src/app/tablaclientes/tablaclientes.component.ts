@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
-import { Cliente } from '../models/cliente.model'; // Asegúrate de que la ruta sea correcta basada en tu estructura de archivos
+import { Cliente } from '../models/cliente.model';
 
 @Component({
   selector: 'app-tablaclientes',
@@ -9,7 +9,7 @@ import { Cliente } from '../models/cliente.model'; // Asegúrate de que la ruta 
 })
 export class TablaClientesComponent implements OnInit {
 
-  clientes: Cliente[] = []; // Usa el modelo Cliente para la tipificación de tu array de clientes
+  clientes: Cliente[] = [];
 
   constructor(private supabaseService: SupabaseService) { }
 
@@ -33,9 +33,9 @@ export class TablaClientesComponent implements OnInit {
       name: 'Juan Perez',
       dni: '12345678D',
       email: 'juan@example.com',
-      birth_date: '1990-01-01', // Asegúrate de que el formato de fecha sea correcto
+      birth_date: '1990-01-01',
       city: 'Almería',
-      created_at: new Date().toISOString() // Asegúrate de que el formato sea el esperado por tu DB
+      created_at: new Date().toISOString()
     };
 
     this.supabaseService.addCliente(newCliente)

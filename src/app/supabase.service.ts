@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cliente } from './models/cliente.model';
+import { Usuario } from './models/usuario.model';
 import { environment } from '../app/environments/environment'; // Asegúrate de que la ruta al archivo sea correcta
 
 @Injectable({
@@ -45,6 +46,44 @@ export class SupabaseService {
   async deleteCliente(id: number) {
     const { data, error } = await this.supabase
       .from('Clientes')
+      .delete()
+      .match({ id });
+
+    if (error) throw error;
+    return data;
+  }
+
+  async addUsuario(usuario: Usuario) {
+    const { data, error } = await this.supabase
+      .from('Usuarios')
+      .insert([
+        usuario
+      ]);
+
+    if (error) throw error;
+    return data;
+  }
+
+  async getAllUsuarios() {
+    const { data, error } = await this.supabase
+      .from('Usuarios')
+      .select('*');
+
+    if (error) throw error;
+    return data;
+  }
+  async updateUsuario(id: number, updatedFields: any) {
+    const { data, error } = await this.supabase
+      .from('Usuarios')
+      .update(updatedFields)
+      .match({ id });
+
+    if (error) throw error;
+    return data;
+  }
+  async deleteUsuario(id: number) {
+    const { data, error } = await this.supabase
+      .from('Usuarios')
       .delete()
       .match({ id });
 
