@@ -17,7 +17,7 @@ export class TablaUsuariosComponent implements OnInit {
   ngOnInit(): void {
     (async () => {
       const { data: usuarios, error } = await this.supabaseService.supabase
-        .from('usuarios')
+        .from('Usuarios')
         .select('*');
 
       if (error) {
@@ -31,7 +31,7 @@ export class TablaUsuariosComponent implements OnInit {
 
   async addUser(email: string, password: string) {
     const { data, error } = await this.supabaseService.supabase
-      .from('usuarios')
+      .from('Usuarios')
       .insert([
         { email: email, password: password }
       ]);
