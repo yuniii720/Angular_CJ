@@ -73,7 +73,7 @@ table.TablaCJ tr:nth-child(even) {
   background: #d1e7ea;
 }
 
-table.TablaCJ tbody > tr:hover {
+table.TablaCJ tbody>tr:hover {
   background: #b9dbdf;
 }
 
@@ -96,4 +96,24 @@ table.TablaCJ thead th:first-child {
 
 table.TablaCJ tfoot td {
   font-size: px;
+}
+
+.div1 {
+  position: absolute;
+  bottom: 10%;
+  left: 6%;
+  top: 9.5%;
+  display: flex;
+
+}
+
+.div2 {
+  position: absolute;
+  left: 9.5%;
+  top: 8.4%;
+  display: block;
+  width: 300px;
+  font-size: 20px;
+  color: white;
+
 }
