@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -14,6 +14,8 @@ import { BtnAddUserComponent } from './btn-add-user/btn-add-user.component';
 import { TablaClientesComponent } from './tablaclientes/tablaclientes.component';
 import { TablacuentasComponent } from './tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component';
+import { RegisterComponent } from './register/register.component';
+import { EmailserviceService } from './emailservice.service';
 
 @NgModule({
   declarations: [
@@ -28,17 +30,18 @@ import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component'
     BtnAddUserComponent,
     TablaClientesComponent,
     TablacuentasComponent,
-    TablatarjetasComponent
+    TablatarjetasComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
-
   ],
   providers: [
-    provideClientHydration()
+    EmailserviceService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
