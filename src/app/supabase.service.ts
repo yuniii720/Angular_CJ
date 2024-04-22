@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cliente } from './models/cliente.model';
 import { Usuario } from './models/usuario.model';
-import { environment } from '../app/environments/environment'; // Asegúrate de que la ruta al archivo sea correcta
+import { environment } from '../app/environments/environment';
 
 @Injectable({
   providedIn: 'root'
