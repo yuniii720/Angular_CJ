@@ -19,7 +19,7 @@ export class BtnDelUserComponent {
 
   openConfirmDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '250px',
+      width: '450px',
       data: {
         title: 'Confirmar eliminación',
         message: `¿Estás seguro de querer eliminar a ${this.usuario.name}?`
