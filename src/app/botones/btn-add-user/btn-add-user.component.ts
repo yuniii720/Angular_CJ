@@ -1,4 +1,4 @@
-import { AddUserComponent } from '../modals/usuarios/add-user/add-user.component';
+import { AddUserComponent } from '../../modals/usuarios/add-user/add-user.component';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 

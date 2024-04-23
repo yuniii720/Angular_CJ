@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SupabaseService } from '../../../supabase.service';
+import { SupabaseService } from '../../../services/supabase.service';
 import { Usuario } from '../../../models/usuario.model';
 
 @Component({

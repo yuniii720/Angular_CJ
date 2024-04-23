@@ -3,11 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ForgottenpasswordComponent } from './forgottenpassword/forgottenpassword.component';
 import { MainComponent } from './main/main.component';
-import { TablaUsuariosComponent } from './tablausuarios/tablausuarios.component';
+import { TablaUsuariosComponent } from './tablas/tablausuarios/tablausuarios.component';
 import { AddUserComponent } from './modals/usuarios/add-user/add-user.component';
-import { TablaClientesComponent } from './tablaclientes/tablaclientes.component';
-import { TablacuentasComponent } from './tablacuentas/tablacuentas.component';
-import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component';
+import { TablaClientesComponent } from './tablas/tablaclientes/tablaclientes.component';
+import { TablacuentasComponent } from './tablas/tablacuentas/tablacuentas.component';
+import { TablatarjetasComponent } from './tablas/tablatarjetas/tablatarjetas.component';
 
 const routes: Routes = [
   {
