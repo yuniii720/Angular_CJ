@@ -15,6 +15,8 @@ import { BtnAddClientComponent } from './btn-add-client/btn-add-client.component
 import { TablaClientesComponent } from './tablaclientes/tablaclientes.component';
 import { TablacuentasComponent } from './tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -35,11 +37,12 @@ import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
-
+    HttpClientModule,
+    MatDialogModule,
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
