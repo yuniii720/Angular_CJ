@@ -17,8 +17,8 @@ import { TablacuentasComponent } from './tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
-import { EmailserviceService } from './emailservice.service';
 
 @NgModule({
   declarations: [
@@ -42,14 +42,12 @@ import { EmailserviceService } from './emailservice.service';
     AppRoutingModule,
     HttpClientModule,
     MatDialogModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    HttpClientModule,
-    EmailserviceService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
