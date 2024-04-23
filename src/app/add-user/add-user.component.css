@@ -1,72 +1,24 @@
-.recuadro_main {
-  width: 420px;
-  height: 500px;
-  margin: 0 auto;
-  margin-top: 9%;
-  border: 1px solid lightgray;
-  background-color: white;
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Añade espacio entre los campos del formulario */
 }
 
-.recuadro {
-  width: 420px;
-  height: 30px;
-  margin: 0 auto;
-  border-bottom: 1px solid lightgray;
-  background-color: #64b7c0;
-  display: grid;
-  place-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 12px;
+.mat-form-field {
+  width: 100%; /* Hace que los campos del formulario ocupen el ancho completo */
 }
 
-.img {
-  display: grid;
-  place-items: center;
-  justify-content: center;
-  margin-top: 5%;
+.actions {
+  display: flex;
+  justify-content: flex-end; /* Alinea el botón de acción a la derecha */
+  padding-top: 20px; /* Añade espacio por encima de los botones de acción */
 }
 
-.formulario {
-  display: grid;
-  place-items: center;
-  justify-content: center;
-  color: #009fac;
-  font-size: 12px;
-  margin: 30px;
+.mat-dialog-actions {
+  justify-content: space-between; /* Espacia uniformemente los botones de acción */
 }
 
-input[type=text], [type=password] {
-  border: 1px solid #009fac;
-  height: 23px;
-  width: 200px;
-}
-
-input[type=submit] {
-    height: 26px;
-    width: 101px;
-    background-color:#009fac;
-    color: white;
-    border: 1px solid #009fac;
-    cursor: pointer;
-    margin: 2px;
-  }
-
-input[type=submit]:hover {
-    height: 26px;
-    width: 101px;
-    background-color:white;
-    color: #009fac;
-    border: 1px solid #009fac;
-    cursor: pointer;
-    margin: 2px;
-  }
-
-p {
-    font-size: 12px;
-}
-
-p:hover {
-    text-decoration: underline;
-    cursor: pointer;
+.mat-dialog-content {
+  overflow-y: auto; /* Asegura que el contenido sea desplazable si es muy largo */
+  padding: 20px; /* Añade un relleno alrededor del contenido del diálogo */
 }
