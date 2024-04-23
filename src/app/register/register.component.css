@@ -1,0 +1,84 @@
+.recuadro_main {
+    width: 462px;
+    height: 550px;
+    margin: 0 auto;
+    margin-top: 9.9%;
+    border: 1.1px solid lightgray;
+    background-color: white;
+  }
+  
+  .recuadro {
+    width: 462px;
+    height: 33px;
+    margin: 0 auto;
+    border-bottom: 1.1px solid lightgray;
+    background-color: #64b7c0;
+    display: grid;
+    place-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13.2px;
+  }
+  
+  .img {
+    display: grid;
+    place-items: center;
+    justify-content: center;
+    margin-top: 5.5%;
+    margin-bottom: 2.2%;
+  }
+  
+  .formulario {
+    display: grid;
+    place-items: center;
+    justify-content: center;
+    color: #009fac;
+    font-size: 13.2px;
+  }
+  
+  input[type=text],
+  [type=password],
+  [type=email] {
+    border: 1.1px solid #009fac;
+    height: 25.3px;
+    width: 220px;
+    padding: 2.2px 0 2.2px 8.8px;
+  }
+  
+  input[type=submit] {
+    height: 28.6px;
+    width: 231px;
+    background-color: #009fac;
+    color: white;
+    border: 1.1px solid #009fac;
+    cursor: pointer;
+    margin-top: 11px;
+  }
+  
+  input[type=submit]:hover {
+    height: 28.6px;
+    width: 231px;
+    background-color: white;
+    color: #009fac;
+    border: 1.1px solid #a0ced4;
+    cursor: pointer;
+  }
+  
+  input::placeholder {
+    color: #64b7c0;
+    font-size: 13.2px;
+  }
+  
+  a {
+    transition: all 0.3s ease;
+    color: #008a9b;
+  }
+  
+  a:hover {
+    color: #f08100;
+  }
+  
+  a:link {
+    color: #008a9b;
+  }
+  

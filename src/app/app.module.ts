@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -17,6 +17,8 @@ import { TablacuentasComponent } from './tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './tablatarjetas/tablatarjetas.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RegisterComponent } from './register/register.component';
+import { EmailserviceService } from './emailservice.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     BtnAddClientComponent,
     TablaClientesComponent,
     TablacuentasComponent,
-    TablatarjetasComponent
+    TablatarjetasComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -42,8 +45,13 @@ import { MatDialogModule } from '@angular/material/dialog';
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    HttpClientModule
+  ],
+  providers: [
+    EmailserviceService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
