@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SupabaseService } from '../supabase.service';
-import { Usuario } from '../models/usuario.model';
+import { SupabaseService } from '../../../supabase.service';
+import { Usuario } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-add-user',

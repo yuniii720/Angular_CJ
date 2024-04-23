@@ -9,7 +9,7 @@ import { MainComponent } from './main/main.component';
 import { TablaUsuariosComponent } from './tablausuarios/tablausuarios.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BotonestablaComponent } from './botonestabla/botonestabla.component';
-import { AddUserComponent } from './add-user/add-user.component';
+import { AddUserComponent } from './modals/usuarios/add-user/add-user.component';
 import { BtnAddUserComponent } from './btn-add-user/btn-add-user.component';
 import { BtnAddClientComponent } from './btn-add-client/btn-add-client.component';
 import { TablaClientesComponent } from './tablaclientes/tablaclientes.component';
@@ -23,6 +23,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { BtnModUserComponent } from './btn-mod-user/btn-mod-user.component';
+import { BtnDelUserComponent } from './btn-del-user/btn-del-user.component';
+import { ModUserComponent } from './modals/usuarios/mod-user/mod-user.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,9 @@ import { MatButtonModule } from '@angular/material/button';
     TablacuentasComponent,
     TablatarjetasComponent,
     RegisterComponent,
+    BtnModUserComponent,
+    BtnDelUserComponent,
+    ModUserComponent,
   ],
   imports: [
     BrowserModule,
