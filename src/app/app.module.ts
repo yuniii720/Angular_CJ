@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -46,9 +46,7 @@ import { EmailserviceService } from './emailservice.service';
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    HttpClientModule
-  ],
-  providers: [
+    HttpClientModule,
     EmailserviceService
   ],
   bootstrap: [AppComponent]
