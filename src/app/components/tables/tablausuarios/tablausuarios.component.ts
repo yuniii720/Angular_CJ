@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SupabaseService } from '../../services/supabase.service';
-import { Usuario } from '../../models/usuario.model';
+import { SupabaseService } from '../../../services/supabase.service';
+import { Usuario } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-tabla-usuarios',
