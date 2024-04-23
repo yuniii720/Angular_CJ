@@ -16,7 +16,7 @@ import { TablaClientesComponent } from './components/tables/tablaclientes/tablac
 import { TablacuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './components/register/register.component';
 import { EmailserviceService } from './services/emailservice.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +26,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { BtnModUserComponent } from './components/buttons/btn-mod-user/btn-mod-user.component';
 import { BtnDelUserComponent } from './components/buttons/btn-del-user/btn-del-user.component';
 import { ModUserComponent } from './components/modals/usuarios/mod-user/mod-user.component';
+import { DelUserComponent } from './components/modals/usuarios/del-user/del-user.component';
+import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { ModUserComponent } from './components/modals/usuarios/mod-user/mod-user
     BtnModUserComponent,
     BtnDelUserComponent,
     ModUserComponent,
+    DelUserComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

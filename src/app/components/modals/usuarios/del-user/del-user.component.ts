@@ -1,21 +1,21 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../modals/confirm-dialog/confirm-dialog.component';
-import { SupabaseService } from '../../../services/supabase.service';
-import { Usuario } from '../../../models/usuario.model';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../confirm-dialog/confirm-dialog.component';
+import { SupabaseService } from '../../../../services/supabase.service';
+import { Usuario } from '../../../../models/usuario.model';
 
 @Component({
-  selector: 'app-btn-del-user',
-  templateUrl: './btn-del-user.component.html',
-  styleUrls: ['./btn-del-user.component.css']
+  selector: 'app-del-user',
+  templateUrl: './del-user.component.html',
+  styleUrl: './del-user.component.css'
 })
-export class BtnDelUserComponent {
-  @Input() usuario!: Usuario;  // Asegúrate de pasar el objeto Usuario
+export class DelUserComponent {
+  @Input() usuario!: Usuario;
 
   constructor(
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     private supabaseService: SupabaseService
-  ) {}
+  ) { }
 
   openConfirmDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -23,7 +23,7 @@ export class BtnDelUserComponent {
       data: {
         title: 'Confirmar eliminación',
         message: `¿Estás seguro de querer eliminar a ${this.usuario.name}?`
-      }
+      } as ConfirmDialogData
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -33,11 +33,11 @@ export class BtnDelUserComponent {
     });
   }
 
-  private deleteUsuario(): void {
+  deleteUsuario(): void {
     this.supabaseService.deleteUsuario(this.usuario.id!)
       .then(() => {
         console.log('Usuario eliminado');
-        // Aquí podrías actualizar la lista de usuarios o emitir algún evento
+        // Aquí podrías emitir un evento o llamar a una función para actualizar la lista de usuarios en la tabla
       })
       .catch(error => {
         console.error('Error al eliminar usuario', error);

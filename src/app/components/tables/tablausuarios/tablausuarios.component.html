@@ -32,7 +32,7 @@
         <!-- <td>{{ usuario.password }}</td> -->
         <td>{{ usuario.type }}</td>
         <td>{{ usuario.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
-        <td><app-btn-mod-user [usuario]="usuario"></app-btn-mod-user><app-btn-del-user></app-btn-del-user></td>
+        <td><app-btn-mod-user [usuario]="usuario"></app-btn-mod-user><app-btn-del-user [usuario]="usuario"></app-btn-del-user></td>
       </tr>
     </tbody>
   </table>
