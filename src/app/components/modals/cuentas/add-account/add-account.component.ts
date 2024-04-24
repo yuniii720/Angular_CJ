@@ -4,8 +4,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SupabaseService } from '../../../../services/supabase.service';
-import { Cuenta } from '../../../../models/cuenta.model';
 import { Cliente } from '../../../../models/cliente.model';
+import { Cuenta } from '../../../../models/cuenta.model';
+
 
 @Component({
   selector: 'app-add-account',
@@ -14,34 +15,33 @@ import { Cliente } from '../../../../models/cliente.model';
 })
 export class AddAccountComponent implements OnInit {
   accountForm: FormGroup = new FormGroup({
-    client_id: new FormControl('', Validators.required),
-    account_number: new FormControl('', Validators.required),
-    clientName: new FormControl({ value: '', disabled: true })
+    client_id: new FormControl('', Validators.required)
   });
 
-  // Use the non-null assertion operator to assure TypeScript that the property will be initialized
   clientes$!: Observable<Cliente[]>;
 
   constructor(
     public dialogRef: MatDialogRef<AddAccountComponent>,
     private supabaseService: SupabaseService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.clientes$ = this.supabaseService.clientes$; // This is now assured to be initialized
+    this.clientes$ = this.supabaseService.clientes$; // Load clients for the dropdown
   }
 
   onSubmit(): void {
     if (this.accountForm.valid) {
+      const accountNumber = this.supabaseService.generateAccountNumber(); // Use the service method
       const accountData: Cuenta = {
-        ...this.accountForm.value,
+        account_number: accountNumber, // Generated account number
+        client_id: this.accountForm.get('client_id')?.value,
         created_at: new Date().toISOString()
       };
 
       this.supabaseService.addCuenta(accountData)
         .then(() => {
-          console.log('Account added successfully');
-          this.dialogRef.close();
+          console.log('Account added successfully with number:', accountNumber);
+          this.dialogRef.close(true);
         })
         .catch(error => {
           console.error('Error adding account', error);

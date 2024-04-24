@@ -5,7 +5,7 @@ import { Cuenta } from '../../../models/cuenta.model';
 @Component({
   selector: 'app-tablacuentas',
   templateUrl: './tablacuentas.component.html',
-  styleUrl: './tablacuentas.component.css'
+  styleUrls: ['./tablacuentas.component.css']  // Corrige el nombre de la propiedad de 'styleUrl' a 'styleUrls'
 })
 export class TablaCuentasComponent implements OnInit {
 
