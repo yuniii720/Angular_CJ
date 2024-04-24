@@ -28,7 +28,10 @@ import { ModUserComponent } from './components/modals/usuarios/mod-user/mod-user
 import { DelUserComponent } from './components/modals/usuarios/del-user/del-user.component';
 import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confirm-dialog.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
- 
+import { AddClientComponent } from './components/modals/clientes/add-client/add-client.component';
+import { ModClientComponent } from './components/modals/clientes/mod-client/mod-client.component';
+import { DelClientComponent } from './components/modals/clientes/del-client/del-client.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +53,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     ModUserComponent,
     DelUserComponent,
     ConfirmDialogComponent,
+    AddClientComponent,
+    ModClientComponent,
+    DelClientComponent,
   ],
   imports: [
     BrowserModule,
