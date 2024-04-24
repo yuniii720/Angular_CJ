@@ -37,7 +37,6 @@ export class BtnDelUserComponent {
     this.supabaseService.deleteUsuario(this.usuario.id!)
       .then(() => {
         console.log('Usuario eliminado');
-        // Aquí podrías actualizar la lista de usuarios o emitir algún evento
       })
       .catch(error => {
         console.error('Error al eliminar usuario', error);
