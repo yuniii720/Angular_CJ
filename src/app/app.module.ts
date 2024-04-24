@@ -34,6 +34,9 @@ import { DelClientComponent } from './components/modals/clientes/del-client/del-
 import { BtnModClientComponent } from './components/buttons/cliente/btn-mod-client/btn-mod-client.component';
 import { BtnDelClientComponent } from './components/buttons/cliente/btn-del-client/btn-del-client.component';
 import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
+import { AddAccountComponent } from './components/modals/cuentas/add-account/add-account.component';
+import { ModAccountComponent } from './components/modals/cuentas/mod-account/mod-account.component';
+import { DelAccountComponent } from './components/modals/cuentas/del-account/del-account.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +65,9 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
     BtnModClientComponent,
     BtnDelClientComponent,
     TablatransferenciasComponent,
+    AddAccountComponent,
+    ModAccountComponent,
+    DelAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +81,7 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
     MatButtonModule,
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy } 
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
