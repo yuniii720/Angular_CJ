@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Modificar Usuario</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Usuario</mat-label>
+      <input matInput type="text" formControlName="username" placeholder="Introduce nombre de usuario">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" formControlName="password" placeholder="Nueva contraseña">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre</mat-label>
+      <input matInput type="text" formControlName="name" placeholder="Introduce nombre completo">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="Introduce email">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo</mat-label>
+      <input matInput type="text" formControlName="type" placeholder="Introduce tipo de usuario">
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit">Actualizar</button>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>

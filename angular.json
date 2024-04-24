@@ -100,7 +100,7 @@
               "src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/mytheme.css",
               "src/styles.css"
             ],
             "scripts": []
