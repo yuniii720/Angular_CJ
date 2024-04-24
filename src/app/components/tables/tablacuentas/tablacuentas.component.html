@@ -12,18 +12,18 @@
   <table class="TablaCJ">
     <thead>
       <tr>
-        <th>Cliente</th>
         <th>ID Cuenta</th>
         <th>Número de cuenta</th>
+        <th>Cliente</th>
         <th>Fecha de alta</th>
         <th>Gestionar</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let cuenta of cuentas">
-        <td>{{ cuenta.clientName }}</td>
         <td>{{ cuenta.id }}</td>
         <td>{{ cuenta.account_number }}</td>
+        <td>{{ cuenta.clientName }}</td>
         <td>{{ cuenta.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
         <td><app-botonestabla></app-botonestabla></td>
       </tr>
