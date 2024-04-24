@@ -1,17 +1,17 @@
-import { AddClientComponent } from '../../modals/clientes/add-client/add-client.component';
+import { AddUserComponent } from '../../../modals/usuarios/add-user/add-user.component';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-btn-add-client',
-  templateUrl: './btn-add-client.component.html',
-  styleUrl: './btn-add-client.component.css'
+  selector: 'app-btn-add-user',
+  templateUrl: './btn-add-user.component.html',
+  styleUrl: './btn-add-user.component.css'
 })
-export class BtnAddClientComponent {
+export class BtnAddUserComponent {
   constructor(public dialog: MatDialog) { }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(AddClientComponent, {
+    const dialogRef = this.dialog.open(AddUserComponent, {
       width: '600px',
       data: { /* datos que vamos a pasar al modal */ },
     });

@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../modals/confirm-dialog/confirm-dialog.component';
-import { SupabaseService } from '../../../services/supabase.service';
-import { Usuario } from '../../../models/usuario.model';
+import { ConfirmDialogComponent } from '../../../modals/confirm-dialog/confirm-dialog.component';
+import { SupabaseService } from '../../../../services/supabase.service';
+import { Usuario } from '../../../../models/usuario.model';
 
 @Component({
   selector: 'app-btn-del-user',

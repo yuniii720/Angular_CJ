@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ModUserComponent } from '../../modals/usuarios/mod-user/mod-user.component';
-import { Usuario } from '../../../models/usuario.model';
+import { ModUserComponent } from '../../../modals/usuarios/mod-user/mod-user.component';
+import { Usuario } from '../../../../models/usuario.model';
 
 @Component({
   selector: 'app-btn-mod-user',
