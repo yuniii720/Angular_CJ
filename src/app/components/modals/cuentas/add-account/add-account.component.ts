@@ -10,7 +10,6 @@ import { Cuenta } from '../../../../models/cuenta.model';
   styleUrls: ['./add-account.component.css']
 })
 export class AddAccountComponent {
-  // Inicializa el FormGroup directamente aquí
   accountForm: FormGroup = new FormGroup({
     clientName: new FormControl('', Validators.required),
     account_number: new FormControl('', Validators.required),
