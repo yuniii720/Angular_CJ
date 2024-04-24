@@ -3,6 +3,8 @@ import smtplib
 from email.message import EmailMessage
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from random import sample
+import string
 
 app = Flask(__name__)
 CORS(app, origins="http://localhost:4200")
@@ -12,16 +14,23 @@ SMTP_PORT = 465
 GMAIL_ADDRESS = 'vncajamarproyecto@gmail.com'
 GMAIL_PASSWORD = 'nzwp kete plfm ttph'
 
+def password_generator(longitud):
+    caracteres_validos = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(sample(caracteres_validos, longitud))
+    return password
+
 @app.route('/send-email', methods=['POST'])
 def send_email():
     try:
         data = request.get_json()
         email = data.get('email')
         username = data.get('username')
-        password = data.get('password')
-
-        if not email or not username or not password:
+        
+        if not email or not username:
             raise KeyError('Faltan campos obligatorios en la solicitud')
+        
+        # Generar la contraseña aleatoria
+        password = password_generator(12)
 
         msg = EmailMessage()
         msg.set_content(f'Hola {username},\n\nBienvenido a nuestra aplicación. Aquí están tus credenciales:\n\nUsuario: {username}\nContraseña: {password}\n\n¡Gracias por registrarte!')

@@ -1,42 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // Importa HttpClient y HttpHeaders
+import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-registro',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegistroComponent implements OnInit {
+
   registroForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-    this.registroForm = this.fb.group({
+  constructor(private formBuilder: FormBuilder, private supabaseService: SupabaseService) {
+    this.registroForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      username: ['', Validators.required]
     });
   }
 
-  registerUser() {
+  ngOnInit(): void {
+    // No es necesario inicializar registroForm aquí si lo haces en el constructor
+  }
+
+  registerUser(): void {
     if (this.registroForm.valid) {
-      const formData = this.registroForm.value;
-      const url = 'http://localhost:5000/send-email';
-  
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      };
-  
-      this.http.post(url, formData, httpOptions).subscribe({
-        next: (response: any) => { 
-          console.log('Correo electrónico enviado correctamente:', response);
-        },
-        error: (error: any) => { 
-          console.error('Error al enviar correo electrónico:', error);
-        }
-      });
+      // Aquí puedes agregar la lógica para registrar al usuario
+      console.log('Registrando usuario...');
     }
   }
+
 }
