@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { EmailserviceService } from '../../services/emailservice.service';
 
 @Component({
   selector: 'app-register',
@@ -7,22 +6,37 @@ import { EmailserviceService } from '../../services/emailservice.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  registroForm: FormGroup;
 
-  constructor(private emailService: EmailserviceService) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.registroForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   registerUser() {
-
-    const email = 'correo@ejemplo.com';
-    const username = 'usuario';
-    const password = 'contraseña';
-
-    this.emailService.sendEmail(email, username, password).subscribe(
-      () => {
-        console.log('Correo electrónico enviado correctamente');
-      },
-      (error : string) => {
-        console.error('Error al enviar el correo electrónico:', error);
-      }
-    );
+    if (this.registroForm.valid) {
+      const formData = this.registroForm.value;
+      const url = 'http://localhost:5000/send-email'; // Reemplaza esta URL por la correcta
+  
+      // Configurar las opciones HTTP para enviar datos en formato JSON
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      };
+  
+      // Realizar la solicitud HTTP POST con un observador
+      this.http.post(url, formData, httpOptions).subscribe({
+        next: (response) => {
+          console.log('Correo electrónico enviado correctamente:', response);
+        },
+        error: (error) => {
+          console.error('Error al enviar correo electrónico:', error);
+        }
+      });
+    }
   }
 }
