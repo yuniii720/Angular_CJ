@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -15,9 +16,8 @@ import { BtnAddClientComponent } from './components/buttons/btn-add-client/btn-a
 import { TablaClientesComponent } from './components/tables/tablaclientes/tablaclientes.component';
 import { TablacuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
+import { RegisterComponent } from './components/register/register.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { RegisterComponent } from './register/register.component';
-import { EmailserviceService } from './emailservice.service';
 
 @NgModule({
   declarations: [
@@ -35,24 +35,15 @@ import { EmailserviceService } from './emailservice.service';
     TablacuentasComponent,
     TablatarjetasComponent,
     RegisterComponent,
-    BtnModUserComponent,
-    BtnDelUserComponent,
-    ModUserComponent,
-    DelUserComponent,
-    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatDialogModule,
   ],
-  providers: [
-    provideClientHydration(),
-    provideAnimationsAsync(),
-    HttpClientModule,
-    EmailserviceService
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

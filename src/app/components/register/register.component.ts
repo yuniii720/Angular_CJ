@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // Importa HttpClient y HttpHeaders
 
 @Component({
   selector: 'app-register',
@@ -19,21 +21,19 @@ export class RegisterComponent {
   registerUser() {
     if (this.registroForm.valid) {
       const formData = this.registroForm.value;
-      const url = 'http://localhost:5000/send-email'; // Reemplaza esta URL por la correcta
+      const url = 'http://localhost:5000/send-email';
   
-      // Configurar las opciones HTTP para enviar datos en formato JSON
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
         })
       };
   
-      // Realizar la solicitud HTTP POST con un observador
       this.http.post(url, formData, httpOptions).subscribe({
-        next: (response) => {
+        next: (response: any) => { 
           console.log('Correo electrónico enviado correctamente:', response);
         },
-        error: (error) => {
+        error: (error: any) => { 
           console.error('Error al enviar correo electrónico:', error);
         }
       });

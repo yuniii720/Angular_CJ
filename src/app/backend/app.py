@@ -10,7 +10,7 @@ CORS(app, origins="http://localhost:4200")
 SMTP_HOST = 'smtp.gmail.com'
 SMTP_PORT = 465
 GMAIL_ADDRESS = 'vncajamarproyecto@gmail.com'
-GMAIL_PASSWORD = 'ThaSupreme10'
+GMAIL_PASSWORD = 'nzwp kete plfm ttph'
 
 @app.route('/send-email', methods=['POST'])
 def send_email():
