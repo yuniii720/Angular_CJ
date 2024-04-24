@@ -33,7 +33,11 @@ import { ModClientComponent } from './components/modals/clientes/mod-client/mod-
 import { DelClientComponent } from './components/modals/clientes/del-client/del-client.component';
 import { BtnModClientComponent } from './components/buttons/cliente/btn-mod-client/btn-mod-client.component';
 import { BtnDelClientComponent } from './components/buttons/cliente/btn-del-client/btn-del-client.component';
- 
+import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
+import { AddAccountComponent } from './components/modals/cuentas/add-account/add-account.component';
+import { ModAccountComponent } from './components/modals/cuentas/mod-account/mod-account.component';
+import { DelAccountComponent } from './components/modals/cuentas/del-account/del-account.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +64,10 @@ import { BtnDelClientComponent } from './components/buttons/cliente/btn-del-clie
     DelClientComponent,
     BtnModClientComponent,
     BtnDelClientComponent,
+    TablatransferenciasComponent,
+    AddAccountComponent,
+    ModAccountComponent,
+    DelAccountComponent,
   ],
   imports: [
     BrowserModule,

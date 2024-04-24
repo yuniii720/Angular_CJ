@@ -43,6 +43,26 @@ export class SupabaseService {
     else this.clientesSubject.next(data);
   }
 
+  async loadCuentas() {
+    const { data, error } = await this.supabase
+      .from('Cuentas')
+      .select(`
+        *,
+        Cliente:Clientes (name)
+      `); // Asume que la tabla se llama 'Clientes' y hay una relación foreign key
+
+    if (error) {
+      console.error('Error loading accounts', error);
+    } else {
+      this.cuentasSubject.next(data.map(item => ({
+        ...item,
+        clientName: item.Cliente.name  // Añade el nombre del cliente directamente en el objeto de cuenta
+      })));
+    }
+  }
+
+  //Métodos para Usuarios
+
   async getAllUsuarios() {
     const { data, error } = await this.supabase
       .from('Usuarios')
@@ -75,6 +95,8 @@ export class SupabaseService {
     if (error) console.error('Error deleting user', error);
     else this.loadUsuarios(); // Recargar usuarios después de eliminar
   }
+
+  //Métodos para Clientes
 
   async getAllClientes() {
     const { data, error } = await this.supabase
@@ -110,12 +132,6 @@ export class SupabaseService {
   }
 
   // Métodos para Cuentas
-
-  async loadCuentas() {
-    const { data, error } = await this.supabase.from('Cuentas').select('*');
-    if (error) console.error('Error loading accounts', error);
-    else this.cuentasSubject.next(data);
-  }
 
   async addCuenta(cuenta: Cuenta) {
     const { data, error } = await this.supabase.from('Cuentas').insert([cuenta]);

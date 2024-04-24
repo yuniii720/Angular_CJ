@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Añadir Cuenta</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="user-form">
+    <!-- Datos del Cliente -->
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre del Cliente</mat-label>
+      <input matInput type="text" formControlName="clientName" placeholder="Introduce nombre completo" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Número de Cuenta</mat-label>
+      <input matInput type="text" formControlName="account_number" placeholder="Número de cuenta" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>ID de Cliente</mat-label>
+      <input matInput type="number" formControlName="client_id" placeholder="ID de Cliente asociado" required>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit">Añadir Cuenta</button>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>

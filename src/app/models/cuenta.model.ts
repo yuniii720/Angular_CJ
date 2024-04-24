@@ -3,4 +3,5 @@ export interface Cuenta {
   account_number: string;
   created_at: string;
   client_id: number;
+  clientName?: string;
 }
