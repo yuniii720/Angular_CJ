@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import { BtnModUserComponent } from './components/buttons/usuario/btn-mod-user/btn-mod-user.component';
 import { BtnDelUserComponent } from './components/buttons/usuario/btn-del-user/btn-del-user.component';
 import { ModUserComponent } from './components/modals/usuarios/mod-user/mod-user.component';
@@ -85,6 +86,7 @@ import { BtnDelAccountComponent } from './components/buttons/cuenta/btn-del-acco
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

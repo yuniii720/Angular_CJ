@@ -133,10 +133,13 @@ export class SupabaseService {
 
   // Métodos para Cuentas
 
-  async addCuenta(cuenta: Cuenta) {
+  async addCuenta(cuenta: Cuenta): Promise<any> {
     const { data, error } = await this.supabase.from('Cuentas').insert([cuenta]);
-    if (error) console.error('Error adding account', error);
-    else this.loadCuentas(); // Recargar cuentas después de añadir
+    if (error) {
+      console.error('Error adding account:', error.message);
+      throw new Error(error.message);
+    }
+    return data;
   }
 
   async updateCuenta(id: number, updatedFields: any) {
