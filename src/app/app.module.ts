@@ -39,7 +39,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule, 
     HttpClientModule,
     MatDialogModule,
   ],
