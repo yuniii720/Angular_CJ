@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common'; // Importación de LocationStrategy y HashLocationStrategy
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -27,7 +28,6 @@ import { BtnDelUserComponent } from './components/buttons/usuario/btn-del-user/b
 import { ModUserComponent } from './components/modals/usuarios/mod-user/mod-user.component';
 import { DelUserComponent } from './components/modals/usuarios/del-user/del-user.component';
 import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confirm-dialog.component';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AddClientComponent } from './components/modals/clientes/add-client/add-client.component';
 import { ModClientComponent } from './components/modals/clientes/mod-client/mod-client.component';
 import { DelClientComponent } from './components/modals/clientes/del-client/del-client.component';
@@ -75,7 +75,7 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
     MatButtonModule,
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy } 
   ],
   bootstrap: [AppComponent]
 })

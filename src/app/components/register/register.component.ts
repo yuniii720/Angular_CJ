@@ -24,8 +24,18 @@ export class RegistroComponent implements OnInit {
 
   registerUser(): void {
     if (this.registroForm.valid) {
-      // Aquí puedes agregar la lógica para registrar al usuario
-      console.log('Registrando usuario...');
+      const formData = this.registroForm.value;
+      // Llamar al método enviarDatos del servicio SupabaseService para enviar el correo electrónico
+      this.supabaseService.enviarDatos(formData).then(
+        response => {
+          console.log('Correo electrónico enviado exitosamente', response);
+          // Aquí puedes manejar cualquier lógica adicional después de enviar el correo electrónico
+        },
+        error => {
+          console.error('Error al enviar correo electrónico', error);
+          // Aquí puedes manejar el error de manera adecuada
+        }
+      );
     }
   }
 

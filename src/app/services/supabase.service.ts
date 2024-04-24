@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
-import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +20,21 @@ export class SupabaseService {
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.loadUsuarios();
     this.loadClientes();
     this.loadCuentas();
+  }
+
+  async enviarDatos(data: any): Promise<any> {
+    try {
+      const response = await this.http.post('URL_DEL_BACKEND/registro', data).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error al enviar datos al backend:', error);
+      throw error;
+    }
   }
 
   async loadUsuarios() {
@@ -36,8 +48,6 @@ export class SupabaseService {
     if (error) console.error('Error loading clients', error);
     else this.clientesSubject.next(data);
   }
-
-  // Métodos para Usuarios
 
   async getAllUsuarios() {
     const { data, error } = await this.supabase
@@ -71,8 +81,6 @@ export class SupabaseService {
     if (error) console.error('Error deleting user', error);
     else this.loadUsuarios(); // Recargar usuarios después de eliminar
   }
-
-  // Métodos para Clientes
 
   async getAllClientes() {
     const { data, error } = await this.supabase
