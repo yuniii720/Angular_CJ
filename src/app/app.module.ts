@@ -16,7 +16,7 @@ import { TablaClientesComponent } from './components/tables/tablaclientes/tablac
 import { TablacuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { RegisterComponent } from './components/register/register.component';
+import { RegistroComponent } from './components/register/register.component'; // Agregado el RegisterComponent
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -44,7 +44,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     TablaClientesComponent,
     TablacuentasComponent,
     TablatarjetasComponent,
-    RegisterComponent,
+    RegistroComponent,
     BtnModUserComponent,
     BtnDelUserComponent,
     ModUserComponent,
