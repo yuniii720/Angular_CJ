@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { SupabaseService } from '../../../services/supabase.service';
 import { Usuario } from '../../../models/usuario.model';
 
@@ -7,45 +8,19 @@ import { Usuario } from '../../../models/usuario.model';
   templateUrl: './tablausuarios.component.html',
   styleUrls: ['./tablausuarios.component.css']
 })
-export class TablaUsuariosComponent implements OnInit {
-
+export class TablaUsuariosComponent implements OnInit, OnDestroy {
   usuarios: Usuario[] = [];
+  private subs = new Subscription();
 
-  constructor(private supabaseService: SupabaseService) { }
+  constructor(private supabaseService: SupabaseService) {}
 
   ngOnInit(): void {
-    this.loadUsuarios();
+    this.subs.add(this.supabaseService.usuarios$.subscribe(usuarios => {
+      this.usuarios = usuarios;
+    }));
   }
 
-  loadUsuarios(): void {
-    this.supabaseService.getAllUsuarios()
-      .then(usuarios => {
-        this.usuarios = usuarios;
-        console.log('Usuarios cargados:', this.usuarios);
-      })
-      .catch(error => {
-        console.error('Error al cargar los usuarios:', error);
-      });
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
-
-  addNewUsuario(): void {
-    const newUsuario: Usuario = {
-      username: 'jperez',
-      name: 'Juan Pérez',
-      email: 'juan@example.com',
-      password: '1234',
-      type: 'Administrador',
-      created_at: new Date().toISOString()
-    };
-
-    this.supabaseService.addUsuario(newUsuario)
-      .then(data => {
-        console.log('Usuario añadido', data);
-        this.loadUsuarios();
-      })
-      .catch(error => {
-        console.error('Error al añadir Usuario', error);
-      });
-  }
-
 }
