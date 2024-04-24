@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common'; // Importación de LocationStrategy y HashLocationStrategy
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -14,10 +13,10 @@ import { AddUserComponent } from './components/modals/usuarios/add-user/add-user
 import { BtnAddUserComponent } from './components/buttons/usuario/btn-add-user/btn-add-user.component';
 import { BtnAddClientComponent } from './components/buttons/cliente/btn-add-client/btn-add-client.component';
 import { TablaClientesComponent } from './components/tables/tablaclientes/tablaclientes.component';
-import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
+import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component'; // Corregido el nombre del componente
 import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { RegistroComponent } from './components/register/register.component'; // Agregado el RegisterComponent
+import { RegisterComponent } from './components/register/register.component'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,13 +27,13 @@ import { BtnDelUserComponent } from './components/buttons/usuario/btn-del-user/b
 import { ModUserComponent } from './components/modals/usuarios/mod-user/mod-user.component';
 import { DelUserComponent } from './components/modals/usuarios/del-user/del-user.component';
 import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confirm-dialog.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AddClientComponent } from './components/modals/clientes/add-client/add-client.component';
 import { ModClientComponent } from './components/modals/clientes/mod-client/mod-client.component';
 import { DelClientComponent } from './components/modals/clientes/del-client/del-client.component';
 import { BtnModClientComponent } from './components/buttons/cliente/btn-mod-client/btn-mod-client.component';
 import { BtnDelClientComponent } from './components/buttons/cliente/btn-del-client/btn-del-client.component';
-import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
-
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,9 +47,9 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
     BtnAddUserComponent,
     BtnAddClientComponent,
     TablaClientesComponent,
-    TablaCuentasComponent,
+    TablaCuentasComponent, 
     TablatarjetasComponent,
-    RegistroComponent,
+    RegisterComponent,
     BtnModUserComponent,
     BtnDelUserComponent,
     ModUserComponent,
@@ -61,7 +60,6 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
     DelClientComponent,
     BtnModClientComponent,
     BtnDelClientComponent,
-    TablatransferenciasComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +73,7 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
     MatButtonModule,
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy } 
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

@@ -27,14 +27,8 @@ export class SupabaseService {
     this.loadCuentas();
   }
 
-  async enviarDatos(data: any): Promise<any> {
-    try {
-      const response = await this.http.post('URL_DEL_BACKEND/registro', data).toPromise();
-      return response;
-    } catch (error) {
-      console.error('Error al enviar datos al backend:', error);
-      throw error;
-    }
+  enviarDatos(data: any): Observable<any> {
+    return this.http.post('https://pbjdatvfbfkhaqrxrzdg.supabase.co', data);
   }
 
   async loadUsuarios() {

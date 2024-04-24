@@ -1,42 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SupabaseService } from '../../services/supabase.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // Importa HttpClient y HttpHeaders
 
 @Component({
-  selector: 'app-registro',
+  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegistroComponent implements OnInit {
-
+export class RegisterComponent {
   registroForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private supabaseService: SupabaseService) {
-    this.registroForm = this.formBuilder.group({
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.registroForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required]
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  ngOnInit(): void {
-    // No es necesario inicializar registroForm aquí si lo haces en el constructor
-  }
-
-  registerUser(): void {
+  registerUser() {
     if (this.registroForm.valid) {
       const formData = this.registroForm.value;
-      // Llamar al método enviarDatos del servicio SupabaseService para enviar el correo electrónico
-      this.supabaseService.enviarDatos(formData).then(
-        response => {
-          console.log('Correo electrónico enviado exitosamente', response);
-          // Aquí puedes manejar cualquier lógica adicional después de enviar el correo electrónico
+      const url = 'http://localhost:5000/send-email';
+  
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      };
+  
+      this.http.post(url, formData, httpOptions).subscribe({
+        next: (response: any) => { // Define el tipo del parámetro response
+          console.log('Correo electrónico enviado correctamente:', response);
         },
-        error => {
-          console.error('Error al enviar correo electrónico', error);
-          // Aquí puedes manejar el error de manera adecuada
+        error: (error: any) => { // Define el tipo del parámetro error
+          console.error('Error al enviar correo electrónico:', error);
         }
-      );
+      });
     }
   }
-
 }
