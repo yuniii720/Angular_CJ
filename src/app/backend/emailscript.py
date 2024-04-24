@@ -15,10 +15,8 @@ GMAIL_ADDRESS = 'vncajamarproyecto@gmail.com'
 GMAIL_PASSWORD = 'nzwp kete plfm ttph'
 
 def password_generator(longitud):
-    # Definimos la secuencia de caracteres válidos
+
     caracteres_validos = string.ascii_letters + string.digits + string.punctuation
-    
-    # Generamos una contraseña aleatoria de longitud 'longitud'
     password = ''.join(sample(caracteres_validos, longitud))
     
     return password
@@ -34,7 +32,7 @@ def send_email():
             raise KeyError('Faltan campos obligatorios en la solicitud')
         
         # Generar la contraseña
-        password = password_generator(12)
+        password = password_generator(12) if 'password' not in data else data['password']
 
         msg = EmailMessage()
         msg.set_content(f'Hola {username},\n\nBienvenido a nuestra aplicación. Aquí están tus credenciales:\n\nUsuario: {username}\nContraseña: {password}\n\n¡Gracias por registrarte!')
