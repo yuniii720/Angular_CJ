@@ -1,29 +1,31 @@
 <app-header></app-header>
 
 <div class="recuadroverde2">
-    <div class="recuadroverde1">
-      <div class="div1"><img id="foto1" src="../../assets/img/GestionClientes.png">
-      </div>
-      <div class="div2">
-        <p>Gestión de Cuentas </p>
-      </div>
+  <div class="recuadroverde1">
+    <div class="div1"><img id="foto1" src="../../assets/img/GestionClientes.png">
+    </div>
+    <div class="div2">
+      <p>Gestión de Cuentas </p>
+    </div>
   </div>
-  
-<table class="TablaCJ">
+
+  <table class="TablaCJ">
     <thead>
-        <tr>
-            <th>ID Cuenta</th>
-            <th>Número de cuenta</th>
-            <th>ID Cliente</th>
-            <th>Gestionar</th>
-        </tr>
+      <tr>
+        <th>ID Cliente</th>
+        <th>ID Cuenta</th>
+        <th>Número de cuenta</th>
+        <th>Fecha de alta</th>
+        <th>Gestionar</th>
+      </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><app-botonestabla></app-botonestabla></td>
-        </tr>
+      <tr *ngFor="let cuenta of cuentas">
+        <td>{{ cuenta.client_id }}</td>
+        <td>{{ cuenta.id }}</td>
+        <td>{{ cuenta.account_number }}</td>
+        <td>{{ cuenta.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td><app-botonestabla></app-botonestabla></td>
+      </tr>
     </tbody>
-</table>
+  </table>

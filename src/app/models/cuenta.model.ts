@@ -1,4 +1,4 @@
-export interface Cliente {
+export interface Cuenta {
   id?: number;
   account_number: string;
   created_at: string;

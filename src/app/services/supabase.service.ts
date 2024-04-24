@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
+import { Cuenta } from '../models/cuenta.model';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -14,11 +15,14 @@ export class SupabaseService {
   public usuarios$ = this.usuariosSubject.asObservable();
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
+  private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
+  public cuentas$ = this.cuentasSubject.asObservable();
 
   constructor() {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
-    this.loadUsuarios(); // Cargar inicialmente todos los usuarios
-    this.loadClientes(); // Cargar inicialmente todos los clientes
+    this.loadUsuarios();
+    this.loadClientes();
+    this.loadCuentas();
   }
 
   async loadUsuarios() {
@@ -101,6 +105,38 @@ export class SupabaseService {
       .match({ id });
     if (error) console.error('Error deleting client', error);
     else this.loadClientes(); // Recargar clientes después de eliminar
+  }
+
+  // Métodos para Cuentas
+
+  async loadCuentas() {
+    const { data, error } = await this.supabase.from('Cuentas').select('*');
+    if (error) console.error('Error loading accounts', error);
+    else this.cuentasSubject.next(data);
+  }
+
+  async addCuenta(cuenta: Cuenta) {
+    const { data, error } = await this.supabase.from('Cuentas').insert([cuenta]);
+    if (error) console.error('Error adding account', error);
+    else this.loadCuentas(); // Recargar cuentas después de añadir
+  }
+
+  async updateCuenta(id: number, updatedFields: any) {
+    const { data, error } = await this.supabase
+      .from('Cuentas')
+      .update(updatedFields)
+      .match({ id });
+    if (error) console.error('Error updating account', error);
+    else this.loadCuentas(); // Recargar cuentas después de actualizar
+  }
+
+  async deleteCuenta(id: number) {
+    const { data, error } = await this.supabase
+      .from('Cuentas')
+      .delete()
+      .match({ id });
+    if (error) console.error('Error deleting account', error);
+    else this.loadCuentas(); // Recargar cuentas después de eliminar
   }
 
 }

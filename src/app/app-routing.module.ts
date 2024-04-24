@@ -6,7 +6,7 @@ import { MainComponent } from './components/main/main.component';
 import { TablaUsuariosComponent } from './components/tables/tablausuarios/tablausuarios.component';
 import { AddUserComponent } from './components/modals/usuarios/add-user/add-user.component';
 import { TablaClientesComponent } from './components/tables/tablaclientes/tablaclientes.component';
-import { TablacuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
+import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
 
@@ -64,7 +64,7 @@ const routes: Routes = [
   },
   {
     path: 'Cuentas',
-    component: TablacuentasComponent,
+    component: TablaCuentasComponent,
     outlet: 'auth',
     pathMatch: 'full'
   },

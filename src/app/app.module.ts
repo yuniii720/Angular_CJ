@@ -13,7 +13,7 @@ import { AddUserComponent } from './components/modals/usuarios/add-user/add-user
 import { BtnAddUserComponent } from './components/buttons/usuario/btn-add-user/btn-add-user.component';
 import { BtnAddClientComponent } from './components/buttons/cliente/btn-add-client/btn-add-client.component';
 import { TablaClientesComponent } from './components/tables/tablaclientes/tablaclientes.component';
-import { TablacuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
+import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
 import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RegistroComponent } from './components/register/register.component'; // Agregado el RegisterComponent
@@ -48,7 +48,7 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
     BtnAddUserComponent,
     BtnAddClientComponent,
     TablaClientesComponent,
-    TablacuentasComponent,
+    TablaCuentasComponent,
     TablatarjetasComponent,
     RegistroComponent,
     BtnModUserComponent,
