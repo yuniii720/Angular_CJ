@@ -28,6 +28,7 @@ import { BtnDelUserComponent } from './components/buttons/btn-del-user/btn-del-u
 import { ModUserComponent } from './components/modals/usuarios/mod-user/mod-user.component';
 import { DelUserComponent } from './components/modals/usuarios/del-user/del-user.component';
 import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confirm-dialog.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confi
   ],
   providers: [
     EmailserviceService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
