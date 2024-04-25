@@ -49,7 +49,7 @@ export class SupabaseService {
       .select(`
         *,
         Cliente:Clientes (name)
-      `); // Asume que la tabla se llama 'Clientes' y hay una relación foreign key
+      `);
 
     if (error) {
       console.error('Error loading accounts', error);
