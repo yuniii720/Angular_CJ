@@ -18,7 +18,7 @@ def password_generator(longitud):
 
     caracteres_validos = string.ascii_letters + string.digits + string.punctuation
     password = ''.join(sample(caracteres_validos, longitud))
-    
+
     return password
 
 @app.route('/send-email', methods=['POST'])
@@ -27,10 +27,10 @@ def send_email():
         data = request.get_json()
         email = data.get('email')
         username = data.get('username')
-        
+
         if not email or not username:
             raise KeyError('Faltan campos obligatorios en la solicitud')
-        
+
         # Generar la contraseña
         password = password_generator(12) if 'password' not in data else data['password']
 

@@ -1,3 +1,4 @@
+import { RegisterComponent } from './components/register/register.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
@@ -25,6 +26,12 @@ const routes: Routes = [
     path: 'forgot',
     component: ForgottenpasswordComponent,
     outlet: 'auth'
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    outlet: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'login',
