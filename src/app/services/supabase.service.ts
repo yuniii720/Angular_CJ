@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
+import { Tarjeta } from '../models/tarjeta.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,46 +20,27 @@ export class SupabaseService {
   public clientes$ = this.clientesSubject.asObservable();
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
+  private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
+  public tarjeta$ = this.tarjetasSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.loadUsuarios();
     this.loadClientes();
     this.loadCuentas();
+    this.loadTarjetas();
   }
 
   enviarDatos(data: any): Observable<any> {
     return this.http.post('https://pbjdatvfbfkhaqrxrzdg.supabase.co', data);
   }
 
+  //Métodos para Usuarios
+
   async loadUsuarios() {
     const { data, error } = await this.supabase.from('Usuarios').select('*');
     if (error) console.error('Error loading users', error);
     else this.usuariosSubject.next(data);
-  }
-
-  async loadClientes() {
-    const { data, error } = await this.supabase.from('Clientes').select('*');
-    if (error) console.error('Error loading clients', error);
-    else this.clientesSubject.next(data);
-  }
-
-  async loadCuentas() {
-    const { data, error } = await this.supabase
-      .from('Cuentas')
-      .select(`
-        *,
-        Cliente:Clientes (name)
-      `);
-
-    if (error) {
-      console.error('Error loading accounts', error);
-    } else {
-      this.cuentasSubject.next(data.map(item => ({
-        ...item,
-        clientName: item.Cliente.name 
-      })));
-    }
   }
 
   async getAllUsuarios() {
@@ -73,7 +55,7 @@ export class SupabaseService {
   async addUsuario(usuario: Usuario) {
     const { data, error } = await this.supabase.from('Usuarios').insert([usuario]);
     if (error) console.error('Error adding user', error);
-    else this.loadUsuarios(); 
+    else this.loadUsuarios();
   }
 
   async updateUsuario(id: number, updatedFields: any) {
@@ -82,7 +64,7 @@ export class SupabaseService {
       .update(updatedFields)
       .match({ id });
     if (error) console.error('Error updating user', error);
-    else this.loadUsuarios(); 
+    else this.loadUsuarios();
   }
 
   async deleteUsuario(id: number) {
@@ -91,10 +73,16 @@ export class SupabaseService {
       .delete()
       .match({ id });
     if (error) console.error('Error deleting user', error);
-    else this.loadUsuarios(); 
+    else this.loadUsuarios();
   }
 
   //Métodos para Clientes
+
+  async loadClientes() {
+    const { data, error } = await this.supabase.from('Clientes').select('*');
+    if (error) console.error('Error loading clients', error);
+    else this.clientesSubject.next(data);
+  }
 
   async getAllClientes() {
     const { data, error } = await this.supabase
@@ -131,8 +119,26 @@ export class SupabaseService {
 
   // Métodos para Cuentas
 
+  async loadCuentas() {
+    const { data, error } = await this.supabase
+      .from('Cuentas')
+      .select(`
+        *,
+        Cliente:Clientes (name)
+      `);
+
+    if (error) {
+      console.error('Error loading accounts', error);
+    } else {
+      this.cuentasSubject.next(data.map(item => ({
+        ...item,
+        clientName: item.Cliente.name  // Añade el nombre del cliente directamente en el objeto de cuenta
+      })));
+    }
+  }
+
   async addCuenta(cuenta: Cuenta) {
-    cuenta.account_number = this.generateAccountNumber(); 
+    cuenta.account_number = this.generateAccountNumber();
     const { data, error } = await this.supabase.from('Cuentas').insert([cuenta]);
     if (error) {
       console.error('Error adding account', error);
@@ -156,7 +162,7 @@ export class SupabaseService {
       .update(updatedFields)
       .match({ id });
     if (error) console.error('Error updating account', error);
-    else this.loadCuentas(); 
+    else this.loadCuentas();
   }
 
   async deleteCuenta(id: number) {
@@ -165,7 +171,27 @@ export class SupabaseService {
       .delete()
       .match({ id });
     if (error) console.error('Error deleting account', error);
-    else this.loadCuentas(); 
+    else this.loadCuentas();
+  }
+
+  // Métodos para Tarjetas
+
+  async loadTarjetas() {
+    const { data, error } = await this.supabase
+      .from('Tarjetas')
+      .select(`
+        *,
+        Cliente:Clientes (name)
+      `);
+
+    if (error) {
+      console.error('Error loading cards', error);
+    } else {
+      this.tarjetasSubject.next(data.map(item => ({
+        ...item,
+        clientName: item.Cliente.name  // Añade el nombre del cliente directamente en el objeto de cuenta
+      })));
+    }
   }
 
 }

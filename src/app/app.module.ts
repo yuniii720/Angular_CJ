@@ -14,7 +14,7 @@ import { BtnAddUserComponent } from './components/buttons/usuario/btn-add-user/b
 import { BtnAddClientComponent } from './components/buttons/cliente/btn-add-client/btn-add-client.component';
 import { TablaClientesComponent } from './components/tables/tablaclientes/tablaclientes.component';
 import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component'; // Corregido el nombre del componente
-import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
+import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RegisterComponent } from './components/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -56,7 +56,7 @@ import { BtnDelAccountComponent } from './components/buttons/cuenta/btn-del-acco
     BtnAddClientComponent,
     TablaClientesComponent,
     TablaCuentasComponent,
-    TablatarjetasComponent,
+    TablaTarjetasComponent,
     RegisterComponent,
     BtnModUserComponent,
     BtnDelUserComponent,

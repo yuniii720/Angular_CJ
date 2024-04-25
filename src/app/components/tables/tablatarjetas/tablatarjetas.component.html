@@ -9,21 +9,24 @@
       </div>
   </div>
 
-<table class="TablaCJ">
+  <table class="TablaCJ">
     <thead>
         <tr>
             <th>ID Tarjeta</th>
             <th>Número de tarjeta</th>
-            <th>Tipo de tarjeta</th>
+            <th>Nombre del Cliente</th>
+            <th>Fecha de alta</th>
             <th>Gestionar</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><app-botonestabla></app-botonestabla></td>
+        <tr *ngFor="let tarjeta of tarjetas">
+          <td>{{ tarjeta.id }}</td>
+          <td>{{ tarjeta.card_number }}</td>
+          <td>{{ tarjeta.clientName }}</td>
+          <td>{{ tarjeta.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
+          <td><app-botonestabla></app-botonestabla></td>
         </tr>
     </tbody>
 </table>
+

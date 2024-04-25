@@ -8,7 +8,7 @@ import { TablaUsuariosComponent } from './components/tables/tablausuarios/tablau
 import { AddUserComponent } from './components/modals/usuarios/add-user/add-user.component';
 import { TablaClientesComponent } from './components/tables/tablaclientes/tablaclientes.component';
 import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
-import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
+import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
 
 const routes: Routes = [
@@ -77,7 +77,7 @@ const routes: Routes = [
   },
   {
     path: 'Tarjetas',
-    component: TablatarjetasComponent,
+    component: TablaTarjetasComponent,
     outlet: 'auth',
     pathMatch: 'full'
   },
