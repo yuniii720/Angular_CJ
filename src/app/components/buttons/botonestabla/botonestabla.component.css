@@ -9,8 +9,9 @@
     cursor: pointer;
     display: inline-block;
     font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 500;
+    display: left;
     line-height: 20px;
     list-style: none;
     padding: 6px 16px;
@@ -57,6 +58,6 @@
   }
 
   img {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
