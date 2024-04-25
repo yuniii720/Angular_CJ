@@ -156,13 +156,15 @@ export class SupabaseService {
     return number;
   }
 
-  async updateCuenta(id: number, updatedFields: any) {
-    const { data, error } = await this.supabase
-      .from('Cuentas')
-      .update(updatedFields)
-      .match({ id });
-    if (error) console.error('Error updating account', error);
-    else this.loadCuentas();
+  async updateCuenta(id: number, updatedFields: any): Promise<void> {
+    const { data, error } = await this.supabase.from('Cuentas').update(updatedFields).match({ id });
+    if (error) {
+      console.error('Error updating account', error);
+      throw new Error(error.message);
+    } else {
+      console.log('Account updated successfully', data);
+      this.loadCuentas();
+    }
   }
 
   async deleteCuenta(id: number) {

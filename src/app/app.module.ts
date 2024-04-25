@@ -13,7 +13,7 @@ import { AddUserComponent } from './components/modals/usuarios/add-user/add-user
 import { BtnAddUserComponent } from './components/buttons/usuario/btn-add-user/btn-add-user.component';
 import { BtnAddClientComponent } from './components/buttons/cliente/btn-add-client/btn-add-client.component';
 import { TablaClientesComponent } from './components/tables/tablaclientes/tablaclientes.component';
-import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component'; // Corregido el nombre del componente
+import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
 import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RegisterComponent } from './components/register/register.component';
@@ -41,6 +41,9 @@ import { DelAccountComponent } from './components/modals/cuentas/del-account/del
 import { BtnAddAccountComponent } from './components/buttons/cuenta/btn-add-account/btn-add-account.component';
 import { BtnModAccountComponent } from './components/buttons/cuenta/btn-mod-account/btn-mod-account.component';
 import { BtnDelAccountComponent } from './components/buttons/cuenta/btn-del-account/btn-del-account.component';
+import { AddCardComponent } from './components/modals/tarjetas/add-card/add-card.component';
+import { ModCardComponent } from './components/modals/tarjetas/mod-card/mod-card.component';
+import { DelCardComponent } from './components/modals/tarjetas/del-card/del-card.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +78,9 @@ import { BtnDelAccountComponent } from './components/buttons/cuenta/btn-del-acco
     BtnAddAccountComponent,
     BtnModAccountComponent,
     BtnDelAccountComponent,
+    AddCardComponent,
+    ModCardComponent,
+    DelCardComponent,
   ],
   imports: [
     BrowserModule,

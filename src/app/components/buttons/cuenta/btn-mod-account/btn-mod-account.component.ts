@@ -1,10 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ModAccountComponent } from '../../../modals/cuentas/mod-account/mod-account.component';
+import { Cuenta } from '../../../../models/cuenta.model';
 
 @Component({
   selector: 'app-btn-mod-account',
   templateUrl: './btn-mod-account.component.html',
-  styleUrl: './btn-mod-account.component.css'
+  styleUrls: ['./btn-mod-account.component.css']
 })
 export class BtnModAccountComponent {
+  @Input() cuenta!: Cuenta; // Añade el decorador Input aquí
 
+  constructor(private dialog: MatDialog) {}
+
+  openModAccountDialog(): void {
+    const dialogRef = this.dialog.open(ModAccountComponent, {
+      width: '600px',
+      data: this.cuenta // Pasa la cuenta como data al modal
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('La cuenta fue actualizada');
+        // Opcionalmente, recargar la lista de clientes
+      }
+    });
+  }
 }
