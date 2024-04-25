@@ -1,21 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { SupabaseService } from '../../../services/supabase.service';
-import { Cuenta } from '../../../models/cuenta.model';
+import { Cuenta } from '../../../models/cuenta.model'; // Asegúrate de tener un modelo adecuado
 
 @Component({
-  selector: 'app-tablacuentas',
+  selector: 'app-tabla-cuentas',
   templateUrl: './tablacuentas.component.html',
-  styleUrls: ['./tablacuentas.component.css']  // Corrige el nombre de la propiedad de 'styleUrl' a 'styleUrls'
+  styleUrls: ['./tablacuentas.component.css']
 })
-export class TablaCuentasComponent implements OnInit {
-
+export class TablaCuentasComponent implements OnInit, OnDestroy {
   cuentas: Cuenta[] = [];
+  private subs = new Subscription();
 
-  constructor(private supabaseService: SupabaseService) { }
+  constructor(private supabaseService: SupabaseService) {}
 
   ngOnInit(): void {
-    this.supabaseService.cuentas$.subscribe(cuentas => {
+    // Asegúrate de que el servicio tiene un método 'loadCuentas' que actualiza 'cuentas$'
+    this.supabaseService.loadCuentas(); // Si es necesario cargar cuentas al inicializar
+    this.subs.add(this.supabaseService.cuentas$.subscribe(cuentas => {
       this.cuentas = cuentas;
-    });
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe(); // Limpiar la subscripción para evitar pérdidas de memoria
   }
 }
