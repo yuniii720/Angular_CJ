@@ -20,7 +20,8 @@ export class ModAccountComponent implements OnInit {
     this.accountForm = new FormGroup({
       id: new FormControl('', Validators.required),
       account_number: new FormControl('', Validators.required),
-      clientName: new FormControl('', Validators.required)
+      clientName: new FormControl('', Validators.required),
+      balance: new FormControl('', Validators.required)
     });
   }
 
@@ -29,7 +30,8 @@ export class ModAccountComponent implements OnInit {
       this.accountForm.patchValue({
         account_number: this.data.account_number,
         id: this.data.id,
-        clientName: this.data.clientName
+        clientName: this.data.clientName,
+        balance: this.data.balance
       });
     }
   }
@@ -43,8 +45,9 @@ export class ModAccountComponent implements OnInit {
     const updatedAccountData: Cuenta = {
       id: this.data.id,
       account_number: this.accountForm.get('account_number')?.value,
-      client_id: this.data.client_id, // Asegúrate de incluir solo los campos que existen en la base de datos
-      created_at: this.data.created_at
+      client_id: this.data.client_id,
+      created_at: this.data.created_at,
+      balance: this.accountForm.get('balance')?.value // Asegúrate de incluir el saldo actualizado
     };
 
     this.supabaseService.updateCuenta(this.data.id!, updatedAccountData)

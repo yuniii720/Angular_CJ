@@ -3,8 +3,16 @@
   <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="user-form">
     <input type="hidden" formControlName="id">
     <mat-form-field appearance="fill">
+      <mat-label>Nombre del Cliente</mat-label>
+      <input matInput type="text" [value]="data.clientName" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>Número de Cuenta</mat-label>
       <input matInput type="text" formControlName="account_number" placeholder="Introduce número de cuenta">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Saldo</mat-label>
+      <input matInput type="number" formControlName="balance" placeholder="Introduce saldo">
     </mat-form-field>
 
     <div class="actions">

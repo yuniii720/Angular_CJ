@@ -22,6 +22,7 @@ export class SupabaseService {
   public cuentas$ = this.cuentasSubject.asObservable();
   private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
   public tarjeta$ = this.tarjetasSubject.asObservable();
+  balance: any;
 
   constructor(private http: HttpClient) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);

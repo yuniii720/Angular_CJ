@@ -15,7 +15,8 @@ import { Cuenta } from '../../../../models/cuenta.model';
 })
 export class AddAccountComponent implements OnInit {
   accountForm: FormGroup = new FormGroup({
-    client_id: new FormControl('', Validators.required)
+    client_id: new FormControl('', Validators.required),
+    balance: new FormControl('', Validators.required)
   });
 
   clientes$!: Observable<Cliente[]>;
@@ -32,10 +33,12 @@ export class AddAccountComponent implements OnInit {
   onSubmit(): void {
     if (this.accountForm.valid) {
       const accountNumber = this.supabaseService.generateAccountNumber(); // Use the service method
+
       const accountData: Cuenta = {
         account_number: accountNumber, // Generated account number
         client_id: this.accountForm.get('client_id')?.value,
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
+        balance: this.accountForm.get('balance')?.value // Usa el valor del campo de saldo del formulario
       };
 
       this.supabaseService.addCuenta(accountData)

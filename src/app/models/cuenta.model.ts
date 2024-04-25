@@ -4,4 +4,5 @@ export interface Cuenta {
   created_at: string;
   client_id: number;
   clientName?: string;
+  balance: number;
 }
