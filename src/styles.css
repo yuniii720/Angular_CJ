@@ -33,7 +33,7 @@ body {
     border: 2px solid#009fac;
     background-color: #EEEEEE;
     width: 80%;
-    height: 35%;
+    height: 15%;
     text-align: center;
     border-collapse: collapse;
     position: absolute;
@@ -53,23 +53,19 @@ body {
   }
   table.TablaCJ thead {
     background: #009fac;
-   
-    border-bottom: 1px solid #444444;
+
   }
   table.TablaCJ thead th {
     font-size: 20px;
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;
-    border-left: 2px solid #D0E4F5;
+    border-left: 4px solid #D0E4F5;
   }
   table.TablaCJ thead th:first-child {
     border-left: none;
   }
-  
-  table.TablaCJ tfoot td {
-    font-size: px;
-  }
+
   
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
