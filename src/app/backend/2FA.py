@@ -1,12 +1,20 @@
-import time
 import pyotp
-import qrcode
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
 
 key = pyotp.random_base32()
+totp = pyotp.TOTP(key)
 
-uri = pyotp.totp.TOTP(key).provisioning_uri(name="Josh",
-                                            issuer_name="Proyecto cajamar")
+@app.route('/verify-2fa', methods=['POST'])
+def verify_2fa():
+    code = request.json.get('code') 
 
-print(uri)
+    if totp.verify(code):
+        return jsonify({"success": True}), 200
+    else:
+        return jsonify({"success": False}), 403
 
-qrcode.make(uri).save("totp.png")
+if __name__ == '__main__':
+    app.run(debug=True)
