@@ -49,7 +49,7 @@ export class SupabaseService {
       .select(`
         *,
         Cliente:Clientes (name)
-      `); // Asume que la tabla se llama 'Clientes' y hay una relación foreign key
+      `);
 
     if (error) {
       console.error('Error loading accounts', error);
@@ -134,9 +134,22 @@ export class SupabaseService {
   // Métodos para Cuentas
 
   async addCuenta(cuenta: Cuenta) {
+    cuenta.account_number = this.generateAccountNumber(); // Set account number here
     const { data, error } = await this.supabase.from('Cuentas').insert([cuenta]);
-    if (error) console.error('Error adding account', error);
-    else this.loadCuentas(); // Recargar cuentas después de añadir
+    if (error) {
+      console.error('Error adding account', error);
+    } else {
+      this.loadCuentas(); // Recargar cuentas después de añadir
+    }
+  }
+
+  generateAccountNumber(): string {
+    let number = '';
+    for (let i = 0; i < 4; i++) {
+      number += Math.floor(1000 + Math.random() * 9000).toString();
+      if (i < 3) number += '-';
+    }
+    return number;
   }
 
   async updateCuenta(id: number, updatedFields: any) {

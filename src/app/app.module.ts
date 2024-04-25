@@ -16,12 +16,13 @@ import { TablaClientesComponent } from './components/tables/tablaclientes/tablac
 import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component'; // Corregido el nombre del componente
 import { TablatarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { RegisterComponent } from './components/register/register.component'; 
+import { RegisterComponent } from './components/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import { BtnModUserComponent } from './components/buttons/usuario/btn-mod-user/btn-mod-user.component';
 import { BtnDelUserComponent } from './components/buttons/usuario/btn-del-user/btn-del-user.component';
 import { ModUserComponent } from './components/modals/usuarios/mod-user/mod-user.component';
@@ -37,6 +38,9 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
 import { AddAccountComponent } from './components/modals/cuentas/add-account/add-account.component';
 import { ModAccountComponent } from './components/modals/cuentas/mod-account/mod-account.component';
 import { DelAccountComponent } from './components/modals/cuentas/del-account/del-account.component';
+import { BtnAddAccountComponent } from './components/buttons/cuenta/btn-add-account/btn-add-account.component';
+import { BtnModAccountComponent } from './components/buttons/cuenta/btn-mod-account/btn-mod-account.component';
+import { BtnDelAccountComponent } from './components/buttons/cuenta/btn-del-account/btn-del-account.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +55,7 @@ import { DelAccountComponent } from './components/modals/cuentas/del-account/del
     BtnAddUserComponent,
     BtnAddClientComponent,
     TablaClientesComponent,
-    TablaCuentasComponent, 
+    TablaCuentasComponent,
     TablatarjetasComponent,
     RegisterComponent,
     BtnModUserComponent,
@@ -68,6 +72,9 @@ import { DelAccountComponent } from './components/modals/cuentas/del-account/del
     AddAccountComponent,
     ModAccountComponent,
     DelAccountComponent,
+    BtnAddAccountComponent,
+    BtnModAccountComponent,
+    BtnDelAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,6 +86,7 @@ import { DelAccountComponent } from './components/modals/cuentas/del-account/del
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }
