@@ -45,6 +45,12 @@
     padding: 2.2px 0 2.2px 8.8px;
   }
   
+  form {
+    display: block;
+    margin-top: 0em;
+    unicode-bidi: isolate;
+}
+
   input[type=submit] {
     height: 28.6px;
     width: 231px;

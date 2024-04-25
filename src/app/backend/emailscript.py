@@ -31,13 +31,12 @@ def send_email():
         if not email or not username:
             raise KeyError('Faltan campos obligatorios en la solicitud')
         
-        # Generar la contraseña
         password = password_generator(12) if 'password' not in data else data['password']
 
         msg = EmailMessage()
-        msg.set_content(f'Hola {username},\n\nBienvenido a nuestra aplicación. Aquí están tus credenciales:\n\nUsuario: {username}\nContraseña: {password}\n\n¡Gracias por registrarte!')
+        msg.set_content(f'Hola {username},\n\nBienvenido hemos recibido tu registro en cajamar. Aquí están tus credenciales:\n\nUsuario: {username}\nContraseña: {password}\n\n¡Gracias por registrarte! si tiene algún problema en acceder no dude en contactar con soscajamar@viewnext.com')
 
-        msg['Subject'] = 'Bienvenido a nuestra aplicación'
+        msg['Subject'] = 'Bienvenido a cajamar'
         msg['From'] = GMAIL_ADDRESS
         msg['To'] = email
 

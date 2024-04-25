@@ -29,10 +29,10 @@ export class RegisterComponent {
       };
   
       this.http.post(url, formData, httpOptions).subscribe({
-        next: (response: any) => { // Define el tipo del parámetro response
+        next: (response: any) => { 
           console.log('Correo electrónico enviado correctamente:', response);
         },
-        error: (error: any) => { // Define el tipo del parámetro error
+        error: (error: any) => { 
           console.error('Error al enviar correo electrónico:', error);
         }
       });
