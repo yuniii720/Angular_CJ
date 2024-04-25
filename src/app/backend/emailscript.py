@@ -1,10 +1,10 @@
-import os
 import smtplib
 from email.message import EmailMessage
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from random import sample
 import string
+import os
 from supabase import create_client
 
 app = Flask(__name__)
@@ -15,10 +15,9 @@ SMTP_PORT = 465
 GMAIL_ADDRESS = 'vncajamarproyecto@gmail.com'
 GMAIL_PASSWORD = 'nzwp kete plfm ttph'
 
-# Configuración de Supabase
 SUPABASE_URL = 'https://pbjdatvfbfkhaqrxrzdg.supabase.co'
 SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBiamRhdHZmYmZraGFxcnhyemRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM0MzA0OTUsImV4cCI6MjAyOTAwNjQ5NX0.c-OqL72CZnVcBSMMRitbiN5VUzZF6SDrRuwLHA-i7jk'
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)  # Inicializa la clase Client
 
 def password_generator(longitud):
     caracteres_validos = string.ascii_letters + string.digits + string.punctuation
@@ -48,8 +47,8 @@ def send_email():
             server.login(GMAIL_ADDRESS, GMAIL_PASSWORD)
             server.send_message(msg)
 
-        # Insertar datos en la tabla 'Register' de Supabase
-        supabase.table('Register').insert([{'email': email, 'username': username, 'password': password}]).execute()
+        # Insertar datos en la tabla 'Registros' de Supabase
+        supabase.table('Registros').insert([{'email': email, 'username': username, 'password': password}]).execute()
 
         return jsonify({'message': 'Correo electrónico enviado correctamente'}), 200
     except Exception as e:
