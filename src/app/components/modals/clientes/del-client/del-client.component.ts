@@ -11,7 +11,6 @@ import { Cliente } from '../../../../models/cliente.model';
 })
 export class DelClientComponent {
   @Input() cliente!: Cliente;
-  deleteCliente: any;
 
   constructor(
     public dialog: MatDialog,
@@ -34,11 +33,10 @@ export class DelClientComponent {
     });
   }
 
-  deleteUsuario(): void {
+  deleteCliente(): void {
     this.supabaseService.deleteCliente(this.cliente.id!)
       .then(() => {
         console.log('Cliente eliminado');
-        // Aquí podrías emitir un evento o llamar a una función para actualizar la lista de usuarios en la tabla
       })
       .catch(error => {
         console.error('Error al eliminar cliente', error);
