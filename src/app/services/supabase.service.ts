@@ -55,7 +55,7 @@ export class SupabaseService {
   async addUsuario(usuario: Usuario) {
     const { data, error } = await this.supabase.from('Usuarios').insert([usuario]);
     if (error) console.error('Error adding user', error);
-    else this.loadUsuarios(); // Recargar usuarios después de añadir
+    else this.loadUsuarios();
   }
 
   async updateUsuario(id: number, updatedFields: any) {
@@ -64,7 +64,7 @@ export class SupabaseService {
       .update(updatedFields)
       .match({ id });
     if (error) console.error('Error updating user', error);
-    else this.loadUsuarios(); // Recargar usuarios después de actualizar
+    else this.loadUsuarios();
   }
 
   async deleteUsuario(id: number) {
@@ -73,7 +73,7 @@ export class SupabaseService {
       .delete()
       .match({ id });
     if (error) console.error('Error deleting user', error);
-    else this.loadUsuarios(); // Recargar usuarios después de eliminar
+    else this.loadUsuarios();
   }
 
   //Métodos para Clientes
@@ -96,7 +96,7 @@ export class SupabaseService {
   async addCliente(cliente: Cliente) {
     const { data, error } = await this.supabase.from('Clientes').insert([cliente]);
     if (error) console.error('Error adding client', error);
-    else this.loadClientes(); // Recargar clientes después de añadir
+    else this.loadClientes();
   }
 
   async updateCliente(id: number, updatedFields: any) {
@@ -105,7 +105,7 @@ export class SupabaseService {
       .update(updatedFields)
       .match({ id });
     if (error) console.error('Error updating client', error);
-    else this.loadClientes(); // Recargar clientes después de actualizar
+    else this.loadClientes();
   }
 
   async deleteCliente(id: number) {
@@ -114,7 +114,7 @@ export class SupabaseService {
       .delete()
       .match({ id });
     if (error) console.error('Error deleting client', error);
-    else this.loadClientes(); // Recargar clientes después de eliminar
+    else this.loadClientes();
   }
 
   // Métodos para Cuentas
@@ -138,12 +138,12 @@ export class SupabaseService {
   }
 
   async addCuenta(cuenta: Cuenta) {
-    cuenta.account_number = this.generateAccountNumber(); // Set account number here
+    cuenta.account_number = this.generateAccountNumber();
     const { data, error } = await this.supabase.from('Cuentas').insert([cuenta]);
     if (error) {
       console.error('Error adding account', error);
     } else {
-      this.loadCuentas(); // Recargar cuentas después de añadir
+      this.loadCuentas();
     }
   }
 
@@ -162,7 +162,7 @@ export class SupabaseService {
       .update(updatedFields)
       .match({ id });
     if (error) console.error('Error updating account', error);
-    else this.loadCuentas(); // Recargar cuentas después de actualizar
+    else this.loadCuentas();
   }
 
   async deleteCuenta(id: number) {
@@ -171,7 +171,7 @@ export class SupabaseService {
       .delete()
       .match({ id });
     if (error) console.error('Error deleting account', error);
-    else this.loadCuentas(); // Recargar cuentas después de eliminar
+    else this.loadCuentas();
   }
 
   // Métodos para Tarjetas
