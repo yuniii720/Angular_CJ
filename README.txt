@@ -1,7 +1,4 @@
-- Lógica
-- Páginas transferencias (?)
-- Página cuentas (?)
-- Añadir clientes (Tabla usuarios)
-- Borrar clientes (Tabla usuarios)
-- Editar clientes (Tabla usuarios)
-- Favicon
+Update 26/04
+
+- Tablas: Tarjetas y Transferencias
+- Table Filter y Sorting
