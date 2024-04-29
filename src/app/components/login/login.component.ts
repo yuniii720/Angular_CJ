@@ -34,7 +34,7 @@ export class LoginComponent {
       if (data.token) {
 
       }
-      this.router.navigate(['main']);
+      this.router.navigate(['/main']);
     } else {
       if (data.message) {
         console.error(data.message);

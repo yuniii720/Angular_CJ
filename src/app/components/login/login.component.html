@@ -8,7 +8,7 @@
         <input type="text" name="username" placeholder="Introduce nombre de usuario" required [(ngModel)]="username"><br><br>
         <label>Contraseña</label><br><br>
         <input type="password" name="password" placeholder="Introduce contraseña" required [(ngModel)]="password"><br><br><br>
-        <input type="submit" value="Entrar">
+        <input type="submit" value="Entrar" [routerLink]="['', { outlets: { auth: ['main'] } }]">
       </form><br>
       <a id="ProblemasClavesDeAcceso" [routerLink]="['', { outlets: { auth: ['forgot'] } }]">
         ¿Problemas con tus claves de acceso?

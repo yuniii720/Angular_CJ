@@ -34,18 +34,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    component: LoginComponent,
-    outlet: 'auth',
-    pathMatch: 'full'
-  },
-  {
-    path: 'forgot',
-    component: ForgottenpasswordComponent,
-    outlet: 'auth',
-    pathMatch: 'full'
-  },
-  {
     path: 'main',
     component: MainComponent,
     outlet: 'auth',
@@ -86,7 +74,7 @@ const routes: Routes = [
     component: TablatransferenciasComponent,
     outlet: 'auth',
     pathMatch: 'full'
-  },
+  }
 ];
 
 @NgModule({
@@ -94,5 +82,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
-
