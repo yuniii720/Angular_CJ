@@ -16,6 +16,11 @@ export class SupabaseService {
   private supabase: SupabaseClient;
   private usuariosSubject = new BehaviorSubject<Usuario[]>([]);
   public usuarios$ = this.usuariosSubject.asObservable();
+  private localUsuarios: Usuario[] = [];
+  private addedUsuarios: Usuario[] = [];
+  private updatedUsuarios: Usuario[] = [];
+  private deletedUsuarios: Usuario[] = [];
+
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
@@ -39,9 +44,12 @@ export class SupabaseService {
   //Métodos para Usuarios
 
   async loadUsuarios() {
-  const { data, error } = await this.supabase.from('Usuarios').select('*').order('created_at', { ascending: true });
+    const { data, error } = await this.supabase.from('Usuarios').select('*');
     if (error) console.error('Error loading users', error);
-    else this.usuariosSubject.next(data);
+    else {
+      this.usuariosSubject.next(data);
+      this.localUsuarios = [...data]; // Inicializa la copia local con los datos de la base de datos
+    }
   }
 
   async getAllUsuarios() {
@@ -53,28 +61,59 @@ export class SupabaseService {
     return data;
   }
 
-  async addUsuario(usuario: Usuario) {
-    const { data, error } = await this.supabase.from('Usuarios').insert([usuario]);
-    if (error) console.error('Error adding user', error);
-    else this.loadUsuarios();
+  addUsuario(usuario: Usuario) {
+    this.localUsuarios.push(usuario);
+    this.addedUsuarios.push(usuario); // Añade el usuario a addedUsuarios
+    this.usuariosSubject.next([...this.localUsuarios]);
   }
 
-  async updateUsuario(id: number, updatedFields: any) {
-    const { data, error } = await this.supabase
-      .from('Usuarios')
-      .update(updatedFields)
-      .match({ id });
-    if (error) console.error('Error updating user', error);
-    else this.loadUsuarios();
+  updateUsuario(id: number, updatedFields: any) {
+    const index = this.localUsuarios.findIndex(u => u.id === id);
+    if (index !== -1) {
+      this.localUsuarios[index] = { ...this.localUsuarios[index], ...updatedFields };
+      this.updatedUsuarios.push(this.localUsuarios[index]); // Añade el usuario a updatedUsuarios
+      this.usuariosSubject.next([...this.localUsuarios]);
+    }
   }
 
   async deleteUsuario(id: number) {
-    const { data, error } = await this.supabase
-      .from('Usuarios')
-      .delete()
-      .match({ id });
-    if (error) console.error('Error deleting user', error);
-    else this.loadUsuarios();
+    const { error } = await this.supabase.from('Usuarios').delete().eq('id', id);
+    if (error) {
+      console.error('Error deleting user', error);
+      return false;
+    }
+    this.localUsuarios = this.localUsuarios.filter(u => u.id !== id);
+    this.usuariosSubject.next([...this.localUsuarios]);
+    return true;
+  }
+
+  // Sincroniza la copia local con la base de datos
+  async syncUsuarios() {
+    // Sincroniza los usuarios añadidos
+    for (const usuario of this.addedUsuarios) {
+      const { error } = await this.supabase.from('Usuarios').insert([usuario]);
+      if (error) console.error('Error adding user', error);
+    }
+
+    // Sincroniza los usuarios actualizados
+    for (const usuario of this.updatedUsuarios) {
+      const { error } = await this.supabase.from('Usuarios').update(usuario).match({ id: usuario.id });
+      if (error) console.error('Error updating user', error);
+    }
+
+    // Sincroniza los usuarios eliminados
+    for (const usuario of this.deletedUsuarios) {
+      const { error } = await this.supabase.from('Usuarios').delete().match({ id: usuario.id });
+      if (error) console.error('Error deleting user', error);
+    }
+
+    // Limpia las listas de usuarios añadidos, actualizados y eliminados
+    this.addedUsuarios = [];
+    this.updatedUsuarios = [];
+    this.deletedUsuarios = [];
+
+    // Recarga los usuarios desde la base de datos
+    this.loadUsuarios();
   }
 
   //Métodos para Clientes

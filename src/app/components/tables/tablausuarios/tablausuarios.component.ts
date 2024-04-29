@@ -11,6 +11,7 @@ import { Usuario } from '../../../models/usuario.model';
 export class TablaUsuariosComponent implements OnInit, OnDestroy {
   usuarios: Usuario[] = [];
   private subs = new Subscription();
+  displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'created_at', 'gestionar'];
 
   constructor(private supabaseService: SupabaseService) {}
 

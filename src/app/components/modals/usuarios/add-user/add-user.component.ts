@@ -27,19 +27,8 @@ export class AddUserComponent {
 
   onSubmit(): void {
     if (this.userForm.valid) {
-      const usuarioData: Usuario = {
-        ...this.userForm.value,
-        created_at: new Date().toISOString()
-      };
-
-      this.supabaseService.addUsuario(usuarioData)
-        .then(data => {
-          console.log('Usuario añadido', data);
-          this.dialogRef.close();
-        })
-        .catch(error => {
-          console.error('Error al añadir usuario', error);
-        });
+      const newUserData: Usuario = this.userForm.value;
+      this.supabaseService.addUsuario(newUserData);
     }
   }
 

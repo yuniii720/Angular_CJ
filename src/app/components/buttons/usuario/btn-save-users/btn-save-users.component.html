@@ -1,5 +1,4 @@
-<div class="button-container">
-  <button (click)="openDialog()" type="button" class="button-4" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">
-    Guardar<img src="../../assets/img/guardar.svg" alt="Guardar">
-  </button>
-</div>
+<button mat-raised-button color="primary" (click)="openDialog()">
+  Guardar
+  <mat-icon>save</mat-icon>
+</button>
