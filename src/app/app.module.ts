@@ -17,7 +17,7 @@ import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacue
 import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RegisterComponent } from './components/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importa FormsModule
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -91,6 +91,7 @@ import { DelCardComponent } from './components/modals/tarjetas/del-card/del-card
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    FormsModule,
     MatButtonModule,
     MatSelectModule
   ],
