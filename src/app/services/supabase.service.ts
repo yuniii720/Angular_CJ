@@ -133,7 +133,7 @@ export class SupabaseService {
     } else {
       this.cuentasSubject.next(data.map(item => ({
         ...item,
-        clientName: item.Cliente.name  // Añade el nombre del cliente directamente en el objeto de cuenta
+        clientName: item.Cliente.name
       })));
     }
   }
@@ -192,7 +192,7 @@ export class SupabaseService {
     } else {
       this.tarjetasSubject.next(data.map(item => ({
         ...item,
-        clientName: item.Cliente.name  // Añade el nombre del cliente directamente en el objeto de cuenta
+        clientName: item.Cliente.name
       })));
     }
   }
