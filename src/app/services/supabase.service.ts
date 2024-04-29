@@ -39,7 +39,7 @@ export class SupabaseService {
   //Métodos para Usuarios
 
   async loadUsuarios() {
-    const { data, error } = await this.supabase.from('Usuarios').select('*');
+  const { data, error } = await this.supabase.from('Usuarios').select('*').order('created_at', { ascending: true });
     if (error) console.error('Error loading users', error);
     else this.usuariosSubject.next(data);
   }
