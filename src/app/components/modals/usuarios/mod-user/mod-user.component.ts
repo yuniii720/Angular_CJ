@@ -43,10 +43,14 @@ export class ModUserComponent implements OnInit {
         ...this.data,  // Los datos existentes del usuario
         ...this.userForm.value  // Los nuevos datos del formulario
       };
-      this.supabaseService.updateUsuario(this.data.id!, updatedUserData);
-      // Haz lo que necesites hacer después de actualizar el usuario aquí
+      this.supabaseService.updateUsuario(this.data.id!, updatedUserData).then(() => {
+        this.dialogRef.close();
+      }).catch(error => {
+        console.error('Error al actualizar el usuario', error);
+      });
     }
   }
+
 
   closeDialog(): void {
     this.dialogRef.close();
