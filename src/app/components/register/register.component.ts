@@ -11,7 +11,6 @@ import { PopupsComponent } from '../popups/popups.component';
 export class RegisterComponent {
   registroForm: FormGroup;
 
-  // Utiliza la anotación @ViewChild para obtener una referencia al componente PopupsComponent
   @ViewChild(PopupsComponent) popupsComponent!: PopupsComponent;
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
@@ -21,7 +20,6 @@ export class RegisterComponent {
     });
   }
 
-  // La función registerUser se llama cuando se envía el formulario
   registerUser() {
     if (this.registroForm.valid) {
       const formData = this.registroForm.value;

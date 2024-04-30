@@ -4,56 +4,56 @@
     left: 0;
     width: 100%;
     height: 100%;
-    display: none; /* Inicialmente oculto */
+    display: none; 
     justify-content: center;
     align-items: center;
     color: #fff;
     z-index: 999;
 
-    opacity: 0; /* Inicialmente transparente */
-    transition: opacity 1s ease; /* Transición de opacidad */
+    opacity: 0;
+    transition: opacity 1s ease; 
 }
 
 .capaT.mostrar {
-    display: flex; /* Mostrar la capa */
-    opacity: 1; /* Hacer la capa completamente opaca */
+    display: flex; 
+    opacity: 1; 
 }
 
 .info1 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     width: 320px;
     padding: 12px;
-    display: none; /* Inicialmente oculto */
+    display: none; 
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    background: #D7F1FD;
+    background: #64b7c0;
     border-radius: 8px;
     box-shadow: 0px 0px 5px -3px #111;
     position: fixed;
-    top: -100%; /* Fuera de la pantalla inicialmente */
-    animation: slideDown 0.3s ease forwards; /* Animación para deslizarse hacia abajo */
+    top: -100%; 
+    animation: slideDown 0.3s ease forwards; 
 }
 
 @keyframes slideDown {
     from {
-        top: -100%; /* Iniciar desde arriba de la pantalla */
+        top: -100%; 
     }
     to {
-        top: 10%; /* Deslizarse hacia abajo hasta la posición deseada */
+        top: 10%; 
     }
 }
 
 .info1.ocultar {
-    animation: slideUp 0.3s ease forwards; /* Animación para deslizarse hacia arriba al ocultar */
+    animation: slideUp 0.3s ease forwards; 
 }
 
 @keyframes slideUp {
     from {
-        top: 10%; /* Iniciar desde la posición deseada */
+        top: 10%; 
     }
     to {
-        top: -100%; /* Deslizarse hacia arriba fuera de la pantalla */
+        top: -100%; 
     }
 }
 
@@ -64,25 +64,29 @@
     margin-right: 8px;
 }
 
-.info__icon path {
-    fill: #e5b766;
-}
-
 .info__title {
     font-weight: 500;
     font-size: 14px;
-    color: #0C2A75;
+    color: #ffffff;
+    flex-grow: 1; 
+    
 }
 
 .info__close {
-    width: 10px;
+    display: inline-flex; /* Usar flex para permitir alineación a la derecha */
+    width: auto;
     height: 40px;
     cursor: pointer;
-    margin-left: auto;
     color: black;
     font-size: 25px;
+    margin-left: 70px; /* Alinea a la derecha */
+
 }
 
-.info__close path {
-    fill: #0C2A75;
+.info__close img {
+    width: 20px; /* Ajustar el tamaño de la imagen */
+    height: 20px; /* Ajustar el tamaño de la imagen */
+    color: white;
 }
+
+
