@@ -1,22 +1,16 @@
-<div class="recuadro_main">
-  <div class="recuadro">
-    <div class="recuadro">Acceso Administración</div>
-    <div class="img"><img src="../../assets/img/logo_c.png" name="logo_c"></div>
-    <div class="formulario">
-      <form (ngSubmit)="onSubmit()">
-        <label>Usuario</label><br><br>
-        <input type="text" name="username" placeholder="Introduce nombre de usuario" required [(ngModel)]="username"><br><br>
-        <label>Contraseña</label><br><br>
-        <input type="password" name="password" placeholder="Introduce contraseña" required [(ngModel)]="password"><br><br><br>
-        <input type="submit" value="Entrar" [routerLink]="['', { outlets: { auth: ['main'] } }]">
-      </form><br>
-      <a id="ProblemasClavesDeAcceso" [routerLink]="['', { outlets: { auth: ['forgot'] } }]">
-        ¿Problemas con tus claves de acceso?
-      </a>
-      <br>
-      <a id="Registro" [routerLink]="['', { outlets: { auth: ['register'] } }]">
-        Regístrate aquí
-      </a>
-    </div>
-  </div>
+<div style="margin-top: 20px">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h2>Login</h2>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" formControlName="email">
+    <i style="color: tomato" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.dirty">
+      Email is required and must be valid
+    </i>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" formControlName="password">
+    <i style="color: tomato" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.dirty">
+      Password Must Be at Least 7 Characters
+    </i>
+    <input type="submit" [disabled]="loginForm.invalid">
+  </form>
 </div>

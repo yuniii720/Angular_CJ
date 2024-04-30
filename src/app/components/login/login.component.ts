@@ -1,44 +1,49 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-interface ServerResponse {
-  success: boolean;
-  message?: string;
-  token?: string;
-}
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
-  responseJSON: string = '';
+  loginForm: FormGroup;
+  errorMessage: string = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.minLength(5), Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(7)]],
+    });
+  }
 
   onSubmit() {
-
-    const data: ServerResponse = {
-      success: true,
-      message: 'Login successful!',
-      token: 'example_token'
-    };
-
-    console.log(data);
-    this.responseJSON = JSON.stringify(data); 
-
-    if (data.success) {
-      if (data.token) {
-
-      }
-      this.router.navigate(['/main']);
-    } else {
-      if (data.message) {
-        console.error(data.message);
-      }
+    if (this.loginForm.invalid) {
+      return;
     }
+
+    const email = this.loginForm.value.email;
+    const password = this.loginForm.value.password;
+
+    this.auth.signIn(email, password)
+      .then((res: any) => {
+        const userRole = res.data.user.role;
+        console.log(userRole);
+        if (userRole === 'authenticated') {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.errorMessage = 'User role is not authenticated.';
+        }
+      })
+      .catch((err: any) => {
+        console.error(err);
+        this.errorMessage = 'Error occurred during sign in.';
+      });
   }
 }

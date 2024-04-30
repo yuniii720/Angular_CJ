@@ -46,11 +46,11 @@ import { ModCardComponent } from './components/modals/tarjetas/mod-card/mod-card
 import { DelCardComponent } from './components/modals/tarjetas/del-card/del-card.component';
 import { BtnSaveUsersComponent } from './components/buttons/usuario/btn-save-users/btn-save-users.component';
 import { SaveUsersComponent } from './components/modals/usuarios/save-users/save-users.component';
+import { PopupsComponent } from './popups/popups.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     ForgottenpasswordComponent,
     HeaderComponent,
     MainComponent,
@@ -62,6 +62,7 @@ import { SaveUsersComponent } from './components/modals/usuarios/save-users/save
     TablaClientesComponent,
     TablaCuentasComponent,
     TablaTarjetasComponent,
+    LoginComponent,
     RegisterComponent,
     BtnModUserComponent,
     BtnDelUserComponent,
@@ -85,6 +86,7 @@ import { SaveUsersComponent } from './components/modals/usuarios/save-users/save
     DelCardComponent,
     BtnSaveUsersComponent,
     SaveUsersComponent,
+    PopupsComponent,
   ],
   imports: [
     BrowserModule,
