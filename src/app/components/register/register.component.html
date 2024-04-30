@@ -3,26 +3,27 @@
     <div class="recuadro">Registro a la aplicación</div>
     <div class="img"><img src="../../assets/img/logo_c.png" name="logo_c"></div>
     <div class="formulario">
-<form class="formulario" *ngIf="registroForm" [formGroup]="registroForm" (ngSubmit)="registerUser()">
-  <div id="recuadro" class="form-group">
-    <label for="email">Correo Electrónico</label><br><br>
-    <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese su correo electrónico">
-    <div id="recuadro-main" *ngIf="registroForm.get('email')?.invalid && (registroForm.get('email')?.dirty || registroForm.get('email')?.touched)" class="text-danger">
-      <div id="recuadro-1" *ngIf="registroForm.get('email')?.errors?.['required']"></div>
-      <div id="recuadro-2" *ngIf="registroForm.get('email')?.errors?.['email']"></div>
+      <form class="formulario" *ngIf="registroForm" [formGroup]="registroForm" (ngSubmit)="registerUser()">
+        <div id="recuadro" class="form-group">
+          <label for="email">Correo Electrónico</label><br><br>
+          <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese su correo electrónico">
+          <div id="recuadro-main" *ngIf="registroForm.get('email')?.invalid && (registroForm.get('email')?.dirty || registroForm.get('email')?.touched)" class="text-danger">
+            <div id="recuadro-1" *ngIf="registroForm.get('email')?.errors?.['required']"></div>
+            <div id="recuadro-2" *ngIf="registroForm.get('email')?.errors?.['email']"></div>
+          </div>
+        </div><br>
+        <div id="recuadro-username" class="form-group">
+          <label for="username">Nombre de Usuario</label><br><br>
+          <input type="text" class="form-control" id="username" formControlName="username" placeholder="Ingrese su nombre de usuario">
+          <div id="recuadro-username-main" *ngIf="registroForm.get('username')?.invalid && (registroForm.get('username')?.dirty || registroForm.get('username')?.touched)" class="text-danger">
+            <div id="recuadro-username-1" *ngIf="registroForm.get('username')?.errors?.['required']"></div>
+          </div>
+        </div><br>
+        <input type="submit" id="ProblemasClavesDeAcceso" type="submit" class="btn btn-primary" [disabled]="registroForm.invalid" value="Registrarse">
+      </form><br>
+      <a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
     </div>
-  </div><br>
-  <div id="recuadro-username" class="form-group">
-    <label for="username">Nombre de Usuario</label><br><br>
-    <input type="text" class="form-control" id="username" formControlName="username" placeholder="Ingrese su nombre de usuario">
-    <div id="recuadro-username-main" *ngIf="registroForm.get('username')?.invalid && (registroForm.get('username')?.dirty || registroForm.get('username')?.touched)" class="text-danger">
-      <div id="recuadro-username-1" *ngIf="registroForm.get('username')?.errors?.['required']"></div>
-    </div>
-  </div><br>
- 
-  <input type="submit" id="ProblemasClavesDeAcceso" type="submit" class="btn btn-primary" [disabled]="registroForm.invalid" value="Registrarse">
-</form><br>
-<a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
+  </div>
 </div>
-</div>
-</div>
+
+<app-popups #popups></app-popups>

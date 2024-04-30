@@ -46,7 +46,7 @@ import { ModCardComponent } from './components/modals/tarjetas/mod-card/mod-card
 import { DelCardComponent } from './components/modals/tarjetas/del-card/del-card.component';
 import { BtnSaveUsersComponent } from './components/buttons/usuario/btn-save-users/btn-save-users.component';
 import { SaveUsersComponent } from './components/modals/usuarios/save-users/save-users.component';
-import { PopupsComponent } from './popups/popups.component';
+import { PopupsComponent } from './components/popups/popups.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -105,7 +105,7 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     FlexLayoutModule,
     MatIconModule,
-    MatTableModule,
+    MatTableModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

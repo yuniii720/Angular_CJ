@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // Importa HttpClient y HttpHeaders
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { PopupsComponent } from '../popups/popups.component';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +11,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'; // Importa HttpC
 export class RegisterComponent {
   registroForm: FormGroup;
 
+  // Utiliza la anotación @ViewChild para obtener una referencia al componente PopupsComponent
+  @ViewChild(PopupsComponent) popupsComponent!: PopupsComponent;
+
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.registroForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -17,6 +21,7 @@ export class RegisterComponent {
     });
   }
 
+  // La función registerUser se llama cuando se envía el formulario
   registerUser() {
     if (this.registroForm.valid) {
       const formData = this.registroForm.value;
@@ -31,6 +36,8 @@ export class RegisterComponent {
       this.http.post(url, formData, httpOptions).subscribe({
         next: (response: any) => { 
           console.log('Correo electrónico enviado correctamente:', response);
+          // Mostrar el popup después de enviar el correo electrónico
+          this.popupsComponent.mostrarPopup(1);
         },
         error: (error: any) => { 
           console.error('Error al enviar correo electrónico:', error);
