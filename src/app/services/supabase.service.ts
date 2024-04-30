@@ -81,16 +81,19 @@ export class SupabaseService {
     });
   }
 
-  async deleteUsuario(id: number) {
-    const { error } = await this.supabase.from('Usuarios').delete().eq('id', id);
-    if (error) {
-      console.error('Error deleting user', error);
-      return false;
+  deleteUsuario(id: number): boolean {
+    const index = this.localUsuarios.findIndex(u => u.id === id);
+    if (index !== -1) {
+      // Marcar al usuario para eliminación en la base de datos más adelante
+      this.deletedUsuarios.push(this.localUsuarios[index]);
+      // Eliminar el usuario de la lista local
+      this.localUsuarios.splice(index, 1);
+      this.usuariosSubject.next([...this.localUsuarios]);
+      return true;
     }
-    this.localUsuarios = this.localUsuarios.filter(u => u.id !== id);
-    this.usuariosSubject.next([...this.localUsuarios]);
-    return true;
+    return false;
   }
+
 
   async syncUsuarios() {
     try {
@@ -119,6 +122,8 @@ export class SupabaseService {
       console.error('Error al sincronizar los cambios', error);
     }
   }
+
+
 
   //Métodos para Clientes
 
