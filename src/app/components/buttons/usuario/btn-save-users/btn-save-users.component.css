@@ -1,6 +1,9 @@
 .button-container {
-  margin-top: 27vw;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3vw;
   margin-left: 78vw;
+  gap: 10px;
   z-index: 1;
 }
 

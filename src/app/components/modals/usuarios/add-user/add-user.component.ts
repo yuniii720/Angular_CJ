@@ -25,21 +25,20 @@ export class AddUserComponent {
     });
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.userForm.valid) {
-      const usuarioData: Usuario = {
+      const newUserData: Usuario = {
         ...this.userForm.value,
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString()  // Asegúrate de que la fecha de creación se maneje aquí o en el servidor
       };
-
-      this.supabaseService.addUsuario(usuarioData)
-        .then(data => {
-          console.log('Usuario añadido', data);
-          this.dialogRef.close();
-        })
-        .catch(error => {
-          console.error('Error al añadir usuario', error);
-        });
+      try {
+        // Agrega el usuario y espera la respuesta del servidor
+        await this.supabaseService.addUsuario(newUserData);
+        console.log('Usuario añadido exitosamente');
+        this.dialogRef.close(); // Cierra el diálogo solo después de una adición exitosa
+      } catch (error) {
+        console.error('Error al añadir usuario', error);
+      }
     }
   }
 

@@ -47,6 +47,9 @@ import { DelCardComponent } from './components/modals/tarjetas/del-card/del-card
 import { BtnSaveUsersComponent } from './components/buttons/usuario/btn-save-users/btn-save-users.component';
 import { SaveUsersComponent } from './components/modals/usuarios/save-users/save-users.component';
 import { PopupsComponent } from './popups/popups.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -99,7 +102,10 @@ import { PopupsComponent } from './popups/popups.component';
     MatInputModule,
     FormsModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    FlexLayoutModule,
+    MatIconModule,
+    MatTableModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

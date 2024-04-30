@@ -16,6 +16,11 @@ export class SupabaseService {
   private supabase: SupabaseClient;
   private usuariosSubject = new BehaviorSubject<Usuario[]>([]);
   public usuarios$ = this.usuariosSubject.asObservable();
+  private localUsuarios: Usuario[] = [];
+  private addedUsuarios: Usuario[] = [];
+  private updatedUsuarios: Usuario[] = [];
+  private deletedUsuarios: Usuario[] = [];
+
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
@@ -39,9 +44,12 @@ export class SupabaseService {
   //Métodos para Usuarios
 
   async loadUsuarios() {
-  const { data, error } = await this.supabase.from('Usuarios').select('*').order('created_at', { ascending: true });
+    const { data, error } = await this.supabase.from('Usuarios').select('*').order('id', { ascending: true });
     if (error) console.error('Error loading users', error);
-    else this.usuariosSubject.next(data);
+    else {
+      this.usuariosSubject.next(data);
+      this.localUsuarios = [...data]; // Inicializa la copia local con los datos de la base de datos
+    }
   }
 
   async getAllUsuarios() {
@@ -53,28 +61,63 @@ export class SupabaseService {
     return data;
   }
 
-  async addUsuario(usuario: Usuario) {
-    const { data, error } = await this.supabase.from('Usuarios').insert([usuario]);
-    if (error) console.error('Error adding user', error);
-    else this.loadUsuarios();
+  addUsuario(usuario: Usuario) {
+    this.localUsuarios.push(usuario);
+    this.addedUsuarios.push(usuario); // Añade el usuario a addedUsuarios
+    this.usuariosSubject.next([...this.localUsuarios]);
   }
 
-  async updateUsuario(id: number, updatedFields: any) {
-    const { data, error } = await this.supabase
-      .from('Usuarios')
-      .update(updatedFields)
-      .match({ id });
-    if (error) console.error('Error updating user', error);
-    else this.loadUsuarios();
+  updateUsuario(id: number, updatedFields: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const index = this.localUsuarios.findIndex(u => u.id === id);
+      if (index !== -1) {
+        this.localUsuarios[index] = { ...this.localUsuarios[index], ...updatedFields };
+        this.updatedUsuarios.push(this.localUsuarios[index]); // Añade el usuario a updatedUsuarios
+        this.usuariosSubject.next([...this.localUsuarios]);
+        resolve();
+      } else {
+        reject('Usuario no encontrado');
+      }
+    });
   }
 
   async deleteUsuario(id: number) {
-    const { data, error } = await this.supabase
-      .from('Usuarios')
-      .delete()
-      .match({ id });
-    if (error) console.error('Error deleting user', error);
-    else this.loadUsuarios();
+    const { error } = await this.supabase.from('Usuarios').delete().eq('id', id);
+    if (error) {
+      console.error('Error deleting user', error);
+      return false;
+    }
+    this.localUsuarios = this.localUsuarios.filter(u => u.id !== id);
+    this.usuariosSubject.next([...this.localUsuarios]);
+    return true;
+  }
+
+  async syncUsuarios() {
+    try {
+      // Inserta los nuevos usuarios
+      for (const usuario of this.addedUsuarios) {
+        await this.supabase.from('Usuarios').insert([usuario]);
+      }
+      // Actualiza los usuarios modificados
+      for (const usuario of this.updatedUsuarios) {
+        await this.supabase.from('Usuarios').update(usuario).match({ id: usuario.id });
+      }
+      // Elimina los usuarios marcados para eliminación
+      for (const usuario of this.deletedUsuarios) {
+        const { error } = await this.supabase.from('Usuarios').delete().match({ id: usuario.id });
+        if (error) console.error('Error deleting user', error);
+      }
+
+      // Limpia las listas de seguimiento después de la sincronización
+      this.addedUsuarios = [];
+      this.updatedUsuarios = [];
+      this.deletedUsuarios = [];
+
+      // Recarga la lista de usuarios desde la base de datos para reflejar el estado actualizado
+      await this.loadUsuarios();
+    } catch (error) {
+      console.error('Error al sincronizar los cambios', error);
+    }
   }
 
   //Métodos para Clientes

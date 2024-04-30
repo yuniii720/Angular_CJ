@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../modals/confirm-dialog/confirm-dialog.component';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Usuario } from '../../../../models/usuario.model';
+import { log } from 'console';
 
 @Component({
   selector: 'app-btn-del-user',
@@ -15,7 +16,7 @@ export class BtnDelUserComponent {
   constructor(
     private dialog: MatDialog,
     private supabaseService: SupabaseService
-  ) {}
+  ) { }
 
   openConfirmDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -33,13 +34,11 @@ export class BtnDelUserComponent {
     });
   }
 
-  private deleteUsuario(): void {
-    this.supabaseService.deleteUsuario(this.usuario.id!)
-      .then(() => {
-        console.log('Usuario eliminado');
-      })
-      .catch(error => {
-        console.error('Error al eliminar usuario', error);
-      });
+  private async deleteUsuario(): Promise<void> {
+    const result = await this.supabaseService.deleteUsuario(this.usuario.id!);
+    if (result) {
+    } else {
+      console.log('Error al eliminar el usuario');
+    }
   }
 }
