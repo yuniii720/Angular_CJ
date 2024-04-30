@@ -12,11 +12,11 @@ import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablat
 import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LoginComponent,
-    outlet: 'auth'
-  },
+  // {
+  //   path: '',
+  //   component: LoginComponent,
+  //   outlet: 'auth'
+  // },
   {
     path: 'login',
     component: LoginComponent,
@@ -35,6 +35,12 @@ const routes: Routes = [
   },
   {
     path: 'main',
+    component: MainComponent,
+    outlet: 'auth',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: MainComponent,
     outlet: 'auth',
     pathMatch: 'full'

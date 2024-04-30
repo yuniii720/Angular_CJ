@@ -27,20 +27,16 @@ export class DelUserComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result === true) {
         this.deleteUsuario();
       }
     });
   }
 
   deleteUsuario(): void {
-    this.supabaseService.deleteUsuario(this.usuario.id!)
-      .then(() => {
-        console.log('Usuario eliminado');
-        // Aquí podrías emitir un evento o llamar a una función para actualizar la lista de usuarios en la tabla
-      })
-      .catch(error => {
-        console.error('Error al eliminar usuario', error);
-      });
+    if (this.usuario.id) {
+      this.supabaseService.deleteUsuario(this.usuario.id);
+      console.log('Usuario marcado para eliminación');
+    }
   }
 }

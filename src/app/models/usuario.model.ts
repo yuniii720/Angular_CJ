@@ -4,6 +4,6 @@ export interface Usuario {
   name: string;
   email: string;
   password: string;
-  type: string;
+  type?: string;
   created_at: string;
 }
