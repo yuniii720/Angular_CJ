@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Usuario } from '../../../../models/usuario.model';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-mod-user',
@@ -15,7 +16,8 @@ export class ModUserComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ModUserComponent>,
     private supabaseService: SupabaseService,
-    @Inject(MAT_DIALOG_DATA) public data: Usuario
+    @Inject(MAT_DIALOG_DATA) public data: Usuario,
+    private alertService: AlertService
   ) {
     // Se inicializa el FormGroup con valores vacíos o valores predeterminados
     this.userForm = new FormGroup({
@@ -44,13 +46,14 @@ export class ModUserComponent implements OnInit {
         ...this.userForm.value  // Los nuevos datos del formulario
       };
       this.supabaseService.updateUsuario(this.data.id!, updatedUserData).then(() => {
-        this.dialogRef.close();
+        this.alertService.success('Usuario actualizado exitosamente');  // Muestra un mensaje de éxito
+        this.dialogRef.close();  // Cierra el diálogo
       }).catch(error => {
         console.error('Error al actualizar el usuario', error);
+        this.alertService.error('Error al actualizar el usuario. Por favor, intente de nuevo.');  // Muestra un mensaje de error
       });
     }
   }
-
 
   closeDialog(): void {
     this.dialogRef.close();

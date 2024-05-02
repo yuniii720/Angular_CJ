@@ -50,7 +50,7 @@ import { PopupsComponent } from './components/popups/popups.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +91,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BtnSaveUsersComponent,
     SaveUsersComponent,
     PopupsComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,7 +108,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FlexLayoutModule,
     MatIconModule,
     MatTableModule,
-    MatSnackBarModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

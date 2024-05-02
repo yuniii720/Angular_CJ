@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Usuario } from '../../../../models/usuario.model';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-add-user',
@@ -16,7 +16,7 @@ export class AddUserComponent {
   constructor(
     public dialogRef: MatDialogRef<AddUserComponent>,
     private supabaseService: SupabaseService,
-    private snackBar: MatSnackBar
+    private alertService: AlertService
   ) {
     this.userForm = new FormGroup({
       username: new FormControl('', Validators.required),
@@ -29,18 +29,19 @@ export class AddUserComponent {
 
   async onSubmit(): Promise<void> {
     if (this.userForm.valid) {
-      const newUserData: Usuario = this.userForm.value;
+      const newUserData: Usuario = {
+        ...this.userForm.value,
+        created_at: new Date().toISOString()  // Asegúrate de que la fecha de creación se maneje aquí o en el servidor
+      };
       try {
         await this.supabaseService.addUsuario(newUserData);
-        this.snackBar.open('Usuario añadido exitosamente', 'Cerrar', {
-          duration: 3000  // Duración en milisegundos
-        });
-        this.dialogRef.close(); // Cierra el diálogo
+        // Muestra una alerta de éxito si el usuario se añadió correctamente
+        this.alertService.success('Usuario añadido exitosamente');
+        this.dialogRef.close(); // Cierra el diálogo solo después de una adición exitosa
       } catch (error) {
         console.error('Error al añadir usuario', error);
-        this.snackBar.open('Error al añadir usuario', 'Cerrar', {
-          duration: 3000
-        });
+        // Muestra una alerta de error si hubo un problema al añadir el usuario
+        this.alertService.error('Error al añadir usuario. Intente de nuevo.');
       }
     }
   }

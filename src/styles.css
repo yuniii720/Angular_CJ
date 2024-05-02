@@ -96,3 +96,20 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.swal2-popup {
+  background-color: #ffffff; /* Cambia el color de fondo */
+  color: #008a9b; /* Cambia el color del texto */
+}
+
+.swal2-confirm {
+  background-color: #008a9b !important; /* Cambia el color de fondo del botón de confirmar */
+}
+
+.swal2-confirm:active {
+  box-shadow: 0 0 5px rgba(0, 128, 0, 0.7); /* Verde más oscuro al presionar */
+}
+
+.swal2-cancel {
+  background-color: red; /* Cambia el color de fondo del botón de cancelar */
+}
