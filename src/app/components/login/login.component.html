@@ -13,6 +13,6 @@
       *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
       Password Must Be at Least 7 Characters
     </i>
-    <input type="submit" [disabled]="loginForm.invalid">
+    <input type="submit" [routerLink]="['', { outlets: { auth: ['main'] } }]">
   </form>
 </div>

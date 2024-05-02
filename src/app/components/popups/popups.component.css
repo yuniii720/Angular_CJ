@@ -76,13 +76,3 @@
     }
 
 }
-
-.info__title {
-    font-weight: 500;
-    font-size: 14px;
-    color: #ffffff;
-    flex-grow: 1;
-    align-items: center;
-    margin:0;
-    
-}
