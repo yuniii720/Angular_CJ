@@ -6,7 +6,7 @@ import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
   styleUrls: ['./popups.component.css']
 })
 export class PopupsComponent implements OnInit {
-  @Input() title: string = ''; 
+  @Input() title: string = '';
 
   constructor(private cdr: ChangeDetectorRef) { }
 
@@ -25,7 +25,6 @@ export class PopupsComponent implements OnInit {
       info1.classList.add('mostrar');
 
       this.cdr.detectChanges();
-
 
       setTimeout(() => {
         this.cerrarPopup();

@@ -7,16 +7,13 @@ import { Subject } from 'rxjs';
 export class EventService {
 
   private confirmEventSource = new Subject<void>();
-
   confirmEvent$ = this.confirmEventSource.asObservable();
-
 
   private confirmDialogSource = new Subject<any>();
   confirmDialog$ = this.confirmDialogSource.asObservable();
 
   constructor() { }
 
- 
   emitConfirmEvent() {
     this.confirmEventSource.next();
   }
