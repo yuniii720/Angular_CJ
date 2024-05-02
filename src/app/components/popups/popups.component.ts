@@ -6,12 +6,12 @@ import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
   styleUrls: ['./popups.component.css']
 })
 export class PopupsComponent implements OnInit {
-  @Input() title: string = ''; // Propiedad de entrada para el título
+  @Input() title: string = ''; 
 
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    // Aquí puedes hacer cualquier inicialización adicional si es necesario
+
   }
 
   mostrarPopup(): void {
@@ -24,10 +24,9 @@ export class PopupsComponent implements OnInit {
       capaT.classList.add('mostrar');
       info1.classList.add('mostrar');
 
-      // Asignar el título proporcionado
       this.cdr.detectChanges();
 
-      // Cerrar el popup después de 0.5 segundos
+
       setTimeout(() => {
         this.cerrarPopup();
       }, 2100);
