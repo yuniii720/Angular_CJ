@@ -23,7 +23,10 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
-      <input matInput type="text" formControlName="type" placeholder="Introduce tipo de usuario">
+      <mat-select formControlName="type" placeholder="Selecciona tipo de usuario">
+        <mat-option value="Usuario">Usuario</mat-option>
+        <mat-option value="Administrador">Administrador</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <div class="actions">
