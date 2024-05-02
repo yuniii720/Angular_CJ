@@ -34,8 +34,7 @@ export class RegisterComponent {
       this.http.post(url, formData, httpOptions).subscribe({
         next: (response: any) => { 
           console.log('Correo electrónico enviado correctamente:', response);
-          // Mostrar el popup después de enviar el correo electrónico
-          this.popupsComponent.mostrarPopup(1);
+          this.popupsComponent.mostrarPopup();
         },
         error: (error: any) => { 
           console.error('Error al enviar correo electrónico:', error);
