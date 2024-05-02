@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmDialogComponent } from './confirm-dialog.component';
-import { PopupsComponent } from '../../popups/popups.component';
 
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;

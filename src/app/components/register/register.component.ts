@@ -1,7 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PopupsComponent } from '../popups/popups.component';
+
 
 @Component({
   selector: 'app-register',
@@ -11,7 +11,6 @@ import { PopupsComponent } from '../popups/popups.component';
 export class RegisterComponent {
   registroForm: FormGroup;
 
-  @ViewChild(PopupsComponent) popupsComponent!: PopupsComponent;
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.registroForm = this.fb.group({
@@ -34,7 +33,6 @@ export class RegisterComponent {
       this.http.post(url, formData, httpOptions).subscribe({
         next: (response: any) => { 
           console.log('Correo electrónico enviado correctamente:', response);
-          this.popupsComponent.mostrarPopup();
         },
         error: (error: any) => { 
           console.error('Error al enviar correo electrónico:', error);

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SupabaseService } from '../../../services/supabase.service';
 import { Usuario } from '../../../models/usuario.model';
-import { EventService } from '../../../services/event.service';
+import { EventService } from '../../../services/event.service'; // Importa el EventService
 
 @Component({
   selector: 'app-tabla-usuarios',
@@ -12,6 +12,7 @@ import { EventService } from '../../../services/event.service';
 export class TablaUsuariosComponent implements OnInit, OnDestroy {
   usuarios: Usuario[] = [];
   private subs = new Subscription();
+  displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'created_at', 'gestionar'];
 
   constructor(
     private supabaseService: SupabaseService,
@@ -23,8 +24,8 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy {
       this.usuarios = usuarios;
     }));
 
-    this.subs.add(this.eventService.confirmDialog$.subscribe(() => {
-      this.mostrarPopup();
+    this.subs.add(this.eventService.confirmEvent$.subscribe(() => {
+      this.mostrarPopup(); 
     }));
   }
 
@@ -32,7 +33,5 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  mostrarPopup() {
-    alert('¡Confirmación recibida en la tabla de usuarios!');
-  }
+  mostrarPopup() {}
 }
