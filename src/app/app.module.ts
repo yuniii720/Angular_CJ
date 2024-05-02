@@ -50,6 +50,7 @@ import { PopupsComponent } from './components/popups/popups.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     FlexLayoutModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatSnackBarModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Usuario } from '../../../../models/usuario.model';
 
@@ -14,7 +15,8 @@ export class AddUserComponent {
 
   constructor(
     public dialogRef: MatDialogRef<AddUserComponent>,
-    private supabaseService: SupabaseService
+    private supabaseService: SupabaseService,
+    private snackBar: MatSnackBar
   ) {
     this.userForm = new FormGroup({
       username: new FormControl('', Validators.required),
@@ -27,17 +29,18 @@ export class AddUserComponent {
 
   async onSubmit(): Promise<void> {
     if (this.userForm.valid) {
-      const newUserData: Usuario = {
-        ...this.userForm.value,
-        created_at: new Date().toISOString()  // Asegúrate de que la fecha de creación se maneje aquí o en el servidor
-      };
+      const newUserData: Usuario = this.userForm.value;
       try {
-        // Agrega el usuario y espera la respuesta del servidor
         await this.supabaseService.addUsuario(newUserData);
-        console.log('Usuario añadido exitosamente');
-        this.dialogRef.close(); // Cierra el diálogo solo después de una adición exitosa
+        this.snackBar.open('Usuario añadido exitosamente', 'Cerrar', {
+          duration: 3000  // Duración en milisegundos
+        });
+        this.dialogRef.close(); // Cierra el diálogo
       } catch (error) {
         console.error('Error al añadir usuario', error);
+        this.snackBar.open('Error al añadir usuario', 'Cerrar', {
+          duration: 3000
+        });
       }
     }
   }
