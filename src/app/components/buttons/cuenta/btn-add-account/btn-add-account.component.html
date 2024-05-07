@@ -1,5 +1,5 @@
-<div class="button-container">
-  <button (click)="openDialog()" type="button" class="button-4" [routerLink]="['', { outlets: { auth: ['cuenta'] } }]">
-    Añadir Cuenta<img src="../../assets/img/añadir.svg" alt="Añadir Cuenta">
-  </button>
-</div>
+
+<button mat-raised-button color="primary" (click)="openDialog()" [routerLink]="['', { outlets: { auth: ['cuenta'] } }]">
+  Añadir
+  <mat-icon>add</mat-icon>
+</button>

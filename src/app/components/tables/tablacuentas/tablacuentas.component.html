@@ -9,7 +9,10 @@
     </div>
   </div>
 
-  <app-btn-add-account></app-btn-add-account>
+  <div class="button-container">
+  <app-btn-add-account>
+  </app-btn-add-account>
+</div>
 
   <table class="TablaCJ">
     <thead>
@@ -29,7 +32,10 @@
         <td>{{ cuenta.clientName }}</td>
         <td>{{ cuenta.balance }} €</td>
         <td>{{ cuenta.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
-        <td><app-btn-mod-account [cuenta]="cuenta"></app-btn-mod-account><app-btn-del-account [cuenta]="cuenta"></app-btn-del-account></td>
+        <td>
+        <app-btn-mod-account [cuenta]="cuenta"></app-btn-mod-account>
+        <app-btn-del-account [cuenta]="cuenta"></app-btn-del-account>
+      </td>
       </tr>
     </tbody>
   </table>

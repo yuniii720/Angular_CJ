@@ -9,7 +9,7 @@
     </div>
   </div>
 
-<div class="button-container" >
+<div class="button-container">
   <app-btn-add-client></app-btn-add-client>
 </div>
 
@@ -36,9 +36,11 @@
         <td>{{ cliente.birth_date | date: 'yyyy-MM-dd' }}</td>
         <td>{{ cliente.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
         <td><div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
-          <app-btn-mod-client [cliente]="cliente">
-          </app-btn-mod-client><app-btn-del-client [cliente]="cliente">
-          </app-btn-del-client></div></td>
+          <app-btn-mod-client [cliente]="cliente"></app-btn-mod-client>
+          <app-btn-del-client [cliente]="cliente"></app-btn-del-client></div>
+        </td>
       </tr>
     </tbody>
   </table>
+
+  <br><br><br><br>
