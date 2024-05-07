@@ -80,28 +80,6 @@ main h1 {
   left: 1%;
 }
 
-.boton {
-  background-color: #729ef7;
-  color: rgb(255, 255, 255);
-  padding: 10px 15px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: 700;
-  border: 1px solid #fefefea1;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-}
-
-.boton:hover {
-  background-color: #e5b766;
-}
-
-header button:hover {
-  background-color: #e5b766;
-}
-
 .feature-container:nth-child(even) {
   animation: fadeInRight 1s ease-out forwards;
 }
@@ -112,8 +90,8 @@ main {
 }
 
 main img {
-  width: 150px;
-  height: 150px;
+  width: 500px;
+  height: 500px;
 }
 
 main h2 {
@@ -130,19 +108,17 @@ main h2 {
 }
 
 .contenedor {
-  margin-top: 3%;
+  margin-top: 6%;
   max-width: 800px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  background-color: #e2e5d3;
   opacity: 0;
   justify-content: left;
   position: relative;
-  border: 3px solid #729ef7;
+  border: 5px solid #3c6e86;
 }
 
-/* Animaciones específicas aplicadas con animate-visible */
 .uno.animate-visible {
   margin-top: 8%;
   transform: translateX(50px);
@@ -175,7 +151,7 @@ main h2 {
 div h3 {
   position: absolute;
   margin-top: -40px;
-  background-color: #729ef7;
+  background-color: #3c6e86;
   padding: 8px;
   border-radius: 10px;
   color: white;
@@ -185,7 +161,7 @@ div h3 {
   position: absolute;
   margin-top: -170px;
   right: 5px;
-  background-color: #729ef7;
+  background-color: #3c6e86;
   padding: 8px;
   border-radius: 10px;
 }

@@ -13,8 +13,14 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 
 const routes: Routes = [
+
   {
     path: '',
+    component: LandingpageComponent,
+    outlet: 'auth'
+  },
+  {
+    path: 'landing',
     component: LandingpageComponent,
     outlet: 'auth'
   },
