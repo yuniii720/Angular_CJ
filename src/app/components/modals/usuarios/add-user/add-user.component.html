@@ -43,6 +43,9 @@
         <mat-option value="Usuario">Usuario</mat-option>
         <mat-option value="Administrador">Administrador</mat-option>
       </mat-select>
+      <mat-error *ngIf="userForm.get('type')?.errors?.['required']">
+        Debes seleccionar un tipo de usuario.
+      </mat-error>
     </mat-form-field>
 
     <div class="actions">
