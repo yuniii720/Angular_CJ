@@ -1,7 +1,7 @@
 <div class="recuadro_main">
   <div>
-    <div class="recuadro">Registro a la aplicación</div>
-    <div class="img"><img src="../../assets/img/logo_c.png" name="logo_c"></div>
+    <div class="recuadro">Registro a la aplicación</div><br>
+    <div class="img"><img src="../../assets/img/logo.png" name="logo_c"></div><br><br>
     <div class="formulario">
       <form class="formulario" *ngIf="registroForm" [formGroup]="registroForm" (ngSubmit)="registerUser()">
         <div id="recuadro" class="form-group">
@@ -19,7 +19,7 @@
             <div id="recuadro-username-1" *ngIf="registroForm.get('username')?.errors?.['required']"></div>
           </div>
         </div><br>
-        <input type="submit" id="ProblemasClavesDeAcceso" type="submit" class="btn btn-primary" [disabled]="registroForm.invalid" value="Registrarse">
+        <input type="submit" id="ProblemasClavesDeAcceso" type="submit" class="btn btn-primary" [disabled]="registroForm.invalid" value="Recibir mis credenciales">
       </form><br>
       <a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
     </div>

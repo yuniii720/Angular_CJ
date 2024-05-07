@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-// Cambia la importación para que coincida con el nombre exportado en el archivo del componente
 import { TablaUsuariosComponent } from './tablausuarios.component';
 
 describe('TablausuariosComponent', () => {
-  let component: TablaUsuariosComponent; // Aquí también debes cambiar el nombre de la variable
+  let component: TablaUsuariosComponent; 
   let fixture: ComponentFixture<TablaUsuariosComponent>;
 
   beforeEach(async () => {

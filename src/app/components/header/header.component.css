@@ -1,5 +1,5 @@
 img {
-  width: 150px;
+  width: 80px;
 }
 
 .icon {
@@ -27,7 +27,7 @@ img {
 
 .header a {
   float: left;
-  color: #005c67;
+  color: #3c6e86  ;
   text-align: center;
   padding: 0 12px 0;
   text-decoration: none;
@@ -36,13 +36,12 @@ img {
 }
 
 .header a.logo {
-  font-size: 25px;
   font-weight: bold;
   margin: -15px 25px -15px 0;
 }
 
 .header a:hover {
-  color: #34aab6;
+  color: #69bfe7  ;
 }
 
 nav {

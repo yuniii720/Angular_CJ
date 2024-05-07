@@ -1,9 +1,3 @@
-.recuadroverde1 {
-  background-color: #009fac;
-  width: 100vw;
-  height: 150px;
-}
-
 .button-container {
   display: flex;
   justify-content: flex-end;
@@ -50,16 +44,13 @@ p {
 }
 
 @media (max-width: 600px) {
-
   .mat-header-cell,
   .mat-cell {
     padding: 8px;
-    /* Menor padding para dispositivos pequeños */
   }
 
   .button-container {
     flex-direction: column;
-    /* Los botones se apilan verticalmente en pantallas pequeñas */
     align-items: stretch;
   }
 }

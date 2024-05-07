@@ -9,20 +9,20 @@ import { Cuenta } from '../../../../models/cuenta.model';
   styleUrls: ['./btn-mod-account.component.css']
 })
 export class BtnModAccountComponent {
-  @Input() cuenta!: Cuenta; // Añade el decorador Input aquí
+  @Input() cuenta!: Cuenta; 
 
   constructor(private dialog: MatDialog) {}
 
   openModAccountDialog(): void {
     const dialogRef = this.dialog.open(ModAccountComponent, {
       width: '600px',
-      data: this.cuenta // Pasa la cuenta como data al modal
+      data: this.cuenta 
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('La cuenta fue actualizada');
-        // Opcionalmente, recargar la lista de clientes
+
       }
     });
   }

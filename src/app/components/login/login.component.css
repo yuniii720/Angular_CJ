@@ -12,7 +12,7 @@
   height: 33px;
   margin: 0 auto;
   border-bottom: 1.1px solid lightgray;
-  background-color: #64b7c0;
+  background-color: #3c6e86;
   display: grid;
   place-items: center;
   justify-content: center;
@@ -25,54 +25,54 @@
   place-items: center;
   justify-content: center;
   margin-top: 5.5%;
+  margin-bottom: 2.2%;
 }
 
 .formulario {
   display: grid;
   place-items: center;
   justify-content: center;
-  color: #009fac;
+  color: #3c6e86;
   font-size: 13.2px;
 }
 
 input[type=text],
-[type=password] {
-  border: 1.1px solid #009fac;
+[type=password],
+[type=email] {
+  border: 1.1px solid #3c6e86;
   height: 25.3px;
   width: 220px;
   padding: 2.2px 0 2.2px 8.8px;
 }
 
+form {
+  display: block;
+  margin-top: 0em;
+  unicode-bidi: isolate;
+}
+
 input[type=submit] {
   height: 28.6px;
   width: 231px;
-  background-color: #009fac;
+  background-color: #3c6e86;
   color: white;
-  border: 1.1px solid #009fac;
+  border: 1.1px solid #3c6e86;
   cursor: pointer;
+  margin-top: 11px;
 }
 
 input[type=submit]:hover {
   height: 28.6px;
   width: 231px;
   background-color: white;
-  color: #009fac;
-  border: 1.1px solid #81c2ca;
+  color: #3c6e86;
+  border: 1.1px solid #a0ced4;
   cursor: pointer;
 }
 
 input::placeholder {
-  color: #a0ced4;
+  color: #64b7c0;
   font-size: 13.2px;
-}
-
-p {
-  font-size: 13.2px;
-}
-
-p:hover {
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 a {
@@ -86,4 +86,9 @@ a:hover {
 
 a:link {
   color: #008a9b;
+}
+
+#Registro {
+  cursor: pointer;
+  text-decoration: underline;
 }

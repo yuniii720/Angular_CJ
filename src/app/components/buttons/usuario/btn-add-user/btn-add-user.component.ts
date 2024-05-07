@@ -13,7 +13,7 @@ export class BtnAddUserComponent {
   openDialog(): void {
     const dialogRef = this.dialog.open(AddUserComponent, {
       width: '600px',
-      data: { /* datos que vamos a pasar al modal */ },
+      data: { },
     });
 
     dialogRef.afterClosed().subscribe(result => {

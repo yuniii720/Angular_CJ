@@ -31,16 +31,14 @@ export class AddUserComponent {
     if (this.userForm.valid) {
       const newUserData: Usuario = {
         ...this.userForm.value,
-        created_at: new Date().toISOString()  // Asegúrate de que la fecha de creación se maneje aquí o en el servidor
+        created_at: new Date().toISOString()
       };
       try {
         await this.supabaseService.addUsuario(newUserData);
-        // Muestra una alerta de éxito si el usuario se añadió correctamente
         this.alertService.success('Usuario añadido exitosamente');
-        this.dialogRef.close(); // Cierra el diálogo solo después de una adición exitosa
+        this.dialogRef.close(); 
       } catch (error) {
         console.error('Error al añadir usuario', error);
-        // Muestra una alerta de error si hubo un problema al añadir el usuario
         this.alertService.error('Error al añadir usuario. Intente de nuevo.');
       }
     }
