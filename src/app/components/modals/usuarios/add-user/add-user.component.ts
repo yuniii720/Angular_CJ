@@ -21,10 +21,11 @@ export class AddUserComponent {
     this.userForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-      name: new FormControl(''),
+      name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      type: new FormControl(''),
+      type: new FormControl('', Validators.required),
     });
+
   }
 
   async onSubmit(): Promise<void> {
@@ -36,7 +37,7 @@ export class AddUserComponent {
       try {
         await this.supabaseService.addUsuario(newUserData);
         this.alertService.success('Usuario añadido exitosamente');
-        this.dialogRef.close(); 
+        this.dialogRef.close();
       } catch (error) {
         console.error('Error al añadir usuario', error);
         this.alertService.error('Error al añadir usuario. Intente de nuevo.');
