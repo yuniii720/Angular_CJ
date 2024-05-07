@@ -10,13 +10,14 @@ import { TablaClientesComponent } from './components/tables/tablaclientes/tablac
 import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
 import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
+import { LandingpageComponent } from './components/landingpage/landingpage.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   component: LoginComponent,
-  //   outlet: 'auth'
-  // },
+  {
+    path: '',
+    component: LandingpageComponent,
+    outlet: 'auth'
+  },
   {
     path: 'login',
     component: LoginComponent,

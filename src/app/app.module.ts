@@ -52,6 +52,8 @@ import { MatTableModule } from '@angular/material/table';
 import { AlertComponent } from './components/alert/alert.component';
 import { BtnSaveClientComponent } from './components/buttons/cliente/btn-save-client/btn-save-client.component';
 import { TarjetavisualComponent } from './components/tarjetavisual/tarjetavisual.component';
+import { LandingpageComponent } from './components/landingpage/landingpage.component';
+import { HeaderlandingComponent } from './components/headerlanding/headerlanding.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,8 @@ import { TarjetavisualComponent } from './components/tarjetavisual/tarjetavisual
     AlertComponent,
     BtnSaveClientComponent,
     TarjetavisualComponent,
+    LandingpageComponent,
+    HeaderlandingComponent,
   ],
   imports: [
     BrowserModule,

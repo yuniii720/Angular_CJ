@@ -1,0 +1,15 @@
+<div class="header">
+    <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo"><div class="img"><img src="../../assets/img/logo.png" name="vn_logo"></div></a>
+    <nav class="menu">
+
+      <a class="active" [routerLink]="['', { outlets: { auth: ['Cuentas'] } }]">Mis cuentas</a>
+      <a class="active" [routerLink]="['', { outlets: { auth: ['Tarjetas'] } }]">Mis tarjetas</a>
+      <a class="active" [routerLink]="['', { outlets: { auth: ['Transferencias'] } }]">Transferencias</a>
+    </nav>
+    <div class="header-right">
+      <a class="active" [routerLink]="['', { outlets: { auth: ['register'] } }]">Registrate</a>
+      <a class="active" [routerLink]="['', { outlets: { auth: ['login'] } }]">Iniciar sesión</a>
+    </div>
+  </div>
+  
+  
