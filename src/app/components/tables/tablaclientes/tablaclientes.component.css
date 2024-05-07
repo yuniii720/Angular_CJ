@@ -1,6 +1,12 @@
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-right: 8vw;
+  margin-top: 6vh;
+}
 
-
-.foto1 {
+.icon-users {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -14,9 +20,8 @@
   position: absolute;
   bottom: 10%;
   left: 6%;
-  top: 9.5%;
+  top: 9%;
   display: flex;
-
 }
 
 .div2 {
@@ -27,7 +32,6 @@
   width: 300px;
   font-size: 20px;
   color: white;
-
 }
 
 img {
@@ -35,21 +39,18 @@ img {
   height: 40px;
 }
 
-
-.div1 {
-  position: absolute;
-  bottom: 10%;
-  left: 6%;
-  top: 9.5%;
-  display: flex;
+p {
+  margin-top: 20px;
 }
 
-.div2 {
-  position: absolute;
-  left: 9.5%;
-  top: 8.4%;
-  display: block;
-  width: 300px;
-  font-size: 20px;
-  color: white;
+@media (max-width: 600px) {
+  .mat-header-cell,
+  .mat-cell {
+    padding: 8px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
