@@ -30,7 +30,9 @@
     "querystring": "^0.2.1",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.10.8",
+    "three": "^0.164.1",
     "tslib": "^2.3.0",
+    "vanta": "^0.5.24",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
