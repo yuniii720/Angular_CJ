@@ -19,10 +19,10 @@ export class LandingpageComponent implements OnInit {
       });
     }, {
       rootMargin: "0px",
-      threshold: 0.5 // Ajusta este valor según necesites que la animación se dispare antes o después
+      threshold: 0.5
     });
 
-    // Selecciona todos los elementos que necesitas observar
+
     document.querySelectorAll('.contenedor').forEach(block => {
       observer.observe(block);
     });
