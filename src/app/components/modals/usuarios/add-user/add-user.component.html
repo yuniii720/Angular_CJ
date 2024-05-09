@@ -28,6 +28,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" placeholder="Introduce email">
+      <mat-hint>Introduce un email válido (ej: usuario&#64;vn.com)</mat-hint>
       <mat-error *ngIf="userForm.get('email')?.errors?.['required']">
         El email es requerido.
       </mat-error>
@@ -42,6 +43,9 @@
         <mat-option value="Usuario">Usuario</mat-option>
         <mat-option value="Administrador">Administrador</mat-option>
       </mat-select>
+      <mat-error *ngIf="userForm.get('type')?.errors?.['required']">
+        Debes seleccionar un tipo de usuario.
+      </mat-error>
     </mat-form-field>
 
     <div class="actions">
