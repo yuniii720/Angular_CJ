@@ -7,25 +7,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingpageComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("animate-visible");
-          observer.unobserve(entry.target);
-        }
+    if (typeof IntersectionObserver === 'undefined') {
+      console.warn('IntersectionObserver is not supported in this environment.');
+      return;
+    }
+
+    if (typeof document === 'undefined') {
+      console.warn('document is not supported in this environment.');
+      return;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      let observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        rootMargin: "0px",
+        threshold: 0.5 // Ajusta este valor según necesites que la animación se dispare antes o después
       });
-    }, {
-      rootMargin: "0px",
-      threshold: 0.5
-    });
 
-
-    document.querySelectorAll('.contenedor').forEach(block => {
-      observer.observe(block);
+      // Selecciona todos los elementos que necesitas observar
+      document.querySelectorAll('.contenedor').forEach(block => {
+        observer.observe(block);
+      });
     });
   }
 }
-
