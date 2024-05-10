@@ -1,0 +1,144 @@
+
+.option {
+    padding-bottom: 6%;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.option:hover {
+    color: blue;
+}
+
+.option:hover:not(:focus) {
+    color: #459fff;
+}
+
+.chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+
+.chatbot-toggle-btn {
+    background-image: url('../../../assets/img/ia.png');
+    background-size: cover;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.chatbot-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+
+.chatbot-box {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+}
+
+.chatbot-box.show {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+.chatbot-header {
+    background-color: #007bff; 
+    color: #fff;
+    padding: 14px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px
+}
+
+
+
+.chatbot-close-btn {
+    cursor: pointer;
+    margin-left: 94%;
+    font-size: 22px;
+    margin-bottom: 3px;
+}
+
+.chatbot-close-btn:hover {
+    color: black;
+    transition: ease-in-out 0.3s;
+
+}
+
+
+.chatbot-content {
+    padding: 20px;
+    background-color: #fff; 
+    animation: slideInFromToggle 0.5s ease forwards;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+@keyframes slideInFromToggle {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chatbot-content p {
+    font-size: 16px; 
+    color: #333; 
+    line-height: 1.6;
+    margin-bottom: 15px; 
+}
+
+.chatbot-content p:first-child {
+    margin-top: 0; 
+}
+
+.chatbot-content p:last-child {
+    margin-bottom: 0; 
+}
+
+.chatbot-content p::first-letter {
+    font-size: 24px;
+    color: #007bff;
+    float: left;
+    margin-right: 0px; 
+    line-height: 0.8;
+}
+
+.question {
+    padding-bottom: 3%;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.question:hover {
+    color: blue;
+}
+
+.question:hover:not(:focus) {
+    color: #459fff;
+}
+
+.back {
+    width: 17px;
+    height: 17px;
+}
