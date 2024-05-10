@@ -1675,7 +1675,7 @@ html {
 }
 
 .mat-mdc-raised-button.mat-primary {
-  --mdc-protected-button-container-color: #3c6e86  ;
+  --mdc-protected-button-container-color: #3c6e86;
   --mdc-protected-button-label-text-color: white;
   --mat-protected-button-state-layer-color: white;
   --mat-protected-button-ripple-color: rgba(255, 255, 255, 0.1)
@@ -1791,7 +1791,8 @@ html {
   --mdc-icon-button-state-layer-size: 48px;
   width: var(--mdc-icon-button-state-layer-size);
   height: var(--mdc-icon-button-state-layer-size);
-  padding: 12px
+  padding: 12px;
+  color: #008a9b;
 }
 
 html {
@@ -1917,16 +1918,20 @@ html {
 }
 
 html {
-  --mat-table-background-color: white;
+  --mat-table-background-color: #e8f3f4;
   --mat-table-header-headline-color: rgba(0, 0, 0, 0.87);
   --mat-table-row-item-label-text-color: rgba(0, 0, 0, 0.87);
-  --mat-table-row-item-outline-color: rgba(0, 0, 0, 0.12)
+  --mat-table-row-item-outline-color: rgba(0, 0, 0, 0.12);
+
+  .mat-mdc-row:hover {
+    background-color: #b9dbdf;
+  }
 }
 
 html {
   --mat-table-header-container-height: 56px;
   --mat-table-footer-container-height: 52px;
-  --mat-table-row-item-container-height: 52px
+  --mat-table-row-item-container-height: 52px;
 }
 
 html {
