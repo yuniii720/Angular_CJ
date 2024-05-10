@@ -53,6 +53,7 @@ import { BtnSaveClientComponent } from './components/buttons/cliente/btn-save-cl
 import { TarjetavisualComponent } from './components/tarjetavisual/tarjetavisual.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { HeaderlandingComponent } from './components/headerlanding/headerlanding.component';
+import { AsistenteComponent } from './components/asistente/asistente.component'; // Importa AsistenteComponent aquí
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { HeaderlandingComponent } from './components/headerlanding/headerlanding
     TarjetavisualComponent,
     LandingpageComponent,
     HeaderlandingComponent,
+    AsistenteComponent
   ],
   imports: [
     BrowserModule,
