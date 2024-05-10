@@ -92,3 +92,15 @@ a:link {
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* Estilo del checkbox estándar */
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer; 
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 8px;
+}
+

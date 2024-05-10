@@ -19,10 +19,11 @@
             <div id="recuadro-username-1"></div>
           </div>
         </div><br>
+        <label class="checkbox-container"><input type="checkbox" name="checkbox" value="value"><span class="checkmark"></span>Recuérdame</label>
         <input type="submit" id="ProblemasClavesDeAcceso" type="submit" class="btn btn-primary" value="Iniciar sesión" [routerLink]="['', { outlets: { auth: ['main'] } }]">
       </form><br>
+      
       <a id="Registro" [routerLink]="['', { outlets: { auth: ['register'] } }]">¿No tienes cuenta? Registrate aquí</a>
     </div>
   </div>
 </div>
-

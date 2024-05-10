@@ -103,7 +103,13 @@
               "src/mytheme.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/uikit/dist/js/uikit.min.js",
+              "./node_modules/uikit/dist/js/uikit-icons.min.js",
+              "./node_modules/three/build/three.min.js",
+              "./src/app/Modules/landing/features/vanta.net.min.js"
+           ] 
+            
           }
         }
       }
