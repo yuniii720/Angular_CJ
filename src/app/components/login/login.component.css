@@ -7,6 +7,17 @@
   background-color: white;
 }
 
+.form-group {
+  width: 150px;
+  width: 700px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+
 .recuadro {
   width: 462px;
   height: 33px;
@@ -51,9 +62,9 @@ form {
   unicode-bidi: isolate;
 }
 
-input[type=submit] {
+input[type=submit], .btn-primary {
   height: 28.6px;
-  width: 231px;
+  width: 150px;
   background-color: #3c6e86;
   color: white;
   border: 1.1px solid #3c6e86;
@@ -65,7 +76,7 @@ input[type=submit]:hover {
   height: 28.6px;
   width: 231px;
   background-color: white;
-  color: #3c6e86;
+  color: #ffffff;
   border: 1.1px solid #a0ced4;
   cursor: pointer;
 }
