@@ -36,7 +36,7 @@ export class AddUserComponent {
       };
       try {
         await this.supabaseService.addUsuario(newUserData);
-        this.alertService.success('Usuario añadido exitosamente');
+        this.alertService.success('Usuario añadido');
         this.dialogRef.close();
       } catch (error) {
         console.error('Error al añadir usuario', error);

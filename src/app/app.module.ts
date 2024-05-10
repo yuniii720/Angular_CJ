@@ -49,7 +49,6 @@ import { SaveUsersComponent } from './components/modals/usuarios/save-users/save
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { AlertComponent } from './components/alert/alert.component';
 import { BtnSaveClientComponent } from './components/buttons/cliente/btn-save-client/btn-save-client.component';
 import { TarjetavisualComponent } from './components/tarjetavisual/tarjetavisual.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
@@ -94,7 +93,6 @@ import { AsistenteComponent } from './components/asistente/asistente.component';
     DelCardComponent,
     BtnSaveUsersComponent,
     SaveUsersComponent,
-    AlertComponent,
     BtnSaveClientComponent,
     TarjetavisualComponent,
     LandingpageComponent,

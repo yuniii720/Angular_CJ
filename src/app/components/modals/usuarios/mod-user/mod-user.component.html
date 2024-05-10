@@ -1,39 +1,57 @@
 <h2 mat-dialog-title>Modificar Usuario</h2>
 <mat-dialog-content class="mat-typography">
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+  <form [formGroup]="userForm" class="user-form">
+    <!-- Campos del formulario -->
     <mat-form-field appearance="fill">
       <mat-label>Usuario</mat-label>
-      <input matInput type="text" formControlName="username" placeholder="Introduce nombre de usuario">
+      <input matInput type="text" formControlName="username" placeholder="Introduce nombre de usuario" required>
+      <mat-error *ngIf="userForm.get('username')?.errors?.['required']">
+        El campo nombre de usuario es obligatorio.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Contraseña</mat-label>
       <input matInput type="password" formControlName="password" placeholder="Nueva contraseña">
+      <mat-error *ngIf="userForm.get('password')?.errors?.['required']">
+        El campo contraseña es obligatoria.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Nombre</mat-label>
-      <input matInput type="text" formControlName="name" placeholder="Introduce nombre completo">
+      <input matInput type="text" formControlName="name" placeholder="Introduce nombre completo" required>
+      <mat-error *ngIf="userForm.get('name')?.errors?.['required']">
+        El campo nombre completo es obligatorio.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email" placeholder="Introduce email">
+      <input matInput type="email" formControlName="email" placeholder="Introduce email" required>
+      <mat-hint>Introduce un email válido (ej: usuario&#64;vnbank.com)</mat-hint>
+      <mat-error *ngIf="userForm.get('email')?.errors?.['required']">
+        El email es requerido.
+      </mat-error>
+      <mat-error *ngIf="userForm.get('email')?.errors?.['email']">
+        Introduce un email válido.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
-      <mat-select formControlName="type" placeholder="Selecciona tipo de usuario">
+      <mat-select formControlName="type" placeholder="Selecciona tipo de usuario" required>
         <mat-option value="Usuario">Usuario</mat-option>
         <mat-option value="Administrador">Administrador</mat-option>
       </mat-select>
+      <mat-error *ngIf="userForm.get('type')?.errors?.['required']">
+        Debes seleccionar un tipo de usuario.
+      </mat-error>
     </mat-form-field>
-
-    <div class="actions">
-      <button mat-raised-button color="primary" type="submit">Actualizar</button>
-    </div>
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!userForm.valid" (click)="onSubmit()">Actualizar</button>
   <button mat-button (click)="closeDialog()">Cerrar</button>
 </mat-dialog-actions>

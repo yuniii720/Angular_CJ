@@ -8,6 +8,7 @@ import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
 import { Tarjeta } from '../models/tarjeta.model';
+import { AlertService } from '../services/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class SupabaseService {
   public tarjeta$ = this.tarjetasSubject.asObservable();
   balance: any;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private alertService: AlertService) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.loadUsuarios();
     this.loadClientes();
@@ -81,48 +82,52 @@ export class SupabaseService {
     });
   }
 
-  deleteUsuario(id: number): boolean {
-    const index = this.localUsuarios.findIndex(u => u.id === id);
-    if (index !== -1) {
-      // Marcar al usuario para eliminación en la base de datos más adelante
-      this.deletedUsuarios.push(this.localUsuarios[index]);
-      // Eliminar el usuario de la lista local
-      this.localUsuarios.splice(index, 1);
-      this.usuariosSubject.next([...this.localUsuarios]);
-      return true;
-    }
-    return false;
+  async deleteUsuario(id: number): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const index = this.localUsuarios.findIndex(u => u.id === id);
+      if (index !== -1) {
+        // Agregar el usuario a la lista de usuarios eliminados
+        this.deletedUsuarios.push(this.localUsuarios[index]);
+        // Eliminar el usuario de la lista local
+        this.localUsuarios.splice(index, 1);
+        this.usuariosSubject.next([...this.localUsuarios]);
+        this.alertService.success('Usuario eliminado con éxito.');
+        resolve(true);
+      } else {
+        this.alertService.error('Usuario no encontrado.');
+        reject('Usuario no encontrado');
+      }
+    });
   }
-
 
   async syncUsuarios() {
     try {
-      // Inserta los nuevos usuarios
+      // Sincronizar los usuarios nuevos y actualizados
       for (const usuario of this.addedUsuarios) {
         await this.supabase.from('Usuarios').insert([usuario]);
       }
-      // Actualiza los usuarios modificados
       for (const usuario of this.updatedUsuarios) {
         await this.supabase.from('Usuarios').update(usuario).match({ id: usuario.id });
       }
-      // Elimina los usuarios marcados para eliminación
+      // Sincronizar los usuarios eliminados
       for (const usuario of this.deletedUsuarios) {
         const { error } = await this.supabase.from('Usuarios').delete().match({ id: usuario.id });
-        if (error) console.error('Error deleting user', error);
+        if (error) {
+          console.error('Error deleting user', error);
+        }
       }
 
-      // Limpia las listas de seguimiento después de la sincronización
+      // Limpiar las listas de seguimiento después de la sincronización
       this.addedUsuarios = [];
       this.updatedUsuarios = [];
       this.deletedUsuarios = [];
 
-      // Recarga la lista de usuarios desde la base de datos para reflejar el estado actualizado
+      // Recargar la lista de usuarios desde la base de datos
       await this.loadUsuarios();
     } catch (error) {
       console.error('Error al sincronizar los cambios', error);
     }
   }
-
 
 
   //Métodos para Clientes
