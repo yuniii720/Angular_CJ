@@ -14,34 +14,56 @@
     <app-btn-save-users></app-btn-save-users>
   </div>
 
-  <table class="TablaCJ">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Usuario</th>
-        <th>Nombre</th>
-        <th>Correo electrónico</th>
-        <th>Tipo</th>
-        <th>Fecha de alta</th>
-        <th>Gestionar</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let usuario of usuarios">
-        <td>{{ usuario.id }}</td>
-        <td>{{ usuario.username }}</td>
-        <td>{{ usuario.name }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.type }}</td>
-        <td>{{ usuario.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
-        <td>
-          <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
-            <app-btn-mod-user [usuario]="usuario"></app-btn-mod-user>
-            <app-btn-del-user [usuario]="usuario"></app-btn-del-user>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <mat-table [dataSource]="usuarios" class="mat-elevation-z8">
 
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+      <mat-cell *matCellDef="let usuario"> {{usuario.id}} </mat-cell>
+    </ng-container>
 
+    <!-- Usuario Column -->
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
+      <mat-cell *matCellDef="let usuario"> {{usuario.username}} </mat-cell>
+    </ng-container>
+
+    <!-- Nombre Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let usuario"> {{usuario.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Correo electrónico Column -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Correo electrónico </mat-header-cell>
+      <mat-cell *matCellDef="let usuario"> {{usuario.email}} </mat-cell>
+    </ng-container>
+
+    <!-- Tipo Column -->
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+      <mat-cell *matCellDef="let usuario"> {{usuario.type}} </mat-cell>
+    </ng-container>
+
+    <!-- Fecha de alta Column -->
+    <ng-container matColumnDef="created_at">
+      <mat-header-cell *matHeaderCellDef> Fecha de alta </mat-header-cell>
+      <mat-cell *matCellDef="let usuario"> {{usuario.created_at | date: 'yyyy-MM-dd HH:mm'}} </mat-cell>
+    </ng-container>
+
+    <!-- Gestionar Column -->
+    <ng-container matColumnDef="gestionar">
+      <mat-header-cell *matHeaderCellDef> Gestionar </mat-header-cell>
+      <mat-cell *matCellDef="let usuario">
+        <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
+          <app-btn-mod-user [usuario]="usuario"></app-btn-mod-user>
+          <app-btn-del-user [usuario]="usuario"></app-btn-del-user>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
