@@ -1,31 +1,29 @@
 <div class="recuadro_main">
   <div>
-    <div class="recuadro mat-elevation-z2">Acceso a la aplicación</div><br>
+    <div class="recuadro">Acceso a la aplicación</div><br>
     <div class="img"><img src="../../assets/img/logo.png" name="logo_c"></div><br><br>
     <div class="formulario">
       <form class="formulario">
         <div id="recuadro" class="form-group">
-          <mat-form-field appearance="fill">
-            <mat-label for="email">Correo Electrónico</mat-label>
-            <input matInput type="email" class="example-full-width" id="email" formControlName="email" placeholder="Ingrese su correo electrónico">
-            <mat-error id="recuadro-main" class="text-danger">
-              <div id="recuadro-1"></div>
-              <div id="recuadro-2"></div>
-            </mat-error>
-          </mat-form-field>
+          <label for="email">Correo Electrónico</label><br><br>
+          <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese su correo electrónico">
+          <div id="recuadro-main" class="text-danger">
+            <div id="recuadro-1"></div>
+            <div id="recuadro-2"></div>
+          </div>
         </div><br>
         <div id="recuadro-username" class="form-group">
-          <mat-form-field appearance="fill">
-            <mat-label for="username">Contraseña</mat-label>
-            <input matInput type="password" class="example-full-width" id="username" formControlName="username" placeholder="Ingrese su contraseña">
-            <mat-error id="recuadro-username-main" class="text-danger">
-              <div id="recuadro-username-1"></div>
-            </mat-error>
-          </mat-form-field>
+          <label for="username">Contraseña</label><br><br>
+          <input type="text" class="form-control" id="username" formControlName="username" placeholder="Ingrese su contraseña">
+          <div id="recuadro-username-main" class="text-danger">
+            <div id="recuadro-username-1"></div>
+          </div>
         </div><br>
-        <button mat-button type="submit" id="ProblemasClavesDeAcceso" class="btn btn-primary" [routerLink]="['', { outlets: { auth: ['main'] } }]">Iniciar sesión</button>
+        <label class="checkbox-container"><input type="checkbox" name="checkbox" value="value"><span class="checkmark"></span>Recuérdame</label>
+        <input type="submit" id="ProblemasClavesDeAcceso" type="submit" class="btn btn-primary" value="Iniciar sesión" [routerLink]="['', { outlets: { auth: ['main'] } }]">
       </form><br>
-      <a id="Registro" [routerLink]="['', { outlets: { auth: ['register'] } }]">¿No tienes cuenta? Regístrate aquí</a>
+      
+      <a id="Registro" [routerLink]="['', { outlets: { auth: ['register'] } }]">¿No tienes cuenta? Registrate aquí</a>
     </div>
   </div>
 </div>

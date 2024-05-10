@@ -7,17 +7,6 @@
   background-color: white;
 }
 
-.form-group {
-  width: 150px;
-  width: 700px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
-}
-
-
 .recuadro {
   width: 462px;
   height: 33px;
@@ -62,9 +51,9 @@ form {
   unicode-bidi: isolate;
 }
 
-input[type=submit], .btn-primary {
+input[type=submit] {
   height: 28.6px;
-  width: 150px;
+  width: 231px;
   background-color: #3c6e86;
   color: white;
   border: 1.1px solid #3c6e86;
@@ -76,7 +65,7 @@ input[type=submit]:hover {
   height: 28.6px;
   width: 231px;
   background-color: white;
-  color: #ffffff;
+  color: #3c6e86;
   border: 1.1px solid #a0ced4;
   cursor: pointer;
 }
@@ -103,3 +92,15 @@ a:link {
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* Estilo del checkbox estándar */
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer; 
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 8px;
+}
+
