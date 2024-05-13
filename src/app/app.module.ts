@@ -53,11 +53,7 @@ import { BtnSaveClientComponent } from './components/buttons/cliente/btn-save-cl
 import { TarjetavisualComponent } from './components/tarjetavisual/tarjetavisual.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { HeaderlandingComponent } from './components/headerlanding/headerlanding.component';
-import { AsistenteComponent } from './components/asistente/asistente.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
-import { CustomMatPaginatorIntl } from './components/tables/custom-paginator';
-import { MatSortModule } from '@angular/material/sort';
+import { AsistenteComponent } from './components/asistente/asistente.component'; // Importa AsistenteComponent aquí
 
 @NgModule({
   declarations: [
@@ -101,7 +97,10 @@ import { MatSortModule } from '@angular/material/sort';
     TarjetavisualComponent,
     LandingpageComponent,
     HeaderlandingComponent,
-    AsistenteComponent
+    AsistenteComponent,
+    BtnAddTarjetaComponent,
+    BtnModTarjetaComponent,
+    BtnDelTarjetaComponent
   ],
   imports: [
     BrowserModule,
