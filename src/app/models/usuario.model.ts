@@ -1,9 +1,9 @@
 export interface Usuario {
-  id?: number;
+  id: number;
   username: string;
   name: string;
   email: string;
-  password: string;
-  type?: string;
-  created_at: string;
+  type: string;
+  created_at: Date;
+  [key: string]: any;
 }

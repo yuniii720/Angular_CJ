@@ -19,6 +19,24 @@
   margin-top: 6vh;
 }
 
+.full-width-container {
+  margin-top: 2vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.search-container,
+.button-container {
+  flex: 1 0 auto;
+  /* Cada contenedor intentará ocupar espacio equitativamente pero sin encogerse */
+}
+
+.search-container mat-form-field {
+  margin-right: 20px;
+  margin-bottom: -4vh;
+}
+
 .mat-ripple-element {
   position: absolute;
   border-radius: 50%;

@@ -1,9 +1,45 @@
+.full-width-container {
+  margin-top: 2vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.search-container,
+.button-container {
+  flex: 1 0 auto;
+  /* Cada contenedor intentará ocupar espacio equitativamente pero sin encogerse */
+}
+
+.search-container mat-form-field {
+  margin-right: 20px;
+  margin-bottom: -4vh;
+}
+
+.div1,
+.div2 {
+  position: static;
+  /* Si están interfiriendo con la alineación, considera ajustar estas propiedades. */
+}
+
+/* Asegúrate de que el contenedor principal ocupe todo el ancho */
+.recuadroverde2 {
+  width: 100%;
+  /* Establece el ancho al 100% para ocupar todo el espacio horizontal. */
+}
+
+.table {
+  width: 100%;
+  margin-left: 0;
+}
+
 .button-container {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-right: 8vw;
+  margin-right: 0.15vw;
   margin-top: 6vh;
+  margin-bottom: 2vh;
 }
 
 .icon-users {
@@ -60,11 +96,12 @@ p {
 
 /* Estilo para el hover en las filas */
 .table tr:hover {
-  background-color: #b0bec5; /* Cambia este color según tus preferencias */
-  cursor: pointer; /* Opcional: cambia el cursor para indicar interactividad */
+  background-color: #b0bec5;
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {
+
   .mat-header-cell,
   .mat-cell {
     padding: 8px;
@@ -73,5 +110,11 @@ p {
   .button-container {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .search-container,
+  .button-container {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }
