@@ -20,7 +20,7 @@ export class AddCardComponent implements OnInit {
     private alertService: AlertService
   ) {
     this.creditCardForm = new FormGroup({
-      cardnumber: new FormControl('', Validators.required),
+      cardNumber: new FormControl('', Validators.required),
       cardHolderName: new FormControl('', Validators.required),
       expirationDate: new FormControl('', Validators.required),
       securityCode: new FormControl('', Validators.required),
@@ -43,7 +43,7 @@ export class AddCardComponent implements OnInit {
   fillFormWithData(): void {
     if (this.tarjeta) {
       this.creditCardForm.patchValue({
-        cardnumber: this.tarjeta.cardnumber,
+        cardNumber: this.tarjeta.cardNumber,
         cardHolderName: this.tarjeta.cardHolderName,
         expirationDate: this.tarjeta.expirationDate,
         securityCode: this.tarjeta.securityCode,
@@ -54,12 +54,12 @@ export class AddCardComponent implements OnInit {
 
   async onSubmit(): Promise<void> {
     if (this.creditCardForm.valid) {
-      const { cardnumber, cardHolderName, expirationDate, securityCode, cardType } = this.creditCardForm.value;
+      const { cardNumber, cardHolderName, expirationDate, securityCode, cardType } = this.creditCardForm.value;
 
       const tarjeta: Tarjeta = {
         id: 1, // Se debe proporcionar un valor adecuado para id
         saldo: 0, // Se debe proporcionar un valor adecuado para saldo
-        cardnumber,
+        cardNumber,
         cardHolderName,
         expirationDate,
         securityCode,

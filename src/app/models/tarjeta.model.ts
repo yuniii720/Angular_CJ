@@ -1,6 +1,6 @@
 export interface Tarjeta {
   id: number;
-  cardnumber: string;
+  cardNumber: string;
   saldo: number;
   cardHolderName: string;
   expirationDate: string;
