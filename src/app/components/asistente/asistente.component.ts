@@ -74,7 +74,7 @@ export class AsistenteComponent {
 
   chatDisplay: HTMLElement | null = null;
   userInput: HTMLInputElement | null = null;
-  isChatbotVisible: boolean = true; // Cambié a true para que el chat se muestre al principio
+  isChatbotVisible: boolean = false; // Cambié a true para que el chat se muestre al principio
 
   constructor() { }
 
