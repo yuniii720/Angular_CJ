@@ -15,40 +15,40 @@
   </div>
 
   <div class="table">
-    <mat-table [dataSource]="usuarios" class="mat-elevation-z8 my-custom-table">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
       <!-- ID Column -->
       <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID </mat-header-cell>
         <mat-cell *matCellDef="let usuario"> {{usuario.id}} </mat-cell>
       </ng-container>
 
       <!-- Usuario Column -->
       <ng-container matColumnDef="username">
-        <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='username'> Usuario </mat-header-cell>
         <mat-cell *matCellDef="let usuario"> {{usuario.username}} </mat-cell>
       </ng-container>
 
       <!-- Nombre Column -->
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='name'> Nombre </mat-header-cell>
         <mat-cell *matCellDef="let usuario"> {{usuario.name}} </mat-cell>
       </ng-container>
 
       <!-- Correo electrónico Column -->
       <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef> Correo electrónico </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='email'> Correo electrónico </mat-header-cell>
         <mat-cell *matCellDef="let usuario"> {{usuario.email}} </mat-cell>
       </ng-container>
 
       <!-- Tipo Column -->
       <ng-container matColumnDef="type">
-        <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='type'> Tipo </mat-header-cell>
         <mat-cell *matCellDef="let usuario"> {{usuario.type}} </mat-cell>
       </ng-container>
 
       <!-- Fecha de alta Column -->
       <ng-container matColumnDef="created_at">
-        <mat-header-cell *matHeaderCellDef> Fecha de alta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha de alta </mat-header-cell>
         <mat-cell *matCellDef="let usuario"> {{usuario.created_at | date: 'yyyy-MM-dd HH:mm'}} </mat-cell>
       </ng-container>
 
@@ -66,5 +66,6 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="mat-elevation-z8 my-custom-table"></mat-paginator>
   </div>
 </div>

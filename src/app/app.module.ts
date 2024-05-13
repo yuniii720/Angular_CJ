@@ -56,7 +56,11 @@ import { HeaderlandingComponent } from './components/headerlanding/headerlanding
 import { AsistenteComponent } from './components/asistente/asistente.component';
 import { BtnAddTarjetaComponent } from './components/buttons/tarjeta/btn-add-tarjeta/btn-add-tarjeta.component';
 import { BtnModTarjetaComponent } from './components/buttons/tarjeta/btn-mod-tarjeta/btn-mod-tarjeta.component';
-import { BtnDelTarjetaComponent } from './components/buttons/tarjeta/btn-del-tarjeta/btn-del-tarjeta.component'; // Importa AsistenteComponent aquí
+import { BtnDelTarjetaComponent } from './components/buttons/tarjeta/btn-del-tarjeta/btn-del-tarjeta.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
+import { CustomMatPaginatorIntl } from './components/tables/custom-paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -120,9 +124,12 @@ import { BtnDelTarjetaComponent } from './components/buttons/tarjeta/btn-del-tar
     FlexLayoutModule,
     MatIconModule,
     MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }
   ],
   bootstrap: [AppComponent]
 })
