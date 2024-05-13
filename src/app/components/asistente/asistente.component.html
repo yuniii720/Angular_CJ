@@ -1,17 +1,19 @@
-<!-- <div class="chatbot-container">
-    <button #toggleBtn id="chatbot-toggle" class="chatbot-toggle-btn" (click)="toggleChatbot()">Mostrar/ocultar chat</button>
-    <div #chatbotBox id="chatbot-box" class="chatbot-box" *ngIf="isChatbotVisible">
+<div class="chatbot-container">
+  <button #toggleBtn id="chatbot-toggle" class="chatbot-toggle-btn" (click)="toggleChatbot()"></button>
+  <div #chatbotBox id="chatbot-box" class="chatbot-box" [ngClass]="{'show': isChatbotVisible}">
+    
       <div class="chatbot-header">
-        <span #closeBtn id="chatbot-close" class="chatbot-close-btn" (click)="toggleChatbot()">x</span>
+          <span #closeBtn id="chatbot-close" class="chatbot-close-btn" (click)="toggleChatbot()">x</span>
       </div>
+      
       <div class="chatbot-content">
-        <p id="bienvenida">¡Bienvenido a VN Bank!</p>
-        <p id="bienvenida2">¿En qué puedo ayudarte?</p>
-        <div id="chat-display" #chatDisplay> -->
-          <!-- El contenido del chat se generará dinámicamente aquí -->
-        <!-- </div>
-        <input type="text" id="user-input" #userInput (keyup.enter)="sendUserInput()">
+
+          <div id="chat-display" #chatDisplay>
+
+
+            
+          </div>
+          <button (click)="volver()"><img class="back" src="../../../assets/img/volver.png"></button>
       </div>
-    </div>
   </div>
-   -->
+</div>
