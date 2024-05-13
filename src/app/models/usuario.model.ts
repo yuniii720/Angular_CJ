@@ -4,6 +4,7 @@ export interface Usuario {
   name: string;
   email: string;
   type: string;
+  hire_date: Date;
   created_at: Date;
   [key: string]: any;
 }

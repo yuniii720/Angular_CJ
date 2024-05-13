@@ -48,6 +48,17 @@
         Debes seleccionar un tipo de usuario.
       </mat-error>
     </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de alta</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="hire_date" placeholder="Selecciona fecha de alta">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="userForm.get('hire_date')?.errors?.['required']">
+        Debes seleccionar la fecha de alta.
+      </mat-error>
+    </mat-form-field>
+
   </form>
 </mat-dialog-content>
 

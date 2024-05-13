@@ -70,9 +70,15 @@
       </ng-container>
 
       <!-- Fecha de alta Column -->
+      <ng-container matColumnDef="hire_date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='hire_date'> Fecha de alta </mat-header-cell>
+        <mat-cell *matCellDef="let usuario"> {{ usuario.hire_date | date: 'dd/MM/yyyy' }} </mat-cell>
+      </ng-container>
+
+      <!-- Fecha de registro Column -->
       <ng-container matColumnDef="created_at">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha de alta </mat-header-cell>
-        <mat-cell *matCellDef="let usuario"> {{usuario.created_at | date: 'yyyy-MM-dd HH:mm'}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha de registro </mat-header-cell>
+        <mat-cell *matCellDef="let usuario"> {{usuario.created_at | date: 'dd/MM/yyyy HH:mm'}} </mat-cell>
       </ng-container>
 
       <!-- Gestionar Column -->

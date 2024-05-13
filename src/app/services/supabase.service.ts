@@ -63,9 +63,15 @@ export class SupabaseService {
   }
 
   addUsuario(usuario: Usuario) {
-    this.localUsuarios.push(usuario);
-    this.addedUsuarios.push(usuario); // Añade el usuario a addedUsuarios
-    this.usuariosSubject.next([...this.localUsuarios]);
+    return this.supabase.from('Usuarios').insert([usuario]).then(response => {
+      if (response.error) {
+        console.error('Failed to add user:', response.error.message);
+        throw response.error;
+      }
+      console.log('User added successfully:', response.data);
+      this.localUsuarios.push(usuario);
+      this.usuariosSubject.next([...this.localUsuarios]);
+    });
   }
 
   updateUsuario(id: number, updatedFields: any): Promise<void> {

@@ -62,6 +62,9 @@ import { MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
 import { CustomMatPaginatorIntl } from './components/tables/custom-paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { TranslateColumnPipe } from './components/tables/translate-column.pipe';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -128,10 +131,13 @@ import { TranslateColumnPipe } from './components/tables/translate-column.pipe';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }
+    { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
   ],
   bootstrap: [AppComponent]
 })

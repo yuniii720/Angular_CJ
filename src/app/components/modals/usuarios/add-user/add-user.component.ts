@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
@@ -24,15 +24,21 @@ export class AddUserComponent {
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       type: new FormControl('', Validators.required),
+      hire_date: new FormControl('', Validators.required)
     });
   }
 
   async onSubmit(): Promise<void> {
     if (this.userForm.valid) {
+      const hireDate = this.userForm.value.hire_date;
+      // Convierte a formato ISO
+      const hire_date = hireDate ? new Date(hireDate).toISOString().split('T')[0] : null;
       const newUserData: Usuario = {
         ...this.userForm.value,
+        hire_date,
         created_at: new Date().toISOString()
       };
+
       try {
         await this.supabaseService.addUsuario(newUserData);
         this.alertService.success('Usuario añadido');

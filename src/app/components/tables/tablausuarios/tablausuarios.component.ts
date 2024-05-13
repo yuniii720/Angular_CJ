@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { SupabaseService } from '../../../services/supabase.service';
 import { Usuario } from '../../../models/usuario.model';
 import { MatSort } from '@angular/material/sort';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-tabla-usuarios',
@@ -14,7 +15,7 @@ import { MatSort } from '@angular/material/sort';
 
 export class TablaUsuariosComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<Usuario>();
-  displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'created_at', 'gestionar'];
+  displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'hire_date', 'created_at', 'gestionar'];
   selectedColumn: string = 'username';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -30,6 +31,10 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy {
     }));
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = (data, filter) => {
+      const formattedDate = new DatePipe('es').transform(data.hire_date, 'dd MMMM yyyy');
+      return formattedDate?.indexOf(filter) !== -1;
+    };
   }
 
   ngOnDestroy(): void {
