@@ -25,7 +25,6 @@ export class AddUserComponent {
       email: new FormControl('', [Validators.required, Validators.email]),
       type: new FormControl('', Validators.required),
     });
-
   }
 
   async onSubmit(): Promise<void> {

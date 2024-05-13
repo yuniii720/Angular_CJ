@@ -53,7 +53,11 @@ import { BtnSaveClientComponent } from './components/buttons/cliente/btn-save-cl
 import { TarjetavisualComponent } from './components/tarjetavisual/tarjetavisual.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { HeaderlandingComponent } from './components/headerlanding/headerlanding.component';
-import { AsistenteComponent } from './components/asistente/asistente.component'; // Importa AsistenteComponent aquí
+import { AsistenteComponent } from './components/asistente/asistente.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
+import { CustomMatPaginatorIntl } from './components/tables/custom-paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -114,9 +118,12 @@ import { AsistenteComponent } from './components/asistente/asistente.component';
     FlexLayoutModule,
     MatIconModule,
     MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }
   ],
   bootstrap: [AppComponent]
 })
