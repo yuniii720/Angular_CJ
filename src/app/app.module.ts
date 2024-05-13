@@ -53,7 +53,10 @@ import { BtnSaveClientComponent } from './components/buttons/cliente/btn-save-cl
 import { TarjetavisualComponent } from './components/tarjetavisual/tarjetavisual.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { HeaderlandingComponent } from './components/headerlanding/headerlanding.component';
-import { AsistenteComponent } from './components/asistente/asistente.component'; // Importa AsistenteComponent aquí
+import { AsistenteComponent } from './components/asistente/asistente.component';
+import { BtnAddTarjetaComponent } from './components/buttons/tarjeta/btn-add-tarjeta/btn-add-tarjeta.component';
+import { BtnModTarjetaComponent } from './components/buttons/tarjeta/btn-mod-tarjeta/btn-mod-tarjeta.component';
+import { BtnDelTarjetaComponent } from './components/buttons/tarjeta/btn-del-tarjeta/btn-del-tarjeta.component'; // Importa AsistenteComponent aquí
 
 @NgModule({
   declarations: [
@@ -97,7 +100,10 @@ import { AsistenteComponent } from './components/asistente/asistente.component';
     TarjetavisualComponent,
     LandingpageComponent,
     HeaderlandingComponent,
-    AsistenteComponent
+    AsistenteComponent,
+    BtnAddTarjetaComponent,
+    BtnModTarjetaComponent,
+    BtnDelTarjetaComponent
   ],
   imports: [
     BrowserModule,
