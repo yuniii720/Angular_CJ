@@ -43,6 +43,27 @@ p {
   margin-top: 20px;
 }
 
+/* Estilo base para la tabla */
+.table {
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  background-color: var(--mat-table-background-color);
+}
+
+/* Estilos específicos para las filas de la tabla */
+.table tr {
+  color: var(--mat-table-row-item-label-text-color);
+  border-color: var(--mat-table-row-item-outline-color);
+}
+
+/* Estilo para el hover en las filas */
+.table tr:hover {
+  background-color: #b0bec5; /* Cambia este color según tus preferencias */
+  cursor: pointer; /* Opcional: cambia el cursor para indicar interactividad */
+}
+
 @media (max-width: 600px) {
   .mat-header-cell,
   .mat-cell {
