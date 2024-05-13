@@ -42,7 +42,7 @@ export class SupabaseService {
     return this.http.post('https://pbjdatvfbfkhaqrxrzdg.supabase.co', data);
   }
 
-  //Métodos para Usuarios
+  // Métodos para Usuarios
 
   async loadUsuarios() {
     const { data, error } = await this.supabase.from('Usuarios').select('*').order('id', { ascending: true });
@@ -130,7 +130,7 @@ export class SupabaseService {
   }
 
 
-  //Métodos para Clientes
+  // Métodos para Clientes
 
   async loadClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
@@ -250,4 +250,62 @@ export class SupabaseService {
     }
   }
 
+  async addTarjeta(tarjeta: Tarjeta) {
+    const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]);
+    if (error) {
+      console.error('Error adding card', error);
+    } else {
+      this.loadTarjetas();
+    }
+  }
+
+  async updateTarjeta(id: number, updatedFields: any): Promise<void> {
+    const { data, error } = await this.supabase.from('Tarjetas').update(updatedFields).match({ id });
+    if (error) {
+      console.error('Error updating card', error);
+      throw new Error(error.message);
+    } else {
+      console.log('Card updated successfully', data);
+      this.loadTarjetas();
+    }
+  }
+
+  async deleteTarjeta(id: number) {
+    const { data, error } = await this.supabase
+      .from('Tarjetas')
+      .delete()
+      .match({ id });
+    if (error) console.error('Error deleting card', error);
+    else this.loadTarjetas();
+  }
+
+  async saveCreditCard(tarjeta: Tarjeta) {
+    try {
+      const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]);
+      if (error) {
+        console.error('Error saving credit card', error);
+      } else {
+        console.log('Credit card saved successfully', data);
+        this.loadTarjetas();
+      }
+    } catch (error) {
+      console.error('Error saving credit card', error);
+      throw error;
+    }
+  }
+
+  async getCreditCard(id: number): Promise<Tarjeta | null> {
+    const { data, error } = await this.supabase
+      .from('Tarjetas')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching credit card', error);
+      return null;
+    }
+
+    return data;
+  }
 }

@@ -1,1 +1,56 @@
-<p>add-card works!</p>
+<h2 mat-dialog-title>Añadir Tarjeta de Crédito</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="creditCardForm" (ngSubmit)="onSubmit()" class="credit-card-form">
+    <!-- Campos del formulario -->
+    <mat-form-field appearance="fill" class="readonly-field">
+      <mat-label>Número de Tarjeta</mat-label>
+      <input matInput type="text" formControlName="cardNumber" placeholder="Introduce el número de la tarjeta"
+        [value]="creditCardForm.get('cardNumber')?.value" required>
+      <mat-error *ngIf="creditCardForm.get('cardNumber')?.errors?.['required']">
+        Debe rellenar el campo número de tarjeta.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre del Titular</mat-label>
+      <input matInput type="text" formControlName="cardHolderName" placeholder="Introduce nombre del titular"
+        [value]="creditCardForm.get('cardHolderName')?.value" required>
+      <mat-error *ngIf="creditCardForm.get('cardHolderName')?.errors?.['required']">
+        Debe rellenar el campo nombre del titular.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="readonly-field">
+      <mat-label>Fecha de Expiración</mat-label>
+      <input matInput type="text" formControlName="expirationDate" placeholder="MM/YY"
+        [value]="creditCardForm.get('expirationDate')?.value" required>
+      <mat-error *ngIf="creditCardForm.get('expirationDate')?.errors?.['required']">
+        Debe rellenar el campo fecha de expiración.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="readonly-field">
+      <mat-label>Código de Seguridad</mat-label>
+      <input matInput type="text" formControlName="securityCode" placeholder="Introduce código de seguridad"
+        [value]="creditCardForm.get('securityCode')?.value" required>
+      <mat-error *ngIf="creditCardForm.get('securityCode')?.errors?.['required']">
+        Debe rellenar el campo código de seguridad.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo de Tarjeta</mat-label>
+      <mat-select formControlName="cardType">
+        <mat-option value="credito">Crédito</mat-option>
+        <mat-option value="debito">Débito</mat-option>
+        <mat-option value="prepago">Prepago</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" type="submit" [disabled]="!creditCardForm.valid"
+    (click)="onSubmit()">Añadir Tarjeta</button>
+  <button mat-button (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>
