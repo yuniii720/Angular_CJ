@@ -1918,13 +1918,13 @@ html {
 }
 
 html {
-  --mat-table-background-color: #e8f3f4;
+  --mat-table-background-color: #fff;
   --mat-table-header-headline-color: rgba(0, 0, 0, 0.87);
   --mat-table-row-item-label-text-color: rgba(0, 0, 0, 0.87);
   --mat-table-row-item-outline-color: rgba(0, 0, 0, 0.12);
 
   .mat-mdc-row:hover {
-    background-color: #b9dbdf;
+    background-color: #e8f3f4;
   }
 }
 
