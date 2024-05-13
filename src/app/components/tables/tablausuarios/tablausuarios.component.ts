@@ -15,18 +15,21 @@ import { MatSort } from '@angular/material/sort';
 export class TablaUsuariosComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<Usuario>();
   displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'created_at', 'gestionar'];
-  private subs = new Subscription();
+  selectedColumn: string = 'username';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private supabaseService: SupabaseService) {}
+  subs: Subscription = new Subscription();
+
+  constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
     this.subs.add(this.supabaseService.usuarios$.subscribe(data => {
       this.dataSource.data = data;
     }));
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy(): void {
@@ -36,5 +39,14 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(filterValue: string) {
+    console.log('Filtrando por:', filterValue); // Esto te ayudará a verificar que el método se está llamando
+    this.dataSource.filterPredicate = (data, filter) => {
+      const textToSearch = data[this.selectedColumn] && String(data[this.selectedColumn]).toLowerCase() || '';
+      return textToSearch.indexOf(filter.toLowerCase()) !== -1;
+    };
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

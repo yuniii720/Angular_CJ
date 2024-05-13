@@ -61,6 +61,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
 import { CustomMatPaginatorIntl } from './components/tables/custom-paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { TranslateColumnPipe } from './components/tables/translate-column.pipe';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,8 @@ import { MatSortModule } from '@angular/material/sort';
     AsistenteComponent,
     BtnAddTarjetaComponent,
     BtnModTarjetaComponent,
-    BtnDelTarjetaComponent
+    BtnDelTarjetaComponent,
+    TranslateColumnPipe,
   ],
   imports: [
     BrowserModule,
