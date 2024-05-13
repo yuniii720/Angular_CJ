@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SupabaseService } from '../../../../services/supabase.service';
+import { SupabaseService, SaveResult } from '../../../../services/supabase.service'; // Importa SaveResult desde SupabaseService
 import { AlertService } from '../../../../services/alert.service';
 import { Tarjeta } from '../../../../models/tarjeta.model';
 
@@ -11,8 +11,8 @@ import { Tarjeta } from '../../../../models/tarjeta.model';
   styleUrls: ['./add-card.component.css']
 })
 export class AddCardComponent implements OnInit {
+  
   creditCardForm: FormGroup;
-  tarjeta: Tarjeta | null = null; // Variable para almacenar los datos de la tarjeta
 
   constructor(
     public dialogRef: MatDialogRef<AddCardComponent>,
@@ -29,27 +29,7 @@ export class AddCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Obtener los datos de la tarjeta al iniciar el componente (supongamos que la ID es 1)
-    this.supabaseService.getCreditCard(1).then((tarjeta) => {
-      if (tarjeta) {
-        this.tarjeta = tarjeta;
-        this.fillFormWithData();
-      } else {
-        console.error('No se pudo obtener la tarjeta de crédito');
-      }
-    });
-  }
-
-  fillFormWithData(): void {
-    if (this.tarjeta) {
-      this.creditCardForm.patchValue({
-        cardNumber: this.tarjeta.cardNumber,
-        cardHolderName: this.tarjeta.cardHolderName,
-        expirationDate: this.tarjeta.expirationDate,
-        securityCode: this.tarjeta.securityCode,
-        cardType: this.tarjeta.cardType
-      });
-    }
+    // No se necesita obtener datos al iniciar el componente
   }
 
   async onSubmit(): Promise<void> {
@@ -57,8 +37,8 @@ export class AddCardComponent implements OnInit {
       const { cardNumber, cardHolderName, expirationDate, securityCode, cardType } = this.creditCardForm.value;
 
       const tarjeta: Tarjeta = {
-        id: 1, // Se debe proporcionar un valor adecuado para id
-        saldo: 0, // Se debe proporcionar un valor adecuado para saldo
+        id: '1', // Cambia el valor de id a string
+        saldo: 0, // Valor provisional para saldo, ajustar según la lógica de la aplicación
         cardNumber,
         cardHolderName,
         expirationDate,
@@ -67,12 +47,16 @@ export class AddCardComponent implements OnInit {
       };
 
       try {
-        await this.supabaseService.saveCreditCard(tarjeta);
+        const result: SaveResult = await this.supabaseService.saveCreditCard(tarjeta);
+        if (result.error) {
+          throw new Error(result.error.message);
+        }
         this.alertService.success('Tarjeta de crédito guardada con éxito.');
-        this.dialogRef.close();
       } catch (error) {
         console.error('Error al guardar la tarjeta de crédito', error);
         this.alertService.error('Error al guardar la tarjeta de crédito.');
+      } finally {
+        this.dialogRef.close();
       }
     }
   }
