@@ -74,13 +74,13 @@ export class AsistenteComponent {
 
   chatDisplay: HTMLElement | null = null;
   userInput: HTMLInputElement | null = null;
-  isChatbotVisible: boolean = false; // Cambié a true para que el chat se muestre al principio
+  isChatbotVisible: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
     this.chatDisplay = document.getElementById('chat-display');
-    this.userInput = document.getElementById('user-input') as HTMLInputElement; // Cast as HTMLInputElement
+    this.userInput = document.getElementById('user-input') as HTMLInputElement;
     this.showInitialOptions();
   }
 
@@ -98,7 +98,7 @@ export class AsistenteComponent {
       initialOptions.forEach(option => {
         const optionElement = document.createElement('div');
         optionElement.classList.add('option');
-        optionElement.innerText = option.charAt(0).toUpperCase() + option.slice(1); // Capitaliza la primera letra
+        optionElement.innerText = option.charAt(0).toUpperCase() + option.slice(1);
         optionElement.addEventListener('click', () => {
           document.getElementById('bienvenida')!.style.display = 'none';
           document.getElementById('bienvenida2')!.style.display = 'none';
@@ -143,7 +143,7 @@ export class AsistenteComponent {
   }
 
   volver() {
-    this.isChatbotVisible = true; // Cambia a true para mostrar el chatbot nuevamente
+    this.isChatbotVisible = true;
     this.showInitialOptions();
   }
 
