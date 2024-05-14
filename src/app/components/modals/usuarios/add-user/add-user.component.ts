@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
@@ -30,13 +30,19 @@ export class AddUserComponent {
 
   async onSubmit(): Promise<void> {
     if (this.userForm.valid) {
-      const hireDate = this.userForm.value.hire_date;
-      // Convierte a formato ISO
-      const hire_date = hireDate ? new Date(hireDate).toISOString().split('T')[0] : null;
+      const formValue = this.userForm.value;
+
+      // Ajustar la fecha de alta a medianoche (00:00:00) en la zona horaria local
+      let hireDate: Date | null = null;
+      if (formValue.hire_date) {
+        hireDate = new Date(formValue.hire_date);
+        hireDate.setHours(0, 0, 0, 0);  // Establecer la hora a 00:00:00
+      }
+
       const newUserData: Usuario = {
-        ...this.userForm.value,
-        hire_date,
-        created_at: new Date().toISOString()
+        ...formValue,
+        hire_date: hireDate,
+        created_at: new Date()  // Asigna la fecha actual
       };
 
       try {

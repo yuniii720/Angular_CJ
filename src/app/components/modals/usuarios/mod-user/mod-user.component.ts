@@ -25,7 +25,8 @@ export class ModUserComponent implements OnInit {
       password: new FormControl('', [Validators.minLength(6)]),  // La contraseña es opcional al editar
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      type: new FormControl('')
+      type: new FormControl('', Validators.required),
+      hire_date: new FormControl('', Validators.required)
     });
   }
 
@@ -35,17 +36,27 @@ export class ModUserComponent implements OnInit {
       username: this.data.username,
       name: this.data.name,
       email: this.data.email,
-      type: this.data.type
+      type: this.data.type,
+      hire_date: this.data.hire_date ? new Date(this.data.hire_date) : null
     });
   }
 
   onSubmit(): void {
     if (this.userForm.valid) {
+      const formValue = this.userForm.value;
       const updatedUserData: Usuario = {
         ...this.data,  // Los datos existentes del usuario
-        ...this.userForm.value  // Los nuevos datos del formulario
+        ...formValue  // Los nuevos datos del formulario
       };
-      this.supabaseService.updateUsuario(this.data.id!, updatedUserData).then(() => {
+
+      // Convertir la fecha de alta a formato Date si existe
+      if (formValue.hire_date) {
+        updatedUserData.hire_date = new Date(formValue.hire_date);
+      } else {
+        updatedUserData.hire_date = null;
+      }
+
+      this.supabaseService.updateUsuario(this.data.id, updatedUserData).then(() => {
         this.alertService.success('Usuario actualizado');  // Muestra un mensaje de éxito
         this.dialogRef.close();  // Cierra el diálogo
       }).catch(error => {

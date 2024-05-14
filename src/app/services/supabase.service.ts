@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
-import { BehaviorSubject } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
 import { Tarjeta } from '../models/tarjeta.model';
 import { AlertService } from '../services/alert.service';
-
 import { v4 as uuidv4 } from 'uuid';
 
 export interface SaveResult {
@@ -106,12 +104,24 @@ export class SupabaseService {
     });
   }
 
+  private adjustDateToLocalMidnight(date: Date): Date {
+    const adjustedDate = new Date(date);
+    adjustedDate.setHours(0, 0, 0, 0);
+    return new Date(adjustedDate.getTime() - adjustedDate.getTimezoneOffset() * 60000);
+  }
+
   async syncUsuarios() {
     try {
       for (const usuario of this.addedUsuarios) {
+        if (usuario.hire_date) {
+          usuario.hire_date = this.adjustDateToLocalMidnight(new Date(usuario.hire_date));
+        }
         await this.supabase.from('Usuarios').insert([usuario]);
       }
       for (const usuario of this.updatedUsuarios) {
+        if (usuario.hire_date) {
+          usuario.hire_date = this.adjustDateToLocalMidnight(new Date(usuario.hire_date));
+        }
         await this.supabase.from('Usuarios').update(usuario).match({ id: usuario.id });
       }
       for (const usuario of this.deletedUsuarios) {
