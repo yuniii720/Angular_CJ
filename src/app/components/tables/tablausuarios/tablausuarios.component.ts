@@ -31,10 +31,7 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy {
     }));
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = (data, filter) => {
-      const formattedDate = new DatePipe('es').transform(data.hire_date, 'dd MMMM yyyy');
-      return formattedDate?.indexOf(filter) !== -1;
-    };
+    this.dataSource.filterPredicate = this.createFilter();
   }
 
   ngOnDestroy(): void {
@@ -47,11 +44,19 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(filterValue: string) {
-    console.log('Filtrando por:', filterValue); // Esto te ayudará a verificar que el método se está llamando
-    this.dataSource.filterPredicate = (data, filter) => {
-      const textToSearch = data[this.selectedColumn] && String(data[this.selectedColumn]).toLowerCase() || '';
-      return textToSearch.indexOf(filter.toLowerCase()) !== -1;
-    };
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  createFilter(): (data: Usuario, filter: string) => boolean {
+    return (data: Usuario, filter: string): boolean => {
+      const textToSearch = data[this.selectedColumn] && String(data[this.selectedColumn]).toLowerCase() || '';
+      if (this.selectedColumn === 'hire_date' || this.selectedColumn === 'created_at') {
+        const datePipe = new DatePipe('en-US');
+        const formattedDate = datePipe.transform(data[this.selectedColumn], 'dd/MM/yyyy');
+        return formattedDate?.indexOf(filter) !== -1;
+      } else {
+        return textToSearch.indexOf(filter) !== -1;
+      }
+    };
   }
 }

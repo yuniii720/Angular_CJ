@@ -11,7 +11,8 @@ export class TranslateColumnPipe implements PipeTransform {
       'name': 'Nombre',
       'email': 'Correo electrónico',
       'type': 'Tipo',
-      'created_at': 'Fecha de Alta',
+      'hire_date': 'Fecha de Alta',
+      'created_at': 'Fecha de Registro',
       'gestionar': 'Gestionar'
     };
     return translations[value] || value;
