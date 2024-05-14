@@ -2,8 +2,7 @@
 
 <div class="recuadroverde2">
   <div class="recuadroverde1">
-    <div class="div1"><img id="icon-users" src="../../assets/img/usuarios.svg">
-    </div>
+    <div class="div1"><img id="icon-users" src="../../assets/img/usuarios.svg"></div>
     <div class="div2">
       <p>Gestión de Usuarios </p>
     </div>
@@ -71,19 +70,19 @@
 
       <!-- Fecha de alta Column -->
       <ng-container matColumnDef="hire_date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='hire_date'> Fecha de alta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='hire_date'> Fecha Alta </mat-header-cell>
         <mat-cell *matCellDef="let usuario"> {{ usuario.hire_date | date: 'dd/MM/yyyy' }} </mat-cell>
       </ng-container>
 
       <!-- Fecha de registro Column -->
       <ng-container matColumnDef="created_at">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha de registro </mat-header-cell>
-        <mat-cell *matCellDef="let usuario"> {{usuario.created_at | date: 'dd/MM/yyyy HH:mm'}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha Registro </mat-header-cell>
+        <mat-cell *matCellDef="let usuario"> {{usuario.created_at | date: 'dd/MM/yyyy'}} </mat-cell>
       </ng-container>
 
       <!-- Gestionar Column -->
       <ng-container matColumnDef="gestionar">
-        <mat-header-cell *matHeaderCellDef> Gestionar </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
         <mat-cell *matCellDef="let usuario">
           <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
             <app-btn-mod-user [usuario]="usuario"></app-btn-mod-user>
@@ -95,7 +94,6 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-      class="mat-elevation-z8 my-custom-table"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="mat-elevation-z8 my-custom-table"></mat-paginator>
   </div>
 </div>
