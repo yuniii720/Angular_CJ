@@ -8,7 +8,6 @@
 .search-container,
 .button-container {
   flex: 1 0 auto;
-  /* Cada contenedor intentará ocupar espacio equitativamente pero sin encogerse */
 }
 
 .search-container mat-form-field {
@@ -19,13 +18,33 @@
 .div1,
 .div2 {
   position: static;
-  /* Si están interfiriendo con la alineación, considera ajustar estas propiedades. */
 }
 
-/* Asegúrate de que el contenedor principal ocupe todo el ancho */
 .recuadroverde2 {
   width: 100%;
-  /* Establece el ancho al 100% para ocupar todo el espacio horizontal. */
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Permitir desplazamiento horizontal */
+}
+
+.my-custom-table {
+  min-width: 800px; /* Ajusta esto según sea necesario */
+}
+
+.sticky, .stickyEnd {
+  position: sticky;
+  z-index: 1;
+  background: white;
+}
+
+.sticky {
+  left: 0;
+}
+
+.stickyEnd {
+  right: 0;
 }
 
 .table {

@@ -66,6 +66,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import 'intersection-observer';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -134,6 +135,7 @@ import 'intersection-observer';
     MatSortModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMenuModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

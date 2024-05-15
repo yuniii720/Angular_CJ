@@ -39,7 +39,7 @@
   <div class="table">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
       <!-- ID Column -->
-      <ng-container matColumnDef="id">
+      <ng-container matColumnDef="id" sticky>
         <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID </mat-header-cell>
         <mat-cell *matCellDef="let usuario"> {{usuario.id}} </mat-cell>
       </ng-container>
@@ -81,7 +81,7 @@
       </ng-container>
 
       <!-- Gestionar Column -->
-      <ng-container matColumnDef="gestionar">
+      <ng-container matColumnDef="gestionar" stickyEnd>
         <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
         <mat-cell *matCellDef="let usuario">
           <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">

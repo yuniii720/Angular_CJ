@@ -12,7 +12,6 @@ import { DatePipe } from '@angular/common';
   templateUrl: './tablausuarios.component.html',
   styleUrls: ['./tablausuarios.component.css']
 })
-
 export class TablaUsuariosComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<Usuario>();
   displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'hire_date', 'created_at', 'gestionar'];
@@ -58,5 +57,15 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy {
         return textToSearch.indexOf(filter) !== -1;
       }
     };
+  }
+
+  modUser(usuario: Usuario): void {
+    // Lógica para modificar el usuario
+    console.log('Modificar usuario', usuario);
+  }
+
+  delUser(usuario: Usuario): void {
+    // Lógica para eliminar el usuario
+    console.log('Eliminar usuario', usuario);
   }
 }
