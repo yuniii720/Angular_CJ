@@ -5,7 +5,7 @@ import { Tarjeta } from '../../../models/tarjeta.model';
 @Component({
   selector: 'app-tablatarjetas',
   templateUrl: './tablatarjetas.component.html',
-  styleUrls: ['./tablatarjetas.component.css']  // Corrige el nombre de la propiedad de 'styleUrl' a 'styleUrls'
+  styleUrls: ['./tablatarjetas.component.css']  
 })
 export class TablaTarjetasComponent implements OnInit {
 

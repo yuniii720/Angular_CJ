@@ -7,8 +7,7 @@ import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
 import { Tarjeta } from '../models/tarjeta.model';
-import { AlertService } from '../services/alert.service';
-import { v4 as uuidv4 } from 'uuid';
+import { AlertService } from './alert.service'; // Importar correctamente el servicio AlertService
 
 export interface SaveResult {
   error?: { message: string };
@@ -48,8 +47,9 @@ export class SupabaseService {
 
   async loadUsuarios() {
     const { data, error } = await this.supabase.from('Usuarios').select('*').order('id', { ascending: true });
-    if (error) console.error('Error loading users', error);
-    else {
+    if (error) {
+      console.error('Error loading users', error);
+    } else {
       this.usuariosSubject.next(data);
       this.localUsuarios = [...data];
     }
@@ -58,7 +58,9 @@ export class SupabaseService {
   async getAllUsuarios() {
     const { data, error } = await this.supabase.from('Usuarios').select('*');
 
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
     return data;
   }
 
@@ -144,33 +146,47 @@ export class SupabaseService {
 
   async loadClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
-    if (error) console.error('Error loading clients', error);
-    else this.clientesSubject.next(data);
+    if (error) {
+      console.error('Error loading clients', error);
+    } else {
+      this.clientesSubject.next(data);
+    }
   }
 
   async getAllClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
 
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
     return data;
   }
 
   async addCliente(cliente: Cliente) {
     const { data, error } = await this.supabase.from('Clientes').insert([cliente]);
-    if (error) console.error('Error adding client', error);
-    else this.loadClientes();
+    if (error) {
+      console.error('Error adding client', error);
+    } else {
+      this.loadClientes();
+    }
   }
 
   async updateCliente(id: number, updatedFields: any) {
     const { data, error } = await this.supabase.from('Clientes').update(updatedFields).match({ id });
-    if (error) console.error('Error updating client', error);
-    else this.loadClientes();
+    if (error) {
+      console.error('Error updating client', error);
+    } else {
+      this.loadClientes();
+    }
   }
 
   async deleteCliente(id: number) {
     const { data, error } = await this.supabase.from('Clientes').delete().match({ id });
-    if (error) console.error('Error deleting client', error);
-    else this.loadClientes();
+    if (error) {
+      console.error('Error deleting client', error);
+    } else {
+      this.loadClientes();
+    }
   }
 
   async loadCuentas() {
@@ -216,43 +232,39 @@ export class SupabaseService {
       console.error('Error updating account', error);
       throw new Error(error.message);
     } else {
-      console.log('Account updated successfully', data);
       this.loadCuentas();
     }
   }
 
   async deleteCuenta(id: number) {
     const { data, error } = await this.supabase.from('Cuentas').delete().match({ id });
-    if (error) console.error('Error deleting account', error);
-    else this.loadCuentas();
+    if (error) {
+      console.error('Error deleting account', error);
+    } else {
+      this.loadCuentas();
+    }
   }
 
   async loadTarjetas() {
     const { data, error } = await this.supabase
       .from('Tarjetas')
-      .select(`
-        *,
-        Cliente:Clientes (name)
-      `);
+      .select('*');
 
     if (error) {
       console.error('Error loading cards', error);
     } else {
       this.tarjetasSubject.next(data.map(item => ({
-        ...item,
-        clientName: item.Cliente.name
+        ...item
       })));
     }
   }
 
   async addTarjeta(tarjeta: Tarjeta) {
     try {
-      tarjeta.id = uuidv4();
       const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]);
       if (error) {
         console.error('Error adding card', error);
       } else {
-        console.log('Card added successfully', data);
         this.loadTarjetas();
       }
     } catch (error) {
@@ -267,26 +279,26 @@ export class SupabaseService {
       console.error('Error updating card', error);
       throw new Error(error.message);
     } else {
-      console.log('Card updated successfully', data);
       this.loadTarjetas();
     }
   }
 
   async deleteTarjeta(id: number) {
     const { data, error } = await this.supabase.from('Tarjetas').delete().match({ id });
-    if (error) console.error('Error deleting card', error);
-    else this.loadTarjetas();
+    if (error) {
+      console.error('Error deleting card', error);
+    } else {
+      this.loadTarjetas();
+    }
   }
 
   async saveCreditCard(tarjeta: Tarjeta): Promise<SaveResult> {
     try {
-      tarjeta.id = uuidv4();
       const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]);
       if (error) {
         console.error('Error saving credit card', error);
         return { error: { message: 'Error al guardar la tarjeta de crédito.' } };
       } else {
-        console.log('Credit card saved successfully', data);
         this.loadTarjetas();
         return {};
       }
