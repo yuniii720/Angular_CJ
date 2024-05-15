@@ -94,10 +94,11 @@ export class SupabaseService {
     return new Promise((resolve, reject) => {
       const index = this.localUsuarios.findIndex(u => u.id === id);
       if (index !== -1) {
+        const formValue = this.localUsuarios[index];
         this.deletedUsuarios.push(this.localUsuarios[index]);
         this.localUsuarios.splice(index, 1);
         this.usuariosSubject.next([...this.localUsuarios]);
-        this.alertService.success('Usuario eliminado con éxito.');
+        this.alertService.success(`Usuario "${formValue.username}" eliminado con éxito.`);
         resolve(true);
       } else {
         this.alertService.error('Usuario no encontrado.');
