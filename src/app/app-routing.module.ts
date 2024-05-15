@@ -71,19 +71,19 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'Cuentas',
+    path: 'cuentas',
     component: TablaCuentasComponent,
     outlet: 'auth',
     pathMatch: 'full'
   },
   {
-    path: 'Tarjetas',
+    path: 'tarjetas',
     component: TablaTarjetasComponent,
     outlet: 'auth',
     pathMatch: 'full'
   },
   {
-    path: 'Transferencias',
+    path: 'transferencias',
     component: TablatransferenciasComponent,
     outlet: 'auth',
     pathMatch: 'full'
