@@ -19,7 +19,7 @@ export class SaveUsersComponent {
   async onConfirm(): Promise<void> {
     try {
       await this.supabaseService.syncUsuarios();  // Sincronizar los cambios con la base de datos
-      this.alertService.success('Cambios guardados');  // Mostrar una alerta de éxito
+      this.alertService.success('Cambios guardados.');  // Mostrar una alerta de éxito
       this.dialogRef.close(true);
     } catch (error) {
       console.error('Error al guardar los cambios', error);
