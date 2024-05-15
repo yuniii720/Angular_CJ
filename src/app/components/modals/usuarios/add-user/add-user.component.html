@@ -2,6 +2,8 @@
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
     <!-- Campos del formulario -->
+
+    <!-- Campo Usuario -->
     <mat-form-field appearance="fill">
       <mat-label>Usuario</mat-label>
       <input matInput type="text" formControlName="username" placeholder="Introduce nombre de usuario" required>
@@ -10,11 +12,53 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <!-- Campo Contraseña -->
+    <mat-form-field appearance="fill" class="password-field">
       <mat-label>Contraseña</mat-label>
       <input matInput type="password" formControlName="password" placeholder="Introduce contraseña" required>
+      <mat-hint class="password-hint">
+        <div class="password-hint-container">
+          Mínimo:
+          <div [ngClass]="{'valid': passwordRequirements['minLength'], 'invalid': !passwordRequirements['minLength']}">
+            8 caracteres &nbsp;|
+          </div>
+          <div [ngClass]="{'valid': passwordRequirements['upperCase'], 'invalid': !passwordRequirements['upperCase']}">
+            1 letra mayúscula &nbsp;|
+          </div>
+          <div [ngClass]="{'valid': passwordRequirements['lowerCase'], 'invalid': !passwordRequirements['lowerCase']}">
+            1 letra minúscula &nbsp;|
+          </div>
+          <div
+            [ngClass]="{'valid': passwordRequirements['specialChar'], 'invalid': !passwordRequirements['specialChar']}">
+            1 caracter especial
+          </div>
+        </div>
+      </mat-hint>
       <mat-error *ngIf="userForm.get('password')?.errors?.['required']">
         Debe rellenar el campo contraseña.
+      </mat-error>
+      <mat-error class="password-error" *ngIf="userForm.get('password')?.errors?.['passwordInvalid']">
+        <mat-hint class="password-hint">
+          <div class="password-hint-container">
+            Mínimo:
+            <div
+              [ngClass]="{'valid': passwordRequirements['minLength'], 'invalid': !passwordRequirements['minLength']}">
+              8 caracteres &nbsp;|
+            </div>
+            <div
+              [ngClass]="{'valid': passwordRequirements['upperCase'], 'invalid': !passwordRequirements['upperCase']}">
+              1 letra mayúscula &nbsp;|
+            </div>
+            <div
+              [ngClass]="{'valid': passwordRequirements['lowerCase'], 'invalid': !passwordRequirements['lowerCase']}">
+              1 letra minúscula &nbsp;|
+            </div>
+            <div
+              [ngClass]="{'valid': passwordRequirements['specialChar'], 'invalid': !passwordRequirements['specialChar']}">
+              1 caracter especial
+            </div>
+          </div>
+        </mat-hint>
       </mat-error>
     </mat-form-field>
 
@@ -58,7 +102,6 @@
         Debes seleccionar la fecha de alta.
       </mat-error>
     </mat-form-field>
-
   </form>
 </mat-dialog-content>
 
