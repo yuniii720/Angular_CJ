@@ -3,8 +3,9 @@ $background-color: #ffffff;
 $card-color: darken($background-color, 45);
 $card-height: 200px;
 $card-width: $card-height * 1.7;
+
 body {
-    color: #fff;
+    color: #000; /* Cambiado a color de texto negro */
     margin: 0;
     background: $background-color;
     overflow: hidden;
@@ -12,13 +13,11 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    margin: 0;
-    
 }
 
 .wrapper {
-    height: 200px;
-    width: 400px;
+    height: $card-height; /* Ajustado a la altura de la tarjeta */
+    width: $card-width; /* Ajustado al ancho de la tarjeta */
     perspective: 300px;
 }
 
@@ -30,8 +29,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: $card-height;
-    width: $card-width;
+    height: 100%;
+    width: 100%;
 }
 
 .cards {
@@ -40,14 +39,14 @@ body {
         .head {
             display: flex;
             justify-content: space-between;
-            margin: 16px 16px 0 16px;
+            margin: 16px;
             .title {
                 font-weight: 600;
                 font-size: 20px;
             }
         }
         .main {
-            margin: 16px 16px 0 16px;
+            margin: 16px;
             .number-title {
                 color: darken(#fff, 20);
             }
@@ -57,9 +56,8 @@ body {
         }
         .dates {
             display: flex;
-            max-width: 100px;
             justify-content: space-between;
-            margin: 16px 16px 16px 16px;
+            margin: 16px;
             .start {
             }
             .end {
