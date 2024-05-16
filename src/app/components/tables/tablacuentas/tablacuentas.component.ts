@@ -1,7 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { SupabaseService } from '../../../services/supabase.service';
-import { Cuenta } from '../../../models/cuenta.model'; // Asegúrate de tener un modelo adecuado
+import { Cuenta } from '../../../models/cuenta.model';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-tabla-cuentas',
@@ -9,20 +12,58 @@ import { Cuenta } from '../../../models/cuenta.model'; // Asegúrate de tener un
   styleUrls: ['./tablacuentas.component.css']
 })
 export class TablaCuentasComponent implements OnInit, OnDestroy {
-  cuentas: Cuenta[] = [];
-  private subs = new Subscription();
+  dataSource = new MatTableDataSource<Cuenta>();
+  displayedColumns: string[] = ['id', 'account_number', 'clientName', 'balance', 'created_at', 'gestionar'];
+  selectedColumn: string = 'account_number';
 
-  constructor(private supabaseService: SupabaseService) {}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  subs: Subscription = new Subscription();
+
+  constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
-    // Asegúrate de que el servicio tiene un método 'loadCuentas' que actualiza 'cuentas$'
-    this.supabaseService.loadCuentas(); // Si es necesario cargar cuentas al inicializar
-    this.subs.add(this.supabaseService.cuentas$.subscribe(cuentas => {
-      this.cuentas = cuentas;
+    this.subs.add(this.supabaseService.cuentas$.subscribe(data => {
+      this.dataSource.data = data;
     }));
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = this.createFilter();
   }
 
   ngOnDestroy(): void {
-    this.subs.unsubscribe(); // Limpiar la subscripción para evitar pérdidas de memoria
+    this.subs.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  createFilter(): (data: Cuenta, filter: string) => boolean {
+    return (data: Cuenta, filter: string): boolean => {
+      const textToSearch = data[this.selectedColumn as keyof Cuenta] && String(data[this.selectedColumn as keyof Cuenta]).toLowerCase() || '';
+      if (this.selectedColumn === 'created_at') {
+        // Date filtering logic can be added here if needed
+        return false;
+      } else {
+        return textToSearch.indexOf(filter) !== -1;
+      }
+    };
+  }
+
+  modAccount(cuenta: Cuenta): void {
+    // Lógica para modificar la cuenta
+    console.log('Modificar cuenta', cuenta);
+  }
+
+  delAccount(cuenta: Cuenta): void {
+    // Lógica para eliminar la cuenta
+    console.log('Eliminar cuenta', cuenta);
   }
 }

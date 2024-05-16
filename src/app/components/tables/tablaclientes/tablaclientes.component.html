@@ -1,45 +1,100 @@
 <app-header></app-header>
 
 <div class="recuadroverde2">
+
   <div class="breadcrumbs">
     <div class="div2">
       <app-breadcrumbs></app-breadcrumbs>
     </div>
   </div>
 
-<div class="button-container">
-  <app-btn-add-client></app-btn-add-client>
-  <app-btn-save-client></app-btn-save-client>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="full-width-container">
+    <!-- Selector de Campo y Campo de Búsqueda -->
+    <div fxFlex="49" fxFlex.xs="100" class="search-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar por</mat-label>
+        <mat-select [(value)]="selectedColumn">
+          <mat-option *ngFor="let column of displayedColumns" [value]="column">
+            {{ column | translateColumn }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Búsqueda</mat-label>
+        <input matInput #input (input)="applyFilter(input.value)" placeholder="Escribe para buscar...">
+      </mat-form-field>
+    </div>
+
+    <!-- Espacio Separador -->
+    <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
+
+    <!-- Botones -->
+    <div fxFlex="49" fxFlex.xs="100" class="button-container">
+      <app-btn-add-client></app-btn-add-client>
+      <app-btn-save-client></app-btn-save-client>
+    </div>
+  </div>
+
+  <div class="table">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
+      <!-- ID Column -->
+      <ng-container matColumnDef="id" sticky>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID </mat-header-cell>
+        <mat-cell *matCellDef="let cliente"> {{cliente.id}} </mat-cell>
+      </ng-container>
+
+      <!-- Nombre Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='name'> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let cliente"> {{cliente.name}} </mat-cell>
+      </ng-container>
+
+      <!-- DNI Column -->
+      <ng-container matColumnDef="dni">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='dni'> DNI </mat-header-cell>
+        <mat-cell *matCellDef="let cliente"> {{cliente.dni}} </mat-cell>
+      </ng-container>
+
+      <!-- Correo electrónico Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='email'> Correo electrónico </mat-header-cell>
+        <mat-cell *matCellDef="let cliente"> {{cliente.email}} </mat-cell>
+      </ng-container>
+
+      <!-- Ciudad Column -->
+      <ng-container matColumnDef="city">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='city'> Ciudad </mat-header-cell>
+        <mat-cell *matCellDef="let cliente"> {{cliente.city}} </mat-cell>
+      </ng-container>
+
+      <!-- Fecha de nacimiento Column -->
+      <ng-container matColumnDef="birth_date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='birth_date'> Fecha de nacimiento </mat-header-cell>
+        <mat-cell *matCellDef="let cliente"> {{ cliente.birth_date | date: 'yyyy-MM-dd' }} </mat-cell>
+      </ng-container>
+
+      <!-- Fecha de alta Column -->
+      <ng-container matColumnDef="created_at">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha de alta </mat-header-cell>
+        <mat-cell *matCellDef="let cliente"> {{ cliente.created_at | date: 'yyyy-MM-dd HH:mm' }} </mat-cell>
+      </ng-container>
+
+      <!-- Gestionar Column -->
+      <ng-container matColumnDef="gestionar" stickyEnd>
+        <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
+        <mat-cell *matCellDef="let cliente">
+          <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
+            <app-btn-mod-client [cliente]="cliente"></app-btn-mod-client>
+            <app-btn-del-client [cliente]="cliente"></app-btn-del-client>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+      class="mat-elevation-z8 my-custom-table"></mat-paginator>
+  </div>
 </div>
-
-  <table class="TablaCJ">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>DNI</th>
-        <th>Correo electrónico</th>
-        <th>Ciudad</th>
-        <th>Fecha de nacimiento</th>
-        <th>Fecha de alta</th>
-        <th>Gestionar</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cliente of clientes">
-        <td>{{ cliente.id }}</td>
-        <td>{{ cliente.name }}</td>
-        <td>{{ cliente.dni }}</td>
-        <td>{{ cliente.email }}</td>
-        <td>{{ cliente.city }}</td>
-        <td>{{ cliente.birth_date | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ cliente.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
-        <td><div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
-          <app-btn-mod-client [cliente]="cliente"></app-btn-mod-client>
-          <app-btn-del-client [cliente]="cliente"></app-btn-del-client></div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <br><br><br><br>

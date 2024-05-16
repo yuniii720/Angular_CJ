@@ -7,33 +7,79 @@
     </div>
   </div>
 
-  <div class="button-container">
-    <app-btn-add-account>
-    </app-btn-add-account>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="full-width-container">
+    <!-- Selector de Campo y Campo de Búsqueda -->
+    <div fxFlex="49" fxFlex.xs="100" class="search-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar por</mat-label>
+        <mat-select [(value)]="selectedColumn">
+          <mat-option *ngFor="let column of displayedColumns" [value]="column">
+            {{ column | translateColumn }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Búsqueda</mat-label>
+        <input matInput #input (input)="applyFilter(input.value)" placeholder="Escribe para buscar...">
+      </mat-form-field>
+    </div>
+
+    <!-- Espacio Separador -->
+    <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
+
+    <!-- Botones -->
+    <div fxFlex="49" fxFlex.xs="100" class="button-container">
+      <app-btn-add-account></app-btn-add-account>
+    </div>
   </div>
 
-  <table class="TablaCJ">
-    <thead>
-      <tr>
-        <th>ID Cuenta</th>
-        <th>Número de cuenta</th>
-        <th>Cliente</th>
-        <th>Saldo</th>
-        <th>Fecha de alta</th>
-        <th>Gestionar</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cuenta of cuentas">
-        <td>{{ cuenta.id }}</td>
-        <td>{{ cuenta.account_number }}</td>
-        <td>{{ cuenta.clientName }}</td>
-        <td>{{ cuenta.balance }} €</td>
-        <td>{{ cuenta.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
-        <td>
-          <app-btn-mod-account [cuenta]="cuenta"></app-btn-mod-account>
-          <app-btn-del-account [cuenta]="cuenta"></app-btn-del-account>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
+      <!-- ID Column -->
+      <ng-container matColumnDef="id" sticky>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID Cuenta </mat-header-cell>
+        <mat-cell *matCellDef="let cuenta"> {{ cuenta.id }} </mat-cell>
+      </ng-container>
+
+      <!-- Número de Cuenta Column -->
+      <ng-container matColumnDef="account_number">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='account_number'> Número de cuenta </mat-header-cell>
+        <mat-cell *matCellDef="let cuenta"> {{ cuenta.account_number }} </mat-cell>
+      </ng-container>
+
+      <!-- Cliente Column -->
+      <ng-container matColumnDef="clientName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='clientName'> Cliente </mat-header-cell>
+        <mat-cell *matCellDef="let cuenta"> {{ cuenta.clientName }} </mat-cell>
+      </ng-container>
+
+      <!-- Saldo Column -->
+      <ng-container matColumnDef="balance">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='balance'> Saldo </mat-header-cell>
+        <mat-cell *matCellDef="let cuenta"> {{ cuenta.balance }} € </mat-cell>
+      </ng-container>
+
+      <!-- Fecha de alta Column -->
+      <ng-container matColumnDef="created_at">
+        <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha de alta </mat-header-cell>
+        <mat-cell *matCellDef="let cuenta"> {{ cuenta.created_at | date: 'yyyy-MM-dd HH:mm' }} </mat-cell>
+      </ng-container>
+
+      <!-- Gestionar Column -->
+      <ng-container matColumnDef="gestionar" stickyEnd>
+        <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
+        <mat-cell *matCellDef="let cuenta">
+          <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
+            <app-btn-mod-account [cuenta]="cuenta"></app-btn-mod-account>
+            <app-btn-del-account [cuenta]="cuenta"></app-btn-del-account>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="mat-elevation-z8 my-custom-table"></mat-paginator>
+  </div>
+</div>

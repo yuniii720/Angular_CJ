@@ -6,7 +6,7 @@ $card-width: $card-height * 1.7;
 
 body {
     color: #000; /* Cambiado a color de texto negro */
-    margin: 0;
+    margin: 0 auto;
     background: $background-color;
     overflow: hidden;
     align-items: center;
@@ -31,7 +31,7 @@ body {
     justify-content: space-between;
     height: 100%;
     width: 100%;
-    float: right
+
 }
 
 .cards {
@@ -126,7 +126,6 @@ body {
     height: $card-height;
     perspective: 300px;
     display: block;
-    float: right;
 }
 
 .twitter-follow-button {

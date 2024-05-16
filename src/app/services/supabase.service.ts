@@ -41,8 +41,18 @@ export class SupabaseService {
     this.loadTarjetas();
   }
 
-  enviarDatos(data: any): Observable<any> {
+  async enviarDatos(data: any): Promise<Observable<any>> {
     return this.http.post('https://pbjdatvfbfkhaqrxrzdg.supabase.co', data);
+  }
+  
+
+  async fetchTarjetas() {
+    const { data, error } = await this.supabase.from('Tarjetas').select('*');
+    if (error) {
+      console.error('Error fetching cards', error);
+      throw error;
+    }
+    return data;
   }
 
   async loadUsuarios() {
