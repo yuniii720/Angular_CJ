@@ -1,0 +1,41 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 1.5vw;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item + .breadcrumb-item .breadcrumb-arrow {
+  margin: 0 8px;
+  font-size: 16px; /* Ajusta el tamaño según tus necesidades */
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+  color: #6c757d;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: none;
+  color: #008a9b;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+
+.mat-icon {
+  vertical-align: middle;
+  font-size: 20px; /* Ajusta el tamaño del icono según tus necesidades */
+}
+
+.arrow {
+  color: grey;
+}

@@ -58,16 +58,18 @@ import { BtnAddTarjetaComponent } from './components/buttons/tarjeta/btn-add-tar
 import { BtnModTarjetaComponent } from './components/buttons/tarjeta/btn-mod-tarjeta/btn-mod-tarjeta.component';
 import { BtnDelTarjetaComponent } from './components/buttons/tarjeta/btn-del-tarjeta/btn-del-tarjeta.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
+import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { CustomMatPaginatorIntl } from './components/tables/custom-paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { TranslateColumnPipe } from './components/tables/translate-column.pipe';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import 'intersection-observer';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+
+import 'intersection-observer';
 
 @NgModule({
   declarations: [
@@ -116,6 +118,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     BtnModTarjetaComponent,
     BtnDelTarjetaComponent,
     TranslateColumnPipe,
+    BreadcrumbsComponent,
   ],
   imports: [
     BrowserModule,
@@ -146,4 +149,5 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
