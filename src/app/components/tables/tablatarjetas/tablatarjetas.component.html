@@ -87,7 +87,8 @@
       <ng-container matColumnDef="accion">
         <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta">
-          <button mat-button color="warn" (click)="eliminarTarjeta(tarjeta.id)">Eliminar</button>
+          <button mat-button color="warn" (click)="openConfirmDialog(tarjeta.id)">Eliminar</button>
+
         </mat-cell>
       </ng-container>
 
