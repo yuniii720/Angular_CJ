@@ -33,6 +33,7 @@ export class AddCardComponent implements OnInit {
       cardHolderName: new FormControl('', Validators.required),
       expirationDate: new FormControl(expirationDateRandom, Validators.required),
       securityCode: new FormControl(cvv, Validators.required),
+      PIN: new FormControl(cvv, Validators.required),
       cardType: new FormControl('credito', Validators.required)
     });
   }
@@ -41,14 +42,15 @@ export class AddCardComponent implements OnInit {
 
   async onSubmit(): Promise<void> {
     if (this.creditCardForm.valid) {
-      const { cardNumber, cardHolderName, expirationDate, securityCode, cardType } = this.creditCardForm.value;
+      const { cardNumber, cardHolderName, expirationDate, securityCode, cardType, PIN } = this.creditCardForm.value;
       const tarjeta: Tarjeta = {
         saldo: 89234992349, // Valor provisional para saldo, ajustar según la lógica de la aplicación
         cardNumber,
         cardHolderName,
         expirationDate,
         securityCode,
-        cardType
+        cardType,
+        PIN
       };
 
       try {
@@ -57,7 +59,7 @@ export class AddCardComponent implements OnInit {
           throw new Error(result.error.message);
         }
         this.alertService.success('Tarjeta de crédito guardada con éxito.');
-        this.dialogRef.close(); // Cierra el diálogo después de guardar la tarjeta
+        this.dialogRef.close();
       } catch (error) {
         console.error('Error al guardar la tarjeta de crédito', error);
         this.alertService.error('Error al guardar la tarjeta de crédito.');

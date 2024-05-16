@@ -35,6 +35,14 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
+      <mat-label>PIN</mat-label>
+      <input matInput type="text" formControlName="PIN" placeholder="Introduce el PIN deseado" required>
+      <mat-error *ngIf="creditCardForm.get('PIN')?.errors?.['required']">
+        Debe rellenar el campo nombre del titular.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
       <mat-label>Tipo de Tarjeta</mat-label>
       <mat-select formControlName="cardType">
         <mat-option value="credito">Crédito</mat-option>

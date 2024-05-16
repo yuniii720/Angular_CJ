@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog'; // Agrega esta línea
+import { MatDialog } from '@angular/material/dialog'; 
 import { ModCardComponent } from '../../../modals/tarjetas/mod-card/mod-card.component';
+import { Tarjeta } from '../../../../models/tarjeta.model'; // Asegúrate de importar correctamente el tipo Tarjeta
 
 @Component({
   selector: 'app-btn-mod-tarjeta',
@@ -8,12 +9,16 @@ import { ModCardComponent } from '../../../modals/tarjetas/mod-card/mod-card.com
   styleUrls: ['./btn-mod-tarjeta.component.css'] 
 })
 export class BtnModTarjetaComponent {
+  tarjetaSeleccionada?: Tarjeta; // Usa el operador '?' para indicar que podría ser nulo
+
   constructor(public dialog: MatDialog) { }
 
-  openDialog(): void {
+  openDialog(tarjeta: Tarjeta): void {
+    this.tarjetaSeleccionada = tarjeta; // Asigna el valor dentro de la función openDialog
+
     const dialogRef = this.dialog.open(ModCardComponent, {
       width: '600px',
-      data: { },
+      data: { tarjeta: this.tarjetaSeleccionada },
     });
 
     dialogRef.afterClosed().subscribe(result => {

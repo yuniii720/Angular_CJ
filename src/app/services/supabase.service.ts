@@ -273,8 +273,8 @@ export class SupabaseService {
     }
   }
 
-  async updateTarjeta(id: number, updatedFields: any): Promise<void> {
-    const { data, error } = await this.supabase.from('Tarjetas').update(updatedFields).match({ id });
+  async updateTarjeta(tarjetaId: number, updatedFields: Partial<Tarjeta>): Promise<void> {
+    const { data, error } = await this.supabase.from('Tarjetas').update(updatedFields).match({ id: tarjetaId });
     if (error) {
       console.error('Error updating card', error);
       throw new Error(error.message);

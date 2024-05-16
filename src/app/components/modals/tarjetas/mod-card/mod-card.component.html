@@ -1,1 +1,29 @@
-<p>mod-card works!</p>
+<h2 mat-dialog-title>Modificar Tarjeta</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="tarjetaForm" class="tarjeta-form">
+    <!-- Campos del formulario -->
+    <mat-form-field appearance="fill">
+      <mat-label>Número de Tarjeta</mat-label>
+      <input matInput type="text" formControlName="numero" placeholder="Introduce número de tarjeta" required>
+      <mat-error *ngIf="tarjetaForm.get('numero')?.errors?.['required']">
+        El campo número de tarjeta es obligatorio.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de Vencimiento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fecha_vencimiento" placeholder="Selecciona fecha de vencimiento">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="tarjetaForm.get('fecha_vencimiento')?.errors?.['required']">
+        Debes seleccionar la fecha de vencimiento.
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!tarjetaForm.valid" (click)="onSubmit()">Actualizar</button>
+  <button mat-button (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>
