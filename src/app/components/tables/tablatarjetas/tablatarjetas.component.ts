@@ -22,9 +22,9 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy {
   tarjetas: Tarjeta[] = [];
   private subs = new Subscription();
 
-  selectedColumn: string = ''; // Añadido para solucionar el error de compilación
+  selectedColumn: string = ''; 
 
-  constructor(private supabaseService: SupabaseService, private dialog: MatDialog) { } // Inyecta MatDialog
+  constructor(private supabaseService: SupabaseService, private dialog: MatDialog) { } 
 
   ngOnInit(): void {
     this.subs.add(this.supabaseService.tarjeta$.subscribe(tarjetas => {
@@ -44,7 +44,7 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openConfirmDialog(id: number): void { // Método para abrir el ConfirmDialog
+  openConfirmDialog(id: number): void { 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '250px',
       data: {
