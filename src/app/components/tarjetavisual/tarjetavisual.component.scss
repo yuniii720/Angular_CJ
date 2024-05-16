@@ -9,10 +9,10 @@ body {
     margin: 0;
     background: $background-color;
     overflow: hidden;
-    display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
+
 }
 
 .wrapper {
@@ -31,6 +31,7 @@ body {
     justify-content: space-between;
     height: 100%;
     width: 100%;
+    float: right
 }
 
 .cards {
@@ -118,6 +119,14 @@ body {
     100% {
         transform: translateX(0) translateY(0);
     }
+}
+
+.tarjeta {
+    width: $card-width;
+    height: $card-height;
+    perspective: 300px;
+    display: block;
+    float: right;
 }
 
 .twitter-follow-button {
