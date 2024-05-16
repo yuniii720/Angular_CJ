@@ -17,50 +17,59 @@ const routes: Routes = [
   {
     path: '',
     component: LandingpageComponent,
+    data: { breadcrumb: 'Inicio' },
     outlet: 'auth'
   },
   {
     path: 'landing',
     component: LandingpageComponent,
+    data: { breadcrumb: 'Inicio' },
     outlet: 'auth'
   },
   {
     path: 'login',
     component: LoginComponent,
+    data: { breadcrumb: 'Iniciar Sesión' },
     outlet: 'auth'
   },
   {
     path: 'forgot',
     component: ForgottenpasswordComponent,
+    data: { breadcrumb: 'Recuperar Contraseña' },
     outlet: 'auth'
   },
   {
     path: 'register',
     component: RegisterComponent,
+    data: { breadcrumb: 'Registrarme' },
     outlet: 'auth',
     pathMatch: 'full'
   },
   {
     path: 'main',
     component: MainComponent,
+    data: { breadcrumb: 'Home' },
     outlet: 'auth',
     pathMatch: 'full'
   },
   {
     path: '',
     component: MainComponent,
+    data: { breadcrumb: 'Home' },
     outlet: 'auth',
     pathMatch: 'full'
   },
   {
     path: 'usuario',
     component: TablaUsuariosComponent,
+    data: { breadcrumb: 'Gestión de Usuarios' },
     outlet: 'auth',
     pathMatch: 'full'
   },
   {
     path: 'cliente',
     component: TablaClientesComponent,
+    data: { breadcrumb: 'Gestión de Clientes' },
     outlet: 'auth',
     pathMatch: 'full'
   },
@@ -73,18 +82,21 @@ const routes: Routes = [
   {
     path: 'cuentas',
     component: TablaCuentasComponent,
+    data: { breadcrumb: 'Gestión de Cuentas' },
     outlet: 'auth',
     pathMatch: 'full'
   },
   {
     path: 'tarjetas',
     component: TablaTarjetasComponent,
+    data: { breadcrumb: 'Gestión de Tarjetas' },
     outlet: 'auth',
     pathMatch: 'full'
   },
   {
     path: 'transferencias',
     component: TablatransferenciasComponent,
+    data: { breadcrumb: 'Gestión de Transferencias' },
     outlet: 'auth',
     pathMatch: 'full'
   }
