@@ -37,12 +37,18 @@ export class LoginComponent {
       if (res.user) {
         // Redirigir a main a través del outlet auth
         this.router.navigate([{ outlets: { auth: ['main'] } }]);
-      } else {
+      } else if (res.error) {
         this.errorMessage = res.error.message || 'Fallo al autenticar usuario.';
+      } else {
+        this.errorMessage = 'Fallo al autenticar usuario.';
       }
     } catch (err: any) {
       console.error('Error durante el inicio de sesión:', err); // Mensaje de depuración
-      this.errorMessage = 'Ocurrió un error durante el inicio de sesión: ' + err.message;
+      if (err.message.includes("lock")) {
+        this.errorMessage = 'Error de bloqueo durante el inicio de sesión. Por favor, inténtelo de nuevo.';
+      } else {
+        this.errorMessage = 'Ocurrió un error durante el inicio de sesión: ' + (err.message || err);
+      }
     }
   }
 }

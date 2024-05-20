@@ -22,11 +22,20 @@ export class AuthService {
     });
   }
 
-  signIn(email: string, password: string): Promise<any> {
-    return this.supabase_client.auth.signInWithPassword({
-      email,
-      password,
-    });
+  async signIn(email: string, password: string): Promise<any> {
+    try {
+      const { data, error } = await this.supabase_client.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    } catch (error: any) {
+      console.error('Error en signIn:', error);
+      throw error;
+    }
   }
 
   signOut(): Promise<any> {
