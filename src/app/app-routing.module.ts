@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { ForgottenpasswordComponent } from './components/forgottenpassword/forgottenpassword.component';
 import { MainComponent } from './components/main/main.component';
@@ -13,10 +13,11 @@ import { TablatransferenciasComponent } from './components/tables/tablatransfere
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 
 const routes: Routes = [
+
   {
     path: '',
-    redirectTo: 'landing',
-    pathMatch: 'full',
+    component: LandingpageComponent,
+    data: { breadcrumb: 'Inicio' },
     outlet: 'auth'
   },
   {
@@ -41,48 +42,63 @@ const routes: Routes = [
     path: 'register',
     component: RegisterComponent,
     data: { breadcrumb: 'Registrarme' },
-    outlet: 'auth'
+    outlet: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'main',
     component: MainComponent,
     data: { breadcrumb: 'Home' },
-    outlet: 'auth'
+    outlet: 'auth',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
+    component: MainComponent,
+    data: { breadcrumb: 'Home' },
+    outlet: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'usuario',
     component: TablaUsuariosComponent,
     data: { breadcrumb: 'Gestión de Usuarios' },
-    outlet: 'auth'
+    outlet: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'cliente',
     component: TablaClientesComponent,
     data: { breadcrumb: 'Gestión de Clientes' },
-    outlet: 'auth'
+    outlet: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'adduser',
     component: AddUserComponent,
-    outlet: 'auth'
+    outlet: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'cuentas',
     component: TablaCuentasComponent,
     data: { breadcrumb: 'Gestión de Cuentas' },
-    outlet: 'auth'
+    outlet: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'tarjetas',
     component: TablaTarjetasComponent,
     data: { breadcrumb: 'Gestión de Tarjetas' },
-    outlet: 'auth'
+    outlet: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'transferencias',
     component: TablatransferenciasComponent,
     data: { breadcrumb: 'Gestión de Transferencias' },
-    outlet: 'auth'
+    outlet: 'auth',
+    pathMatch: 'full'
   }
 ];
 

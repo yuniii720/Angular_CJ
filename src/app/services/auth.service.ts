@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { createClient, SupabaseClient, AuthError } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 
@@ -8,7 +9,7 @@ import { environment } from '../environments/environment';
 export class AuthService {
   private supabase: SupabaseClient;
 
-  constructor() {
+  constructor(private router: Router) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
   }
 
@@ -34,6 +35,9 @@ export class AuthService {
     if (error) {
       throw error;
     }
+
+    // Redirigir al usuario a la página principal después del inicio de sesión exitoso
+    this.router.navigate([{ outlets: { auth: ['main'] } }]);;
 
     return data.user;
   }
