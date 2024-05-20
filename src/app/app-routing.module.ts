@@ -17,6 +17,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'landing',
     pathMatch: 'full',
+    outlet: 'auth'
   },
   {
     path: 'landing',
