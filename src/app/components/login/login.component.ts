@@ -1,3 +1,4 @@
+// login.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,12 +19,12 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.minLength(5), Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(7)]],
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.loginForm.invalid) {
       return;
     }
@@ -31,19 +32,18 @@ export class LoginComponent {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
 
-    this.auth.signIn(email, password)
-      .then((res: any) => {
-        const userRole = res.data.user.role;
-        console.log(userRole);
-        if (userRole === 'authenticated') {
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.errorMessage = 'User role is not authenticated.';
-        }
-      })
-      .catch((err: any) => {
-        console.error(err);
-        this.errorMessage = 'Error occurred during sign in.';
-      });
+    try {
+      const res = await this.auth.signIn(email, password);
+      console.log('Respuesta del inicio de sesión:', res); // Mensaje de depuración
+      if (res.user) {
+        // Redirigir a main a través del outlet auth
+        this.router.navigate([{ outlets: { auth: ['main'] } }]);
+      } else {
+        this.errorMessage = 'Fallo al autenticar usuario.';
+      }
+    } catch (err) {
+      console.error('Error durante el inicio de sesión:', err); // Mensaje de depuración
+      this.errorMessage = 'Ocurrió un error durante el inicio de sesión.';
+    }
   }
 }

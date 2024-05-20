@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  AuthChangeEvent,
-  createClient,
-  Session,
-  SupabaseClient,
-} from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 
 export interface User {
@@ -39,7 +34,7 @@ export class AuthService {
     });
   }
 
-  public signOut(): Promise<any> {
+  signOut(): Promise<any> {
     return this.supabase_client.auth.signOut();
   }
 }
