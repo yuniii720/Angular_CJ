@@ -1,4 +1,3 @@
-// login.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -39,11 +38,11 @@ export class LoginComponent {
         // Redirigir a main a través del outlet auth
         this.router.navigate([{ outlets: { auth: ['main'] } }]);
       } else {
-        this.errorMessage = 'Fallo al autenticar usuario.';
+        this.errorMessage = res.error.message || 'Fallo al autenticar usuario.';
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error durante el inicio de sesión:', err); // Mensaje de depuración
-      this.errorMessage = 'Ocurrió un error durante el inicio de sesión.';
+      this.errorMessage = 'Ocurrió un error durante el inicio de sesión: ' + err.message;
     }
   }
 }
