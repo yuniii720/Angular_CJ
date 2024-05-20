@@ -25,7 +25,7 @@
     "@angular/router": "^17.3.0",
     "@angular/ssr": "^17.3.3",
     "@sinonjs/commons": "^4.0.0-alpha.0",
-    "@supabase/supabase-js": "^2.42.7",
+    "@supabase/supabase-js": "^2.43.2",
     "express": "^4.19.2",
     "intersection-observer": "^0.12.2",
     "querystring": "^0.2.1",
