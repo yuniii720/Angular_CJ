@@ -11,8 +11,7 @@ import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacue
 import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
 import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
-import { RoleGuardComponent } from './components/role-guard/role-guard.component';
-import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
+
 
 const routes: Routes = [
   { path: '', component: LandingpageComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
@@ -21,14 +20,14 @@ const routes: Routes = [
   { path: 'forgot', component: ForgottenpasswordComponent, data: { breadcrumb: 'Recuperar Contraseña' }, outlet: 'auth' },
   { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Registrarme' }, outlet: 'auth', pathMatch: 'full' },
   { path: 'main', component: MainComponent, data: { breadcrumb: 'Home' }, outlet: 'auth', pathMatch: 'full' },
-  { path: 'usuario', component: TablaUsuariosComponent, canActivate: [RoleGuardComponent], data: { breadcrumb: 'Gestión de Usuarios' } },
-  { path: 'cliente', component: TablaClientesComponent, canActivate: [RoleGuardComponent], data: { breadcrumb: 'Gestión de Clientes' } },
-  { path: 'adduser', component: AddUserComponent, canActivate: [RoleGuardComponent], data: { breadcrumb: 'Agregar Usuario' } },
-  { path: 'cuentas', component: TablaCuentasComponent, canActivate: [RoleGuardComponent], data: { breadcrumb: 'Gestión de Cuentas' } },
-  { path: 'tarjetas', component: TablaTarjetasComponent, canActivate: [RoleGuardComponent], data: { breadcrumb: 'Gestión de Tarjetas' } },
-  { path: 'transferencias', component: TablatransferenciasComponent, canActivate: [RoleGuardComponent], data: { breadcrumb: 'Gestión de Transferencias' } },
-  { path: 'not-authorized', component: NotAuthorizedComponent }
+  { path: 'usuario', component: TablaUsuariosComponent, data: { breadcrumb: 'Gestión de Usuarios' } },
+  { path: 'cliente', component: TablaClientesComponent, data: { breadcrumb: 'Gestión de Clientes' } },
+  { path: 'adduser', component: AddUserComponent, data: { breadcrumb: 'Agregar Usuario' } },
+  { path: 'cuentas', component: TablaCuentasComponent, data: { breadcrumb: 'Gestión de Cuentas' } },
+  { path: 'tarjetas', component: TablaTarjetasComponent, data: { breadcrumb: 'Gestión de Tarjetas' } },
+  { path: 'transferencias', component: TablatransferenciasComponent, data: { breadcrumb: 'Gestión de Transferencias' } },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

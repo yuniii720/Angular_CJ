@@ -36,7 +36,7 @@ export class LoginComponent {
       console.log('Respuesta del inicio de sesión:', res); // Mensaje de depuración
       if (res.user) {
         // Utiliza router.navigateByUrl() para navegar a una ruta que utiliza routerOutlet
-        this.router.navigateByUrl('/main');
+        'Usuario correcto';
       } else if (res.error) {
         this.errorMessage = res.error.message || 'Fallo al autenticar usuario.';
       } else {
