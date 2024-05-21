@@ -1,16 +1,24 @@
-<div class="header">
-  <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo"><div class="img"><img src="../../assets/img/logo.png" name="vn_logo"></div></a>
-  <nav class="menu">
-    <a class="active" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
-  </nav>
-  <div class="header-right">
-    <a class="active" href="#usuario">Usuario</a>
-    <a class="active" href="#icon-user"><img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon"></a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['landing'] } }]"><img src="../../assets/img/icon-logout.svg" name="cajamar_logo" id="icon-logout" class="icon"></a>
-  </div>
-</div>
-
+<mat-toolbar color="primary" class="header">
+  <mat-toolbar-row>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo no-hover">
+      <img src="../../assets/img/logo.png" alt="VN Logo" class="logo-img">
+    </a>
+    <nav class="menu">
+      <a mat-button [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
+      <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
+      <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
+      <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
+      <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
+    </nav>
+    <span class="spacer"></span>
+    <div class="header-right">
+      <a mat-button href="#usuario">Usuario</a>
+      <a mat-icon-button href="#icon-user">
+        <mat-icon>person</mat-icon>
+      </a>
+      <a mat-icon-button [routerLink]="['', { outlets: { auth: ['landing'] } }]">
+        <mat-icon>logout</mat-icon>
+      </a>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

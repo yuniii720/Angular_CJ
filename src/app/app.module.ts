@@ -68,6 +68,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import 'intersection-observer';
 
@@ -141,6 +142,9 @@ import 'intersection-observer';
     MatNativeDateModule,
     MatMenuModule,
     MatTooltipModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
