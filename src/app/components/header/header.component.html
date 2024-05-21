@@ -1,8 +1,12 @@
 <div class="header">
-  <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo"><div class="img"><img src="../../assets/img/logo.png" name="vn_logo"></div></a>
+  <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo">
+    <div class="img">
+      <img src="../../assets/img/logo.png" name="vn_logo">
+    </div>
+  </a>
   <nav class="menu">
-    <a class="active" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
+    <a *ngIf="(authService.getUserRole() | async)?.includes('superadmin')" class="active" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
+    <a *ngIf="(authService.getUserRole() | async)?.includes('superadmin') || (authService.getUserRole() | async)?.includes('empleado')" class="active" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
     <a class="active" [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
     <a class="active" [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
     <a class="active" [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
@@ -13,4 +17,3 @@
     <a class="active" [routerLink]="['', { outlets: { auth: ['landing'] } }]"><img src="../../assets/img/icon-logout.svg" name="cajamar_logo" id="icon-logout" class="icon"></a>
   </div>
 </div>
-

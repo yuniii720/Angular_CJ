@@ -26,10 +26,11 @@ export class RegisterComponent {
 
   async registerUser() {
     if (this.registroForm.valid) {
-      const { email, username, password } = this.registroForm.value;
+      const { email,password } = this.registroForm.value;
 
       try {
-        const user = await this.authService.signUp(email, password, username);
+        // Ajustar la llamada a signUp para pasar solo dos argumentos
+        const user = await this.authService.signUp(email, password);
         console.log('Usuario registrado correctamente:', user);
         // Redirigir al usuario al login o a la página principal
         this.router.navigate([{ outlets: { auth: ['login'] } }]);

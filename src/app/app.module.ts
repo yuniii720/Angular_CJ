@@ -70,6 +70,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 
 import 'intersection-observer';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import 'intersection-observer';
     BtnDelTarjetaComponent,
     TranslateColumnPipe,
     BreadcrumbsComponent,
+    NotAuthorizedComponent,
   ],
   imports: [
     BrowserModule,
@@ -149,5 +151,4 @@ import 'intersection-observer';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }
