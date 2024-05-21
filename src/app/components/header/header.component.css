@@ -21,12 +21,12 @@
 
 .menu a {
   margin-right: 20px;
-  color: #3c6e86;  /* Color del texto */
+  color: #3c6e86; 
   text-decoration: none;
 }
 
 .menu a:hover {
-  color: #69bfe7;  /* Color al pasar el mouse */
+  color: #69bfe7; 
 }
 
 .spacer {
@@ -40,11 +40,11 @@
 
 .header-right a {
   margin-right: 15px;
-  color: #3c6e86;  /* Color del texto */
+  color: #3c6e86; 
 }
 
 .header-right a:hover {
-  color: #69bfe7;  /* Color al pasar el mouse */
+  color: #69bfe7; 
 }
 
 .mat-toolbar-row {

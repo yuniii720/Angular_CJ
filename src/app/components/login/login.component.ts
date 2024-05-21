@@ -33,9 +33,9 @@ export class LoginComponent {
 
     try {
       const res = await this.auth.signIn(email, password);
-      console.log('Respuesta del inicio de sesión:', res); // Mensaje de depuración
+      console.log('Respuesta del inicio de sesión:', res);
       if (res.user) {
-        // Utiliza router.navigateByUrl() para navegar a una ruta que utiliza routerOutlet
+    
         'Usuario correcto';
       } else if (res.error) {
         this.errorMessage = res.error.message || 'Fallo al autenticar usuario.';
@@ -43,7 +43,7 @@ export class LoginComponent {
         this.errorMessage = 'Fallo al autenticar usuario.';
       }
     } catch (err: any) {
-      console.error('Error durante el inicio de sesión:', err); // Mensaje de depuración
+      console.error('Error durante el inicio de sesión:', err);
       if (err.message.includes("lock")) {
         this.errorMessage = 'Error de bloqueo durante el inicio de sesión. Por favor, inténtelo de nuevo.';
       } else {

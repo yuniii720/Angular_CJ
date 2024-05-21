@@ -4,8 +4,10 @@
   </a>
   <span class="spacer"></span>
   <nav class="menu">
-    <a mat-button [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
+    <a mat-button *ngIf="(userRole$ | async) === 1" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
+
+    <a mat-button *ngIf="(userRole$ | async) === 1 || (userRole$ | async) === 2" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
+    
     <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>

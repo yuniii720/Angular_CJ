@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +10,15 @@ import { environment } from '../environments/environment';
 export class AuthService {
   private supabase: SupabaseClient;
   private user: User | null = null;
+  private userRole: number | null = null;
 
   constructor(private router: Router) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.supabase.auth.onAuthStateChange((event, session) => {
       this.user = session?.user ?? null;
+      if (this.user) {
+        this.setUserRole();
+      }
     });
   }
 
@@ -41,7 +46,9 @@ export class AuthService {
     }
 
     if (data.user) {
-      this.router.navigate(['', { outlets: { auth: ['main'] } }]); // Redirige a la página principal después de iniciar sesión
+      await this.setUserRole();
+      console.log('Rol del usuario:', this.userRole); // Mostrar el rol del usuario por consola
+      this.router.navigate(['', { outlets: { auth: ['main'] } }]);
     }
 
     return data.user;
@@ -55,10 +62,41 @@ export class AuthService {
     }
 
     this.user = null;
-    this.router.navigateByUrl('login'); // Redirige a la página de inicio de sesión después de cerrar sesión
+    this.userRole = null;
+    this.router.navigateByUrl('login');
   }
 
   getUserId(): string | null {
     return this.user ? this.user.id : null;
+  }
+
+  private async setUserRole(): Promise<void> {
+    if (this.user) {
+      const { data, error } = await this.supabase
+        .from('userroles')
+        .select('role_id')
+        .eq('user_id', this.user.id)
+        .single();
+
+      if (error) {
+        console.error('Error fetching user role:', error);
+        return;
+      }
+
+      this.userRole = data?.role_id ?? null;
+    }
+  }
+
+  getUserRole(): Observable<number | null> {
+    if (this.userRole !== null) {
+      return of(this.userRole);
+    } else {
+      return new Observable<number | null>((observer) => {
+        this.setUserRole().then(() => {
+          observer.next(this.userRole);
+          observer.complete();
+        });
+      });
+    }
   }
 }

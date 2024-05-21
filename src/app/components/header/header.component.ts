@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { RoleGuardService } from '../../services/role-guard.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +8,11 @@ import { RoleGuardService } from '../../services/role-guard.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  constructor(public authService: AuthService) {}
+  userRole$!: Observable<number | null>; // Marcado con ! para indicar que será inicializado antes de su uso
 
-  ngOnInit(): void {}
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.userRole$ = this.authService.getUserRole();
+  }
 }
