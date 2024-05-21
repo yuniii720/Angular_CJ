@@ -34,11 +34,14 @@ export class LoginComponent {
     try {
       const res = await this.auth.signIn(email, password);
       console.log('Respuesta del inicio de sesión:', res); // Mensaje de depuración
-      if (res.user) {
-        // Utiliza router.navigateByUrl() para navegar a una ruta que utiliza routerOutlet
-        this.router.navigateByUrl('/main');
-      } else if (res.error) {
-        this.errorMessage = res.error.message || 'Fallo al autenticar usuario.';
+      if (res) {
+        // Verificar si el objeto res tiene el usuario autenticado
+        if (res.id) {
+          // Redirigir a main a través del outlet auth
+          this.router.navigate([{ outlets: { auth: ['main'] } }]);
+        } else {
+          this.errorMessage = 'Fallo al autenticar usuario.';
+        }
       } else {
         this.errorMessage = 'Fallo al autenticar usuario.';
       }
