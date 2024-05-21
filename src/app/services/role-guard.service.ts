@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Observable, of } from 'rxjs';
 import { map, take, catchError } from 'rxjs/operators';
@@ -7,10 +7,10 @@ import { map, take, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuardService {
+export class RoleGuardService implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate: CanActivateFn = (next, state) => {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
     const expectedRole = next.data && typeof next.data === 'object' ? next.data['expectedRole'] : null;
 
     if (expectedRole == null) {
@@ -35,5 +35,5 @@ export class RoleGuardService {
         return of(false);
       })
     );
-  };
+  }
 }
