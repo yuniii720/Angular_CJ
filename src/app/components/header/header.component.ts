@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+interface UserRole {
+  role_id: number;
+}
 
 @Component({
   selector: 'app-header',
@@ -8,11 +13,28 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  userRole$!: Observable<number | null>; // Marcado con ! para indicar que será inicializado antes de su uso
+  userRoleMessage$: Observable<string> = of(''); // Initialize with an empty Observable
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.userRole$ = this.authService.getUserRole();
+  ngOnInit() {
+    this.userRoleMessage$ = this.authService.getUserRole().pipe(
+      map((userRole: UserRole | null) => {
+        if (!userRole) {
+          return '';
+        }
+
+        const role_id = userRole.role_id;
+        if (role_id === 1) {
+          return 'Super Admin';
+        } else if (role_id === 2) {
+          return 'Bienvenido empleado';
+        } else if (role_id === 3) {
+          return 'Bienvenido cliente';
+        } else {
+          return '';
+        }
+      })
+    );
   }
 }

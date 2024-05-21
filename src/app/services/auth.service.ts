@@ -4,6 +4,10 @@ import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { Observable, of } from 'rxjs';
 
+interface UserRole {
+  role_id: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -87,13 +91,13 @@ export class AuthService {
     }
   }
 
-  getUserRole(): Observable<number | null> {
+  getUserRole(): Observable<UserRole | null> {
     if (this.userRole !== null) {
-      return of(this.userRole);
+      return of({ role_id: this.userRole });
     } else {
-      return new Observable<number | null>((observer) => {
+      return new Observable<UserRole | null>((observer) => {
         this.setUserRole().then(() => {
-          observer.next(this.userRole);
+          observer.next(this.userRole !== null ? { role_id: this.userRole } : null);
           observer.complete();
         });
       });
