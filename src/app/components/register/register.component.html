@@ -27,7 +27,7 @@
             <div id="recuadro-password-2" *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
           </div>
         </div><br>
-        <input type="submit" class="btn btn-primary" [disabled]="registroForm.invalid" value="Recibir mis credenciales">
+        <input type="submit" class="btn btn-primary" [disabled]="registroForm.invalid" value="Regístrame">
       </form><br>
       <a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
     </div>

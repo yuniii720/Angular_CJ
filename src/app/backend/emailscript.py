@@ -33,23 +33,20 @@ def send_email():
         if not email or not username:
             raise KeyError('Faltan campos obligatorios en la solicitud')
 
-        # Generar la contraseña si no se proporciona
         password = password_generator(12) if 'password' not in data else data['password']
-
-        # Configurar el mensaje de correo electrónico
         msg = EmailMessage()
-        msg.set_content(f'Hola {username},\n\nBienvenido, hemos recibido tu registro en Cajamar. Aquí están tus credenciales:\n\nUsuario: {username}\nContraseña: {password}\n\n¡Gracias por registrarte! Si tienes algún problema para acceder, no dudes en contactar con soscajamar@viewnext.com')
+        msg.set_content(f'Hola {username},\n\nBienvenido, hemos recibido tu registro en Cajamar. Aquí están tus credenciales:\n\nUsuario: {username}\nContraseña: {password}\n\n¡Gracias por registrarte! Si tienes algún problema para acceder, no dudes en contactar con sosvnbank@vnbank.com')
 
         msg['Subject'] = 'Bienvenido a Cajamar'
         msg['From'] = GMAIL_ADDRESS
         msg['To'] = email
 
-        # Enviar el correo electrónico
+
         with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
             server.login(GMAIL_ADDRESS, GMAIL_PASSWORD)
             server.send_message(msg)
 
-        # Insertar el registro en Supabase
+
         supabase.table('Registros').insert([{'email': email, 'username': username, 'password': password}]).execute()
 
         return jsonify({'message': 'Correo electrónico enviado correctamente'}), 200
