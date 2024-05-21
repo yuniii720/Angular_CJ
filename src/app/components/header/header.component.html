@@ -1,16 +1,23 @@
-<div class="header">
-  <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo"><div class="img"><img src="../../assets/img/logo.png" name="vn_logo"></div></a>
+<mat-toolbar class="header">
+  <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo">
+    <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
+  </a>
+  <span class="spacer"></span>
   <nav class="menu">
-    <a class="active" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
+    <a mat-button *ngIf="(authService.getUserRole() | async)?.includes('superadmin')" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
+    <a mat-button *ngIf="(authService.getUserRole() | async)?.includes('superadmin') || (authService.getUserRole() | async)?.includes('empleado')" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
   </nav>
+  <span class="spacer"></span>
   <div class="header-right">
-    <a class="active" href="#usuario">Usuario</a>
-    <a class="active" href="#icon-user"><img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon"></a>
-    <a class="active" [routerLink]="['', { outlets: { auth: ['landing'] } }]"><img src="../../assets/img/icon-logout.svg" name="cajamar_logo" id="icon-logout" class="icon"></a>
+    <a mat-button href="#usuario">Usuario</a>
+    <a mat-button href="#icon-user">
+      <img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon">
+    </a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['landing'] } }]">
+      <img src="../../assets/img/icon-logout.svg" name="cajamar_logo" id="icon-logout" class="icon">
+    </a>
   </div>
-</div>
-
+</mat-toolbar>
