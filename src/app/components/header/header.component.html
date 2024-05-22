@@ -1,24 +1,28 @@
-<mat-toolbar class="header">
-  <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo">
-    <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
-  </a>
-  <span class="spacer"></span>
-  <nav class="menu">
-    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin'" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
-    
-    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
-  </nav>
-  <span class="spacer"></span>
-  <div class="header-right">
-    <a mat-button href="#usuario">{{ userRoleMessage$ | async }}</a>
-    <a mat-button href="#icon-user">
-      <img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon">
+<mat-toolbar color="primary" class="header">
+  <mat-toolbar-row>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo">
+      <img src="../../assets/img/logo.png" alt="VN Logo" class="logo-img">
     </a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['landing'] } }]">
-      <img src="../../assets/img/icon-logout.svg" name="cajamar_logo" id="icon-logout" class="icon">
-    </a>
-  </div>
+    <nav class="menu">
+      <a mat-button [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
+      <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
+      <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
+      <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
+      <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
+    </nav>
+    <span class="spacer"></span>
+    <div class="header-right">
+      <a mat-button href="#usuario">Usuario</a>
+      <a mat-icon-button href="#icon-user">
+        <mat-icon>person</mat-icon>
+      </a>
+      <a mat-icon-button [routerLink]="['', { outlets: { auth: ['landing'] } }]">
+        <mat-icon>logout</mat-icon>
+      </a>
+    </div>
+  </mat-toolbar-row>
 </mat-toolbar>
+
+<div class="content-wrapper">
+  <router-outlet></router-outlet> <!-- Aquí se cargarán los componentes -->
+</div>

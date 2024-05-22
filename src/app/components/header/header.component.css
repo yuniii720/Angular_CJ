@@ -9,14 +9,9 @@
 }
 
 .logo-img {
-  width: 80px;
-  margin-top: 10px;
-  margin-right: 15px;
-}
-
-.icon {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  margin-top: 15px;
+  margin-right: 10px;
 }
 
 .menu {
@@ -26,12 +21,14 @@
 
 .menu a {
   margin-right: 20px;
-  color: #3c6e86; 
+  color: #3c6e86;
+  /* Color del texto */
   text-decoration: none;
 }
 
 .menu a:hover {
-  color: #69bfe7; 
+  color: #69bfe7;
+  /* Color al pasar el mouse */
 }
 
 .spacer {
@@ -45,11 +42,13 @@
 
 .header-right a {
   margin-right: 15px;
-  color: #3c6e86; 
+  color: #3c6e86;
+  /* Color del texto */
 }
 
 .header-right a:hover {
-  color: #69bfe7; 
+  color: #69bfe7;
+  /* Color al pasar el mouse */
 }
 
 .mat-toolbar-row {
@@ -58,7 +57,13 @@
   justify-content: space-between;
 }
 
+.content-wrapper {
+  margin-top: 0px;
+  /* Ajusta esta altura según la altura real de tu toolbar */
+}
+
 @media screen and (max-width: 500px) {
+
   .logo-img {
     margin-bottom: 15px;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -12,9 +12,10 @@ import { DatePipe } from '@angular/common';
   templateUrl: './tablausuarios.component.html',
   styleUrls: ['./tablausuarios.component.css']
 })
-export class TablaUsuariosComponent implements OnInit, OnDestroy {
+export class TablaUsuariosComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Usuario>();
   displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'hire_date', 'created_at', 'gestionar'];
+  filteredColumns: string[] = [];
   selectedColumn: string = 'username';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -25,6 +26,7 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy {
   constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
+    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
     this.subs.add(this.supabaseService.usuarios$.subscribe(data => {
       this.dataSource.data = data;
     }));
