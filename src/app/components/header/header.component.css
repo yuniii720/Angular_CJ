@@ -9,9 +9,14 @@
 }
 
 .logo-img {
-  width: 45px;
+  width: 80px;
   margin-top: 15px;
   margin-right: 10px;
+}
+
+.icon {
+  width: 40px;
+  height: auto;
 }
 
 .menu {
