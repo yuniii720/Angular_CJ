@@ -26,34 +26,35 @@ export class AuthService {
     });
   }
 
-  async signUp(email: string, password: string): Promise<User | null> {
+  async signUp(email: string, password: string, username: string): Promise<any> {
     const { data, error } = await this.supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          username: username
+        }
+      }
     });
 
     if (error) {
       throw error;
     }
 
+    // Añadir usuario a la tabla Usuarios
     const user = data.user;
-
     if (user) {
-      await this.addUserToUsuarios(user.id, email);
+      const { error: insertError } = await this.supabase
+        .from('Usuarios')
+        .insert([{ id: user.id, email, username, password }]);
+
+      if (insertError) {
+        console.error('Error adding user to Usuarios:', insertError);
+        throw insertError;
+      }
     }
 
     return user;
-  }
-
-  private async addUserToUsuarios(userId: string, email: string): Promise<void> {
-    const { error } = await this.supabase
-      .from('Usuarios')
-      .insert([{ id: userId, email }]);
-
-    if (error) {
-      console.error('Error adding user to Usuarios:', error.message);
-      throw error;
-    }
   }
 
   async signIn(email: string, password: string): Promise<any> {
@@ -69,7 +70,7 @@ export class AuthService {
     if (data.user) {
       await this.setUserRole();
       console.log('Rol del usuario:', this.userRole); // Mostrar el rol del usuario por consola
-      this.router.navigate(['', { outlets: { auth: ['main'] } }]);
+      this.router.navigate([{ outlets: { auth: ['main'] } }]);
     }
 
     return data.user;
