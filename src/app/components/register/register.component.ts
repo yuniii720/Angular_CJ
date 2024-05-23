@@ -26,13 +26,12 @@ export class RegisterComponent {
 
   async registerUser() {
     if (this.registroForm.valid) {
-      const { email, password } = this.registroForm.value;
+      const { email, password, username } = this.registroForm.value;
 
       try {
-        // Asegúrate de que signUp en AuthService acepte email y password
         const user = await this.authService.signUp(email, password);
         console.log('Usuario registrado correctamente:', user);
-        
+
         // Redirigir al usuario al login o a la página principal
         this.router.navigate(['/login']); // Ajusta la ruta según tu necesidad
       } catch (error: any) {

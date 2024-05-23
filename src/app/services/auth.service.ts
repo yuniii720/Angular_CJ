@@ -26,7 +26,7 @@ export class AuthService {
     });
   }
 
-  async signUp(email: string, password: string): Promise<any> {
+  async signUp(email: string, password: string): Promise<User | null> {
     const { data, error } = await this.supabase.auth.signUp({
       email,
       password,
@@ -36,7 +36,24 @@ export class AuthService {
       throw error;
     }
 
-    return data.user;
+    const user = data.user;
+
+    if (user) {
+      await this.addUserToUsuarios(user.id, email);
+    }
+
+    return user;
+  }
+
+  private async addUserToUsuarios(userId: string, email: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('Usuarios')
+      .insert([{ id: userId, email }]);
+
+    if (error) {
+      console.error('Error adding user to Usuarios:', error.message);
+      throw error;
+    }
   }
 
   async signIn(email: string, password: string): Promise<any> {
