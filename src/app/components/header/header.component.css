@@ -9,14 +9,10 @@
 }
 
 .logo-img {
-  width: 80px;
+  width: 45px;
   margin-top: 15px;
-  margin-right: 10px;
-}
-
-.icon {
-  width: 40px;
-  height: auto;
+  margin-right: 15px;
+  margin-left: 10px;
 }
 
 .menu {
@@ -27,13 +23,11 @@
 .menu a {
   margin-right: 20px;
   color: #3c6e86;
-  /* Color del texto */
   text-decoration: none;
 }
 
 .menu a:hover {
   color: #69bfe7;
-  /* Color al pasar el mouse */
 }
 
 .spacer {
@@ -46,17 +40,16 @@
 }
 
 .header-right a {
-  margin-right: 15px;
+  margin-right: 0px;
   color: #3c6e86;
-  /* Color del texto */
 }
 
 .header-right a:hover {
   color: #69bfe7;
-  /* Color al pasar el mouse */
 }
 
-.mat-toolbar-row {
+.mat-toolbar-row,
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,11 +57,15 @@
 
 .content-wrapper {
   margin-top: 0px;
-  /* Ajusta esta altura según la altura real de tu toolbar */
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-top: 10px;
 }
 
 @media screen and (max-width: 500px) {
-
   .logo-img {
     margin-bottom: 15px;
   }

@@ -1,19 +1,19 @@
 img {
     width: 80px;
   }
-  
+
   .icon {
     width: 30px;
     height: 30px;
     margin: -10px 0;
   }
-  
+
   #icon-logout {
     width: 35px;
     height: 35px;
     margin: -12px 0;
   }
-  
+
   .header {
     overflow: hidden;
     background-color: #ffffff;
@@ -25,7 +25,7 @@ img {
     z-index: 1;
     opacity: 1;
   }
-  
+
   .header a {
     float: left;
     color: #3c6e86  ;
@@ -35,44 +35,43 @@ img {
     font-size: 18px;
     line-height: 25px;
   }
-  
+
   .header a.logo {
     font-weight: bold;
     margin: -15px 25px -15px 0;
   }
-  
+
   .header a:hover {
     color: #69bfe7  ;
   }
-  
+
   nav {
     float: left;
   }
-  
+
   .header-right {
     float: right;
   }
-  
+
   @media screen and (max-width: 500px) {
     img {
       margin-bottom: 15px;
     }
-  
+
     .header a {
       float: none;
       display: block;
       text-align: left;
       margin-top: 10px;
     }
-  
+
     .header-left {
       float: none;
     }
-  
-  
+
+
     .header-right {
       margin-top: -150px;
       float: right;
     }
   }
-  
