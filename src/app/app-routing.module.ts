@@ -12,10 +12,12 @@ import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablat
 import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
+import { MainclienteComponent } from './components/maincliente/maincliente.component';
 
 const routes: Routes = [
   { path: '', component: LandingpageComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
   { path: 'landing', component: LandingpageComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
+  { path: 'maincliente', component: MainclienteComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
   { path: 'login', component: LoginComponent, data: { breadcrumb: 'Iniciar Sesión' }, outlet: 'auth' },
   { path: 'forgot', component: ForgottenpasswordComponent, data: { breadcrumb: 'Recuperar Contraseña' }, outlet: 'auth' },
   { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Registrarme' }, outlet: 'auth' },

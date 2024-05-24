@@ -20,7 +20,8 @@ export class RegisterComponent {
     this.registroForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      
     });
   }
 
@@ -32,8 +33,8 @@ export class RegisterComponent {
         const user = await this.authService.signUp(email, password, username);
         console.log('Usuario registrado correctamente:', user);
 
-        // Redirigir al usuario al login o a la página principal
-        this.router.navigate([{ outlets: { auth: ['login'] } }]); // Ajusta la ruta según tu necesidad
+
+        this.router.navigate([{ outlets: { auth: ['login'] } }]);
       } catch (error: any) {
         console.error('Error al registrar usuario:', error);
         this.errorMessage = error.message || 'Error al registrar usuario.';
