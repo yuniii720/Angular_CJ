@@ -1,5 +1,5 @@
 export interface Tarjeta {
-  id: string;
+  id: number;
   cardNumber: string;
   cardHolderName: string;
   cardType: string;

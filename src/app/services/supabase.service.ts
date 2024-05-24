@@ -301,20 +301,25 @@ export class SupabaseService {
     }
   }
 
-  async saveCreditCard(tarjeta: Tarjeta): Promise<SaveResult> {
-    try {
-      const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]);
-      if (error) {
-        console.error('Error saving credit card', error);
-        return { error: { message: 'Error al guardar la tarjeta de crédito.' } };
-      } else {
-        this.loadTarjetas();
-        return {};
-      }
-    } catch (error) {
-      console.error('Error saving credit card', error);
-      throw error;
+  async saveCreditCard(tarjeta: Omit<Tarjeta, 'id'>): Promise<SaveResult> {
+    const { data, error } = await this.supabase
+      .from('Tarjetas')
+      .insert([
+        {
+          saldo: tarjeta.saldo,
+          cardNumber: tarjeta.cardNumber,
+          cardHolderName: tarjeta.cardHolderName,
+          expirationDate: tarjeta.expirationDate,
+          securityCode: tarjeta.securityCode,
+          cardType: tarjeta.cardType,
+          PIN: tarjeta.PIN
+        }
+      ]);
+
+    if (error) {
+      return { error };
     }
+    return { error: undefined };
   }
 
   async getCreditCard(id: number): Promise<Tarjeta | null> {

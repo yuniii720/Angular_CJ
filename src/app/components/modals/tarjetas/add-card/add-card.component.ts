@@ -1,4 +1,3 @@
-// add-card.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -28,12 +27,15 @@ export class AddCardComponent implements OnInit {
     const expirationYear = randomYear.toString().slice(-2);
     const expirationDateRandom = `${expirationMonth}/${expirationYear}`;
 
+    // Generar PIN aleatorio de 4 dígitos
+    const pin = Math.floor(1000 + Math.random() * 9000).toString();
+
     this.creditCardForm = new FormGroup({
       cardNumber: new FormControl('', Validators.required),
       cardHolderName: new FormControl('', Validators.required),
       expirationDate: new FormControl(expirationDateRandom, Validators.required),
       securityCode: new FormControl(cvv, Validators.required),
-      pin: new FormControl('', Validators.required),
+      pin: new FormControl(pin, Validators.required),
       cardType: new FormControl('credito', Validators.required)
     });
   }
@@ -42,16 +44,15 @@ export class AddCardComponent implements OnInit {
 
   async onSubmit(): Promise<void> {
     if (this.creditCardForm.valid) {
-      const { cardNumber, cardHolderName, expirationDate, securityCode, cardType, PIN } = this.creditCardForm.value;
-      const tarjeta: Tarjeta = {
-        id: '', // Se generará automáticamente en la base de datos
+      const { cardNumber, cardHolderName, expirationDate, securityCode, cardType, pin } = this.creditCardForm.value;
+      const tarjeta: Omit<Tarjeta, 'id'> = { // Omitimos el campo 'id'
         saldo: 89234992349, // Valor provisional para saldo, ajustar según la lógica de la aplicación
         cardNumber,
         cardHolderName,
         expirationDate,
         securityCode,
         cardType,
-        PIN,
+        PIN: pin, // Usar el PIN generado
       };
 
       try {
