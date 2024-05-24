@@ -79,10 +79,10 @@ export class AuthService {
     if (data.user) {
       await this.setUserRole();
       this.getUserRole().subscribe((userRole) => {
-        if (userRole && userRole.role_id === 3) {
-          this.router.navigate([{ outlets: { auth: ['maincliente'] } }]);
-        } else {
+        if (userRole && userRole.role_id === 1,2) {
           this.router.navigate([{ outlets: { auth: ['main'] } }]);
+        } else {
+          this.router.navigate([{ outlets: { auth: ['maincliente'] } }]);
         }
       });
     }
