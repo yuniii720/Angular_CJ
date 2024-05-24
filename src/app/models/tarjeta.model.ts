@@ -6,6 +6,7 @@ export interface Tarjeta {
   saldo: number;
   expirationDate: string;
   securityCode: string;
+  PIN: string;
 }
 
 export interface SaveResult {

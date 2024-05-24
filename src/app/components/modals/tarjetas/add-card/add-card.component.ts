@@ -50,7 +50,8 @@ export class AddCardComponent implements OnInit {
         expirationDate,
         securityCode,
         cardType,
-        PIN
+        PIN,
+        id: 0
       };
 
       try {
