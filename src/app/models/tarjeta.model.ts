@@ -1,12 +1,11 @@
 export interface Tarjeta {
-  id?: number;
+  id: number;
   cardNumber: string;
-  saldo: number;
   cardHolderName: string;
+  cardType: string;
+  saldo: number;
   expirationDate: string;
   securityCode: string;
-  cardType: string;
-  PIN: string;
 }
 
 export interface SaveResult {

@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog'; // Importa MatDialog
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { SupabaseService } from '../../../services/supabase.service';
 import { Tarjeta } from '../../../models/tarjeta.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ConfirmDialogComponent, ConfirmDialogData } from '../../modals/confirm-dialog/confirm-dialog.component'; 
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../modals/confirm-dialog/confirm-dialog.component';
+
 @Component({
   selector: 'app-tabla-tarjetas',
   templateUrl: './tablatarjetas.component.html',
@@ -26,14 +27,8 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy {
 
   constructor(private supabaseService: SupabaseService, private dialog: MatDialog) { } 
 
-  ngOnInit(): void {
-    this.subs.add(this.supabaseService.tarjeta$.subscribe(tarjetas => {
-      this.tarjetas = tarjetas;
-      this.dataSource.data = this.tarjetas;
-    }));
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  async ngOnInit(): Promise<void> {
+    await this.loadTarjetas();
   }
 
   ngOnDestroy(): void {
@@ -60,9 +55,22 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy {
     });
   }
 
+  private async loadTarjetas(): Promise<void> {
+    try {
+      const tarjetas = await this.supabaseService.fetchTarjetas();
+      this.tarjetas = tarjetas;
+      this.dataSource.data = this.tarjetas;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    } catch (error) {
+      console.error('Error fetching cards', error);
+    }
+  }
+
   async eliminarTarjeta(id: number) {
     try {
       await this.supabaseService.deleteTarjeta(id);
+      await this.loadTarjetas(); // Recargar las tarjetas después de eliminar una
     } catch (error) {
       console.error('Error al eliminar la tarjeta', error);
     }

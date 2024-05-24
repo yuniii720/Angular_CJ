@@ -8,7 +8,6 @@
   </div>
   
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="full-width-container">
-
     <div fxFlex="49" fxFlex.xs="100" class="search-container">
       <mat-form-field appearance="outline">
         <mat-label>Buscar por</mat-label>
@@ -34,60 +33,41 @@
 
   <div class="table">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
-  
+      <!-- ID Column -->
       <ng-container matColumnDef="id" sticky>
-        <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.id}} </mat-cell>
       </ng-container>
 
-      
-      <ng-container matColumnDef="cardNumber">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='cardNumber'> Número de Tarjeta </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardNumber}} </mat-cell>
+      <!-- Card Number Column -->
+      <ng-container matColumnDef="card_number">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Número de Tarjeta </mat-header-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.card_number}} </mat-cell>
       </ng-container>
 
-   
-      <ng-container matColumnDef="saldo">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='saldo'> Saldo </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.saldo}} </mat-cell>
+      <!-- Expiration Date Column -->
+      <ng-container matColumnDef="expiration_date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Expiración </mat-header-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.expiration_date | date }} </mat-cell>
       </ng-container>
 
-
-      <ng-container matColumnDef="cardHolderName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='cardHolderName'> Titular </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardHolderName}} </mat-cell>
+      <!-- CVV Column -->
+      <ng-container matColumnDef="cvv">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Código de Seguridad </mat-header-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.cvv }} </mat-cell>
       </ng-container>
 
-  
-      <ng-container matColumnDef="expirationDate">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='expirationDate'> Fecha de Expiración </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.expirationDate }} </mat-cell>
+      <!-- Account ID Column -->
+      <ng-container matColumnDef="account_id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID de Cuenta </mat-header-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.account_id }} </mat-cell>
       </ng-container>
 
-
-      <ng-container matColumnDef="securityCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='securityCode'> Código de Seguridad </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.securityCode }} </mat-cell>
-      </ng-container>
-
-
-      <ng-container matColumnDef="cardType">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='cardType'> Tipo de Tarjeta </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.cardType }} </mat-cell>
-      </ng-container>
-
-   
-      <ng-container matColumnDef="PIN">
-        <mat-header-cell *matHeaderCellDef mat-sort-header='PIN'> PIN </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.PIN }} </mat-cell>
-      </ng-container>
-
-
+      <!-- Acción Column -->
       <ng-container matColumnDef="accion">
         <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta">
           <button mat-button color="warn" (click)="openConfirmDialog(tarjeta.id)">Eliminar</button>
-
         </mat-cell>
       </ng-container>
 
@@ -96,4 +76,4 @@
     </mat-table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="mat-elevation-z8 my-custom-table"></mat-paginator>
   </div>
-
+</div>
