@@ -8,7 +8,7 @@ export interface Tarjeta {
   securityCode: string;
   PIN: string;
 }
-
+ 
 export interface SaveResult {
   error?: { message: string };
 }
