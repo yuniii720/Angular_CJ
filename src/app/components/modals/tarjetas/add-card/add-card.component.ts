@@ -44,6 +44,7 @@ export class AddCardComponent implements OnInit {
     if (this.creditCardForm.valid) {
       const { cardNumber, cardHolderName, expirationDate, securityCode, cardType, PIN } = this.creditCardForm.value;
       const tarjeta: Tarjeta = {
+        id: '', // Se generará automáticamente en la base de datos
         saldo: 89234992349, // Valor provisional para saldo, ajustar según la lógica de la aplicación
         cardNumber,
         cardHolderName,
@@ -51,7 +52,6 @@ export class AddCardComponent implements OnInit {
         securityCode,
         cardType,
         PIN,
-        id: 0
       };
 
       try {

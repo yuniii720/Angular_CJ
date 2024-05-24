@@ -1,5 +1,5 @@
 export interface Tarjeta {
-  id: number;
+  id: string;
   cardNumber: string;
   cardHolderName: string;
   cardType: string;
@@ -8,7 +8,7 @@ export interface Tarjeta {
   securityCode: string;
   PIN: string;
 }
- 
+
 export interface SaveResult {
   error?: { message: string };
 }

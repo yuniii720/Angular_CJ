@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
-import { Observable, BehaviorSubject, from } from 'rxjs';
+import { Observable, BehaviorSubject, of, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 interface UserRole {
@@ -25,8 +25,15 @@ export class AuthService {
         this.setUserRole();
       } else {
         this.userRoleSubject.next(null);
+        localStorage.removeItem('userRole');
       }
     });
+
+    // Cargar el rol del usuario desde el almacenamiento local si está disponible
+    const storedRole = localStorage.getItem('userRole');
+    if (storedRole) {
+      this.userRoleSubject.next(JSON.parse(storedRole));
+    }
   }
 
   async signUp(email: string, password: string, username: string): Promise<any> {
@@ -86,6 +93,7 @@ export class AuthService {
 
     this.user = null;
     this.userRoleSubject.next(null);
+    localStorage.removeItem('userRole');
     this.router.navigateByUrl('login');
   }
 
@@ -104,10 +112,12 @@ export class AuthService {
       if (error) {
         console.error('Error fetching user role:', error);
         this.userRoleSubject.next(null);
-        return;
+        localStorage.removeItem('userRole');
+      } else {
+        const userRole = { role_id: data?.role_id ?? null };
+        this.userRoleSubject.next(userRole);
+        localStorage.setItem('userRole', JSON.stringify(userRole));
       }
-
-      this.userRoleSubject.next({ role_id: data?.role_id ?? null });
     }
   }
 

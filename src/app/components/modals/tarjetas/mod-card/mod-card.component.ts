@@ -30,7 +30,7 @@ export class ModCardComponent {
       const tarjetaId = this.data.tarjeta.id;
 
       if (tarjetaId !== undefined) {
-        this.supabaseService.updateTarjeta(tarjetaId, updatedFields)
+        this.supabaseService.updateTarjeta(Number(tarjetaId), updatedFields)
           .then(() => {
             console.log('Tarjeta actualizada con éxito');
             this.dialogRef.close();

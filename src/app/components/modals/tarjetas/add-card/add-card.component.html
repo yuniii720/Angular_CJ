@@ -37,7 +37,7 @@
     <mat-form-field appearance="fill">
       <mat-label>PIN</mat-label>
       <input matInput type="text" formControlName="pin" placeholder="Introduce el PIN deseado" required>
-      <mat-error *ngIf="creditCardForm.get('pin')?.errors?.['required']">
+      <mat-error *ngIf="creditCardForm.get('PIN')?.errors?.['required']">
         Debe rellenar el campo nombre del titular.
       </mat-error>
     </mat-form-field>
