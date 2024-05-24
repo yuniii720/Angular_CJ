@@ -7,7 +7,7 @@ import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
 import { Tarjeta } from '../models/tarjeta.model';
-import { AlertService } from './alert.service'; // Importar correctamente el servicio AlertService
+import { AlertService } from './alert.service';
 
 export interface SaveResult {
   error?: { message: string };
@@ -44,7 +44,6 @@ export class SupabaseService {
   async enviarDatos(data: any): Promise<Observable<any>> {
     return this.http.post('https://pbjdatvfbfkhaqrxrzdg.supabase.co', data);
   }
-  
 
   async fetchTarjetas() {
     const { data, error } = await this.supabase.from('Tarjetas').select('*');
