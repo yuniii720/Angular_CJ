@@ -33,7 +33,7 @@ export class AddCardComponent implements OnInit {
       cardHolderName: new FormControl('', Validators.required),
       expirationDate: new FormControl(expirationDateRandom, Validators.required),
       securityCode: new FormControl(cvv, Validators.required),
-      PIN: new FormControl('', Validators.required),
+      pin: new FormControl('', Validators.required),
       cardType: new FormControl('credito', Validators.required)
     });
   }
@@ -50,7 +50,8 @@ export class AddCardComponent implements OnInit {
         expirationDate,
         securityCode,
         cardType,
-        PIN
+        PIN,
+        id: 0
       };
 
       try {

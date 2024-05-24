@@ -15,7 +15,7 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../modals/confirm-
 })
 export class TablaTarjetasComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<Tarjeta>();
-  displayedColumns: string[] = ['cardHolderName', 'cardNumber', 'cardType', 'saldo', 'expirationDate', 'securityCode', 'accion'];
+  displayedColumns: string[] = ['cardHolderName', 'cardNumber', 'cardType', 'saldo', 'expirationDate', 'securityCode','pin', 'accion'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
