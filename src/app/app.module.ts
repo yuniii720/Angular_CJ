@@ -69,6 +69,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { AuthService } from './services/auth.service';
 
 import 'intersection-observer';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
@@ -122,6 +123,8 @@ import { NotAuthorizedComponent } from './components/not-authorized/not-authoriz
     TranslateColumnPipe,
     BreadcrumbsComponent,
     NotAuthorizedComponent,
+    AppComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -147,11 +150,14 @@ import { NotAuthorizedComponent } from './components/not-authorized/not-authoriz
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    BrowserModule,
+    AppRoutingModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })
