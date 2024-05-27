@@ -14,6 +14,7 @@ interface UserRole {
 })
 export class HeaderComponent implements OnInit {
   userRoleMessage$: Observable<string> = of(''); // Inicialización con un valor predeterminado
+  userRoleClass$: Observable<string> = of(''); // Inicialización con un valor predeterminado
 
   constructor(private authService: AuthService) {}
 
@@ -31,6 +32,25 @@ export class HeaderComponent implements OnInit {
           return 'Bienvenido empleado';
         } else if (role_id === 3) {
           return 'Bienvenido cliente';
+        } else {
+          return '';
+        }
+      })
+    );
+
+    this.userRoleClass$ = this.authService.getUserRole().pipe(
+      map((userRole: UserRole | null) => {
+        if (!userRole) {
+          return '';
+        }
+
+        const role_id = userRole.role_id;
+        if (role_id === 1) {
+          return 'super-admin';
+        } else if (role_id === 2) {
+          return 'bienvenido-empleado';
+        } else if (role_id === 3) {
+          return 'bienvenido-cliente';
         } else {
           return '';
         }

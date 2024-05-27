@@ -13,7 +13,7 @@
   <div class="header-right">
     <a mat-button href="#usuario">{{ userRoleMessage$ | async }}</a>
     <a mat-button href="#icon-user">
-      <img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon">
+      <img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon" [ngClass]="userRoleClass$ | async">
     </a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['landing'] } }]">
       <img src="../../assets/img/icon-logout.svg" name="cajamar_logo" id="icon-logout" class="icon">
@@ -22,5 +22,5 @@
 </mat-toolbar>
 
 <div class="content-wrapper">
-  <router-outlet></router-outlet> 
+  <router-outlet></router-outlet>
 </div>
