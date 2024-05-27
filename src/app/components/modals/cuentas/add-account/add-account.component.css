@@ -22,3 +22,7 @@
   overflow-y: auto; /* Asegura que el contenido sea desplazable si es muy largo */
   padding: 20px; /* Añade un relleno alrededor del contenido del diálogo */
 }
+
+.full-width {
+  width: 100%;
+}
