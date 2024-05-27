@@ -22,7 +22,7 @@ export class DelUserComponent {
       width: '250px',
       data: {
         title: 'Confirmar eliminación',
-        message: `¿Estás seguro de querer eliminar a ${this.usuario.name}?`
+        message: `¿Estás seguro de querer eliminar a ${this.usuario.username}?`
       } as ConfirmDialogData
     });
 

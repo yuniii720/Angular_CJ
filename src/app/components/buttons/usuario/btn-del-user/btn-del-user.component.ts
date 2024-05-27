@@ -23,7 +23,7 @@ export class BtnDelUserComponent {
       width: '450px',
       data: {
         title: 'Confirmar eliminación',
-        message: `¿Estás seguro de querer eliminar a ${this.usuario.name}?`
+        message: `¿Estás seguro de querer eliminar a ${this.usuario.username}?`
       }
     });
 
