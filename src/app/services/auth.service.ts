@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
-import { Observable, BehaviorSubject, of, from } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 interface UserRole {
   role_id: number;
@@ -36,7 +35,7 @@ export class AuthService {
     }
   }
 
-  async signUp(email: string, password: string, username: string): Promise<any> {
+  async signUp(email: string, password: string, username: string, type: string): Promise<any> {
     const { data, error } = await this.supabase.auth.signUp({
       email,
       password,
@@ -53,13 +52,23 @@ export class AuthService {
 
     const user = data.user;
     if (user) {
+      const roleId = this.getRoleIdFromType(type);
       const { error: insertError } = await this.supabase
         .from('Usuarios')
-        .insert([{ id: user.id, email, username, password }]);
+        .insert([{ id: user.id, email, username, password, type }]);
 
       if (insertError) {
         console.error('Error adding user to Usuarios:', insertError);
         throw insertError;
+      }
+
+      const { error: userRoleError } = await this.supabase
+        .from('userroles')
+        .insert([{ user_id: user.id, role_id: roleId }]);
+
+      if (userRoleError) {
+        console.error('Error adding user role to userroles:', userRoleError);
+        throw userRoleError;
       }
     }
 
@@ -71,26 +80,24 @@ export class AuthService {
       email,
       password,
     });
-  
+
     if (error) {
       throw error;
     }
-  
+
     if (data.user) {
       await this.setUserRole();
       this.getUserRole().subscribe((userRole) => {
-        if (userRole && userRole.role_id === 1,2) {
+        if (userRole && (userRole.role_id === 1 || userRole.role_id === 2)) {
           this.router.navigate([{ outlets: { auth: ['main'] } }]);
         } else {
           this.router.navigate([{ outlets: { auth: ['maincliente'] } }]);
         }
       });
     }
-  
+
     return data.user;
   }
-  
-  
 
   async signOut(): Promise<void> {
     const { error } = await this.supabase.auth.signOut();
@@ -131,5 +138,16 @@ export class AuthService {
 
   getUserRole(): Observable<UserRole | null> {
     return this.userRoleSubject.asObservable();
+  }
+
+  private getRoleIdFromType(type: string): number {
+    switch (type) {
+      case 'Empleado':
+        return 2;
+      case 'Administrador':
+        return 1;
+      default:
+        throw new Error('Invalid user type');
+    }
   }
 }

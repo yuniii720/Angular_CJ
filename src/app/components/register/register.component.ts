@@ -21,18 +21,17 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      
+      type: ['', Validators.required] // Nuevo campo para el tipo de usuario
     });
   }
 
   async registerUser() {
     if (this.registroForm.valid) {
-      const { email, password, username } = this.registroForm.value;
+      const { email, password, username, type } = this.registroForm.value;
 
       try {
-        const user = await this.authService.signUp(email, password, username);
+        const user = await this.authService.signUp(email, password, username, type);
         console.log('Usuario registrado correctamente:', user);
-
 
         this.router.navigate([{ outlets: { auth: ['login'] } }]);
       } catch (error: any) {
