@@ -6,13 +6,13 @@
       <app-breadcrumbs></app-breadcrumbs>
     </div>
   </div>
-  
+
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="full-width-container">
     <div fxFlex="49" fxFlex.xs="100" class="search-container">
       <mat-form-field appearance="outline">
         <mat-label>Buscar por</mat-label>
         <mat-select [(value)]="selectedColumn">
-          <mat-option *ngFor="let column of displayedColumns" [value]="column">
+          <mat-option *ngFor="let column of filteredColumns" [value]="column">
             {{ column | translateColumn }}
           </mat-option>
         </mat-select>
@@ -27,7 +27,8 @@
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
 
     <div fxFlex="49" fxFlex.xs="100" class="button-container">
-      <app-btn-add-tarjeta></app-btn-add-tarjeta>
+      <app-btn-add-user></app-btn-add-user>
+      <app-btn-save-users></app-btn-save-users>
     </div>
   </div>
 
@@ -39,12 +40,11 @@
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.id}} </mat-cell>
       </ng-container>
 
-
+      <!-- Card Holder Name Column -->
       <ng-container matColumnDef="cardHolderName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Número de Tarjeta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Titular </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardHolderName}} </mat-cell>
       </ng-container>
-
 
       <!-- Card Number Column -->
       <ng-container matColumnDef="cardNumber">
@@ -52,8 +52,9 @@
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardNumber}} </mat-cell>
       </ng-container>
 
+      <!-- Card Type Column -->
       <ng-container matColumnDef="cardType">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Número de Tarjeta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Tarjeta </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardType}} </mat-cell>
       </ng-container>
 
@@ -63,31 +64,38 @@
         <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.expirationDate | date }} </mat-cell>
       </ng-container>
 
-      <!-- CVV Column -->
+      <!-- Security Code Column -->
       <ng-container matColumnDef="securityCode">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Código de Seguridad </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.securityCode }} </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.securityCode}} </mat-cell>
       </ng-container>
 
+      <!-- Account ID Column -->
       <ng-container matColumnDef="account_id">
         <mat-header-cell *matHeaderCellDef mat-sort-header> ID de Cuenta </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.account_id }} </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.account_id}} </mat-cell>
       </ng-container>
 
+      <!-- Balance Column -->
       <ng-container matColumnDef="saldo">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> saldo</mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.saldo }}  </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Saldo </mat-header-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.saldo}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="pin">
+      <!-- PIN Column -->
+      <ng-container matColumnDef="PIN">
         <mat-header-cell *matHeaderCellDef mat-sort-header> PIN </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.PIN }}  </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.PIN}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="accion">
-        <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+      <!-- Gestionar Column -->
+      <ng-container matColumnDef="gestionar" stickyEnd>
+        <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta">
-          <button mat-button color="warn" (click)="openConfirmDialog(tarjeta.id)">Eliminar</button>
+          <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
+            <app-btn-mod-tarjeta [tarjetaSeleccionada]="tarjeta"></app-btn-mod-tarjeta>
+            <app-btn-del-tarjeta [tarjetaSeleccionada]="tarjeta"></app-btn-del-tarjeta>
+          </div>
         </mat-cell>
       </ng-container>
 

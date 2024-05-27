@@ -1,78 +1,70 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { SupabaseService } from '../../../services/supabase.service';
 import { Tarjeta } from '../../../models/tarjeta.model';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ConfirmDialogComponent, ConfirmDialogData } from '../../modals/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-tabla-tarjetas',
+  selector: 'app-tablatarjetas',
   templateUrl: './tablatarjetas.component.html',
-  styleUrls: ['./tablatarjetas.component.scss']
+  styleUrls: ['./tablatarjetas.component.css']
 })
-export class TablaTarjetasComponent implements OnInit, OnDestroy {
+export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Tarjeta>();
-  displayedColumns: string[] = ['cardHolderName', 'cardNumber', 'cardType', 'saldo', 'expirationDate', 'securityCode','pin', 'accion'];
+  displayedColumns: string[] = ['id', 'cardNumber', 'cardHolderName', 'cardType', 'expirationDate', 'securityCode', 'account_id', 'saldo', 'PIN', 'gestionar'];
+  selectedColumn: string = 'cardNumber';
+  filteredColumns: string[] = []; // Asignación inicial
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  tarjetas: Tarjeta[] = [];
-  private subs = new Subscription();
+  subs: Subscription = new Subscription();
 
-  selectedColumn: string = ''; 
+  constructor(private supabaseService: SupabaseService) { }
 
-  constructor(private supabaseService: SupabaseService, private dialog: MatDialog) { } 
-
-  async ngOnInit(): Promise<void> {
-    await this.loadTarjetas();
+  ngOnInit(): void {
+    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
+    this.subs.add(this.supabaseService.tarjeta$.subscribe(data => {
+      this.dataSource.data = data;
+    }));
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = this.createFilter();
   }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openConfirmDialog(id: number): void { 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '250px',
-      data: {
-        title: 'Confirmar eliminación',
-        message: '¿Estás seguro de que deseas eliminar esta tarjeta?'
-      } as ConfirmDialogData
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.eliminarTarjeta(id);
+  createFilter(): (data: Tarjeta, filter: string) => boolean {
+    return (data: Tarjeta, filter: string): boolean => {
+      const textToSearch = data[this.selectedColumn as keyof Tarjeta] && String(data[this.selectedColumn as keyof Tarjeta]).toLowerCase() || '';
+      if (this.selectedColumn === 'expirationDate') {
+        return false;
+      } else {
+        return textToSearch.indexOf(filter) !== -1;
       }
-    });
+    };
   }
 
-  private async loadTarjetas(): Promise<void> {
-    try {
-      const tarjetas = await this.supabaseService.fetchTarjetas();
-      this.tarjetas = tarjetas;
-      this.dataSource.data = this.tarjetas;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    } catch (error) {
-      console.error('Error fetching cards', error);
-    }
+  modTarjeta(tarjeta: Tarjeta): void {
+    // Lógica para modificar la tarjeta
+    console.log('Modificar tarjeta', tarjeta);
   }
 
-  async eliminarTarjeta(id: number) {
-    try {
-      await this.supabaseService.deleteTarjeta(id);
-      await this.loadTarjetas(); // Recargar las tarjetas después de eliminar una
-    } catch (error) {
-      console.error('Error al eliminar la tarjeta', error);
-    }
+  delTarjeta(tarjeta: Tarjeta): void {
+    // Lógica para eliminar la tarjeta
+    console.log('Eliminar tarjeta', tarjeta);
   }
 }

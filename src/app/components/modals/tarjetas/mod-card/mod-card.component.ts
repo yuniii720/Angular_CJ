@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
-import { Tarjeta } from '../../../../models/tarjeta.model'
+import { Tarjeta } from '../../../../models/tarjeta.model';
 
 @Component({
   selector: 'app-mod-card',
@@ -30,7 +30,7 @@ export class ModCardComponent {
       const tarjetaId = this.data.tarjeta.id;
 
       if (tarjetaId !== undefined) {
-        this.supabaseService.updateTarjeta(Number(tarjetaId), updatedFields)
+        this.supabaseService.updateTarjeta(tarjetaId, updatedFields)
           .then(() => {
             console.log('Tarjeta actualizada con éxito');
             this.dialogRef.close();

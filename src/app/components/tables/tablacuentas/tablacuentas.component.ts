@@ -20,10 +20,12 @@ export class TablaCuentasComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
+filteredColumns: any;
 
   constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
+    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
     this.subs.add(this.supabaseService.cuentas$.subscribe(data => {
       this.dataSource.data = data;
     }));

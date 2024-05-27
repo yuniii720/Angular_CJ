@@ -21,10 +21,12 @@ export class TablaClientesComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
+filteredColumns: any;
 
   constructor(private supabaseService: SupabaseService, private eventService: EventService) { }
 
   ngOnInit(): void {
+    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
     this.subs.add(this.supabaseService.clientes$.subscribe(data => {
       this.dataSource.data = data;
     }));
@@ -50,7 +52,6 @@ export class TablaClientesComponent implements OnInit, OnDestroy {
     return (data: Cliente, filter: string): boolean => {
       const textToSearch = data[this.selectedColumn as keyof Cliente] && String(data[this.selectedColumn as keyof Cliente]).toLowerCase() || '';
       if (this.selectedColumn === 'birth_date' || this.selectedColumn === 'created_at') {
-        // Date filtering logic can be added here if needed
         return false;
       } else {
         return textToSearch.indexOf(filter) !== -1;

@@ -1,5 +1,3 @@
-<button mat-raised-button color="primary" (click)="openDialog()" [routerLink]="['', { outlets: { auth: ['Tarjetas'] } }]">
-    Dar de baja una tarjeta
-    <mat-icon>close</mat-icon>
-  </button>
-  
+<button mat-icon-button (click)="openConfirmDialog()">
+  <mat-icon>delete</mat-icon>
+</button>

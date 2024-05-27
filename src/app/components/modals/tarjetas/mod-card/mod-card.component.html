@@ -2,24 +2,23 @@
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="tarjetaForm" class="tarjeta-form">
     <!-- Campos del formulario -->
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Número de Tarjeta</mat-label>
-      <input matInput type="text" formControlName="numero" placeholder="Introduce número de tarjeta" required>
-      <mat-error *ngIf="tarjetaForm.get('numero')?.errors?.['required']">
+      <input matInput type="text" formControlName="cardNumber" placeholder="Introduce número de tarjeta" required>
+      <mat-error *ngIf="tarjetaForm.get('cardNumber')?.errors?.['required']">
         El campo número de tarjeta es obligatorio.
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Fecha de Vencimiento</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="fecha_vencimiento" placeholder="Selecciona fecha de vencimiento">
+      <input matInput [matDatepicker]="picker" formControlName="expirationDate" placeholder="Selecciona fecha de vencimiento">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="tarjetaForm.get('fecha_vencimiento')?.errors?.['required']">
+      <mat-error *ngIf="tarjetaForm.get('expirationDate')?.errors?.['required']">
         Debes seleccionar la fecha de vencimiento.
       </mat-error>
     </mat-form-field>
-
   </form>
 </mat-dialog-content>
 

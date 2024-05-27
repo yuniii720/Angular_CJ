@@ -328,14 +328,21 @@ export class SupabaseService {
     }
   }
 
-  async deleteTarjeta(id: number) {
-    const { data, error } = await this.supabase.from('Tarjetas').delete().match({ id });
-    if (error) {
+  async deleteTarjeta(id: number): Promise<boolean> {
+    try {
+      const { error } = await this.supabase.from('Tarjetas').delete().match({ id });
+      if (error) {
+        console.error('Error deleting card', error);
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error) {
       console.error('Error deleting card', error);
-    } else {
-      this.loadTarjetas();
+      return false;
     }
   }
+
 
   async saveCreditCard(tarjeta: Omit<Tarjeta, 'id'>): Promise<SaveResult> {
     const { data, error } = await this.supabase

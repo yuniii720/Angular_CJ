@@ -9,12 +9,11 @@
   </div>
 
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="full-width-container">
-    <!-- Selector de Campo y Campo de Búsqueda -->
     <div fxFlex="49" fxFlex.xs="100" class="search-container">
       <mat-form-field appearance="outline">
         <mat-label>Buscar por</mat-label>
         <mat-select [(value)]="selectedColumn">
-          <mat-option *ngFor="let column of displayedColumns" [value]="column">
+          <mat-option *ngFor="let column of filteredColumns" [value]="column">
             {{ column | translateColumn }}
           </mat-option>
         </mat-select>
@@ -26,13 +25,11 @@
       </mat-form-field>
     </div>
 
-    <!-- Espacio Separador -->
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
 
-    <!-- Botones -->
     <div fxFlex="49" fxFlex.xs="100" class="button-container">
-      <app-btn-add-client></app-btn-add-client>
-      <app-btn-save-client></app-btn-save-client>
+      <app-btn-add-user></app-btn-add-user>
+      <app-btn-save-users></app-btn-save-users>
     </div>
   </div>
 

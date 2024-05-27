@@ -1,7 +1,3 @@
-<button mat-raised-button color="primary" 
-        *ngIf="tarjetaSeleccionada"
-        (click)="openDialog(tarjetaSeleccionada)" 
-        [routerLink]="['/', { outlets: { auth: ['Tarjetas'] } }]">
-  Modificar una tarjeta
+<button mat-icon-button (click)="openModCardDialog()">
   <mat-icon>edit</mat-icon>
 </button>
