@@ -73,19 +73,55 @@ export class SupabaseService {
     return data;
   }
 
-  addUsuario(usuario: Usuario) {
-    return this.supabase.from('Usuarios').insert([usuario]).then(response => {
-      if (response.error) {
-        console.error('Failed to add user:', response.error.message);
-        throw response.error;
+  async addUsuario(usuario: Usuario) {
+    try {
+      // Primero, registrar el usuario en auth.users
+      const { data: authData, error: authError } = await this.supabase.auth.signUp({
+        email: usuario.email,
+        password: usuario.password,
+        options: {
+          data: {
+            username: usuario.username
+          }
+        }
+      });
+
+      if (authError) {
+        throw authError;
       }
-      console.log('User added successfully:', response.data);
+
+      const authUser = authData.user;
+      if (!authUser) {
+        throw new Error('No se pudo obtener el usuario autenticado.');
+      }
+
+      // Luego, insertar el usuario en la tabla Usuarios
+      const { error: insertError } = await this.supabase.from('Usuarios').insert([{
+        id: authUser.id,
+        email: usuario.email,
+        username: usuario.username,
+        name: usuario.name,
+        password: usuario.password, // Asegúrate de guardar la contraseña aquí
+        type: usuario.type,
+        hire_date: usuario.hire_date,
+        created_at: usuario.created_at
+      }]);
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      // Actualizar el estado local
       this.localUsuarios.push(usuario);
       this.usuariosSubject.next([...this.localUsuarios]);
-    });
+
+    } catch (error) {
+      console.error('Error adding user:', error);
+      throw error;
+    }
   }
 
-  updateUsuario(id: number, updatedFields: any): Promise<void> {
+  updateUsuario(id: string, updatedFields: any): Promise<void> {
     return new Promise((resolve, reject) => {
       const index = this.localUsuarios.findIndex(u => u.id === id);
       if (index !== -1) {
@@ -99,7 +135,7 @@ export class SupabaseService {
     });
   }
 
-  async deleteUsuario(id: number): Promise<boolean> {
+  async deleteUsuario(id: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const index = this.localUsuarios.findIndex(u => u.id === id);
       if (index !== -1) {
