@@ -71,18 +71,26 @@ export class AuthService {
       email,
       password,
     });
-
+  
     if (error) {
       throw error;
     }
-
+  
     if (data.user) {
       await this.setUserRole();
-      this.router.navigate([{ outlets: { auth: ['main'] } }]);
+      this.getUserRole().subscribe((userRole) => {
+        if (userRole && userRole.role_id === 1,2) {
+          this.router.navigate([{ outlets: { auth: ['main'] } }]);
+        } else {
+          this.router.navigate([{ outlets: { auth: ['maincliente'] } }]);
+        }
+      });
     }
-
+  
     return data.user;
   }
+  
+  
 
   async signOut(): Promise<void> {
     const { error } = await this.supabase.auth.signOut();

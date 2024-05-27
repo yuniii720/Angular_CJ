@@ -73,6 +73,7 @@ import { AuthService } from './services/auth.service';
 
 import 'intersection-observer';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
+import { MainclienteComponent } from './components/maincliente/maincliente.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { NotAuthorizedComponent } from './components/not-authorized/not-authoriz
     NotAuthorizedComponent,
     AppComponent,
     HeaderComponent,
+    MainclienteComponent,
   ],
   imports: [
     BrowserModule,
