@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core'; // Importar Inject
+import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from '../../services/supabase.service';
 import { Tarjeta } from '../../models/tarjeta.model';
 
@@ -10,23 +10,25 @@ import { Tarjeta } from '../../models/tarjeta.model';
 export class TarjetavisualComponent implements OnInit {
   tarjetas: Tarjeta[] = [];
 
-  constructor(@Inject(SupabaseService) private supabaseService: SupabaseService) {} // Usar @Inject
+  constructor(private supabaseService: SupabaseService) {} // No es necesario @Inject aquí
 
   ngOnInit(): void {
     this.cargarTarjetas();
   }
 
-  cargarTarjetas() {
-    this.supabaseService.tarjeta$.subscribe((tarjetas: Tarjeta[]) => { // Especificar el tipo de tarjetas
+  cargarTarjetas(): void {
+    this.supabaseService.tarjetas$.subscribe((tarjetas: Tarjeta[]) => { // Cambiar a tarjetas$
       this.tarjetas = tarjetas;
     });
   }
 
-  async eliminarTarjeta(id: number) {
+  async eliminarTarjeta(id: number): Promise<void> {
     try {
       const confirmar = confirm('¿Estás seguro de que deseas eliminar esta tarjeta?');
       if (confirmar) {
         await this.supabaseService.deleteTarjeta(id);
+        // Actualizar la lista de tarjetas después de la eliminación
+        this.cargarTarjetas();
       }
     } catch (error) {
       console.error('Error al eliminar la tarjeta', error);

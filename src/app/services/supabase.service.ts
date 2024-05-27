@@ -31,12 +31,6 @@ export class SupabaseService {
   public cuentas$ = this.cuentasSubject.asObservable();
   private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
   public tarjeta$ = this.tarjetasSubject.asObservable();
-
-  private localCuentas: Cuenta[] = [];
-  private addedCuentas: Cuenta[] = [];
-  private updatedCuentas: Cuenta[] = [];
-  private deletedCuentas: Cuenta[] = [];
-
   balance: any;
 
   constructor(private http: HttpClient, private alertService: AlertService) {
@@ -60,6 +54,7 @@ export class SupabaseService {
     return data;
   }
 
+  // Usuarios
   async loadUsuarios() {
     const { data, error } = await this.supabase.from('Usuarios').select('*').order('id', { ascending: true });
     if (error) {
@@ -72,7 +67,6 @@ export class SupabaseService {
 
   async getAllUsuarios() {
     const { data, error } = await this.supabase.from('Usuarios').select('*');
-
     if (error) {
       throw error;
     }
@@ -81,15 +75,10 @@ export class SupabaseService {
 
   async addUsuario(usuario: Usuario) {
     try {
-      // Primero, registrar el usuario en auth.users
       const { data: authData, error: authError } = await this.supabase.auth.signUp({
         email: usuario.email,
         password: usuario.password,
-        options: {
-          data: {
-            username: usuario.username
-          }
-        }
+        options: { data: { username: usuario.username } }
       });
 
       if (authError) {
@@ -101,28 +90,34 @@ export class SupabaseService {
         throw new Error('No se pudo obtener el usuario autenticado.');
       }
 
-      // Luego, insertar el usuario en la tabla Usuarios
-      const { error: insertError } = await this.supabase.from('Usuarios').insert([{
+      const { data, error: insertError } = await this.supabase.from('Usuarios').insert([{
         id: authUser.id,
         email: usuario.email,
         username: usuario.username,
         name: usuario.name,
-        password: usuario.password, // Asegúrate de guardar la contraseña aquí
+        password: usuario.password,
         type: usuario.type,
         hire_date: usuario.hire_date,
         created_at: usuario.created_at
-      }]);
+      }]).select().single();
 
       if (insertError) {
         throw insertError;
       }
 
-      // Actualizar el estado local
-      this.localUsuarios.push(usuario);
+      this.localUsuarios.push(data);
       this.usuariosSubject.next([...this.localUsuarios]);
+      return data;
 
     } catch (error) {
       console.error('Error adding user:', error);
+      throw error;
+    }
+  }
+
+  async addUserRole(userId: string, roleId: number): Promise<void> {
+    const { error } = await this.supabase.from('UserRoles').insert([{ user_id: userId, role_id: roleId }]);
+    if (error) {
       throw error;
     }
   }
@@ -195,6 +190,7 @@ export class SupabaseService {
     }
   }
 
+  // Clientes
   async loadClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
     if (error) {
@@ -206,7 +202,6 @@ export class SupabaseService {
 
   async getAllClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
-
     if (error) {
       throw error;
     }
@@ -240,6 +235,7 @@ export class SupabaseService {
     }
   }
 
+  // Cuentas
   async loadCuentas() {
     const { data, error } = await this.supabase
       .from('Cuentas')
@@ -317,6 +313,7 @@ export class SupabaseService {
     return number;
   }
 
+  // Tarjetas
   async loadTarjetas() {
     const { data, error } = await this.supabase
       .from('Tarjetas')
@@ -369,7 +366,6 @@ export class SupabaseService {
       return false;
     }
   }
-
 
   async saveCreditCard(tarjeta: Omit<Tarjeta, 'id'>): Promise<SaveResult> {
     const { data, error } = await this.supabase
