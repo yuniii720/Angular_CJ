@@ -35,15 +35,11 @@ export class AuthService {
     }
   }
 
-  async signUp(email: string, password: string, username: string, type: string): Promise<any> {
+  async signUp(email: string, password: string, username: string, name: string, type: string): Promise<any> {
+    // Registrar el usuario en auth.users
     const { data, error } = await this.supabase.auth.signUp({
       email,
-      password,
-      options: {
-        data: {
-          username: username
-        }
-      }
+      password
     });
 
     if (error) {
@@ -52,16 +48,18 @@ export class AuthService {
 
     const user = data.user;
     if (user) {
-      const roleId = this.getRoleIdFromType(type);
+      // Insertar el usuario en la tabla Usuarios
       const { error: insertError } = await this.supabase
         .from('Usuarios')
-        .insert([{ id: user.id, email, username, password, type }]);
+        .insert([{ id: user.id, email, username, name, type }]);
 
       if (insertError) {
         console.error('Error adding user to Usuarios:', insertError);
         throw insertError;
       }
 
+      // Insertar la relación del rol en la tabla userroles
+      const roleId = this.getRoleIdFromType(type);
       const { error: userRoleError } = await this.supabase
         .from('userroles')
         .insert([{ user_id: user.id, role_id: roleId }]);
