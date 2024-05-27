@@ -85,7 +85,28 @@ export class AddUserComponent {
       };
 
       try {
-        await this.supabaseService.addUsuario(newUserData);
+        // Insertar el usuario
+        const addedUser = await this.supabaseService.addUsuario(newUserData);
+
+        // Asignar rol según el tipo de usuario
+        let roleId;
+        switch (formValue.type) {
+          case 'superadmin':
+            roleId = 1;
+            break;
+          case 'empleado':
+            roleId = 2;
+            break;
+          case 'cliente':
+            roleId = 3;
+            break;
+          default:
+            throw new Error('Tipo de usuario desconocido');
+        }
+
+        // Insertar en la tabla de roles
+        await this.supabaseService.addUserRole(addedUser.id, roleId);
+
         this.alertService.success(`Usuario "${formValue.username}" añadido.`);
         this.dialogRef.close();
       } catch (error) {

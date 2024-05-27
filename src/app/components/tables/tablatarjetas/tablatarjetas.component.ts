@@ -26,7 +26,7 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngOnInit(): void {
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
-    this.subs.add(this.supabaseService.tarjeta$.subscribe(data => {
+    this.subs.add(this.supabaseService.tarjetas$.subscribe(data => {
       this.dataSource.data = data;
     }));
     this.dataSource.paginator = this.paginator;
