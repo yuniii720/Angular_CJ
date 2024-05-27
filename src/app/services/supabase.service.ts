@@ -30,8 +30,14 @@ export class SupabaseService {
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
   private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
-  public tarjeta$ = this.tarjetasSubject.asObservable();
+
+  private localCuentas: Cuenta[] = [];
+  private addedCuentas: Cuenta[] = [];
+  private updatedCuentas: Cuenta[] = [];
+  private deletedCuentas: Cuenta[] = [];
+
   balance: any;
+  public tarjetas$ = this.tarjetasSubject.asObservable();
 
   constructor(private http: HttpClient, private alertService: AlertService) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
@@ -313,7 +319,29 @@ export class SupabaseService {
     return number;
   }
 
+<<<<<<< HEAD
+=======
+  async updateCuenta(id: number, updatedFields: any): Promise<void> {
+    const { data, error } = await this.supabase.from('Cuentas').update(updatedFields).match({ id });
+    if (error) {
+      console.error('Error updating account', error);
+      throw new Error(error.message);
+    } else {
+      this.loadCuentas();
+    }
+  }
+
+  async deleteCuenta(id: number) {
+    const { data, error } = await this.supabase.from('Cuentas').delete().match({ id });
+    if (error) {
+      console.error('Error deleting account', error);
+    } else {
+      this.loadCuentas();
+    }
+  }
+
   // Tarjetas
+>>>>>>> 025c2eac0aa6e16fa2553394a379cca77dc3b8da
   async loadTarjetas() {
     const { data, error } = await this.supabase
       .from('Tarjetas')
