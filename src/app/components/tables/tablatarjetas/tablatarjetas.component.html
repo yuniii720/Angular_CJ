@@ -42,37 +42,37 @@
 
       <!-- Card Holder Name Column -->
       <ng-container matColumnDef="cardHolderName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Titular </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Titular </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardHolderName}} </mat-cell>
       </ng-container>
 
       <!-- Card Number Column -->
       <ng-container matColumnDef="cardNumber">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Número de Tarjeta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Número </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardNumber}} </mat-cell>
       </ng-container>
 
       <!-- Card Type Column -->
       <ng-container matColumnDef="cardType">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Tarjeta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardType}} </mat-cell>
       </ng-container>
 
       <!-- Expiration Date Column -->
       <ng-container matColumnDef="expirationDate">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Expiración </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Caducidad </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.expirationDate | date }} </mat-cell>
       </ng-container>
 
       <!-- Security Code Column -->
       <ng-container matColumnDef="securityCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Código de Seguridad </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> CVC </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.securityCode}} </mat-cell>
       </ng-container>
 
       <!-- Account ID Column -->
       <ng-container matColumnDef="account_id">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> ID de Cuenta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID Cuenta </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{tarjeta.account_id}} </mat-cell>
       </ng-container>
 
