@@ -77,6 +77,10 @@ import { MainclienteComponent } from './components/maincliente/maincliente.compo
 import { BtnSaveAccountComponent } from './components/buttons/cuenta/btn-save-account/btn-save-account.component';
 import { SaveAccountComponent } from './components/modals/cuentas/save-account/save-account.component';
 import { SaveClientsComponent } from './components/modals/clientes/save-clients/save-clients.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -162,6 +166,9 @@ import { SaveClientsComponent } from './components/modals/clientes/save-clients/
     MatIconModule,
     BrowserModule,
     AppRoutingModule,
+    MatGridListModule,
+    MatCardModule,
+    MatListModule
   ],
   exports: [
     EuroCurrencyPipe,
@@ -171,6 +178,7 @@ import { SaveClientsComponent } from './components/modals/clientes/save-clients/
     { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl },
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     AuthService,
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

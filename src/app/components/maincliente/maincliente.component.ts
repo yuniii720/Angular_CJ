@@ -9,25 +9,37 @@ import { SupabaseService } from '../../services/supabase.service';
 })
 export class MainclienteComponent implements OnInit {
 
-  constructor(private supabaseService: SupabaseService) {
-    Chart.register(...registerables);
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    this.loadChart();
+    this.initializeChart();
   }
 
-  loadChart(): void {
+  initializeChart(): void {
     const ctx = document.getElementById('myChart') as HTMLCanvasElement;
     new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
         datasets: [{
-          label: 'Saldo Mensual',
-          data: [12000, 15000, 13000, 17000, 18000, 16000, 19000],
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          label: 'Gastos Mensuales',
+          data: [1200, 1900, 3000, 500, 2000, 3000],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
           borderWidth: 1
         }]
       },

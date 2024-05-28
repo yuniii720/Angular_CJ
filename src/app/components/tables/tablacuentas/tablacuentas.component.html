@@ -25,14 +25,15 @@
     </div>
 
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
-    <div fxFlex="49" class="button-container" fxFlex="49" fxFlex.xs="100" class="button-container" *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
+    <div fxFlex="49" class="button-container">
+    <div fxFlex="49" fxFlex.xs="100" class="button-container" *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
 
         <app-btn-add-account></app-btn-add-account>
         <app-btn-save-account></app-btn-save-account>
 
         </div>
       </div>
-
+    </div>
 
   <div class="table">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
