@@ -25,49 +25,48 @@
     </div>
 
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
-    <div fxFlex="49" fxFlex.xs="100" class="button-container">
-    <div *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
+    <div fxFlex="49" class="button-container" fxFlex="49" fxFlex.xs="100" class="button-container" *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
 
         <app-btn-add-account></app-btn-add-account>
         <app-btn-save-account></app-btn-save-account>
 
         </div>
       </div>
-    </div>
+
 
   <div class="table">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
-      <!-- ID Column -->
+
       <ng-container matColumnDef="id" sticky>
         <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID </mat-header-cell>
         <mat-cell *matCellDef="let cuenta"> {{ cuenta.id }} </mat-cell>
       </ng-container>
 
-      <!-- Número de Cuenta Column -->
+
       <ng-container matColumnDef="account_number">
         <mat-header-cell *matHeaderCellDef mat-sort-header='account_number'> Número de cuenta </mat-header-cell>
         <mat-cell *matCellDef="let cuenta"> {{ cuenta.account_number }} </mat-cell>
       </ng-container>
 
-      <!-- Cliente Column -->
+
       <ng-container matColumnDef="clientName">
         <mat-header-cell *matHeaderCellDef mat-sort-header='clientName'> Cliente </mat-header-cell>
         <mat-cell *matCellDef="let cuenta"> {{ cuenta.clientName }} </mat-cell>
       </ng-container>
 
-      <!-- Saldo Column -->
+
       <ng-container matColumnDef="balance">
         <mat-header-cell *matHeaderCellDef mat-sort-header='balance'> Saldo </mat-header-cell>
         <mat-cell *matCellDef="let cuenta"> {{ cuenta.balance | euroCurrency }} </mat-cell>
       </ng-container>
 
-      <!-- Fecha de alta Column -->
+
       <ng-container matColumnDef="created_at">
         <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha de alta </mat-header-cell>
         <mat-cell *matCellDef="let cuenta"> {{ cuenta.created_at | date: 'yyyy-MM-dd HH:mm' }} </mat-cell>
       </ng-container>
 
-      <!-- Gestionar Column -->
+
       <ng-container matColumnDef="gestionar" stickyEnd>
         <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
         <mat-cell *matCellDef="let cuenta">
