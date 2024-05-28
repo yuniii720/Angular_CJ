@@ -1,3 +1,4 @@
+import 'intersection-observer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -75,8 +76,7 @@ import { NotAuthorizedComponent } from './components/not-authorized/not-authoriz
 import { MainclienteComponent } from './components/maincliente/maincliente.component';
 import { BtnSaveAccountComponent } from './components/buttons/cuenta/btn-save-account/btn-save-account.component';
 import { SaveAccountComponent } from './components/modals/cuentas/save-account/save-account.component';
-
-import 'intersection-observer';
+import { SaveClientsComponent } from './components/modals/clientes/save-clients/save-clients.component';
 
 
 @NgModule({
@@ -134,6 +134,7 @@ import 'intersection-observer';
     BtnSaveAccountComponent,
     SaveAccountComponent,
     EuroCurrencyPipe,
+    SaveClientsComponent,
   ],
   imports: [
     BrowserModule,

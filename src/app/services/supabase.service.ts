@@ -25,6 +25,7 @@ export class SupabaseService {
   private updatedUsuarios: Usuario[] = [];
   private deletedUsuarios: Usuario[] = [];
 
+  private localClientes: Cliente[] = [];
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
@@ -196,16 +197,6 @@ export class SupabaseService {
     }
   }
 
-  // Clientes
-  async loadClientes() {
-    const { data, error } = await this.supabase.from('Clientes').select('*');
-    if (error) {
-      console.error('Error loading clients', error);
-    } else {
-      this.clientesSubject.next(data);
-    }
-  }
-
   async getAllClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
     if (error) {
@@ -214,12 +205,41 @@ export class SupabaseService {
     return data;
   }
 
+  // Método para añadir cliente localmente
+  addLocalCliente(cliente: Cliente) {
+    this.localClientes.push(cliente);
+    this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]); // Combina clientes locales y cargados
+  }
+
+  // Método para guardar todos los clientes locales en la base de datos
+  async saveAllClientes() {
+    try {
+      for (const cliente of this.localClientes) {
+        await this.addCliente(cliente);
+      }
+      this.localClientes = []; // Limpiar la lista local después de guardar
+      this.loadClientes(); // Recargar la lista de clientes desde la base de datos
+    } catch (error) {
+      console.error('Error al guardar los clientes', error);
+    }
+  }
+
   async addCliente(cliente: Cliente) {
     const { data, error } = await this.supabase.from('Clientes').insert([cliente]);
     if (error) {
       console.error('Error adding client', error);
+      throw error;
     } else {
-      this.loadClientes();
+      this.loadClientes(); // Recargar la lista de clientes después de añadir uno nuevo
+    }
+  }
+
+  async loadClientes() {
+    const { data, error } = await this.supabase.from('Clientes').select('*');
+    if (error) {
+      console.error('Error loading clients', error);
+    } else {
+      this.clientesSubject.next(data); // Notificar los clientes cargados desde la base de datos
     }
   }
 
