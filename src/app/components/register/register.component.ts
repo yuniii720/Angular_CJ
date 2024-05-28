@@ -22,7 +22,7 @@ export class RegisterComponent {
       username: ['', Validators.required],
       name: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      type: ['', Validators.required] // Nuevo campo para el tipo de usuario
+      type: ['Cliente', Validators.required] 
     });
   }
 
@@ -34,7 +34,13 @@ export class RegisterComponent {
         const user = await this.authService.signUp(email, password, username, name, type);
         console.log('Usuario registrado correctamente:', user);
 
-        this.router.navigate([{ outlets: { auth: ['login'] } }]);
+        // Obtener el ID del rol de cliente (asumiendo que es 3)
+        const roleId = 3;
+
+        // Agregar el registro en la tabla userroles
+        await this.authService.addUserRole(user.id, roleId);
+
+        this.router.navigate(['/login']);
       } catch (error: any) {
         console.error('Error al registrar usuario:', error);
         this.errorMessage = error.message || 'Error al registrar usuario.';

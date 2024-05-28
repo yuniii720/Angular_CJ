@@ -144,8 +144,20 @@ export class AuthService {
         return 2;
       case 'Administrador':
         return 1;
+      case 'Cliente':
+        return 3;
       default:
         throw new Error('Invalid user type');
+    }
+  }
+  
+  async addUserRole(userId: string, roleId: number): Promise<void> {
+    const { data, error } = await this.supabase
+      .from('userroles')
+      .insert([{ user_id: userId, role_id: roleId }]);
+
+    if (error) {
+      throw new Error(error.message);
     }
   }
 }

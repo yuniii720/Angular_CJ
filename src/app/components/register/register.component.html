@@ -34,16 +34,6 @@
             <div id="recuadro-password-2" *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
           </div>
         </div><br>
-        <div id="recuadro-type" class="form-group">
-          <label for="type">Tipo de Usuario</label><br><br>
-          <select class="form-control" id="type" formControlName="type">
-            <option value="Empleado">Empleado</option>
-            <option value="Administrador">Administrador</option>
-          </select>
-          <div id="recuadro-type-main" *ngIf="registroForm.get('type')?.invalid && (registroForm.get('type')?.dirty || registroForm.get('type')?.touched)" class="text-danger">
-            <div id="recuadro-type-1" *ngIf="registroForm.get('type')?.errors?.['required']">El tipo de usuario es requerido.</div>
-          </div>
-        </div><br>
         <input type="submit" class="btn btn-primary" [disabled]="registroForm.invalid" value="Regístrame">
       </form><br>
       <a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
