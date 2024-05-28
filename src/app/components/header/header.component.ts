@@ -13,8 +13,8 @@ interface UserRole {
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  userRoleMessage$: Observable<string> = of(''); // Inicialización con un valor predeterminado
-  userRoleClass$: Observable<string> = of(''); // Inicialización con un valor predeterminado
+  userRoleMessage$: Observable<string> = of('');
+  userRoleClass$: Observable<string> = of(''); 
 
   constructor(private authService: AuthService) {}
 

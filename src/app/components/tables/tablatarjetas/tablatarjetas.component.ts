@@ -1,10 +1,17 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+// tablatarjetas.component.ts
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SupabaseService } from '../../../services/supabase.service';
 import { Tarjeta } from '../../../models/tarjeta.model';
 import { MatSort } from '@angular/material/sort';
+import { AuthService } from '../../../services/auth.service';
+
+interface UserRole {
+  role_id: number;
+}
 
 @Component({
   selector: 'app-tablatarjetas',
@@ -21,8 +28,9 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
+  userRoleMessage$: Observable<string> = of(''); // Inicialización con un valor predeterminado
 
-  constructor(private supabaseService: SupabaseService) { }
+  constructor(private supabaseService: SupabaseService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
@@ -32,6 +40,26 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.createFilter();
+
+    // Configurar userRoleMessage$
+    this.userRoleMessage$ = this.authService.getUserRole().pipe(
+      map((userRole: UserRole | null) => {
+        if (!userRole) {
+          return '';
+        }
+
+        const role_id = userRole.role_id;
+        if (role_id === 1) {
+          return 'Super Admin';
+        } else if (role_id === 2) {
+          return 'Bienvenido empleado';
+        } else if (role_id === 3) {
+          return 'Bienvenido cliente';
+        } else {
+          return '';
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {
