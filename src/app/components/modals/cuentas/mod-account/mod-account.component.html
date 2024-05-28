@@ -2,14 +2,21 @@
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="user-form">
     <input type="hidden" formControlName="id">
+
     <mat-form-field appearance="fill">
-      <mat-label>Nombre del Cliente</mat-label>
-      <input matInput type="text" [value]="data.clientName" readonly>
+      <mat-label>Cliente</mat-label>
+      <mat-select formControlName="client_id">
+        <mat-option *ngFor="let cliente of (clientes$ | async)" [value]="cliente.id">
+          {{ cliente.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>Número de Cuenta</mat-label>
       <input matInput type="text" formControlName="account_number" placeholder="Introduce número de cuenta">
     </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>Saldo</mat-label>
       <input matInput type="number" formControlName="balance" placeholder="Introduce saldo">
@@ -21,6 +28,7 @@
     </div>
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
   <button mat-button (click)="closeDialog()">Cerrar</button>
 </mat-dialog-actions>

@@ -14,16 +14,16 @@ export class SaveAccountComponent {
     public dialogRef: MatDialogRef<SaveAccountComponent>,
     private supabaseService: SupabaseService,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   async onConfirm(): Promise<void> {
     try {
-      await this.supabaseService.syncCuentas();
-      this.alertService.success('Cambios guardados.');
+      await this.supabaseService.saveAllCuentas();  // Sincronizar los cambios con la base de datos
+      this.alertService.success('Cambios guardados.');  // Mostrar una alerta de éxito
       this.dialogRef.close(true);
     } catch (error) {
       console.error('Error al guardar los cambios', error);
-      this.alertService.error('Error al guardar los cambios. Intente de nuevo.');
+      this.alertService.error('Error al guardar los cambios. Intente de nuevo.');  // Mostrar una alerta de error
     }
   }
 

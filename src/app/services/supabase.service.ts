@@ -255,11 +255,13 @@ export class SupabaseService {
     }
   }
 
+  // Asegúrate de que `loadClientes` esté correctamente llenando `localClientes`
   async loadClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
     if (error) {
       console.error('Error loading clients', error);
     } else {
+      this.localClientes = data; // Actualiza la lista local de clientes
       this.clientesSubject.next(data); // Notificar los clientes cargados desde la base de datos
     }
   }
@@ -334,25 +336,73 @@ export class SupabaseService {
     if (error) {
       console.error('Error loading accounts', error);
     } else {
-      this.cuentasSubject.next(data.map(item => ({
+      this.localCuentas = data.map(item => ({
         ...item,
         clientName: item.Cliente.name
-      })));
+      }));
+      this.cuentasSubject.next(this.localCuentas);
     }
   }
 
-  async syncCuentas() {
+  // Añadir cuenta localmente
+  addLocalCuenta(cuenta: Cuenta): void {
+    this.localCuentas.push(cuenta);
+    this.cuentasSubject.next([...this.localCuentas]);
+    this.alertService.success('Cuenta añadida localmente.');
+  }
+
+  // Guardar cuentas locales en la base de datos
+  async saveAllCuentas() {
     try {
+      for (const cuenta of this.localCuentas) {
+        if (!cuenta.id) {
+          await this.addCuenta(cuenta);
+        }
+      }
+      for (const cuenta of this.updatedCuentas) {
+        const { clientName, ...cuentaSinNombre } = cuenta; // Eliminar campos innecesarios
+        await this.updateCuenta(cuenta.id!, cuentaSinNombre);
+      }
+      for (const cuenta of this.deletedCuentas) {
+        await this.deleteCuentaFromDatabase(cuenta.id!);
+      }
+      this.localCuentas = [];
+      this.updatedCuentas = [];
+      this.deletedCuentas = [];
+      await this.loadCuentas();
+      this.alertService.success('Todos los cambios se han guardado en la base de datos.');
+    } catch (error) {
+      console.error('Error al guardar las cuentas', error);
+      this.alertService.error('Error al guardar las cuentas. Intente de nuevo.');
+    }
+  }
+
+  async deleteCuentaFromDatabase(id: number): Promise<void> {
+    const { error } = await this.supabase.from('Cuentas').delete().eq('id', id);
+    if (error) {
+      console.error('Error deleting account', error);
+      throw error;
+    }
+  }
+
+
+  // Método para sincronizar cuentas locales con la base de datos
+  async syncCuentas(): Promise<void> {
+    try {
+      // Agregar nuevas cuentas
       for (const cuenta of this.addedCuentas) {
         await this.supabase.from('Cuentas').insert([cuenta]);
       }
+      // Actualizar cuentas modificadas
       for (const cuenta of this.updatedCuentas) {
         await this.supabase.from('Cuentas').update(cuenta).match({ id: cuenta.id });
       }
+      // Eliminar cuentas eliminadas
       for (const cuenta of this.deletedCuentas) {
         await this.supabase.from('Cuentas').delete().match({ id: cuenta.id });
       }
 
+      // Resetear las listas locales
       this.addedCuentas = [];
       this.updatedCuentas = [];
       this.deletedCuentas = [];
@@ -363,20 +413,83 @@ export class SupabaseService {
     }
   }
 
-  async addCuenta(cuenta: Cuenta) {
-    this.addedCuentas.push(cuenta);
-    this.localCuentas.push(cuenta);
-    this.cuentasSubject.next([...this.localCuentas]);
+  // Método existente para añadir cuenta en la base de datos
+  async addCuenta(cuenta: Cuenta): Promise<void> {
+    try {
+      // Crear una copia del objeto cuenta y eliminar el campo clientName
+      const { clientName, ...cuentaSinNombre } = cuenta;
+
+      const { data, error } = await this.supabase.from('Cuentas').insert([cuentaSinNombre]).select().single();
+      if (error) {
+        console.error('Error adding account', error);
+        throw error;
+      } else {
+        // Actualizar la lista local con la cuenta guardada en la base de datos
+        const index = this.localCuentas.findIndex(c => c.account_number === cuenta.account_number);
+        if (index !== -1) {
+          this.localCuentas[index] = data;
+        } else {
+          this.localCuentas.push(data);
+        }
+        this.cuentasSubject.next([...this.localCuentas]);
+        this.alertService.success('Cuenta añadida exitosamente.');
+      }
+    } catch (error) {
+      console.error('Error adding account', error);
+      throw error;
+    }
+  }
+
+  updateLocalCuenta(id: number, updatedFields: any): void {
+    console.log('Actualizando cuenta local:', id, updatedFields);
+    const index = this.localCuentas.findIndex(c => c.id === id);
+    if (index !== -1) {
+      const updatedCuenta = { ...this.localCuentas[index], ...updatedFields };
+
+      // Actualizar el nombre del cliente si se ha cambiado el client_id
+      if (updatedFields.client_id) {
+        const cliente = this.localClientes.find(cliente => cliente.id === updatedFields.client_id);
+        if (cliente) {
+          updatedCuenta.clientName = cliente.name;
+        }
+      }
+
+      // Actualizar la cuenta localmente
+      this.localCuentas[index] = updatedCuenta;
+      this.updatedCuentas.push(updatedCuenta);
+      this.cuentasSubject.next([...this.localCuentas]);
+      this.alertService.success('Cuenta modificada localmente.');
+      console.log('Cuenta después de modificar localmente:', this.localCuentas[index]);
+    } else {
+      throw new Error('Cuenta no encontrada');
+    }
   }
 
   async updateCuenta(id: number, updatedFields: any): Promise<void> {
-    const index = this.localCuentas.findIndex(c => c.id === id);
-    if (index !== -1) {
-      this.localCuentas[index] = { ...this.localCuentas[index], ...updatedFields };
-      this.updatedCuentas.push(this.localCuentas[index]);
-      this.cuentasSubject.next([...this.localCuentas]);
-    } else {
-      throw new Error('Cuenta no encontrada');
+    try {
+      const { clientName, Cliente, ...fieldsToUpdate } = updatedFields; // Eliminar campos innecesarios
+      const { data, error } = await this.supabase.from('Cuentas').update(fieldsToUpdate).eq('id', id);
+      if (error) {
+        console.error('Error updating account', error);
+        throw new Error('Error updating account');
+      }
+
+      // Actualizar localmente para reflejar cambios en la interfaz
+      const index = this.localCuentas.findIndex(c => c.id === id);
+      if (index !== -1) {
+        this.localCuentas[index] = { ...this.localCuentas[index], ...fieldsToUpdate };
+
+        if (updatedFields.client_id) {
+          const cliente = await this.supabase.from('Clientes').select('name').eq('id', updatedFields.client_id).single();
+          if (cliente.data) {
+            this.localCuentas[index].clientName = cliente.data.name;
+          }
+        }
+        this.cuentasSubject.next([...this.localCuentas]);
+      }
+    } catch (error) {
+      console.error('Error updating account', error);
+      throw error;
     }
   }
 
@@ -392,12 +505,14 @@ export class SupabaseService {
   }
 
   generateAccountNumber(): string {
-    let number = '';
-    for (let i = 0; i < 4; i++) {
-      number += Math.floor(1000 + Math.random() * 9000).toString();
-      if (i < 3) number += '-';
-    }
-    return number;
+    const countryPrefix = 'ES';
+    const controlDigits = Math.floor(10 + Math.random() * 90).toString();
+    const bankCode = Math.floor(1000 + Math.random() * 9000).toString();
+    const branchCode = Math.floor(1000 + Math.random() * 9000).toString();
+    const checkDigits = Math.floor(10 + Math.random() * 90).toString();
+    const accountNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+
+    return `${countryPrefix}${controlDigits} ${bankCode} ${branchCode} ${checkDigits} ${accountNumber}`;
   }
 
   // Tarjetas

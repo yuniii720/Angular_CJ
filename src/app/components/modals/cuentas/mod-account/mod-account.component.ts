@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { SupabaseService } from '../../../../services/supabase.service';
+import { Cliente } from '../../../../models/cliente.model';
 import { Cuenta } from '../../../../models/cuenta.model';
 
 @Component({
@@ -12,6 +14,7 @@ import { Cuenta } from '../../../../models/cuenta.model';
 export class ModAccountComponent implements OnInit {
   accountForm: FormGroup;
   formattedBalance: string = '';
+  clientes$!: Observable<Cliente[]>;
 
   constructor(
     public dialogRef: MatDialogRef<ModAccountComponent>,
@@ -21,7 +24,7 @@ export class ModAccountComponent implements OnInit {
     this.accountForm = new FormGroup({
       id: new FormControl('', Validators.required),
       account_number: new FormControl('', Validators.required),
-      clientName: new FormControl('', Validators.required),
+      client_id: new FormControl('', Validators.required),
       balance: new FormControl('', Validators.required)
     });
   }
@@ -29,15 +32,18 @@ export class ModAccountComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.accountForm.patchValue({
-        account_number: this.data.account_number,
         id: this.data.id,
-        clientName: this.data.clientName,
+        account_number: this.data.account_number,
+        client_id: this.data.client_id,
         balance: this.data.balance
       });
 
       // Inicializar el valor formateado
       this.formattedBalance = this.formatCurrency(this.data.balance);
     }
+
+    // Cargar la lista de clientes
+    this.clientes$ = this.supabaseService.clientes$;
 
     // Subscribe to balance value changes to update formattedBalance
     this.accountForm.get('balance')?.valueChanges.subscribe(value => {
@@ -59,22 +65,16 @@ export class ModAccountComponent implements OnInit {
     }
 
     const updatedAccountData: Cuenta = {
-      id: this.data.id,
+      id: this.accountForm.get('id')?.value,
       account_number: this.accountForm.get('account_number')?.value,
-      client_id: this.data.client_id,
+      client_id: this.accountForm.get('client_id')?.value,
       created_at: this.data.created_at,
       balance: this.accountForm.get('balance')?.value // Asegúrate de incluir el saldo actualizado
     };
 
-    this.supabaseService.updateCuenta(this.data.id!, updatedAccountData)
-      .then(() => {
-        console.log('Cuenta actualizada');
-        this.dialogRef.close(true);
-      })
-      .catch(error => {
-        console.error('Error al actualizar cuenta', error);
-        this.dialogRef.close(false);
-      });
+    this.supabaseService.updateLocalCuenta(this.data.id!, updatedAccountData);
+    console.log('Cuenta actualizada localmente');
+    this.dialogRef.close(true);
   }
 
   closeDialog(): void {
