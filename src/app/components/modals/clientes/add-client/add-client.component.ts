@@ -32,15 +32,9 @@ export class AddClientComponent {
         created_at: new Date().toISOString()
       };
 
-      this.supabaseService.addCliente(clientData)
-        .then(() => {
-          console.log('Cliente añadido');
-          this.dialogRef.close(true); // Close the dialog and indicate success
-        })
-        .catch(error => {
-          console.error('Error al añadir cliente', error);
-          this.dialogRef.close(false); // Close the dialog and indicate failure
-        });
+      this.supabaseService.addLocalCliente(clientData);  // Guardar localmente
+      console.log('Cliente añadido localmente');
+      this.dialogRef.close(clientData); // Cerrar el diálogo e indicar éxito
     }
   }
 

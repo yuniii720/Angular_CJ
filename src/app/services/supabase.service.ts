@@ -25,8 +25,12 @@ export class SupabaseService {
   private updatedUsuarios: Usuario[] = [];
   private deletedUsuarios: Usuario[] = [];
 
+  private localClientes: Cliente[] = [];
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
+  private updatedClientes: Cliente[] = []; // Lista para los clientes modificados
+  private deletedClientes: Cliente[] = []; // Lista para los clientes eliminados
+
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
   private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
@@ -126,7 +130,7 @@ export class SupabaseService {
       console.error('Invalid userId or roleId:', { userId, roleId });
       throw new Error('Invalid userId or roleId');
     }
-  
+
     const { error } = await this.supabase.from('userroles').insert([{ user_id: userId, role_id: roleId }]);
     if (error) {
       console.error('Error inserting user role:', error);
@@ -202,16 +206,6 @@ export class SupabaseService {
     }
   }
 
-  // Clientes
-  async loadClientes() {
-    const { data, error } = await this.supabase.from('Clientes').select('*');
-    if (error) {
-      console.error('Error loading clients', error);
-    } else {
-      this.clientesSubject.next(data);
-    }
-  }
-
   async getAllClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
     if (error) {
@@ -220,13 +214,92 @@ export class SupabaseService {
     return data;
   }
 
+  // Método para añadir cliente localmente
+  addLocalCliente(cliente: Cliente) {
+    this.localClientes.push(cliente);
+    this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]); // Combina clientes locales y cargados
+    this.alertService.success('Cliente añadido localmente.');
+  }
+
+  // Método para guardar todos los clientes locales en la base de datos
+  async saveAllClientes() {
+    try {
+      for (const cliente of this.localClientes) {
+        await this.addCliente(cliente);
+      }
+      for (const cliente of this.updatedClientes) {
+        await this.updateCliente(cliente.id!, cliente);
+      }
+      for (const cliente of this.deletedClientes) {
+        await this.deleteCliente(cliente.id!);
+      }
+      this.localClientes = [];
+      this.updatedClientes = [];
+      this.deletedClientes = [];
+      this.loadClientes();
+      this.alertService.success('Todos los cambios se han guardado en la base de datos.');
+    } catch (error) {
+      console.error('Error al guardar los clientes', error);
+      this.alertService.error('Error al guardar los clientes. Intente de nuevo.');
+    }
+  }
+
   async addCliente(cliente: Cliente) {
     const { data, error } = await this.supabase.from('Clientes').insert([cliente]);
     if (error) {
       console.error('Error adding client', error);
+      throw error;
     } else {
-      this.loadClientes();
+      this.loadClientes(); // Recargar la lista de clientes después de añadir uno nuevo
+      this.alertService.success('Cliente añadido a la base de datos.');
     }
+  }
+
+  async loadClientes() {
+    const { data, error } = await this.supabase.from('Clientes').select('*');
+    if (error) {
+      console.error('Error loading clients', error);
+    } else {
+      this.clientesSubject.next(data); // Notificar los clientes cargados desde la base de datos
+    }
+  }
+
+  // Método para actualizar cliente localmente
+  updateLocalCliente(id: number, updatedFields: any) {
+    const index = this.localClientes.findIndex(cliente => cliente.id === id);
+    if (index !== -1) {
+      this.localClientes[index] = { ...this.localClientes[index], ...updatedFields };
+      this.updatedClientes.push(this.localClientes[index]);
+      this.clientesSubject.next([...this.localClientes]);
+    } else {
+      // Maneja el caso cuando el cliente no se encuentra en la lista local
+      const allClientes = this.clientesSubject.getValue();
+      const clientIndex = allClientes.findIndex(cliente => cliente.id === id);
+      if (clientIndex !== -1) {
+        allClientes[clientIndex] = { ...allClientes[clientIndex], ...updatedFields };
+        this.updatedClientes.push(allClientes[clientIndex]);
+        this.clientesSubject.next([...allClientes]);
+      }
+    }
+    this.alertService.success('Cliente modificado localmente.');
+  }
+
+  // Método para eliminar cliente localmente
+  deleteLocalCliente(id: number) {
+    const index = this.localClientes.findIndex(cliente => cliente.id === id);
+    if (index !== -1) {
+      this.deletedClientes.push(this.localClientes[index]);
+      this.localClientes.splice(index, 1);
+    } else {
+      const allClientes = this.clientesSubject.getValue();
+      const clientIndex = allClientes.findIndex(cliente => cliente.id === id);
+      if (clientIndex !== -1) {
+        this.deletedClientes.push(allClientes[clientIndex]);
+        allClientes.splice(clientIndex, 1);
+      }
+    }
+    this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]);
+    this.alertService.success('Cliente eliminado localmente.');
   }
 
   async updateCliente(id: number, updatedFields: any) {
@@ -235,6 +308,7 @@ export class SupabaseService {
       console.error('Error updating client', error);
     } else {
       this.loadClientes();
+      this.alertService.success('Cliente actualizado en la base de datos.');
     }
   }
 
@@ -244,6 +318,7 @@ export class SupabaseService {
       console.error('Error deleting client', error);
     } else {
       this.loadClientes();
+      this.alertService.success('Cliente eliminado de la base de datos.');
     }
   }
 

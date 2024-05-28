@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>{{ title }}</h2>
+<h2 mat-dialog-title>Confirmar Cambios</h2>
 <mat-dialog-content class="mat-typography">
-  <p>{{ message }}</p>
+  <p>¿Estás seguro de que quieres guardar los cambios realizados?</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onDismiss()">Cancelar</button>
+  <button mat-button (click)="onCancel()">Cancelar</button>
   <button mat-button (click)="onConfirm()">Confirmar</button>
 </mat-dialog-actions>
