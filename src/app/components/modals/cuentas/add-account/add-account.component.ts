@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Cliente } from '../../../../models/cliente.model';
 import { Cuenta } from '../../../../models/cuenta.model';
-
 
 @Component({
   selector: 'app-add-account',
@@ -20,6 +18,7 @@ export class AddAccountComponent implements OnInit {
   });
 
   clientes$!: Observable<Cliente[]>;
+  formattedBalance: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<AddAccountComponent>,
@@ -28,6 +27,18 @@ export class AddAccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.clientes$ = this.supabaseService.clientes$; // Load clients for the dropdown
+
+    // Subscribe to balance value changes to update formattedBalance
+    this.accountForm.get('balance')?.valueChanges.subscribe(value => {
+      this.formattedBalance = this.formatCurrency(value);
+    });
+  }
+
+  formatCurrency(value: number): string {
+    if (value !== null && value !== undefined) {
+      return value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    }
+    return '';
   }
 
   onSubmit(): void {
@@ -38,7 +49,7 @@ export class AddAccountComponent implements OnInit {
         account_number: accountNumber, // Generated account number
         client_id: this.accountForm.get('client_id')?.value,
         created_at: new Date().toISOString(),
-        balance: this.accountForm.get('balance')?.value // Usa el valor del campo de saldo del formulario
+        balance: this.accountForm.get('balance')?.value // Use the balance field value from the form
       };
 
       this.supabaseService.addCuenta(accountData)
@@ -50,15 +61,6 @@ export class AddAccountComponent implements OnInit {
           console.error('Error adding account', error);
         });
     }
-  }
-
-  onClientChange(event: any): void {
-    const clientId = event.value;
-    this.clientes$.pipe(
-      map(clientes => clientes.find(cliente => cliente.id === clientId))
-    ).subscribe(selectedClient => {
-      this.accountForm.get('clientName')?.setValue(selectedClient?.name);
-    });
   }
 
   closeDialog(): void {

@@ -13,6 +13,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Saldo</mat-label>
       <input matInput type="number" formControlName="balance" placeholder="Introduce saldo">
+      <mat-hint align="end">{{ formattedBalance }}</mat-hint>
     </mat-form-field>
 
     <div class="actions">

@@ -70,10 +70,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from './services/auth.service';
-
-import 'intersection-observer';
+import { EuroCurrencyPipe } from './pipes/euro-currency.pipe';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { MainclienteComponent } from './components/maincliente/maincliente.component';
+import { BtnSaveAccountComponent } from './components/buttons/cuenta/btn-save-account/btn-save-account.component';
+import { SaveAccountComponent } from './components/modals/cuentas/save-account/save-account.component';
+
+import 'intersection-observer';
+
 
 @NgModule({
   declarations: [
@@ -127,6 +131,9 @@ import { MainclienteComponent } from './components/maincliente/maincliente.compo
     AppComponent,
     HeaderComponent,
     MainclienteComponent,
+    BtnSaveAccountComponent,
+    SaveAccountComponent,
+    EuroCurrencyPipe,
   ],
   imports: [
     BrowserModule,
@@ -154,6 +161,9 @@ import { MainclienteComponent } from './components/maincliente/maincliente.compo
     MatIconModule,
     BrowserModule,
     AppRoutingModule,
+  ],
+  exports: [
+    EuroCurrencyPipe,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

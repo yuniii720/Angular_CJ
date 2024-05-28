@@ -30,6 +30,13 @@ export class SupabaseService {
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
   private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
+
+  private localCuentas: Cuenta[] = [];
+  private addedCuentas: Cuenta[] = [];
+  private updatedCuentas: Cuenta[] = [];
+  private deletedCuentas: Cuenta[] = [];
+
+  balance: any;
   public tarjetas$ = this.tarjetasSubject.asObservable();
 
   constructor(private http: HttpClient, private alertService: AlertService) {
@@ -260,13 +267,53 @@ export class SupabaseService {
     }
   }
 
+  async syncCuentas() {
+    try {
+      for (const cuenta of this.addedCuentas) {
+        await this.supabase.from('Cuentas').insert([cuenta]);
+      }
+      for (const cuenta of this.updatedCuentas) {
+        await this.supabase.from('Cuentas').update(cuenta).match({ id: cuenta.id });
+      }
+      for (const cuenta of this.deletedCuentas) {
+        await this.supabase.from('Cuentas').delete().match({ id: cuenta.id });
+      }
+
+      this.addedCuentas = [];
+      this.updatedCuentas = [];
+      this.deletedCuentas = [];
+
+      await this.loadCuentas();
+    } catch (error) {
+      console.error('Error al sincronizar los cambios de las cuentas', error);
+    }
+  }
+
   async addCuenta(cuenta: Cuenta) {
-    cuenta.account_number = this.generateAccountNumber();
-    const { data, error } = await this.supabase.from('Cuentas').insert([cuenta]);
-    if (error) {
-      console.error('Error adding account', error);
+    this.addedCuentas.push(cuenta);
+    this.localCuentas.push(cuenta);
+    this.cuentasSubject.next([...this.localCuentas]);
+  }
+
+  async updateCuenta(id: number, updatedFields: any): Promise<void> {
+    const index = this.localCuentas.findIndex(c => c.id === id);
+    if (index !== -1) {
+      this.localCuentas[index] = { ...this.localCuentas[index], ...updatedFields };
+      this.updatedCuentas.push(this.localCuentas[index]);
+      this.cuentasSubject.next([...this.localCuentas]);
     } else {
-      this.loadCuentas();
+      throw new Error('Cuenta no encontrada');
+    }
+  }
+
+  async deleteCuenta(id: number): Promise<void> {
+    const index = this.localCuentas.findIndex(c => c.id === id);
+    if (index !== -1) {
+      this.deletedCuentas.push(this.localCuentas[index]);
+      this.localCuentas.splice(index, 1);
+      this.cuentasSubject.next([...this.localCuentas]);
+    } else {
+      throw new Error('Cuenta no encontrada');
     }
   }
 
@@ -277,25 +324,6 @@ export class SupabaseService {
       if (i < 3) number += '-';
     }
     return number;
-  }
-
-  async updateCuenta(id: number, updatedFields: any): Promise<void> {
-    const { data, error } = await this.supabase.from('Cuentas').update(updatedFields).match({ id });
-    if (error) {
-      console.error('Error updating account', error);
-      throw new Error(error.message);
-    } else {
-      this.loadCuentas();
-    }
-  }
-
-  async deleteCuenta(id: number) {
-    const { data, error } = await this.supabase.from('Cuentas').delete().match({ id });
-    if (error) {
-      console.error('Error deleting account', error);
-    } else {
-      this.loadCuentas();
-    }
   }
 
   // Tarjetas

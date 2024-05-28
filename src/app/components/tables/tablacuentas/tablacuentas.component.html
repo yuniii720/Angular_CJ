@@ -27,8 +27,8 @@
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
 
     <div fxFlex="49" fxFlex.xs="100" class="button-container">
-      <app-btn-add-user></app-btn-add-user>
-      <app-btn-save-users></app-btn-save-users>
+      <app-btn-add-account></app-btn-add-account>
+      <app-btn-save-account></app-btn-save-account>
     </div>
   </div>
 
@@ -36,7 +36,7 @@
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
       <!-- ID Column -->
       <ng-container matColumnDef="id" sticky>
-        <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID Cuenta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID </mat-header-cell>
         <mat-cell *matCellDef="let cuenta"> {{ cuenta.id }} </mat-cell>
       </ng-container>
 
@@ -55,7 +55,7 @@
       <!-- Saldo Column -->
       <ng-container matColumnDef="balance">
         <mat-header-cell *matHeaderCellDef mat-sort-header='balance'> Saldo </mat-header-cell>
-        <mat-cell *matCellDef="let cuenta"> {{ cuenta.balance }} € </mat-cell>
+        <mat-cell *matCellDef="let cuenta"> {{ cuenta.balance | euroCurrency }} </mat-cell>
       </ng-container>
 
       <!-- Fecha de alta Column -->

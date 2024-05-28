@@ -11,6 +11,7 @@ import { Cuenta } from '../../../../models/cuenta.model';
 })
 export class ModAccountComponent implements OnInit {
   accountForm: FormGroup;
+  formattedBalance: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<ModAccountComponent>,
@@ -33,7 +34,22 @@ export class ModAccountComponent implements OnInit {
         clientName: this.data.clientName,
         balance: this.data.balance
       });
+
+      // Inicializar el valor formateado
+      this.formattedBalance = this.formatCurrency(this.data.balance);
     }
+
+    // Subscribe to balance value changes to update formattedBalance
+    this.accountForm.get('balance')?.valueChanges.subscribe(value => {
+      this.formattedBalance = this.formatCurrency(value);
+    });
+  }
+
+  formatCurrency(value: number): string {
+    if (value !== null && value !== undefined) {
+      return value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    }
+    return '';
   }
 
   onSubmit(): void {
