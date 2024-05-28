@@ -29,6 +29,7 @@ export class SupabaseService {
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
   private updatedClientes: Cliente[] = []; // Lista para los clientes modificados
+  private deletedClientes: Cliente[] = []; // Lista para los clientes eliminados
 
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
@@ -229,9 +230,13 @@ export class SupabaseService {
       for (const cliente of this.updatedClientes) {
         await this.updateCliente(cliente.id!, cliente);
       }
-      this.localClientes = []; // Limpiar la lista local después de guardar
-      this.updatedClientes = []; // Limpiar la lista de actualizados después de guardar
-      this.loadClientes(); // Recargar la lista de clientes desde la base de datos
+      for (const cliente of this.deletedClientes) {
+        await this.deleteCliente(cliente.id!);
+      }
+      this.localClientes = [];
+      this.updatedClientes = [];
+      this.deletedClientes = [];
+      this.loadClientes();
     } catch (error) {
       console.error('Error al guardar los clientes', error);
     }
@@ -273,6 +278,23 @@ export class SupabaseService {
         this.clientesSubject.next([...allClientes]);
       }
     }
+  }
+
+  // Método para eliminar cliente localmente
+  deleteLocalCliente(id: number) {
+    const index = this.localClientes.findIndex(cliente => cliente.id === id);
+    if (index !== -1) {
+      this.deletedClientes.push(this.localClientes[index]);
+      this.localClientes.splice(index, 1);
+    } else {
+      const allClientes = this.clientesSubject.getValue();
+      const clientIndex = allClientes.findIndex(cliente => cliente.id === id);
+      if (clientIndex !== -1) {
+        this.deletedClientes.push(allClientes[clientIndex]);
+        allClientes.splice(clientIndex, 1);
+      }
+    }
+    this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]);
   }
 
   async updateCliente(id: number, updatedFields: any) {

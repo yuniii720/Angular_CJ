@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../modals/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../../modals/confirm-dialog/confirm-dialog.component';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Cliente } from '../../../../models/cliente.model';
 
@@ -10,7 +10,7 @@ import { Cliente } from '../../../../models/cliente.model';
   styleUrls: ['./btn-del-client.component.css']
 })
 export class BtnDelClientComponent {
-  @Input() cliente!: Cliente;  // Asegúrate de pasar el objeto Cliente
+  @Input() cliente!: Cliente;
 
   constructor(
     private dialog: MatDialog,
@@ -23,7 +23,7 @@ export class BtnDelClientComponent {
       data: {
         title: 'Confirmar eliminación',
         message: `¿Estás seguro de querer eliminar al cliente ${this.cliente.name}?`
-      }
+      } as ConfirmDialogData
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -34,12 +34,7 @@ export class BtnDelClientComponent {
   }
 
   private deleteCliente(): void {
-    this.supabaseService.deleteCliente(this.cliente.id!)
-      .then(() => {
-        console.log('Cliente eliminado');
-      })
-      .catch(error => {
-        console.error('Error al eliminar cliente', error);
-      });
+    this.supabaseService.deleteLocalCliente(this.cliente.id!);
+    console.log('Cliente eliminado localmente');
   }
 }
