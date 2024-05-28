@@ -27,8 +27,8 @@
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
 
     <div fxFlex="49" fxFlex.xs="100" class="button-container">
-      <app-btn-add-user></app-btn-add-user>
-      <app-btn-save-users></app-btn-save-users>
+      <a mat-button *ngIf="(userRoleMessage$ | async) !== 'Bienvenido cliente'" [routerLink]="['', { outlets: { auth: ['add-tarjetas'] } }]">Añadir Tarjetas</a>
+
     </div>
   </div>
 
