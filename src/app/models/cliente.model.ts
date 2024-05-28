@@ -5,5 +5,5 @@ export interface Cliente {
   email: string;
   city: string;
   birth_date: Date;
-  created_at: Date;
+  created_at?: Date;
 }
