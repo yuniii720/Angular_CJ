@@ -219,6 +219,7 @@ export class SupabaseService {
   addLocalCliente(cliente: Cliente) {
     this.localClientes.push(cliente);
     this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]); // Combina clientes locales y cargados
+    this.alertService.success('Cliente añadido localmente.');
   }
 
   // Método para guardar todos los clientes locales en la base de datos
@@ -237,8 +238,10 @@ export class SupabaseService {
       this.updatedClientes = [];
       this.deletedClientes = [];
       this.loadClientes();
+      this.alertService.success('Todos los cambios se han guardado en la base de datos.');
     } catch (error) {
       console.error('Error al guardar los clientes', error);
+      this.alertService.error('Error al guardar los clientes. Intente de nuevo.');
     }
   }
 
@@ -249,6 +252,7 @@ export class SupabaseService {
       throw error;
     } else {
       this.loadClientes(); // Recargar la lista de clientes después de añadir uno nuevo
+      this.alertService.success('Cliente añadido a la base de datos.');
     }
   }
 
@@ -278,6 +282,7 @@ export class SupabaseService {
         this.clientesSubject.next([...allClientes]);
       }
     }
+    this.alertService.success('Cliente modificado localmente.');
   }
 
   // Método para eliminar cliente localmente
@@ -295,6 +300,7 @@ export class SupabaseService {
       }
     }
     this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]);
+    this.alertService.success('Cliente eliminado localmente.');
   }
 
   async updateCliente(id: number, updatedFields: any) {
@@ -303,6 +309,7 @@ export class SupabaseService {
       console.error('Error updating client', error);
     } else {
       this.loadClientes();
+      this.alertService.success('Cliente actualizado en la base de datos.');
     }
   }
 
@@ -312,6 +319,7 @@ export class SupabaseService {
       console.error('Error deleting client', error);
     } else {
       this.loadClientes();
+      this.alertService.success('Cliente eliminado de la base de datos.');
     }
   }
 
