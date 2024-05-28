@@ -25,14 +25,13 @@
     </div>
 
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
-
     <div fxFlex="49" fxFlex.xs="100" class="button-container">
-        <div *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
+    <div *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
                 
         <app-btn-add-tarjeta>
         </app-btn-add-tarjeta>
-</div>
 
+      </div>
     </div>
   </div>
 
