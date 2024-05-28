@@ -41,8 +41,9 @@
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
       <mat-select formControlName="type" placeholder="Selecciona tipo de usuario" required>
-        <mat-option value="Empleado">Empleado</mat-option>
-        <mat-option value="Administrador">Administrador</mat-option>
+        <mat-option value="empleado">Empleado</mat-option>
+        <mat-option value="superadmin">Super Admin</mat-option>
+        <mat-option value="cliente">Cliente</mat-option>
       </mat-select>
       <mat-error *ngIf="userForm.get('type')?.errors?.['required']">
         Debes seleccionar un tipo de usuario.

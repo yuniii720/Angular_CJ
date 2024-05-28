@@ -489,5 +489,17 @@ export class SupabaseService {
 
     return data;
   }
+
+  async updateUserRole(userId: string, roleId: number): Promise<void> {
+    const { error } = await this.supabase
+      .from('userroles')
+      .update({ role_id: roleId })
+      .eq('user_id', userId);
+    if (error) {
+      throw error;
+    }
+  }
+
+  
 }
 

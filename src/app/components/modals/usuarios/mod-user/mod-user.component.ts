@@ -41,7 +41,7 @@ export class ModUserComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.userForm.valid) {
       const formValue = this.userForm.value;
       const updatedUserData: Usuario = {
@@ -56,13 +56,35 @@ export class ModUserComponent implements OnInit {
         updatedUserData.hire_date = null;
       }
 
-      this.supabaseService.updateUsuario(this.data.id, updatedUserData).then(() => {
-        this.alertService.success(`Usuario "${formValue.username}" actualizado.`);  // Muestra un mensaje de éxito
-        this.dialogRef.close();  // Cierra el diálogo
-      }).catch(error => {
+      try {
+        // Actualizar el usuario
+        await this.supabaseService.updateUsuario(this.data.id, updatedUserData);
+
+        // Asignar rol según el tipo de usuario
+        let roleId;
+        switch (formValue.type) {
+          case 'superadmin':
+            roleId = 1;
+            break;
+          case 'empleado':
+            roleId = 2;
+            break;
+          case 'cliente':
+            roleId = 3;
+            break;
+          default:
+            throw new Error('Tipo de usuario desconocido');
+        }
+
+        // Actualizar en la tabla de roles
+        await this.supabaseService.updateUserRole(this.data.id, roleId);
+
+        this.alertService.success(`Usuario "${formValue.username}" actualizado.`);
+        this.dialogRef.close();
+      } catch (error) {
         console.error('Error al actualizar el usuario', error);
-        this.alertService.error('Error al actualizar el usuario. Por favor, intente de nuevo.');  // Muestra un mensaje de error
-      });
+        this.alertService.error('Error al actualizar el usuario. Por favor, intente de nuevo.');
+      }
     }
   }
 
