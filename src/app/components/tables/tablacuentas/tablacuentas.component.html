@@ -24,11 +24,16 @@
       </mat-form-field>
     </div>
 
+    
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
+      <div fxFlex="49" fxFlex.xs="100" class="button-container">
+        <div *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
 
-    <div fxFlex="49" fxFlex.xs="100" class="button-container">
-      <app-btn-add-account></app-btn-add-account>
-      <app-btn-save-account></app-btn-save-account>
+            <app-btn-add-account></app-btn-add-account>
+            <app-btn-save-account></app-btn-save-account>
+
+</div>
+
     </div>
   </div>
 
@@ -68,7 +73,7 @@
       <ng-container matColumnDef="gestionar" stickyEnd>
         <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
         <mat-cell *matCellDef="let cuenta">
-          <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
+          <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px" *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
             <app-btn-mod-account [cuenta]="cuenta"></app-btn-mod-account>
             <app-btn-del-account [cuenta]="cuenta"></app-btn-del-account>
           </div>
