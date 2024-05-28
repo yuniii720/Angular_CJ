@@ -123,11 +123,18 @@ export class SupabaseService {
   }
 
   async addUserRole(userId: string, roleId: number): Promise<void> {
-    const { error } = await this.supabase.from('UserRoles').insert([{ user_id: userId, role_id: roleId }]);
+    if (!userId || !roleId) {
+      console.error('Invalid userId or roleId:', { userId, roleId });
+      throw new Error('Invalid userId or roleId');
+    }
+  
+    const { error } = await this.supabase.from('userroles').insert([{ user_id: userId, role_id: roleId }]);
     if (error) {
+      console.error('Error inserting user role:', error);
       throw error;
     }
   }
+  
 
   updateUsuario(id: string, updatedFields: any): Promise<void> {
     return new Promise((resolve, reject) => {
