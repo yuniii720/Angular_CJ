@@ -39,15 +39,9 @@ export class ModClientComponent implements OnInit {
         ...this.clientForm.value
       };
 
-      this.supabaseService.updateCliente(this.data.id!, updatedClientData)
-        .then(() => {
-          console.log('Cliente actualizado');
-          this.dialogRef.close(true);
-        })
-        .catch(error => {
-          console.error('Error al actualizar cliente', error);
-          this.dialogRef.close(false);
-        });
+      this.supabaseService.updateLocalCliente(this.data.id!, updatedClientData); // Guardar localmente
+      console.log('Cliente actualizado localmente');
+      this.dialogRef.close(true); // Cerrar el diálogo e indicar éxito
     }
   }
 

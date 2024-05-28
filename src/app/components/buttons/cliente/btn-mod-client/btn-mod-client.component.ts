@@ -21,8 +21,7 @@ export class BtnModClientComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('El cliente fue actualizado');
-        // Opcionalmente, recargar la lista de clientes
+        console.log('El cliente fue actualizado localmente');
       }
     });
   }

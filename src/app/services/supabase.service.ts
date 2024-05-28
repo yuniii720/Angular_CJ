@@ -28,6 +28,8 @@ export class SupabaseService {
   private localClientes: Cliente[] = [];
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
+  private updatedClientes: Cliente[] = []; // Lista para los clientes modificados
+
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
   private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
@@ -127,14 +129,14 @@ export class SupabaseService {
       console.error('Invalid userId or roleId:', { userId, roleId });
       throw new Error('Invalid userId or roleId');
     }
-  
+
     const { error } = await this.supabase.from('userroles').insert([{ user_id: userId, role_id: roleId }]);
     if (error) {
       console.error('Error inserting user role:', error);
       throw error;
     }
   }
-  
+
 
   updateUsuario(id: string, updatedFields: any): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -224,7 +226,11 @@ export class SupabaseService {
       for (const cliente of this.localClientes) {
         await this.addCliente(cliente);
       }
+      for (const cliente of this.updatedClientes) {
+        await this.updateCliente(cliente.id!, cliente);
+      }
       this.localClientes = []; // Limpiar la lista local después de guardar
+      this.updatedClientes = []; // Limpiar la lista de actualizados después de guardar
       this.loadClientes(); // Recargar la lista de clientes desde la base de datos
     } catch (error) {
       console.error('Error al guardar los clientes', error);
@@ -247,6 +253,25 @@ export class SupabaseService {
       console.error('Error loading clients', error);
     } else {
       this.clientesSubject.next(data); // Notificar los clientes cargados desde la base de datos
+    }
+  }
+
+  // Método para actualizar cliente localmente
+  updateLocalCliente(id: number, updatedFields: any) {
+    const index = this.localClientes.findIndex(cliente => cliente.id === id);
+    if (index !== -1) {
+      this.localClientes[index] = { ...this.localClientes[index], ...updatedFields };
+      this.updatedClientes.push(this.localClientes[index]);
+      this.clientesSubject.next([...this.localClientes]);
+    } else {
+      // Maneja el caso cuando el cliente no se encuentra en la lista local
+      const allClientes = this.clientesSubject.getValue();
+      const clientIndex = allClientes.findIndex(cliente => cliente.id === id);
+      if (clientIndex !== -1) {
+        allClientes[clientIndex] = { ...allClientes[clientIndex], ...updatedFields };
+        this.updatedClientes.push(allClientes[clientIndex]);
+        this.clientesSubject.next([...allClientes]);
+      }
     }
   }
 
