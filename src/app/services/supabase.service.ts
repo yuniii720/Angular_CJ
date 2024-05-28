@@ -133,7 +133,6 @@ export class SupabaseService {
       throw error;
     }
   }
-  
 
   updateUsuario(id: string, updatedFields: any): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -416,3 +415,4 @@ export class SupabaseService {
     return data;
   }
 }
+
