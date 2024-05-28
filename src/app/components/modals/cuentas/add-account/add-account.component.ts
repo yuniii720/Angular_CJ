@@ -23,7 +23,7 @@ export class AddAccountComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddAccountComponent>,
     private supabaseService: SupabaseService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.clientes$ = this.supabaseService.clientes$; // Load clients for the dropdown
@@ -45,21 +45,23 @@ export class AddAccountComponent implements OnInit {
     if (this.accountForm.valid) {
       const accountNumber = this.supabaseService.generateAccountNumber(); // Use the service method
 
-      const accountData: Cuenta = {
-        account_number: accountNumber, // Generated account number
-        client_id: this.accountForm.get('client_id')?.value,
-        created_at: new Date().toISOString(),
-        balance: this.accountForm.get('balance')?.value // Use the balance field value from the form
-      };
+      const clientId = this.accountForm.get('client_id')?.value;
 
-      this.supabaseService.addCuenta(accountData)
-        .then(() => {
-          console.log('Account added successfully with number:', accountNumber);
-          this.dialogRef.close(true);
-        })
-        .catch(error => {
-          console.error('Error adding account', error);
-        });
+      // Suscribirse a clientes$ para obtener el array de clientes
+      this.clientes$.subscribe(clientes => {
+        const cliente = clientes.find(c => c.id === clientId);
+
+        const accountData: Cuenta = {
+          account_number: accountNumber, // Generated account number
+          client_id: clientId,
+          clientName: cliente ? cliente.name : '', // Añadir nombre del cliente
+          created_at: new Date().toISOString(),
+          balance: this.accountForm.get('balance')?.value // Use the balance field value from the form
+        };
+
+        this.supabaseService.addLocalCuenta(accountData);
+        this.dialogRef.close(true);
+      });
     }
   }
 

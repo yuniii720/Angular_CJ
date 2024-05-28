@@ -7,7 +7,7 @@ import { Cuenta } from '../../../../models/cuenta.model';
 @Component({
   selector: 'app-del-account',
   templateUrl: './del-account.component.html',
-  styleUrl: './del-account.component.css'
+  styleUrls: ['./del-account.component.css']
 })
 export class DelAccountComponent {
   @Input() cuenta!: Cuenta;
@@ -36,7 +36,7 @@ export class DelAccountComponent {
   deleteCuenta(): void {
     this.supabaseService.deleteCuenta(this.cuenta.id!)
       .then(() => {
-        console.log('Cuenta eliminada');
+        console.log('Cuenta eliminada localmente');
         // Aquí podrías emitir un evento o llamar a una función para actualizar la lista de usuarios en la tabla
       })
       .catch(error => {

@@ -8,16 +8,20 @@ import { SaveAccountComponent } from '../../../modals/cuentas/save-account/save-
   styleUrls: ['./btn-save-account.component.css']
 })
 export class BtnSaveAccountComponent {
+
   constructor(public dialog: MatDialog) { }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(SaveAccountComponent, {
-      width: '600px',
-      data: { /* datos que vamos a pasar al modal */ },
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        console.log('Cambios guardados exitosamente');
+      } else {
+        console.log('Guardado cancelado');
+      }
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -11,21 +11,22 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './tablacuentas.component.html',
   styleUrls: ['./tablacuentas.component.css']
 })
-export class TablaCuentasComponent implements OnInit, OnDestroy {
+export class TablaCuentasComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Cuenta>();
   displayedColumns: string[] = ['id', 'account_number', 'clientName', 'balance', 'created_at', 'gestionar'];
+  filteredColumns: string[] = [];
   selectedColumn: string = 'account_number';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
-filteredColumns: any;
 
   constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
-    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
+    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar'); // Inicializar filteredColumns
+
     this.subs.add(this.supabaseService.cuentas$.subscribe(data => {
       this.dataSource.data = data;
     }));
