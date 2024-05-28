@@ -1,11 +1,11 @@
 export interface Usuario {
-  id: string;
+  id?: string;
   username: string;
   name: string;
   email: string;
   password: string;
-  type: string;
-  hire_date: Date | null;
-  created_at: Date;
+  type: 'Super Admin' | 'Cliente' | 'Empleado';
+  hire_date?: Date;
+  created_at?: Date;
   [key: string]: any;
 }

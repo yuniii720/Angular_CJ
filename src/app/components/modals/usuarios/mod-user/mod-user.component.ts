@@ -37,7 +37,7 @@ export class ModUserComponent implements OnInit {
       name: this.data.name,
       email: this.data.email,
       type: this.data.type,
-      hire_date: this.data.hire_date ? new Date(this.data.hire_date) : null
+      hire_date: this.data.hire_date ? new Date(this.data.hire_date) : undefined
     });
   }
 
@@ -53,10 +53,15 @@ export class ModUserComponent implements OnInit {
       if (formValue.hire_date) {
         updatedUserData.hire_date = new Date(formValue.hire_date);
       } else {
-        updatedUserData.hire_date = null;
+        updatedUserData.hire_date = undefined;
       }
 
       try {
+        // Verificar que el ID del usuario no sea undefined
+        if (!this.data.id) {
+          throw new Error('El ID del usuario es indefinido.');
+        }
+
         // Actualizar el usuario
         await this.supabaseService.updateUsuario(this.data.id, updatedUserData);
 

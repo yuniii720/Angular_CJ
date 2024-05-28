@@ -85,6 +85,7 @@ export class SupabaseService {
 
   async addUsuario(usuario: Usuario) {
     try {
+      // Crear el usuario en auth.users y obtener el ID del usuario creado
       const { data: authData, error: authError } = await this.supabase.auth.signUp({
         email: usuario.email,
         password: usuario.password,
@@ -100,6 +101,7 @@ export class SupabaseService {
         throw new Error('No se pudo obtener el usuario autenticado.');
       }
 
+      // Insertar el usuario en la tabla Usuarios con el ID del usuario autenticado
       const { data, error: insertError } = await this.supabase.from('Usuarios').insert([{
         id: authUser.id,
         email: usuario.email,
@@ -114,6 +116,10 @@ export class SupabaseService {
       if (insertError) {
         throw insertError;
       }
+
+      // Asignar el rol al usuario
+      const roleId = usuario.type === 'Cliente' ? 2 : 1; // Asume 2 = Cliente, 1 = Admin
+      await this.addUserRole(authUser.id, roleId);
 
       this.localUsuarios.push(data);
       this.usuariosSubject.next([...this.localUsuarios]);
@@ -615,6 +621,6 @@ export class SupabaseService {
     }
   }
 
-  
+
 }
 
