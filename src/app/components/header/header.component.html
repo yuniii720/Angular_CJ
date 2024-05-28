@@ -1,8 +1,10 @@
 <mat-toolbar class="header">
-  <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo">
+  <a [routerLink]="['', { outlets: { auth: [''] } }]" class="logo">
     <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
   </a>
   <nav class="menu">
+    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'" [routerLink]="['', { outlets: { auth: ['main'] } }]">Área de administración</a>
+    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Bienvenido cliente'" [routerLink]="['', { outlets: { auth: ['maincliente'] } }]">Área personal</a>
     <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin'" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
     <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'" [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
