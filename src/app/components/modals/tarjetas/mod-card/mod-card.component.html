@@ -11,12 +11,24 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Fecha de Vencimiento</mat-label>
+      <mat-label>Titular de la Tarjeta</mat-label>
+      <mat-select formControlName="cardHolderName" required>
+        <mat-option *ngFor="let cliente of clientes" [value]="cliente.name">
+          {{ cliente.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="tarjetaForm.get('cardHolderName')?.errors?.['required']">
+        Debes seleccionar un titular.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Fecha de Caducidad</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="expirationDate" placeholder="Selecciona fecha de vencimiento">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="tarjetaForm.get('expirationDate')?.errors?.['required']">
-        Debes seleccionar la fecha de vencimiento.
+        Debes seleccionar la fecha de caducidad.
       </mat-error>
     </mat-form-field>
   </form>

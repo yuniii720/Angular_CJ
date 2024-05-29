@@ -212,7 +212,7 @@ export class SupabaseService {
     }
   }
 
-  async getAllClientes() {
+  async getAllClientes(): Promise<Cliente[]> {
     const { data, error } = await this.supabase.from('Clientes').select('*');
     if (error) {
       throw error;
