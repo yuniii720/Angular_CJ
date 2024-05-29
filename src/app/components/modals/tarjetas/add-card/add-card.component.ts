@@ -89,7 +89,7 @@ export class AddCardComponent implements OnInit {
       const { cardHolderName, expirationDate, securityCode, cardType, pin, clientId, accountId } = this.creditCardForm.value;
       const cardNumber = this.generateCardNumber();
       const tarjeta: Omit<Tarjeta, 'id'> = {
-        saldo: 89234992349,
+        saldo: 0,
         cardNumber,
         cardHolderName,
         expirationDate,
