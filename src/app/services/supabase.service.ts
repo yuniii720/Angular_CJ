@@ -391,7 +391,6 @@ export class SupabaseService {
     }
   }
 
-
   // Método para sincronizar cuentas locales con la base de datos
   async syncCuentas(): Promise<void> {
     try {
@@ -523,26 +522,23 @@ export class SupabaseService {
 
   // Tarjetas
   async loadTarjetas() {
-    const { data, error } = await this.supabase
-      .from('Tarjetas')
-      .select('*');
-
+    const { data, error } = await this.supabase.from('Tarjetas').select('*');
     if (error) {
       console.error('Error loading cards', error);
     } else {
-      this.tarjetasSubject.next(data.map(item => ({
-        ...item
-      })));
+      this.tarjetasSubject.next(data);
     }
   }
 
-  async addTarjeta(tarjeta: Tarjeta) {
+  async addTarjeta(tarjeta: Tarjeta): Promise<void> {
     try {
-      const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]);
+      const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]).select().single();
       if (error) {
         console.error('Error adding card', error);
       } else {
-        this.loadTarjetas();
+        // Actualizar BehaviorSubject después de añadir la tarjeta
+        const currentTarjetas = this.tarjetasSubject.getValue();
+        this.tarjetasSubject.next([...currentTarjetas, data]);
       }
     } catch (error) {
       console.error('Error adding card', error);
@@ -576,39 +572,41 @@ export class SupabaseService {
   }
 
   async saveCreditCard(tarjeta: Omit<Tarjeta, 'id'>): Promise<SaveResult> {
-    const { data, error } = await this.supabase
-      .from('Tarjetas')
-      .insert([
-        {
-          saldo: tarjeta.saldo,
-          cardNumber: tarjeta.cardNumber,
-          cardHolderName: tarjeta.cardHolderName,
-          expirationDate: tarjeta.expirationDate,
-          securityCode: tarjeta.securityCode,
-          cardType: tarjeta.cardType,
-          PIN: tarjeta.PIN
-        }
-      ]);
-
+    const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]).select().single();
     if (error) {
       return { error };
     }
+    const currentTarjetas = this.tarjetasSubject.getValue();
+    this.tarjetasSubject.next([...currentTarjetas, data]);
     return { error: undefined };
   }
 
-  async getCreditCard(id: number): Promise<Tarjeta | null> {
+  async getAllCuentas(): Promise<Cuenta[]> {
+    const { data, error } = await this.supabase.from('Cuentas').select('*');
+    if (error) {
+      throw error;
+    }
+    return data;
+  }
+
+  async loadTarjetasConCuentas() {
     const { data, error } = await this.supabase
       .from('Tarjetas')
-      .select('*')
-      .eq('id', id)
-      .single();
+      .select(`
+        *,
+        Cuentas (
+          account_number
+        )
+      `);
 
     if (error) {
-      console.error('Error fetching credit card', error);
-      return null;
+      console.error('Error loading cards with account numbers', error);
+    } else {
+      this.tarjetasSubject.next(data.map(tarjeta => ({
+        ...tarjeta,
+        account_number: tarjeta.Cuentas ? tarjeta.Cuentas.account_number : null
+      })));
     }
-
-    return data;
   }
 
   async updateUserRole(userId: string, roleId: number): Promise<void> {

@@ -1,4 +1,3 @@
-// tablatarjetas.component.ts
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,12 +5,9 @@ import { Subscription, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SupabaseService } from '../../../services/supabase.service';
 import { Tarjeta } from '../../../models/tarjeta.model';
+import { UserRole } from '../../../models/user-role.model';
 import { MatSort } from '@angular/material/sort';
 import { AuthService } from '../../../services/auth.service';
-
-interface UserRole {
-  role_id: number;
-}
 
 @Component({
   selector: 'app-tablatarjetas',
@@ -20,15 +16,15 @@ interface UserRole {
 })
 export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Tarjeta>();
-  displayedColumns: string[] = ['id', 'cardNumber', 'cardHolderName', 'cardType', 'expirationDate', 'securityCode', 'account_id', 'saldo', 'PIN', 'gestionar'];
+  displayedColumns: string[] = ['id', 'cardNumber', 'cardHolderName', 'cardType', 'expirationDate', 'securityCode', 'saldo', 'PIN', 'gestionar'];
   selectedColumn: string = 'cardNumber';
-  filteredColumns: string[] = []; // Asignación inicial
+  filteredColumns: string[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
-  userRoleMessage$: Observable<string> = of(''); // Inicialización con un valor predeterminado
+  userRoleMessage$: Observable<string> = of('');
 
   constructor(private supabaseService: SupabaseService, private authService: AuthService) { }
 
@@ -41,7 +37,6 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.createFilter();
 
-    // Configurar userRoleMessage$
     this.userRoleMessage$ = this.authService.getUserRole().pipe(
       map((userRole: UserRole | null) => {
         if (!userRole) {
@@ -87,12 +82,10 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   modTarjeta(tarjeta: Tarjeta): void {
-    // Lógica para modificar la tarjeta
     console.log('Modificar tarjeta', tarjeta);
   }
 
   delTarjeta(tarjeta: Tarjeta): void {
-    // Lógica para eliminar la tarjeta
     console.log('Eliminar tarjeta', tarjeta);
   }
 }

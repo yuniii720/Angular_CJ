@@ -5,6 +5,8 @@ import { SupabaseService } from '../../../../services/supabase.service';
 import { SaveResult } from '../../../../models/tarjeta.model';
 import { AlertService } from '../../../../services/alert.service';
 import { Tarjeta } from '../../../../models/tarjeta.model';
+import { Cliente } from '../../../../models/cliente.model';
+import { Cuenta } from '../../../../models/cuenta.model'; // Importar el modelo de cuenta
 
 @Component({
   selector: 'app-add-card',
@@ -13,6 +15,9 @@ import { Tarjeta } from '../../../../models/tarjeta.model';
 })
 export class AddCardComponent implements OnInit {
   creditCardForm: FormGroup;
+  clientes: Cliente[] = [];
+  cuentas: Cuenta[] = []; // Añadir la propiedad cuentas
+  filteredCuentas: Cuenta[] = []; // Añadir la propiedad filteredCuentas
 
   constructor(
     public dialogRef: MatDialogRef<AddCardComponent>,
@@ -31,28 +36,68 @@ export class AddCardComponent implements OnInit {
     const pin = Math.floor(1000 + Math.random() * 9000).toString();
 
     this.creditCardForm = new FormGroup({
-      cardNumber: new FormControl('', Validators.required),
-      cardHolderName: new FormControl('', Validators.required),
       expirationDate: new FormControl(expirationDateRandom, Validators.required),
       securityCode: new FormControl(cvv, Validators.required),
       pin: new FormControl(pin, Validators.required),
-      cardType: new FormControl('credito', Validators.required)
+      cardType: new FormControl('Crédito', Validators.required),
+      clientId: new FormControl('', Validators.required),
+      cardHolderName: new FormControl('', Validators.required), // Añadir el campo cardHolderName
+      accountId: new FormControl('', Validators.required) // Añadir el campo accountId
     });
   }
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    await this.loadClientes();
+    await this.loadCuentas(); // Cargar las cuentas al inicializar el componente
+  }
+
+  async loadClientes(): Promise<void> {
+    try {
+      this.clientes = await this.supabaseService.getAllClientes();
+    } catch (error) {
+      console.error('Error loading clients', error);
+    }
+  }
+
+  async loadCuentas(): Promise<void> {
+    try {
+      this.cuentas = await this.supabaseService.getAllCuentas();
+    } catch (error) {
+      console.error('Error loading accounts', error);
+    }
+  }
+
+  generateCardNumber(): string {
+    const prefix = '4000';
+    const randomDigits = () => Math.floor(100000000000 + Math.random() * 900000000000).toString();
+    return `${prefix}${randomDigits()}`;
+  }
+
+  onClientChange(): void {
+    const clientId = this.creditCardForm.get('clientId')?.value;
+    const selectedClient = this.clientes.find(client => client.id === clientId);
+    if (selectedClient) {
+      this.creditCardForm.patchValue({
+        cardHolderName: selectedClient.name
+      });
+      this.filteredCuentas = this.cuentas.filter(cuenta => cuenta.client_id === clientId); // Filtrar las cuentas por clientId
+    }
+  }
 
   async onSubmit(): Promise<void> {
     if (this.creditCardForm.valid) {
-      const { cardNumber, cardHolderName, expirationDate, securityCode, cardType, pin } = this.creditCardForm.value;
-      const tarjeta: Omit<Tarjeta, 'id'> = { // Omitimos el campo 'id'
-        saldo: 89234992349, // Valor provisional para saldo, ajustar según la lógica de la aplicación
+      const { cardHolderName, expirationDate, securityCode, cardType, pin, clientId, accountId } = this.creditCardForm.value;
+      const cardNumber = this.generateCardNumber();
+      const tarjeta: Omit<Tarjeta, 'id'> = {
+        saldo: 89234992349,
         cardNumber,
         cardHolderName,
         expirationDate,
         securityCode,
         cardType,
-        PIN: pin, // Usar el PIN generado
+        PIN: pin,
+        client_id: clientId,
+        account_id: accountId
       };
 
       try {

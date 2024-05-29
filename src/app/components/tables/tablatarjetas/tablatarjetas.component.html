@@ -26,39 +26,36 @@
 
     <div fxFlex="2" fxFlex.xs="0" class="spacer"></div>
     <div fxFlex="49" fxFlex.xs="100" class="button-container">
-    <div *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
-                
-        <app-btn-add-tarjeta>
-        </app-btn-add-tarjeta>
-
-       </div>
-     </div>
-   </div>
+      <div *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
+        <app-btn-add-tarjeta></app-btn-add-tarjeta>
+      </div>
+    </div>
+  </div>
 
   <div class="table">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
       <!-- ID Column -->
       <ng-container matColumnDef="id" sticky>
         <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.id}} </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.id }} </mat-cell>
       </ng-container>
 
       <!-- Card Holder Name Column -->
       <ng-container matColumnDef="cardHolderName">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Titular </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardHolderName}} </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.cardHolderName }} </mat-cell>
       </ng-container>
 
       <!-- Card Number Column -->
       <ng-container matColumnDef="cardNumber">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Número </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardNumber}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> N. de Cuenta </mat-header-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.cardNumber }} </mat-cell>
       </ng-container>
 
       <!-- Card Type Column -->
       <ng-container matColumnDef="cardType">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.cardType}} </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.cardType }} </mat-cell>
       </ng-container>
 
       <!-- Expiration Date Column -->
@@ -70,25 +67,19 @@
       <!-- Security Code Column -->
       <ng-container matColumnDef="securityCode">
         <mat-header-cell *matHeaderCellDef mat-sort-header> CVC </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.securityCode}} </mat-cell>
-      </ng-container>
-
-      <!-- Account ID Column -->
-      <ng-container matColumnDef="account_id">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> ID Cuenta </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.account_id}} </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.securityCode }} </mat-cell>
       </ng-container>
 
       <!-- Balance Column -->
       <ng-container matColumnDef="saldo">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Saldo </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.saldo}} </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.saldo }} </mat-cell>
       </ng-container>
 
       <!-- PIN Column -->
       <ng-container matColumnDef="PIN">
         <mat-header-cell *matHeaderCellDef mat-sort-header> PIN </mat-header-cell>
-        <mat-cell *matCellDef="let tarjeta"> {{tarjeta.PIN}} </mat-cell>
+        <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.PIN }} </mat-cell>
       </ng-container>
 
       <!-- Gestionar Column -->

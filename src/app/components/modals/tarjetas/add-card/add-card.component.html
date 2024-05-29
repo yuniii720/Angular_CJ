@@ -2,18 +2,34 @@
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="creditCardForm" (ngSubmit)="onSubmit()" class="credit-card-form">
     <mat-form-field appearance="fill">
-      <mat-label>Número de Tarjeta</mat-label>
-      <input matInput type="text" formControlName="cardNumber" placeholder="Introduce el número de la tarjeta" required>
-      <mat-error *ngIf="creditCardForm.get('cardNumber')?.errors?.['required']">
-        Debe rellenar el campo número de tarjeta.
+      <mat-label>Cliente</mat-label>
+      <mat-select formControlName="clientId" required (selectionChange)="onClientChange()">
+        <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+          {{ cliente.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="creditCardForm.get('clientId')?.errors?.['required']">
+        Debe seleccionar un cliente.
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Nombre del Titular</mat-label>
-      <input matInput type="text" formControlName="cardHolderName" placeholder="Introduce nombre del titular" required>
+      <mat-label>Titular</mat-label>
+      <input matInput type="text" formControlName="cardHolderName" placeholder="Nombre del titular" required>
       <mat-error *ngIf="creditCardForm.get('cardHolderName')?.errors?.['required']">
         Debe rellenar el campo nombre del titular.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Cuenta</mat-label>
+      <mat-select formControlName="accountId" required>
+        <mat-option *ngFor="let cuenta of filteredCuentas" [value]="cuenta.id">
+          {{ cuenta.account_number }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="creditCardForm.get('accountId')?.errors?.['required']">
+        Debe seleccionar una cuenta.
       </mat-error>
     </mat-form-field>
 
@@ -37,16 +53,16 @@
       <mat-label>PIN</mat-label>
       <input matInput type="text" formControlName="pin" placeholder="Introduce el PIN deseado" required>
       <mat-error *ngIf="creditCardForm.get('pin')?.errors?.['required']">
-        Debe rellenar el campo nombre del titular.
+        Debe rellenar el campo PIN.
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Tipo de Tarjeta</mat-label>
       <mat-select formControlName="cardType">
-        <mat-option value="credito">Crédito</mat-option>
-        <mat-option value="debito">Débito</mat-option>
-        <mat-option value="prepago">Prepago</mat-option>
+        <mat-option value="Crédito">Crédito</mat-option>
+        <mat-option value="Débito">Débito</mat-option>
+        <mat-option value="Prepago">Prepago</mat-option>
       </mat-select>
     </mat-form-field>
 
