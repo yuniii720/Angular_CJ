@@ -1,27 +1,26 @@
 <mat-toolbar class="header">
 
-  <!-- Navbar para Super Admin -->
+
   <nav class="menu" *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
     <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo">
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
     </a>
-    <!-- <a mat-button [routerLink]="['', { outlets: { auth: ['main'] } }]">Área de administración</a> -->
+
     <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin'" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Movimientos</a>
 
   </nav>
 
-  <!-- Navbar para Cliente -->
   <nav class="menu" *ngIf="(userRoleMessage$ | async) === 'Bienvenido cliente'">
     <a [routerLink]="['', { outlets: { auth: ['maincliente'] } }]" class="logo">
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
     </a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Movimientos</a>
   </nav>
 
   <span class="spacer"></span>

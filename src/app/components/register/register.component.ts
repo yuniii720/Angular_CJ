@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.registroForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -34,15 +36,14 @@ export class RegisterComponent {
         const user = await this.authService.signUp(email, password, username, name, type);
         console.log('Usuario registrado correctamente:', user);
 
-        // Obtener el ID del rol de cliente (asumiendo que es 3)
         const roleId = 3;
 
-        // Agregar el registro en la tabla userroles
         await this.authService.addUserRole(user.id, roleId);
 
         this.router.navigate(['/login']);
       } catch (error: any) {
         console.error('Error al registrar usuario:', error);
+        this.alertService.error(`Error al registrar usuario: ${error.message || error}`);
         this.errorMessage = error.message || 'Error al registrar usuario.';
       }
     }
