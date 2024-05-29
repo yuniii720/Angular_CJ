@@ -1,3 +1,4 @@
+// src/app/components/tables/tablaclientes/tablaclientes.component.ts
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,7 +22,7 @@ export class TablaClientesComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
-filteredColumns: any;
+  filteredColumns: any;
 
   constructor(private supabaseService: SupabaseService, private eventService: EventService) { }
 

@@ -85,7 +85,6 @@ export class SupabaseService {
 
   async addUsuario(usuario: Usuario) {
     try {
-      // Crear el usuario en auth.users y obtener el ID del usuario creado
       const { data: authData, error: authError } = await this.supabase.auth.signUp({
         email: usuario.email,
         password: usuario.password,
@@ -101,9 +100,10 @@ export class SupabaseService {
         throw new Error('No se pudo obtener el usuario autenticado.');
       }
 
-      // Insertar el usuario en la tabla Usuarios con el ID del usuario autenticado
-      const { data, error: insertError } = await this.supabase.from('Usuarios').insert([{
-        id: authUser.id,
+      const userId = authUser.id;
+
+      const { data: userInsertData, error: userInsertError } = await this.supabase.from('Usuarios').insert([{
+        id: userId,
         email: usuario.email,
         username: usuario.username,
         name: usuario.name,
@@ -113,35 +113,63 @@ export class SupabaseService {
         created_at: usuario.created_at
       }]).select().single();
 
-      if (insertError) {
-        throw insertError;
+      if (userInsertError) {
+        throw userInsertError;
       }
 
-      // Asignar el rol al usuario
-      const roleId = usuario.type === 'Cliente' ? 2 : 1; // Asume 2 = Cliente, 1 = Admin
-      await this.addUserRole(authUser.id, roleId);
-
-      this.localUsuarios.push(data);
-      this.usuariosSubject.next([...this.localUsuarios]);
-      return data;
-
+      return userInsertData;
     } catch (error) {
-      console.error('Error adding user:', error);
+      console.error('Error al añadir usuario', error);
+      this.alertService.error('Error al añadir usuario. Intente de nuevo.');
       throw error;
     }
   }
 
   async addUserRole(userId: string, roleId: number): Promise<void> {
-    if (!userId || !roleId) {
-      console.error('Invalid userId or roleId:', { userId, roleId });
-      throw new Error('Invalid userId or roleId');
-    }
+    try {
+      const { data: existingRole, error: fetchError, status } = await this.supabase
+        .from('userroles')
+        .select('user_id, role_id')
+        .eq('user_id', userId)
+        .eq('role_id', roleId)
+        .maybeSingle();
 
-    const { error } = await this.supabase.from('userroles').insert([{ user_id: userId, role_id: roleId }]);
-    if (error) {
-      console.error('Error inserting user role:', error);
-      throw error;
+      if (fetchError && status !== 406) {  // Manejar errores que no son "No Aceptable"
+        throw fetchError;
+      }
+
+      if (existingRole) {
+        console.log(`El rol ${roleId} ya está asignado al usuario ${userId}.`);
+        return;
+      }
+
+      const { error: insertError } = await this.supabase.from('userroles').insert([{ user_id: userId, role_id: roleId }]);
+      if (insertError) {
+        console.error('Error inserting user role:', insertError);
+        throw insertError;
+      }
+    } catch (error: unknown) {
+      if (this.isSupabaseError(error)) {
+        if (error.details === 'The result contains 0 rows') {
+          console.log(`No existing role found for user_id ${userId} and role_id ${roleId}, proceeding with insert.`);
+          const { error: insertError } = await this.supabase.from('userroles').insert([{ user_id: userId, role_id: roleId }]);
+          if (insertError) {
+            console.error('Error inserting user role:', insertError);
+            throw insertError;
+          }
+        } else {
+          console.error('Error adding user role:', error);
+          throw error;
+        }
+      } else {
+        console.error('Unexpected error adding user role:', error);
+        throw error;
+      }
     }
+  }
+
+  private isSupabaseError(error: unknown): error is { details?: string } {
+    return typeof error === 'object' && error !== null && 'details' in error;
   }
 
   updateUsuario(id: string, updatedFields: any): Promise<void> {
@@ -256,7 +284,6 @@ export class SupabaseService {
       console.error('Error adding client', error);
       throw error;
     } else {
-      this.loadClientes(); // Recargar la lista de clientes después de añadir uno nuevo
       this.alertService.success('Cliente añadido a la base de datos.');
     }
   }
@@ -267,8 +294,8 @@ export class SupabaseService {
     if (error) {
       console.error('Error loading clients', error);
     } else {
-      this.localClientes = data; // Actualiza la lista local de clientes
-      this.clientesSubject.next(data); // Notificar los clientes cargados desde la base de datos
+      this.localClientes = data;
+      this.clientesSubject.next(data);
     }
   }
 
@@ -618,7 +645,4 @@ export class SupabaseService {
       throw error;
     }
   }
-
-
 }
-

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors }
 import { MatDialogRef } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Usuario } from '../../../../models/usuario.model';
+import { Cliente } from '../../../../models/cliente.model';
 import { AlertService } from '../../../../services/alert.service';
 
 @Component({
@@ -106,6 +107,21 @@ export class AddUserComponent {
 
         // Insertar en la tabla de roles
         await this.supabaseService.addUserRole(addedUser.id, roleId);
+
+        if (formValue.type === 'cliente') {
+          // Insertar en la tabla de Clientes
+          const newClienteData: Cliente = {
+            user_id: addedUser.id, // Usar el mismo ID del usuario para el cliente
+            name: formValue.name,
+            dni: '',
+            email: formValue.email,
+            birth_date: null,
+            city: '',
+            created_at: new Date()
+          };
+
+          await this.supabaseService.addCliente(newClienteData);
+        }
 
         this.alertService.success(`Usuario "${formValue.username}" añadido.`);
         this.dialogRef.close();

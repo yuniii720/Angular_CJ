@@ -1,9 +1,10 @@
 export interface Cliente {
-  id: number;
+  id?: number;
+  user_id: string;
   name: string;
   dni: string;
   email: string;
+  birth_date: Date | null;
   city: string;
-  birth_date: Date;
-  created_at?: Date;
+  created_at: Date;
 }
