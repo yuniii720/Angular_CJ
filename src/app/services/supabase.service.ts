@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { environment } from '../environments/environment';
+import { Tarjeta } from '../models/tarjeta.model';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
-import { Tarjeta } from '../models/tarjeta.model';
 import { AlertService } from './alert.service';
 
 export interface SaveResult {
@@ -14,7 +14,7 @@ export interface SaveResult {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SupabaseService {
   private supabase: SupabaseClient;
@@ -28,8 +28,8 @@ export class SupabaseService {
   private localClientes: Cliente[] = [];
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
-  private updatedClientes: Cliente[] = []; // Lista para los clientes modificados
-  private deletedClientes: Cliente[] = []; // Lista para los clientes eliminados
+  private updatedClientes: Cliente[] = [];
+  private deletedClientes: Cliente[] = [];
 
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
@@ -120,7 +120,6 @@ export class SupabaseService {
         throw userInsertError;
       }
 
-      // Actualizar la lista de usuarios en el BehaviorSubject
       const currentUsuarios = this.usuariosSubject.getValue();
       this.usuariosSubject.next([...currentUsuarios, userInsertData]);
 
@@ -141,7 +140,7 @@ export class SupabaseService {
         .eq('role_id', roleId)
         .maybeSingle();
 
-      if (fetchError && status !== 406) {  // Manejar errores que no son "No Aceptable"
+      if (fetchError && status !== 406) {
         throw fetchError;
       }
 
@@ -284,7 +283,6 @@ export class SupabaseService {
         console.error('Error adding client', error);
         throw error;
       } else {
-        // Actualizar la lista de clientes en el BehaviorSubject
         const currentClientes = this.clientesSubject.getValue();
         this.clientesSubject.next([...currentClientes, data]);
         this.alertService.success('Cliente añadido a la base de datos.');
@@ -314,7 +312,6 @@ export class SupabaseService {
       this.updatedClientes.push(this.localClientes[index]);
       this.clientesSubject.next([...this.localClientes]);
     } else {
-      // Maneja el caso cuando el cliente no se encuentra en la lista local
       const allClientes = this.clientesSubject.getValue();
       const clientIndex = allClientes.findIndex(cliente => cliente.id === id);
       if (clientIndex !== -1) {
@@ -402,7 +399,7 @@ export class SupabaseService {
         }
       }
       for (const cuenta of this.updatedCuentas) {
-        const { clientName, ...cuentaSinNombre } = cuenta; // Eliminar campos innecesarios
+        const { clientName, ...cuentaSinNombre } = cuenta;
         await this.updateCuenta(cuenta.id!, cuentaSinNombre);
       }
       for (const cuenta of this.deletedCuentas) {
@@ -427,23 +424,18 @@ export class SupabaseService {
     }
   }
 
-  // Método para sincronizar cuentas locales con la base de datos
   async syncCuentas(): Promise<void> {
     try {
-      // Agregar nuevas cuentas
       for (const cuenta of this.addedCuentas) {
         await this.supabase.from('Cuentas').insert([cuenta]);
       }
-      // Actualizar cuentas modificadas
       for (const cuenta of this.updatedCuentas) {
         await this.supabase.from('Cuentas').update(cuenta).match({ id: cuenta.id });
       }
-      // Eliminar cuentas eliminadas
       for (const cuenta of this.deletedCuentas) {
         await this.supabase.from('Cuentas').delete().match({ id: cuenta.id });
       }
 
-      // Resetear las listas locales
       this.addedCuentas = [];
       this.updatedCuentas = [];
       this.deletedCuentas = [];
@@ -454,10 +446,8 @@ export class SupabaseService {
     }
   }
 
-  // Método existente para añadir cuenta en la base de datos
   async addCuenta(cuenta: Cuenta): Promise<void> {
     try {
-      // Crear una copia del objeto cuenta y eliminar el campo clientName
       const { clientName, ...cuentaSinNombre } = cuenta;
 
       const { data, error } = await this.supabase.from('Cuentas').insert([cuentaSinNombre]).select().single();
@@ -465,7 +455,6 @@ export class SupabaseService {
         console.error('Error adding account', error);
         throw error;
       } else {
-        // Actualizar la lista local con la cuenta guardada en la base de datos
         const index = this.localCuentas.findIndex(c => c.account_number === cuenta.account_number);
         if (index !== -1) {
           this.localCuentas[index] = data;
@@ -487,7 +476,6 @@ export class SupabaseService {
     if (index !== -1) {
       const updatedCuenta = { ...this.localCuentas[index], ...updatedFields };
 
-      // Actualizar el nombre del cliente si se ha cambiado el client_id
       if (updatedFields.client_id) {
         const cliente = this.localClientes.find(cliente => cliente.id === updatedFields.client_id);
         if (cliente) {
@@ -495,7 +483,6 @@ export class SupabaseService {
         }
       }
 
-      // Actualizar la cuenta localmente
       this.localCuentas[index] = updatedCuenta;
       this.updatedCuentas.push(updatedCuenta);
       this.cuentasSubject.next([...this.localCuentas]);
@@ -508,14 +495,13 @@ export class SupabaseService {
 
   async updateCuenta(id: number, updatedFields: any): Promise<void> {
     try {
-      const { clientName, Cliente, ...fieldsToUpdate } = updatedFields; // Eliminar campos innecesarios
+      const { clientName, Cliente, ...fieldsToUpdate } = updatedFields;
       const { data, error } = await this.supabase.from('Cuentas').update(fieldsToUpdate).eq('id', id);
       if (error) {
         console.error('Error updating account', error);
         throw new Error('Error updating account');
       }
 
-      // Actualizar localmente para reflejar cambios en la interfaz
       const index = this.localCuentas.findIndex(c => c.id === id);
       if (index !== -1) {
         this.localCuentas[index] = { ...this.localCuentas[index], ...fieldsToUpdate };
@@ -572,7 +558,6 @@ export class SupabaseService {
       if (error) {
         console.error('Error adding card', error);
       } else {
-        // Actualizar BehaviorSubject después de añadir la tarjeta
         const currentTarjetas = this.tarjetasSubject.getValue();
         this.tarjetasSubject.next([...currentTarjetas, data]);
       }
@@ -645,27 +630,53 @@ export class SupabaseService {
     }
   }
 
-  async getTarjetasByUserId(userId: string): Promise<Tarjeta[]> {
+  async getClientIdByUserId(userId: string): Promise<number | null> {
+    const { data, error } = await this.supabase
+      .from('Clientes')
+      .select('id')
+      .eq('user_id', userId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching client ID for user', error);
+      return null;
+    }
+    return data ? data.id : null;
+  }
+
+  async getTarjetasByClientId(clientId: number): Promise<Tarjeta[]> {
     const { data, error } = await this.supabase
       .from('Tarjetas')
       .select('*')
-      .eq('user_id', userId);
+      .eq('client_id', clientId);
 
     if (error) {
-      console.error('Error fetching cards for user', error);
+      console.error('Error fetching cards for client', error);
       throw error;
     }
     return data;
   }
 
+  async getTarjetasByUserId(userId: string): Promise<Tarjeta[]> {
+    const clientId = await this.getClientIdByUserId(userId);
+    if (clientId === null) {
+      throw new Error('Client ID not found for given user ID');
+    }
+    return this.getTarjetasByClientId(clientId);
+  }
+
   async getCuentasByUserId(userId: string): Promise<Cuenta[]> {
+    const clientId = await this.getClientIdByUserId(userId);
+    if (clientId === null) {
+      throw new Error('Client ID not found for given user ID');
+    }
     const { data, error } = await this.supabase
       .from('Cuentas')
       .select('*')
-      .eq('user_id', userId);
-  
+      .eq('client_id', clientId);
+
     if (error) {
-      console.error('Error fetching cards for user', error);
+      console.error('Error fetching accounts for user', error);
       throw error;
     }
     return data;

@@ -57,10 +57,23 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
         });
       } else if (role === 'Bienvenido cliente') {
         const userId = this.authService.getUserId();
+        console.log('User ID from AuthService:', userId); // Añade esta línea para depurar
         if (userId) {
-          this.supabaseService.getTarjetasByUserId(userId).then(data => {
-            this.dataSource.data = data;
+          this.supabaseService.getClientIdByUserId(userId).then(clientId => {
+            if (clientId !== null) {
+              this.supabaseService.getTarjetasByClientId(clientId).then(data => {
+                this.dataSource.data = data;
+              }).catch(error => {
+                console.error('Error fetching cards for client', error);
+              });
+            } else {
+              console.error('Error: clientId is null');
+            }
+          }).catch(error => {
+            console.error('Error fetching client ID for user', error);
           });
+        } else {
+          console.error('Error: userId is undefined or null');
         }
       }
     }));
@@ -96,9 +109,27 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
 
   modTarjeta(tarjeta: Tarjeta): void {
     console.log('Modificar tarjeta', tarjeta);
+    if (tarjeta.id !== undefined) {
+      this.supabaseService.updateTarjeta(tarjeta.id, tarjeta).then(response => {
+        console.log('Tarjeta actualizada', response);
+      }).catch(error => {
+        console.error('Error al actualizar tarjeta', error);
+      });
+    } else {
+      console.error('Error: id de la tarjeta es undefined');
+    }
   }
 
   delTarjeta(tarjeta: Tarjeta): void {
     console.log('Eliminar tarjeta', tarjeta);
+    if (tarjeta.id !== undefined) {
+      this.supabaseService.deleteTarjeta(tarjeta.id).then(response => {
+        console.log('Tarjeta eliminada', response);
+      }).catch(error => {
+        console.error('Error al eliminar tarjeta', error);
+      });
+    } else {
+      console.error('Error: id de la tarjeta es undefined');
+    }
   }
 }
