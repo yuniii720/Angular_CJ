@@ -72,7 +72,6 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from './services/auth.service';
 import { EuroCurrencyPipe } from './pipes/euro-currency.pipe';
-import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { MainclienteComponent } from './components/maincliente/maincliente.component';
 import { BtnSaveAccountComponent } from './components/buttons/cuenta/btn-save-account/btn-save-account.component';
 import { SaveAccountComponent } from './components/modals/cuentas/save-account/save-account.component';
@@ -131,7 +130,6 @@ import { MatListModule } from '@angular/material/list';
     BtnDelTarjetaComponent,
     TranslateColumnPipe,
     BreadcrumbsComponent,
-    NotAuthorizedComponent,
     AppComponent,
     HeaderComponent,
     MainclienteComponent,
