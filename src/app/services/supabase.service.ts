@@ -658,6 +658,19 @@ export class SupabaseService {
     return data;
   }
 
+  async getCuentasByUserId(userId: string): Promise<Cuenta[]> {
+    const { data, error } = await this.supabase
+      .from('Cuentas')
+      .select('*')
+      .eq('user_id', userId);
+  
+    if (error) {
+      console.error('Error fetching cards for user', error);
+      throw error;
+    }
+    return data;
+  }
+
   async updateUserRole(userId: string, roleId: number): Promise<void> {
     const { error } = await this.supabase
       .from('userroles')

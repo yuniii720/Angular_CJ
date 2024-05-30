@@ -1,4 +1,3 @@
-// tablacuentas.component.ts
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -35,14 +34,6 @@ export class TablaCuentasComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar'); // Inicializar filteredColumns
 
-    this.subs.add(this.supabaseService.cuentas$.subscribe(data => {
-      this.dataSource.data = data;
-    }));
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = this.createFilter();
-
-    // Configurar userRoleMessage$
     this.userRoleMessage$ = this.authService.getUserRole().pipe(
       map((userRole: UserRole | null) => {
         if (!userRole) {
@@ -54,11 +45,32 @@ export class TablaCuentasComponent implements OnInit, OnDestroy, AfterViewInit {
           return 'Super Admin';
         } else if (role_id === 2) {
           return 'Bienvenido empleado';
+        } else if (role_id === 3) {
+          return 'Bienvenido cliente';
         } else {
           return '';
         }
       })
     );
+
+    this.subs.add(this.userRoleMessage$.subscribe(role => {
+      if (role === 'Super Admin' || role === 'Bienvenido empleado') {
+        this.supabaseService.cuentas$.subscribe((data: Cuenta[]) => {
+          this.dataSource.data = data;
+        });
+      } else if (role === 'Bienvenido cliente') {
+        const userId = this.authService.getUserId();
+        if (userId) {
+          this.supabaseService.getCuentasByUserId(userId).then(data => {
+            this.dataSource.data = data;
+          });
+        }
+      }
+    }));
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = this.createFilter();
   }
 
   ngOnDestroy(): void {
