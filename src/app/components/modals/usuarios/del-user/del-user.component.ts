@@ -7,7 +7,7 @@ import { Usuario } from '../../../../models/usuario.model';
 @Component({
   selector: 'app-del-user',
   templateUrl: './del-user.component.html',
-  styleUrl: './del-user.component.css'
+  styleUrls: ['./del-user.component.css']
 })
 export class DelUserComponent {
   @Input() usuario!: Usuario;
@@ -33,10 +33,14 @@ export class DelUserComponent {
     });
   }
 
-  deleteUsuario(): void {
-    if (this.usuario.id) {
-      this.supabaseService.deleteUsuario(this.usuario.id);
-      console.log('Usuario marcado para eliminación');
+  async deleteUsuario(): Promise<void> {
+    try {
+      if (this.usuario.id) {
+        await this.supabaseService.deleteUsuario(this.usuario.id);
+        console.log('Usuario eliminado');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el usuario', error);
     }
   }
 }
