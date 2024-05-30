@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SupabaseService } from '../../../../services/supabase.service';  // Asegúrate de tener la ruta correcta
-import { AlertService } from '../../../../services/alert.service';  // Importar el servicio de alerta
+import { SupabaseService } from '../../../../services/supabase.service';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-save-users',
@@ -12,8 +12,8 @@ export class SaveUsersComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SaveUsersComponent>,
-    private supabaseService: SupabaseService,  // Inyectar el servicio
-    private alertService: AlertService  // Inyectar el servicio de alerta
+    private supabaseService: SupabaseService,
+    private alertService: AlertService
   ) {}
 
   async onConfirm(): Promise<void> {

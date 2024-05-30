@@ -106,12 +106,12 @@ export class AddUserComponent {
         }
 
         // Insertar en la tabla de roles
-        await this.supabaseService.addUserRole(addedUser.id, roleId);
+        await this.supabaseService.addUserRole(addedUser.id!, roleId);
 
         if (formValue.type === 'cliente') {
           // Insertar en la tabla de Clientes
           const newClienteData: Cliente = {
-            user_id: addedUser.id, // Usar el mismo ID del usuario para el cliente
+            user_id: addedUser.id!, // Usar el mismo ID del usuario para el cliente
             name: formValue.name,
             dni: '',
             email: formValue.email,
