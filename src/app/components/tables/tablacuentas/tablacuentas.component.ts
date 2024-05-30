@@ -90,7 +90,7 @@ export class TablaCuentasComponent implements OnInit, OnDestroy, AfterViewInit {
     return (data: Cuenta, filter: string): boolean => {
       const textToSearch = data[this.selectedColumn as keyof Cuenta] && String(data[this.selectedColumn as keyof Cuenta]).toLowerCase() || '';
       if (this.selectedColumn === 'created_at') {
-        // Date filtering logic can be added here if needed
+
         return false;
       } else {
         return textToSearch.indexOf(filter) !== -1;
