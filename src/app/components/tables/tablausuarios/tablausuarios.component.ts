@@ -6,6 +6,7 @@ import { SupabaseService } from '../../../services/supabase.service';
 import { Usuario } from '../../../models/usuario.model';
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-tabla-usuarios',
@@ -17,30 +18,39 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy, AfterViewInit 
   displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'hire_date', 'created_at', 'gestionar'];
   filteredColumns: string[] = [];
   selectedColumn: string = 'username';
-  userRoleMessage: string = '';
+  role_id: number | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
 
-  constructor(private supabaseService: SupabaseService) { }
+  constructor(private supabaseService: SupabaseService, private authService: AuthService) { }
 
   ngOnInit(): void {
-  this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
-  if (this.userRoleMessage === 'Bienvenido empleado') {
-    this.supabaseService.loadUsuarios('Cliente');
-  } else {
+    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
     this.supabaseService.loadUsuarios();
+
+    // Suscribirse al observable del role_id
+    this.subs.add(this.authService.getUserRole().subscribe(userRole => {
+      if (userRole) {
+        this.role_id = userRole.role_id;
+      }
+
+      this.subs.add(this.supabaseService.usuarios$.subscribe(data => {
+        // Si el usuario logueado es de tipo "Empleado" (role_id = 2), filtrar los datos para que solo se muestren los usuarios cuyo tipo es "Cliente"
+        if (this.role_id === 2) {
+          this.dataSource.data = data.filter(usuario => usuario.type === 'Cliente');
+        } else {
+          this.dataSource.data = data;
+        }
+      }));
+    }));
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = this.createFilter();
   }
-  this.subs.add(this.supabaseService.usuarios$.subscribe(data => {
-    // Filtrar los datos para que solo se muestren los usuarios cuyo tipo es "Empleado"
-    this.dataSource.data = data.filter(usuario => usuario.type === 'Cliente');
-  }));
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.dataSource.filterPredicate = this.createFilter();
-}
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
