@@ -6,7 +6,7 @@
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
     </a>
 
-    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin'" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Administrar usuarios</a>
+    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin'" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>

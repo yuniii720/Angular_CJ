@@ -18,9 +18,9 @@ export class ModClientComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Cliente
   ) {
     this.clientForm = new FormGroup({
-      name: new FormControl('', Validators.required),
+      name: new FormControl({value: '', disabled: true}, Validators.required),
       dni: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl({value: '', disabled: true}, [Validators.required, Validators.email]),
       birth_date: new FormControl('', Validators.required),
       city: new FormControl('')
     });
@@ -36,7 +36,9 @@ export class ModClientComponent implements OnInit {
     if (this.clientForm.valid) {
       const updatedClientData: Cliente = {
         ...this.data,
-        ...this.clientForm.value
+        ...this.clientForm.value,
+        name: this.data.name, // Ensure name is not changed
+        email: this.data.email // Ensure email is not changed
       };
 
       this.supabaseService.updateLocalCliente(this.data.id!, updatedClientData); // Guardar localmente

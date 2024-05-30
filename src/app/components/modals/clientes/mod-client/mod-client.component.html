@@ -1,19 +1,19 @@
-<h2 mat-dialog-title>Modificar Cliente</h2>
+<h2 mat-dialog-title>Modificar información del cliente</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="user-form">
     <mat-form-field appearance="fill">
       <mat-label>Nombre</mat-label>
-      <input matInput type="text" formControlName="name" placeholder="Introduce nombre completo">
+      <input matInput type="text" formControlName="name" placeholder="Introduce nombre completo" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="Introduce email" readonly>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>DNI</mat-label>
       <input matInput type="text" formControlName="dni" placeholder="Introduce DNI">
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email" placeholder="Introduce email">
     </mat-form-field>
 
     <mat-form-field appearance="fill">

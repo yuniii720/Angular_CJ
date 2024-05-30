@@ -258,18 +258,10 @@ export class SupabaseService {
   // Método para guardar todos los clientes locales en la base de datos
   async saveAllClientes() {
     try {
-      for (const cliente of this.localClientes) {
-        await this.addCliente(cliente);
-      }
       for (const cliente of this.updatedClientes) {
         await this.updateCliente(cliente.id!, cliente);
       }
-      for (const cliente of this.deletedClientes) {
-        await this.deleteCliente(cliente.id!);
-      }
-      this.localClientes = [];
       this.updatedClientes = [];
-      this.deletedClientes = [];
       this.loadClientes();
       this.alertService.success('Todos los cambios se han guardado en la base de datos.');
     } catch (error) {
@@ -341,6 +333,8 @@ export class SupabaseService {
     const { data, error } = await this.supabase.from('Clientes').update(updatedFields).match({ id });
     if (error) {
       console.error('Error updating client', error);
+      this.alertService.error('Error actualizando el cliente en la base de datos.');
+      throw error;
     } else {
       this.loadClientes();
       this.alertService.success('Cliente actualizado en la base de datos.');
