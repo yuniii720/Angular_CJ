@@ -17,6 +17,7 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy, AfterViewInit 
   displayedColumns: string[] = ['id', 'username', 'name', 'email', 'type', 'hire_date', 'created_at', 'gestionar'];
   filteredColumns: string[] = [];
   selectedColumn: string = 'username';
+  userRoleMessage: string = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -26,14 +27,20 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy, AfterViewInit 
   constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
-    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
-    this.subs.add(this.supabaseService.usuarios$.subscribe(data => {
-      this.dataSource.data = data;
-    }));
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = this.createFilter();
+  this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
+  if (this.userRoleMessage === 'Bienvenido empleado') {
+    this.supabaseService.loadUsuarios('Cliente');
+  } else {
+    this.supabaseService.loadUsuarios();
   }
+  this.subs.add(this.supabaseService.usuarios$.subscribe(data => {
+    // Filtrar los datos para que solo se muestren los usuarios cuyo tipo es "Empleado"
+    this.dataSource.data = data.filter(usuario => usuario.type === 'Cliente');
+  }));
+  this.dataSource.paginator = this.paginator;
+  this.dataSource.sort = this.sort;
+  this.dataSource.filterPredicate = this.createFilter();
+}
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();

@@ -65,8 +65,15 @@ export class SupabaseService {
   }
 
   // Usuarios
-  async loadUsuarios() {
-    const { data, error } = await this.supabase.from('Usuarios').select('*').order('id', { ascending: true });
+  async loadUsuarios(filterType?: string) {
+    let query = this.supabase.from('Usuarios').select('*').order('id', { ascending: true });
+
+    if (filterType) {
+      query = query.eq('type', filterType);
+    }
+
+    const { data, error } = await query;
+
     if (error) {
       console.error('Error loading users', error);
     } else {
