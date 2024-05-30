@@ -1,37 +1,53 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
 .recuadro_main {
-  width: 462px;
-  height: 550px;
-  margin: 0 auto;
-  margin-top: 9.9%;
+  width: 100%;
+  max-width: 462px;
+  height: auto;
+  padding: 16px;
   border: 1.1px solid lightgray;
   background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .recuadro {
-  width: 462px;
+  width: 100%;
   height: 33px;
-  margin: 0 auto;
   border-bottom: 1.1px solid lightgray;
   background-color: #3c6e86;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
   justify-content: center;
   color: white;
   font-size: 13.2px;
 }
 
 .img {
-  display: grid;
-  place-items: center;
+  display: flex;
   justify-content: center;
+  align-items: center;
   margin-top: 5.5%;
   margin-bottom: 2.2%;
 }
 
 .formulario {
-  display: grid;
-  place-items: center;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: #3c6e86;
   font-size: 13.2px;
 }
@@ -75,6 +91,10 @@ input::placeholder {
   font-size: 13.2px;
 }
 
+.full-width {
+  width: 100%;
+}
+
 a {
   transition: all 0.3s ease;
   color: #008a9b;
@@ -93,14 +113,26 @@ a:link {
   text-decoration: underline;
 }
 
-/* Estilo del checkbox estándar */
 .checkbox-container {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  cursor: pointer; 
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.checkbox-container input[type="checkbox"] {
+.checkbox-container span {
   margin-right: 8px;
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 8px; /* Ajusta el valor según sea necesario */
+}
+
+.button-container button {
+  width: 100%; /* Esto hará que el botón ocupe todo el ancho del contenedor */
+  max-width: 300px; /* Puedes ajustar este valor para definir un ancho máximo */
+}
