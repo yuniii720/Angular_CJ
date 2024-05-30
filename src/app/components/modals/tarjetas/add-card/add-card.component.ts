@@ -6,7 +6,7 @@ import { SaveResult } from '../../../../models/tarjeta.model';
 import { AlertService } from '../../../../services/alert.service';
 import { Tarjeta } from '../../../../models/tarjeta.model';
 import { Cliente } from '../../../../models/cliente.model';
-import { Cuenta } from '../../../../models/cuenta.model'; // Importar el modelo de cuenta
+import { Cuenta } from '../../../../models/cuenta.model'; 
 
 @Component({
   selector: 'app-add-card',
@@ -16,8 +16,8 @@ import { Cuenta } from '../../../../models/cuenta.model'; // Importar el modelo 
 export class AddCardComponent implements OnInit {
   creditCardForm: FormGroup;
   clientes: Cliente[] = [];
-  cuentas: Cuenta[] = []; // Añadir la propiedad cuentas
-  filteredCuentas: Cuenta[] = []; // Añadir la propiedad filteredCuentas
+  cuentas: Cuenta[] = []; 
+  filteredCuentas: Cuenta[] = []; 
 
   constructor(
     public dialogRef: MatDialogRef<AddCardComponent>,
@@ -89,7 +89,7 @@ export class AddCardComponent implements OnInit {
       const { cardHolderName, expirationDate, securityCode, cardType, pin, clientId, accountId } = this.creditCardForm.value;
       const cardNumber = this.generateCardNumber();
       const tarjeta: Omit<Tarjeta, 'id'> = {
-        saldo: 89234992349,
+        saldo: 0,
         cardNumber,
         cardHolderName,
         expirationDate,

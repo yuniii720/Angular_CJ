@@ -8,11 +8,11 @@ import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
 import { Tarjeta } from '../models/tarjeta.model';
 import { AlertService } from './alert.service';
-
+ 
 export interface SaveResult {
   error?: { message: string };
 }
-
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -24,25 +24,25 @@ export class SupabaseService {
   private addedUsuarios: Usuario[] = [];
   private updatedUsuarios: Usuario[] = [];
   private deletedUsuarios: Usuario[] = [];
-
+ 
   private localClientes: Cliente[] = [];
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
   private updatedClientes: Cliente[] = []; // Lista para los clientes modificados
   private deletedClientes: Cliente[] = []; // Lista para los clientes eliminados
-
+ 
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
   private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
-
+ 
   private localCuentas: Cuenta[] = [];
   private addedCuentas: Cuenta[] = [];
   private updatedCuentas: Cuenta[] = [];
   private deletedCuentas: Cuenta[] = [];
-
+ 
   balance: any;
   public tarjetas$ = this.tarjetasSubject.asObservable();
-
+ 
   constructor(private http: HttpClient, private alertService: AlertService) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.loadUsuarios();
@@ -50,11 +50,11 @@ export class SupabaseService {
     this.loadCuentas();
     this.loadTarjetas();
   }
-
+ 
   async enviarDatos(data: any): Promise<Observable<any>> {
     return this.http.post('https://pbjdatvfbfkhaqrxrzdg.supabase.co', data);
   }
-
+ 
   async fetchTarjetas() {
     const { data, error } = await this.supabase.from('Tarjetas').select('*');
     if (error) {
@@ -63,7 +63,7 @@ export class SupabaseService {
     }
     return data;
   }
-
+ 
   // Usuarios
   async loadUsuarios() {
     const { data, error } = await this.supabase.from('Usuarios').select('*').order('id', { ascending: true });
@@ -74,7 +74,7 @@ export class SupabaseService {
       this.localUsuarios = [...data];
     }
   }
-
+ 
   async getAllUsuarios() {
     const { data, error } = await this.supabase.from('Usuarios').select('*');
     if (error) {
@@ -82,7 +82,7 @@ export class SupabaseService {
     }
     return data;
   }
-
+ 
   async addUsuario(usuario: Usuario) {
     try {
       const { data: authData, error: authError } = await this.supabase.auth.signUp({
@@ -90,18 +90,18 @@ export class SupabaseService {
         password: usuario.password,
         options: { data: { username: usuario.username } }
       });
-
+ 
       if (authError) {
         throw authError;
       }
-
+ 
       const authUser = authData.user;
       if (!authUser) {
         throw new Error('No se pudo obtener el usuario autenticado.');
       }
-
+ 
       const userId = authUser.id;
-
+ 
       const { data: userInsertData, error: userInsertError } = await this.supabase.from('Usuarios').insert([{
         id: userId,
         email: usuario.email,
@@ -112,11 +112,11 @@ export class SupabaseService {
         hire_date: usuario.hire_date,
         created_at: usuario.created_at
       }]).select().single();
-
+ 
       if (userInsertError) {
         throw userInsertError;
       }
-
+ 
       return userInsertData;
     } catch (error) {
       console.error('Error al añadir usuario', error);
@@ -124,7 +124,7 @@ export class SupabaseService {
       throw error;
     }
   }
-
+ 
   async addUserRole(userId: string, roleId: number): Promise<void> {
     try {
       const { data: existingRole, error: fetchError, status } = await this.supabase
@@ -133,16 +133,16 @@ export class SupabaseService {
         .eq('user_id', userId)
         .eq('role_id', roleId)
         .maybeSingle();
-
+ 
       if (fetchError && status !== 406) {  // Manejar errores que no son "No Aceptable"
         throw fetchError;
       }
-
+ 
       if (existingRole) {
         console.log(`El rol ${roleId} ya está asignado al usuario ${userId}.`);
         return;
       }
-
+ 
       const { error: insertError } = await this.supabase.from('userroles').insert([{ user_id: userId, role_id: roleId }]);
       if (insertError) {
         console.error('Error inserting user role:', insertError);
@@ -167,11 +167,11 @@ export class SupabaseService {
       }
     }
   }
-
+ 
   private isSupabaseError(error: unknown): error is { details?: string } {
     return typeof error === 'object' && error !== null && 'details' in error;
   }
-
+ 
   updateUsuario(id: string, updatedFields: any): Promise<void> {
     return new Promise((resolve, reject) => {
       const index = this.localUsuarios.findIndex(u => u.id === id);
@@ -185,7 +185,7 @@ export class SupabaseService {
       }
     });
   }
-
+ 
   async deleteUsuario(id: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const index = this.localUsuarios.findIndex(u => u.id === id);
@@ -202,13 +202,13 @@ export class SupabaseService {
       }
     });
   }
-
+ 
   private adjustDateToLocalMidnight(date: Date): Date {
     const adjustedDate = new Date(date);
     adjustedDate.setHours(0, 0, 0, 0);
     return new Date(adjustedDate.getTime() - adjustedDate.getTimezoneOffset() * 60000);
   }
-
+ 
   async syncUsuarios() {
     try {
       for (const usuario of this.addedUsuarios) {
@@ -229,17 +229,17 @@ export class SupabaseService {
           console.error('Error deleting user', error);
         }
       }
-
+ 
       this.addedUsuarios = [];
       this.updatedUsuarios = [];
       this.deletedUsuarios = [];
-
+ 
       await this.loadUsuarios();
     } catch (error) {
       console.error('Error al sincronizar los cambios', error);
     }
   }
-
+ 
   async getAllClientes(): Promise<Cliente[]> {
     const { data, error } = await this.supabase.from('Clientes').select('*');
     if (error) {
@@ -247,14 +247,14 @@ export class SupabaseService {
     }
     return data;
   }
-
+ 
   // Método para añadir cliente localmente
   addLocalCliente(cliente: Cliente) {
     this.localClientes.push(cliente);
     this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]); // Combina clientes locales y cargados
     this.alertService.success('Cliente añadido localmente.');
   }
-
+ 
   // Método para guardar todos los clientes locales en la base de datos
   async saveAllClientes() {
     try {
@@ -269,7 +269,7 @@ export class SupabaseService {
       this.alertService.error('Error al guardar los clientes. Intente de nuevo.');
     }
   }
-
+ 
   async addCliente(cliente: Cliente) {
     const { data, error } = await this.supabase.from('Clientes').insert([cliente]);
     if (error) {
@@ -279,7 +279,7 @@ export class SupabaseService {
       this.alertService.success('Cliente añadido a la base de datos.');
     }
   }
-
+ 
   // Asegúrate de que `loadClientes` esté correctamente llenando `localClientes`
   async loadClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
@@ -290,7 +290,7 @@ export class SupabaseService {
       this.clientesSubject.next(data);
     }
   }
-
+ 
   // Método para actualizar cliente localmente
   updateLocalCliente(id: number, updatedFields: any) {
     const index = this.localClientes.findIndex(cliente => cliente.id === id);
@@ -310,7 +310,7 @@ export class SupabaseService {
     }
     this.alertService.success('Cliente modificado localmente.');
   }
-
+ 
   // Método para eliminar cliente localmente
   deleteLocalCliente(id: number) {
     const index = this.localClientes.findIndex(cliente => cliente.id === id);
@@ -328,7 +328,7 @@ export class SupabaseService {
     this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]);
     this.alertService.success('Cliente eliminado localmente.');
   }
-
+ 
   async updateCliente(id: number, updatedFields: any) {
     const { data, error } = await this.supabase.from('Clientes').update(updatedFields).match({ id });
     if (error) {
@@ -340,7 +340,7 @@ export class SupabaseService {
       this.alertService.success('Cliente actualizado en la base de datos.');
     }
   }
-
+ 
   async deleteCliente(id: number) {
     const { data, error } = await this.supabase.from('Clientes').delete().match({ id });
     if (error) {
@@ -350,7 +350,7 @@ export class SupabaseService {
       this.alertService.success('Cliente eliminado de la base de datos.');
     }
   }
-
+ 
   // Cuentas
   async loadCuentas() {
     const { data, error } = await this.supabase
@@ -359,7 +359,7 @@ export class SupabaseService {
         *,
         Cliente:Clientes (name)
       `);
-
+ 
     if (error) {
       console.error('Error loading accounts', error);
     } else {
@@ -370,14 +370,14 @@ export class SupabaseService {
       this.cuentasSubject.next(this.localCuentas);
     }
   }
-
+ 
   // Añadir cuenta localmente
   addLocalCuenta(cuenta: Cuenta): void {
     this.localCuentas.push(cuenta);
     this.cuentasSubject.next([...this.localCuentas]);
     this.alertService.success('Cuenta añadida localmente.');
   }
-
+ 
   // Guardar cuentas locales en la base de datos
   async saveAllCuentas() {
     try {
@@ -403,7 +403,7 @@ export class SupabaseService {
       this.alertService.error('Error al guardar las cuentas. Intente de nuevo.');
     }
   }
-
+ 
   async deleteCuentaFromDatabase(id: number): Promise<void> {
     const { error } = await this.supabase.from('Cuentas').delete().eq('id', id);
     if (error) {
@@ -411,7 +411,7 @@ export class SupabaseService {
       throw error;
     }
   }
-
+ 
   // Método para sincronizar cuentas locales con la base de datos
   async syncCuentas(): Promise<void> {
     try {
@@ -427,24 +427,24 @@ export class SupabaseService {
       for (const cuenta of this.deletedCuentas) {
         await this.supabase.from('Cuentas').delete().match({ id: cuenta.id });
       }
-
+ 
       // Resetear las listas locales
       this.addedCuentas = [];
       this.updatedCuentas = [];
       this.deletedCuentas = [];
-
+ 
       await this.loadCuentas();
     } catch (error) {
       console.error('Error al sincronizar los cambios de las cuentas', error);
     }
   }
-
+ 
   // Método existente para añadir cuenta en la base de datos
   async addCuenta(cuenta: Cuenta): Promise<void> {
     try {
       // Crear una copia del objeto cuenta y eliminar el campo clientName
       const { clientName, ...cuentaSinNombre } = cuenta;
-
+ 
       const { data, error } = await this.supabase.from('Cuentas').insert([cuentaSinNombre]).select().single();
       if (error) {
         console.error('Error adding account', error);
@@ -465,13 +465,13 @@ export class SupabaseService {
       throw error;
     }
   }
-
+ 
   updateLocalCuenta(id: number, updatedFields: any): void {
     console.log('Actualizando cuenta local:', id, updatedFields);
     const index = this.localCuentas.findIndex(c => c.id === id);
     if (index !== -1) {
       const updatedCuenta = { ...this.localCuentas[index], ...updatedFields };
-
+ 
       // Actualizar el nombre del cliente si se ha cambiado el client_id
       if (updatedFields.client_id) {
         const cliente = this.localClientes.find(cliente => cliente.id === updatedFields.client_id);
@@ -479,7 +479,7 @@ export class SupabaseService {
           updatedCuenta.clientName = cliente.name;
         }
       }
-
+ 
       // Actualizar la cuenta localmente
       this.localCuentas[index] = updatedCuenta;
       this.updatedCuentas.push(updatedCuenta);
@@ -490,7 +490,7 @@ export class SupabaseService {
       throw new Error('Cuenta no encontrada');
     }
   }
-
+ 
   async updateCuenta(id: number, updatedFields: any): Promise<void> {
     try {
       const { clientName, Cliente, ...fieldsToUpdate } = updatedFields; // Eliminar campos innecesarios
@@ -499,12 +499,12 @@ export class SupabaseService {
         console.error('Error updating account', error);
         throw new Error('Error updating account');
       }
-
+ 
       // Actualizar localmente para reflejar cambios en la interfaz
       const index = this.localCuentas.findIndex(c => c.id === id);
       if (index !== -1) {
         this.localCuentas[index] = { ...this.localCuentas[index], ...fieldsToUpdate };
-
+ 
         if (updatedFields.client_id) {
           const cliente = await this.supabase.from('Clientes').select('name').eq('id', updatedFields.client_id).single();
           if (cliente.data) {
@@ -518,7 +518,7 @@ export class SupabaseService {
       throw error;
     }
   }
-
+ 
   async deleteCuenta(id: number): Promise<void> {
     const index = this.localCuentas.findIndex(c => c.id === id);
     if (index !== -1) {
@@ -529,7 +529,7 @@ export class SupabaseService {
       throw new Error('Cuenta no encontrada');
     }
   }
-
+ 
   generateAccountNumber(): string {
     const countryPrefix = 'ES';
     const controlDigits = Math.floor(10 + Math.random() * 90).toString();
@@ -537,10 +537,10 @@ export class SupabaseService {
     const branchCode = Math.floor(1000 + Math.random() * 9000).toString();
     const checkDigits = Math.floor(10 + Math.random() * 90).toString();
     const accountNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
-
+ 
     return `${countryPrefix}${controlDigits} ${bankCode} ${branchCode} ${checkDigits} ${accountNumber}`;
   }
-
+ 
   // Tarjetas
   async loadTarjetas() {
     const { data, error } = await this.supabase.from('Tarjetas').select('*');
@@ -550,7 +550,7 @@ export class SupabaseService {
       this.tarjetasSubject.next(data);
     }
   }
-
+ 
   async addTarjeta(tarjeta: Tarjeta): Promise<void> {
     try {
       const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]).select().single();
@@ -566,7 +566,7 @@ export class SupabaseService {
       throw error;
     }
   }
-
+ 
   async updateTarjeta(tarjetaId: number, updatedFields: Partial<Tarjeta>): Promise<void> {
     const { data, error } = await this.supabase.from('Tarjetas').update(updatedFields).match({ id: tarjetaId });
     if (error) {
@@ -576,7 +576,7 @@ export class SupabaseService {
       this.loadTarjetas();
     }
   }
-
+ 
   async deleteTarjeta(id: number): Promise<boolean> {
     try {
       const { error } = await this.supabase.from('Tarjetas').delete().match({ id });
@@ -591,7 +591,7 @@ export class SupabaseService {
       return false;
     }
   }
-
+ 
   async saveCreditCard(tarjeta: Omit<Tarjeta, 'id'>): Promise<SaveResult> {
     const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]).select().single();
     if (error) {
@@ -601,7 +601,7 @@ export class SupabaseService {
     this.tarjetasSubject.next([...currentTarjetas, data]);
     return { error: undefined };
   }
-
+ 
   async getAllCuentas(): Promise<Cuenta[]> {
     const { data, error } = await this.supabase.from('Cuentas').select('*');
     if (error) {
@@ -609,7 +609,7 @@ export class SupabaseService {
     }
     return data;
   }
-
+ 
   async loadTarjetasConCuentas() {
     const { data, error } = await this.supabase
       .from('Tarjetas')
@@ -619,7 +619,7 @@ export class SupabaseService {
           account_number
         )
       `);
-
+ 
     if (error) {
       console.error('Error loading cards with account numbers', error);
     } else {
@@ -628,6 +628,19 @@ export class SupabaseService {
         account_number: tarjeta.Cuentas ? tarjeta.Cuentas.account_number : null
       })));
     }
+  }
+  
+  async getTarjetasByUserId(userId: string): Promise<Tarjeta[]> {
+    const { data, error } = await this.supabase
+      .from('Tarjetas')
+      .select('*')
+      .eq('user_id', userId);
+  
+    if (error) {
+      console.error('Error fetching cards for user', error);
+      throw error;
+    }
+    return data;
   }
 
   async updateUserRole(userId: string, roleId: number): Promise<void> {
@@ -640,3 +653,4 @@ export class SupabaseService {
     }
   }
 }
+ 

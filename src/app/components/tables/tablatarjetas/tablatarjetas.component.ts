@@ -30,12 +30,6 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngOnInit(): void {
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
-    this.subs.add(this.supabaseService.tarjetas$.subscribe(data => {
-      this.dataSource.data = data;
-    }));
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = this.createFilter();
 
     this.userRoleMessage$ = this.authService.getUserRole().pipe(
       map((userRole: UserRole | null) => {
@@ -55,6 +49,25 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
         }
       })
     );
+
+    this.subs.add(this.userRoleMessage$.subscribe(role => {
+      if (role === 'Super Admin' || role === 'Bienvenido empleado') {
+        this.supabaseService.tarjetas$.subscribe((data: Tarjeta[]) => {
+          this.dataSource.data = data;
+        });
+      } else if (role === 'Bienvenido cliente') {
+        const userId = this.authService.getUserId();
+        if (userId) {
+          this.supabaseService.getTarjetasByUserId(userId).then(data => {
+            this.dataSource.data = data;
+          });
+        }
+      }
+    }));
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = this.createFilter();
   }
 
   ngOnDestroy(): void {

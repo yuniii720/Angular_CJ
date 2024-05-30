@@ -24,7 +24,7 @@ export class BtnAddClientComponent {
   openDialog(): void {
     const dialogRef = this.dialog.open(AddClientComponent, {
       width: '600px',
-      data: { /* datos que vamos a pasar al modal */ },
+      data: { },
     });
 
     dialogRef.afterClosed().subscribe(result => {

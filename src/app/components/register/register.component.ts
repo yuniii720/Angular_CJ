@@ -24,7 +24,7 @@ export class RegisterComponent {
       username: ['', Validators.required],
       name: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      type: ['Cliente', Validators.required] 
+      type: ['cliente', Validators.required] 
     });
   }
 
