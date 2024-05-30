@@ -34,49 +34,42 @@
 
   <div class="table">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-custom-table" matSort>
-      <!-- ID Column -->
+
       <ng-container matColumnDef="id" sticky>
         <mat-header-cell *matHeaderCellDef mat-sort-header='id'> ID </mat-header-cell>
         <mat-cell *matCellDef="let cliente"> {{cliente.id}} </mat-cell>
       </ng-container>
 
-      <!-- Nombre Column -->
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef mat-sort-header='name'> Nombre </mat-header-cell>
         <mat-cell *matCellDef="let cliente"> {{cliente.name}} </mat-cell>
       </ng-container>
 
-      <!-- DNI Column -->
       <ng-container matColumnDef="dni">
         <mat-header-cell *matHeaderCellDef mat-sort-header='dni'> DNI </mat-header-cell>
         <mat-cell *matCellDef="let cliente"> {{cliente.dni}} </mat-cell>
       </ng-container>
 
-      <!-- Correo electrónico Column -->
       <ng-container matColumnDef="email">
         <mat-header-cell *matHeaderCellDef mat-sort-header='email'> Correo electrónico </mat-header-cell>
         <mat-cell *matCellDef="let cliente"> {{cliente.email}} </mat-cell>
       </ng-container>
 
-      <!-- Ciudad Column -->
       <ng-container matColumnDef="city">
         <mat-header-cell *matHeaderCellDef mat-sort-header='city'> Ciudad </mat-header-cell>
         <mat-cell *matCellDef="let cliente"> {{cliente.city}} </mat-cell>
       </ng-container>
 
-      <!-- Fecha de nacimiento Column -->
       <ng-container matColumnDef="birth_date">
         <mat-header-cell *matHeaderCellDef mat-sort-header='birth_date'> Fecha de nacimiento </mat-header-cell>
         <mat-cell *matCellDef="let cliente"> {{ cliente.birth_date | date: 'yyyy-MM-dd' }} </mat-cell>
       </ng-container>
 
-      <!-- Fecha de alta Column -->
       <ng-container matColumnDef="created_at">
         <mat-header-cell *matHeaderCellDef mat-sort-header='created_at'> Fecha de alta </mat-header-cell>
         <mat-cell *matCellDef="let cliente"> {{ cliente.created_at | date: 'yyyy-MM-dd HH:mm' }} </mat-cell>
       </ng-container>
 
-      <!-- Gestionar Column -->
       <ng-container matColumnDef="gestionar" stickyEnd>
         <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
         <mat-cell *matCellDef="let cliente">
