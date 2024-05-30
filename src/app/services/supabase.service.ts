@@ -192,21 +192,47 @@ export class SupabaseService {
     });
   }
 
-  async deleteUsuario(id: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const index = this.localUsuarios.findIndex(u => u.id === id);
-      if (index !== -1) {
-        const formValue = this.localUsuarios[index];
-        this.deletedUsuarios.push(this.localUsuarios[index]);
-        this.localUsuarios.splice(index, 1);
-        this.usuariosSubject.next([...this.localUsuarios]);
-        this.alertService.success(`Usuario "${formValue.username}" eliminado con éxito.`);
-        resolve(true);
-      } else {
-        this.alertService.error('Usuario no encontrado.');
-        reject('Usuario no encontrado');
+  async deleteClienteByUserId(userId: string): Promise<void> {
+    const { error } = await this.supabase.from('Clientes').delete().eq('user_id', userId);
+    if (error) {
+      console.error('Error deleting client', error);
+      throw error;
+    }
+
+    // Actualizar la lista local de clientes
+    const clientesActuales = this.clientesSubject.getValue();
+    const updatedClientes = clientesActuales.filter(c => c.user_id !== userId);
+    this.clientesSubject.next(updatedClientes);
+  }
+
+  async deleteUsuario(id: string): Promise<void> {
+    try {
+      // Primero, eliminar el cliente asociado, si existe
+      await this.deleteClienteByUserId(id);
+
+      // Eliminar el usuario de la base de datos
+      const { error } = await this.supabase.from('Usuarios').delete().match({ id });
+      if (error) {
+        console.error('Error deleting user from database', error);
+        throw error;
       }
-    });
+
+      // Actualizar la lista local de usuarios
+      const usuariosActuales = this.usuariosSubject.getValue();
+      const updatedUsuarios = usuariosActuales.filter(u => u.id !== id);
+      this.usuariosSubject.next(updatedUsuarios);
+
+      // Actualizar la lista local de clientes
+      const clientesActuales = this.clientesSubject.getValue();
+      const updatedClientes = clientesActuales.filter(c => c.user_id !== id);
+      this.clientesSubject.next(updatedClientes);
+
+      this.alertService.success(`Usuario eliminado con éxito.`);
+    } catch (error) {
+      console.error('Error al eliminar usuario', error);
+      this.alertService.error('Error al eliminar usuario. Intente de nuevo.');
+      throw error;
+    }
   }
 
   private adjustDateToLocalMidnight(date: Date): Date {
