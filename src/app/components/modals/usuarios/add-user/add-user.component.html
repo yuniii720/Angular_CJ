@@ -81,13 +81,12 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Campo Tipo -->
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
       <mat-select #input formControlName="type" placeholder="Selecciona tipo de usuario" (keydown.enter)="onKeyPress($event)">
-        <mat-option value="empleado">Empleado</mat-option>
-        <mat-option value="superadmin">Super Admin</mat-option>
-        <mat-option value="cliente">Cliente</mat-option>
+        <mat-option value="Empleado">Empleado</mat-option>
+        <mat-option value="Super Admin">Super Admin</mat-option>
+        <mat-option value="Cliente">Cliente</mat-option>
       </mat-select>
       <mat-error *ngIf="userForm.get('type')?.errors?.['required']">
         Debes seleccionar un tipo de usuario.
