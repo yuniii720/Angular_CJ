@@ -15,6 +15,7 @@ export class AuthService {
   private supabase: SupabaseClient;
   private user: User | null = null;
   private userRoleSubject = new BehaviorSubject<UserRole | null>(null);
+  private clientIdSubject = new BehaviorSubject<number | null>(null);
 
   constructor(private router: Router) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
@@ -22,21 +23,27 @@ export class AuthService {
       this.user = session?.user ?? null;
       if (this.user) {
         this.setUserRole();
+        this.setClientId();
       } else {
         this.userRoleSubject.next(null);
         localStorage.removeItem('userRole');
+        this.clientIdSubject.next(null);
+        localStorage.removeItem('clientId');
       }
     });
 
-    // Cargar el rol del usuario desde el almacenamiento local si está disponible
     const storedRole = localStorage.getItem('userRole');
     if (storedRole) {
       this.userRoleSubject.next(JSON.parse(storedRole));
     }
+
+    const storedClientId = localStorage.getItem('clientId');
+    if (storedClientId) {
+      this.clientIdSubject.next(JSON.parse(storedClientId));
+    }
   }
 
   async signUp(email: string, password: string, username: string, name: string, type: string): Promise<any> {
-    // Registrar el usuario en auth.users
     const { data, error } = await this.supabase.auth.signUp({
       email,
       password
@@ -48,7 +55,6 @@ export class AuthService {
 
     const user = data.user;
     if (user) {
-      // Insertar el usuario en la tabla Usuarios
       const { error: insertError } = await this.supabase
         .from('Usuarios')
         .insert([{ id: user.id, email, username, name, type }]);
@@ -58,7 +64,6 @@ export class AuthService {
         throw insertError;
       }
 
-      // Insertar la relación del rol en la tabla userroles
       const roleId = this.getRoleIdFromType(type);
       const { error: userRoleError } = await this.supabase
         .from('userroles')
@@ -85,6 +90,7 @@ export class AuthService {
 
     if (data.user) {
       await this.setUserRole();
+      await this.setClientId();
       this.getUserRole().subscribe((userRole) => {
         if (userRole && (userRole.role_id === 1 || userRole.role_id === 2)) {
           this.router.navigate([{ outlets: { auth: ['main'] } }]);
@@ -106,12 +112,18 @@ export class AuthService {
 
     this.user = null;
     this.userRoleSubject.next(null);
+    this.clientIdSubject.next(null);
     localStorage.removeItem('userRole');
+    localStorage.removeItem('clientId');
     this.router.navigateByUrl('login');
   }
 
   getUserId(): string | null {
     return this.user ? this.user.id : null;
+  }
+
+  getClientId(): number | null {
+    return this.clientIdSubject.getValue();
   }
 
   private async setUserRole(): Promise<void> {
@@ -134,6 +146,26 @@ export class AuthService {
     }
   }
 
+  private async setClientId(): Promise<void> {
+    if (this.user) {
+      const { data, error } = await this.supabase
+        .from('Clientes')
+        .select('id')
+        .eq('user_id', this.user.id)
+        .single();
+
+      if (error) {
+        console.error('Error fetching client ID:', error);
+        this.clientIdSubject.next(null);
+        localStorage.removeItem('clientId');
+      } else {
+        const clientId = data?.id ?? null;
+        this.clientIdSubject.next(clientId);
+        localStorage.setItem('clientId', JSON.stringify(clientId));
+      }
+    }
+  }
+
   getUserRole(): Observable<UserRole | null> {
     return this.userRoleSubject.asObservable();
   }
@@ -150,7 +182,7 @@ export class AuthService {
         throw new Error('Invalid user type');
     }
   }
-  
+
   async addUserRole(userId: string, roleId: number): Promise<void> {
     const { data, error } = await this.supabase
       .from('userroles')
