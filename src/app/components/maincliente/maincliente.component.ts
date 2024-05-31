@@ -9,47 +9,25 @@ import { SupabaseService } from '../../services/supabase.service';
 })
 export class MainclienteComponent implements OnInit {
 
-  constructor() { }
+  saldoTotal: number = 0;
+  cuentasActivas: number = 0;
+  tarjetasActivas: number = 0;
+  deudaTotal: number = 0;
+  operacionesRecientes: { descripcion: string, monto: number }[] = [];
+  tarjetas: { cardNumber: string, saldo: number }[] = [];
+
+  constructor(private supabaseService: SupabaseService) {}
 
   ngOnInit(): void {
-    this.initializeChart();
+    this.obtenerDatos();
   }
 
-  initializeChart(): void {
-    const ctx = document.getElementById('myChart') as HTMLCanvasElement;
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-        datasets: [{
-          label: 'Gastos Mensuales',
-          data: [1200, 1900, 3000, 500, 2000, 3000],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
+  obtenerDatos(): void {
+    this.supabaseService.getSaldoTotal().subscribe(saldo => this.saldoTotal = saldo);
+    this.supabaseService.getCuentasActivas().subscribe(cuentas => this.cuentasActivas = cuentas);
+    this.supabaseService.getTarjetasActivas().subscribe(tarjetas => this.tarjetasActivas = tarjetas);
+    this.supabaseService.getDeudaTotal().subscribe(deuda => this.deudaTotal = deuda);
+    this.supabaseService.getOperacionesRecientes().subscribe(operaciones => this.operacionesRecientes = operaciones);
+    this.supabaseService.getTarjetas().subscribe(tarjetas => this.tarjetas = tarjetas);
   }
 }

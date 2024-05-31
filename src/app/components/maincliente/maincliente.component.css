@@ -67,6 +67,37 @@ body {
     flex: 0 0 33.3333%;
     max-width: 33.3333%;
   }
+
+  .container {
+    padding: 20px;
+  }
+  
+  .grid-container {
+    margin-bottom: 20px;
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .col-lg-8 {
+    flex: 2;
+  }
+  
+  .col-lg-4 {
+    flex: 1;
+  }
+  
   
   .mb-4 {
     margin-bottom: 20px;

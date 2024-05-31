@@ -8,6 +8,9 @@ import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
 import { AlertService } from './alert.service';
+import { map } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 export interface SaveResult {
   error?: { message: string };
@@ -43,7 +46,7 @@ export class SupabaseService {
   balance: any;
   public tarjetas$ = this.tarjetasSubject.asObservable();
 
-  constructor(private http: HttpClient, private alertService: AlertService) {
+  constructor(private http: HttpClient, private alertService: AlertService , private authService: AuthService) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.loadUsuarios();
     this.loadClientes();
@@ -205,12 +208,11 @@ export class SupabaseService {
       console.error('Error updating user', error);
       throw new Error('Error updating user');
     } else {
-      // Actualizar la lista local de usuarios
+
       const usuariosActuales = this.usuariosSubject.getValue();
       const updatedUsuarios = usuariosActuales.map(u => u.id === id ? { ...u, ...updatedUserData } : u);
       this.usuariosSubject.next(updatedUsuarios);
 
-      // Si el usuario es de tipo 'Cliente', también actualizar la tabla Clientes
       if (updatedFields.type && updatedFields.type.toLowerCase() === 'cliente') {
         const { data: clienteData } = await this.supabase.from('Clientes').select('id').eq('user_id', id).single();
         if (clienteData) {
@@ -613,6 +615,137 @@ async updateCliente(id: number, updatedFields: Partial<Cliente>): Promise<void> 
       this.tarjetasSubject.next(data);
     }
   }
+  
+  getSaldoTotal(): Observable<number> {
+    const clientId = this.authService.getClientId();
+    if (!clientId) {
+      return new Observable(observer => observer.next(0));
+    }
+
+    return from(this.supabase
+      .from('Cuentas')
+      .select('balance')
+      .eq('client_id', clientId)
+    ).pipe(
+      map(response => {
+        if (response.error) {
+          console.error('Error fetching saldo total:', response.error);
+          return 0;
+        }
+        return response.data ? response.data.reduce((total: number, cuenta: any) => total + cuenta.balance, 0) : 0;
+      })
+    );
+  }
+
+  getCuentasActivas(): Observable<number> {
+    const clientId = this.authService.getClientId();
+    if (!clientId) {
+      return new Observable(observer => observer.next(0));
+    }
+
+    return from(this.supabase
+      .from('Cuentas')
+      .select('*', { count: 'exact' })
+      .eq('client_id', clientId)
+    ).pipe(
+      map(response => {
+        if (response.error) {
+          console.error('Error fetching cuentas activas:', response.error);
+          return 0;
+        }
+        return response.count ? response.count : 0;
+      })
+    );
+  }
+
+  getTarjetasActivas(): Observable<number> {
+    const clientId = this.authService.getClientId();
+    if (!clientId) {
+      return new Observable(observer => observer.next(0));
+    }
+
+    return from(this.supabase
+      .from('Tarjetas')
+      .select('*', { count: 'exact' })
+      .eq('client_id', clientId)
+    ).pipe(
+      map(response => {
+        if (response.error) {
+          console.error('Error fetching tarjetas activas:', response.error);
+          return 0;
+        }
+        return response.count ? response.count : 0;
+      })
+    );
+  }
+
+  getDeudaTotal(): Observable<number> {
+    const clientId = this.authService.getClientId();
+    if (!clientId) {
+      return new Observable(observer => observer.next(0));
+    }
+
+    return from(this.supabase
+      .from('Cuentas')
+      .select('balance')
+      .eq('client_id', clientId)
+    ).pipe(
+      map(response => {
+        if (response.error) {
+          console.error('Error fetching deuda total:', response.error);
+          return 0;
+        }
+        return response.data ? response.data.reduce((total: number, cuenta: any) => total + cuenta.balance, 0) : 0;  // Assuming debt calculation is similar to balance
+      })
+    );
+  }
+
+  getOperacionesRecientes(): Observable<{ descripcion: string, monto: number }[]> {
+    const clientId = this.authService.getClientId();
+    if (!clientId) {
+      return new Observable(observer => observer.next([]));
+    }
+
+    return from(this.supabase
+      .from('Operaciones')  // Assuming there is an 'Operaciones' table
+      .select('descripcion, monto')
+      .eq('client_id', clientId)
+      .order('created_at', { ascending: false })
+      .limit(5)
+    ).pipe(
+      map(response => {
+        if (response.error) {
+          console.error('Error fetching operaciones recientes:', response.error);
+          return [];
+        }
+        return response.data ? response.data : [];
+      })
+    );
+  }
+
+  getTarjetas(): Observable<{ cardNumber: string, saldo: number }[]> {
+    const clientId = this.authService.getClientId();
+    if (!clientId) {
+      return new Observable(observer => observer.next([]));
+    }
+
+    return from(this.supabase
+      .from('Tarjetas')
+      .select('cardNumber, saldo')
+      .eq('client_id', clientId)
+    ).pipe(
+      map(response => {
+        if (response.error) {
+          console.error('Error fetching tarjetas:', response.error);
+          return [];
+        }
+        return response.data ? response.data : [];
+      })
+    );
+  }
+
+
+
 
   async addTarjeta(tarjeta: Tarjeta): Promise<void> {
     try {
