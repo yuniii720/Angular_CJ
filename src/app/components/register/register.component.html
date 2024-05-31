@@ -12,7 +12,7 @@
             <div *ngIf="registroForm.get('email')?.errors?.['required']">El correo electrónico es requerido.</div>
             <div *ngIf="registroForm.get('email')?.errors?.['email']">Correo electrónico no válido.</div>
           </mat-error>
-        </mat-form-field><br><br><br>
+        </mat-form-field><br><br>
 
         <mat-form-field appearance="outline" class="custom-form-field">
           <mat-label>Nombre de Usuario</mat-label>
@@ -20,7 +20,7 @@
           <mat-error *ngIf="registroForm.get('username')?.invalid && (registroForm.get('username')?.dirty || registroForm.get('username')?.touched)">
             <div *ngIf="registroForm.get('username')?.errors?.['required']">El nombre de usuario es requerido.</div>
           </mat-error>
-        </mat-form-field><br><br><br>
+        </mat-form-field><br><br>
 
         <mat-form-field appearance="outline" class="custom-form-field">
           <mat-label>Nombre</mat-label>
@@ -28,7 +28,7 @@
           <mat-error *ngIf="registroForm.get('name')?.invalid && (registroForm.get('name')?.dirty || registroForm.get('name')?.touched)">
             <div *ngIf="registroForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
           </mat-error>
-        </mat-form-field><br><br><br>
+        </mat-form-field><br><br>
 
         <mat-form-field appearance="outline" class="custom-form-field">
           <mat-label>Contraseña</mat-label>
@@ -37,9 +37,9 @@
             <div *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
             <div *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
           </mat-error>
-        </mat-form-field><br><br><br>
+        </mat-form-field><br><br>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="registroForm.invalid" class="submit-button" style="margin: 0; align-items: center;">Regístrame</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="registroForm.invalid" class="submit-button">Regístrame</button>
       </form><br>
       <a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
     </div>
