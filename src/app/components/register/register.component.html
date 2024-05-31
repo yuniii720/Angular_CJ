@@ -1,42 +1,48 @@
-<div class="recuadro_main">
+<div class="container">
+<div class="recuadro_main mat-elevation-z8">
   <div>
-    <div class="recuadro">Registro a la aplicación</div><br>
+    <mat-toolbar color="primary" class="recuadro">Registro a la aplicación</mat-toolbar><br>
     <div class="img"><img src="../../assets/img/logo.png" name="logo_c"></div><br><br>
     <div class="formulario">
       <form *ngIf="registroForm" [formGroup]="registroForm" (ngSubmit)="registerUser()">
-        <div id="recuadro" class="form-group">
-          <label for="email">Correo Electrónico</label><br><br>
-          <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese su correo electrónico">
-          <div id="recuadro-main" *ngIf="registroForm.get('email')?.invalid && (registroForm.get('email')?.dirty || registroForm.get('email')?.touched)" class="text-danger">
-            <div id="recuadro-1" *ngIf="registroForm.get('email')?.errors?.['required']">El correo electrónico es requerido.</div>
-            <div id="recuadro-2" *ngIf="registroForm.get('email')?.errors?.['email']">Correo electrónico no válido.</div>
-          </div>
-        </div><br>
-        <div id="recuadro-username" class="form-group">
-          <label for="username">Nombre de Usuario</label><br><br>
-          <input type="text" class="form-control" id="username" formControlName="username" placeholder="Ingrese su nombre de usuario">
-          <div id="recuadro-username-main" *ngIf="registroForm.get('username')?.invalid && (registroForm.get('username')?.dirty || registroForm.get('username')?.touched)" class="text-danger">
-            <div id="recuadro-username-1" *ngIf="registroForm.get('username')?.errors?.['required']">El nombre de usuario es requerido.</div>
-          </div>
-        </div><br>
-        <div id="recuadro-name" class="form-group">
-          <label for="name">Nombre</label><br><br>
-          <input type="text" class="form-control" id="name" formControlName="name" placeholder="Ingrese su nombre completo">
-          <div id="recuadro-name-main" *ngIf="registroForm.get('name')?.invalid && (registroForm.get('name')?.dirty || registroForm.get('name')?.touched)" class="text-danger">
-            <div id="recuadro-name-1" *ngIf="registroForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
-          </div>
-        </div><br>
-        <div id="recuadro-password" class="form-group">
-          <label for="password">Contraseña</label><br><br>
-          <input type="password" class="form-control" id="password" formControlName="password" placeholder="Ingrese su contraseña">
-          <div id="recuadro-password-main" *ngIf="registroForm.get('password')?.invalid && (registroForm.get('password')?.dirty || registroForm.get('password')?.touched)" class="text-danger">
-            <div id="recuadro-password-1" *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
-            <div id="recuadro-password-2" *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
-          </div>
-        </div><br>
-        <input type="submit" class="btn btn-primary" [disabled]="registroForm.invalid" value="Regístrame">
+        <mat-form-field appearance="outline" class="custom-form-field">
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="Ingrese su correo electrónico">
+          <mat-error *ngIf="registroForm.get('email')?.invalid && (registroForm.get('email')?.dirty || registroForm.get('email')?.touched)">
+            <div *ngIf="registroForm.get('email')?.errors?.['required']">El correo electrónico es requerido.</div>
+            <div *ngIf="registroForm.get('email')?.errors?.['email']">Correo electrónico no válido.</div>
+          </mat-error>
+        </mat-form-field><br><br><br>
+
+        <mat-form-field appearance="outline" class="custom-form-field">
+          <mat-label>Nombre de Usuario</mat-label>
+          <input matInput type="text" formControlName="username" placeholder="Ingrese su nombre de usuario">
+          <mat-error *ngIf="registroForm.get('username')?.invalid && (registroForm.get('username')?.dirty || registroForm.get('username')?.touched)">
+            <div *ngIf="registroForm.get('username')?.errors?.['required']">El nombre de usuario es requerido.</div>
+          </mat-error>
+        </mat-form-field><br><br><br>
+
+        <mat-form-field appearance="outline" class="custom-form-field">
+          <mat-label>Nombre</mat-label>
+          <input matInput type="text" formControlName="name" placeholder="Ingrese su nombre completo">
+          <mat-error *ngIf="registroForm.get('name')?.invalid && (registroForm.get('name')?.dirty || registroForm.get('name')?.touched)">
+            <div *ngIf="registroForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
+          </mat-error>
+        </mat-form-field><br><br><br>
+
+        <mat-form-field appearance="outline" class="custom-form-field">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Ingrese su contraseña">
+          <mat-error *ngIf="registroForm.get('password')?.invalid && (registroForm.get('password')?.dirty || registroForm.get('password')?.touched)">
+            <div *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
+            <div *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+          </mat-error>
+        </mat-form-field><br><br><br>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="registroForm.invalid" class="submit-button" style="margin: 0; align-items: center;">Regístrame</button>
       </form><br>
       <a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
     </div>
   </div>
+</div>
 </div>
