@@ -31,6 +31,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private alertService: AlertService
   ) {
+    const today = new Date();
     this.userForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', [
@@ -40,7 +41,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       type: new FormControl('', Validators.required),
-      hire_date: new FormControl('', Validators.required)
+      hire_date: new FormControl(today, Validators.required)
     });
 
     this.userForm.get('password')?.valueChanges.subscribe(value => {
