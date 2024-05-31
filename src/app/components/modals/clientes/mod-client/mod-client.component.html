@@ -3,27 +3,27 @@
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="user-form">
     <mat-form-field appearance="fill">
       <mat-label>Nombre</mat-label>
-      <input matInput type="text" formControlName="name" placeholder="Introduce nombre completo" readonly>
+      <input #input matInput type="text" formControlName="name" placeholder="Introduce nombre completo" readonly (keydown.enter)="onKeyPress($event)">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email" placeholder="Introduce email" readonly>
+      <input #input matInput type="email" formControlName="email" placeholder="Introduce email" readonly (keydown.enter)="onKeyPress($event)">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>DNI</mat-label>
-      <input matInput type="text" formControlName="dni" placeholder="Introduce DNI">
+      <input #input matInput type="text" formControlName="dni" placeholder="Introduce DNI" (keydown.enter)="onKeyPress($event)">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Fecha de Nacimiento</mat-label>
-      <input matInput type="date" formControlName="birth_date">
+      <input #input matInput type="date" formControlName="birth_date" (keydown.enter)="onKeyPress($event)">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Ciudad</mat-label>
-      <input matInput type="text" formControlName="city" placeholder="Introduce ciudad">
+      <input #input matInput type="text" formControlName="city" placeholder="Introduce ciudad" (keydown.enter)="onKeyPress($event)">
     </mat-form-field>
 
     <div class="actions">
