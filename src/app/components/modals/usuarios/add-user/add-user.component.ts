@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
+import { AuthService } from '../../../../services/auth.service';
 import { Usuario } from '../../../../models/usuario.model';
 import { Cliente } from '../../../../models/cliente.model';
 import { AlertService } from '../../../../services/alert.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.css']
 })
-export class AddUserComponent {
+export class AddUserComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
   passwordRequirements: { [key: string]: boolean } = {
     minLength: false,
@@ -20,10 +22,13 @@ export class AddUserComponent {
     specialChar: false,
     noSpaces: false
   };
+  role_id: number | null = null;
+  subs: Subscription = new Subscription();
 
   constructor(
     public dialogRef: MatDialogRef<AddUserComponent>,
     private supabaseService: SupabaseService,
+    private authService: AuthService,
     private alertService: AlertService
   ) {
     this.userForm = new FormGroup({
@@ -41,6 +46,23 @@ export class AddUserComponent {
     this.userForm.get('password')?.valueChanges.subscribe(value => {
       this.checkPasswordRequirements(value);
     });
+  }
+
+  ngOnInit(): void {
+    // Suscribirse al observable del role_id
+    this.subs.add(this.authService.getUserRole().subscribe(userRole => {
+      if (userRole) {
+        this.role_id = userRole.role_id;
+        if (this.role_id === 2) { // Role 2 is for Empleado
+          this.userForm.get('type')?.setValue('cliente');
+          this.userForm.get('type')?.disable();
+        }
+      }
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   passwordValidator(control: AbstractControl): ValidationErrors | null {
@@ -83,7 +105,7 @@ export class AddUserComponent {
         ...formValue,
         hire_date: hireDate,
         created_at: new Date(),
-        type: formValue.type.charAt(0).toUpperCase() + formValue.type.slice(1)
+        type: this.role_id === 2 ? 'cliente' : formValue.type
       };
 
       try {
@@ -92,14 +114,14 @@ export class AddUserComponent {
 
         // Asignar rol según el tipo de usuario
         let roleId;
-        switch (formValue.type) {
-          case 'superadmin':
+        switch (newUserData.type) {
+          case 'Super Admin':
             roleId = 1;
             break;
-          case 'empleado':
+          case 'Empleado':
             roleId = 2;
             break;
-          case 'cliente':
+          case 'Cliente':
             roleId = 3;
             break;
           default:
@@ -109,7 +131,7 @@ export class AddUserComponent {
         // Insertar en la tabla de roles
         await this.supabaseService.addUserRole(addedUser.id!, roleId);
 
-        if (formValue.type === 'cliente' || 'Cliente') {
+        if (newUserData.type === 'Cliente') {
           // Insertar en la tabla de Clientes
           const newClienteData: Cliente = {
             user_id: addedUser.id!, // Usar el mismo ID del usuario para el cliente
