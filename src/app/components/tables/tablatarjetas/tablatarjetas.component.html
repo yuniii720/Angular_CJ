@@ -88,7 +88,7 @@
         <mat-cell *matCellDef="let tarjeta">
           <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px" *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
             <app-btn-mod-tarjeta [tarjetaSeleccionada]="tarjeta"></app-btn-mod-tarjeta>
-            <app-btn-del-tarjeta [tarjetaSeleccionada]="tarjeta"></app-btn-del-tarjeta>
+            <app-btn-del-tarjeta [tarjetaSeleccionada]="tarjeta" (tarjetaEliminada)="onTarjetaEliminada($event)"></app-btn-del-tarjeta>
           </div>
         </mat-cell>
       </ng-container>

@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../modals/confirm-dialog/confirm-dialog.component';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Tarjeta } from '../../../../models/tarjeta.model';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-btn-del-tarjeta',
@@ -11,10 +12,12 @@ import { Tarjeta } from '../../../../models/tarjeta.model';
 })
 export class BtnDelTarjetaComponent {
   @Input() tarjetaSeleccionada?: Tarjeta;
+  @Output() tarjetaEliminada: EventEmitter<Tarjeta> = new EventEmitter<Tarjeta>();
 
   constructor(
     private dialog: MatDialog,
-    private supabaseService: SupabaseService
+    private supabaseService: SupabaseService,
+    private alertService: AlertService
   ) { }
 
   openConfirmDialog(): void {
@@ -47,11 +50,14 @@ export class BtnDelTarjetaComponent {
     try {
       const success = await this.supabaseService.deleteTarjeta(this.tarjetaSeleccionada.id);
       if (success) {
-        console.log('Tarjeta eliminada con éxito');
+        this.alertService.success('Tarjeta eliminada con éxito.');
+        this.tarjetaEliminada.emit(this.tarjetaSeleccionada);
       } else {
+        this.alertService.error('Error al eliminar la tarjeta.');
         console.error('Error al eliminar la tarjeta');
       }
     } catch (error) {
+      this.alertService.error('Error al eliminar la tarjeta.');
       console.error('Error al eliminar la tarjeta', error);
     }
   }

@@ -8,6 +8,7 @@ import { Tarjeta } from '../../../models/tarjeta.model';
 import { UserRole } from '../../../models/user-role.model';
 import { MatSort } from '@angular/material/sort';
 import { AuthService } from '../../../services/auth.service';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-tablatarjetas',
@@ -26,7 +27,11 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
   subs: Subscription = new Subscription();
   userRoleMessage$: Observable<string> = of('');
 
-  constructor(private supabaseService: SupabaseService, private authService: AuthService) { }
+  constructor(
+    private supabaseService: SupabaseService,
+    private authService: AuthService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit(): void {
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
@@ -124,12 +129,19 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
     console.log('Eliminar tarjeta', tarjeta);
     if (tarjeta.id !== undefined) {
       this.supabaseService.deleteTarjeta(tarjeta.id).then(response => {
+        this.alertService.success('Tarjeta eliminada con éxito.');
+        this.dataSource.data = this.dataSource.data.filter(t => t.id !== tarjeta.id);
         console.log('Tarjeta eliminada', response);
       }).catch(error => {
+        this.alertService.error('Error al eliminar la tarjeta.');
         console.error('Error al eliminar tarjeta', error);
       });
     } else {
       console.error('Error: id de la tarjeta es undefined');
     }
+  }
+
+  onTarjetaEliminada(tarjeta: Tarjeta): void {
+    this.dataSource.data = this.dataSource.data.filter(t => t.id !== tarjeta.id);
   }
 }
