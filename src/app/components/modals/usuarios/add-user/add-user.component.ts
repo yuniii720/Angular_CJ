@@ -82,7 +82,8 @@ export class AddUserComponent {
       const newUserData: Usuario = {
         ...formValue,
         hire_date: hireDate,
-        created_at: new Date()
+        created_at: new Date(),
+        type: formValue.type.charAt(0).toUpperCase() + formValue.type.slice(1)
       };
 
       try {
