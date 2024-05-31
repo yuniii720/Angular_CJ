@@ -31,14 +31,12 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy, AfterViewInit 
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
     this.supabaseService.loadUsuarios();
 
-    // Suscribirse al observable del role_id
     this.subs.add(this.authService.getUserRole().subscribe(userRole => {
       if (userRole) {
         this.role_id = userRole.role_id;
       }
 
       this.subs.add(this.supabaseService.usuarios$.subscribe(data => {
-        // Si el usuario logueado es de tipo "Empleado" (role_id = 2), filtrar los datos para que solo se muestren los usuarios cuyo tipo es "Cliente"
         if (this.role_id === 2) {
           this.dataSource.data = data.filter(usuario => usuario.type === 'Cliente');
         } else {
@@ -79,12 +77,10 @@ export class TablaUsuariosComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   modUser(usuario: Usuario): void {
-    // Lógica para modificar el usuario
     console.log('Modificar usuario', usuario);
   }
 
   delUser(usuario: Usuario): void {
-    // Lógica para eliminar el usuario
     console.log('Eliminar usuario', usuario);
   }
 }

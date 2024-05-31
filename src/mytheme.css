@@ -647,13 +647,13 @@ html {
   --mdc-outlined-text-field-label-text-tracking: 0.03125em;
   --mdc-outlined-text-field-label-text-weight: 400;
   --mat-form-field-container-text-font: Roboto, sans-serif;
-  --mat-form-field-container-text-line-height: 24px;
+  --mat-form-field-container-text-line-height: 10px;
   --mat-form-field-container-text-size: 16px;
   --mat-form-field-container-text-tracking: 0.03125em;
   --mat-form-field-container-text-weight: 400;
   --mat-form-field-outlined-label-text-populated-size: 16px;
   --mat-form-field-subscript-text-font: Roboto, sans-serif;
-  --mat-form-field-subscript-text-line-height: 20px;
+  --mat-form-field-subscript-text-line-height: 10px;
   --mat-form-field-subscript-text-size: 12px;
   --mat-form-field-subscript-text-tracking: 0.0333333333em;
   --mat-form-field-subscript-text-weight: 400

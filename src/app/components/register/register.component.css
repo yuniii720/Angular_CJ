@@ -1,91 +1,141 @@
-.recuadro_main {
-    width: 462px;
-    height: 700px;
-    margin: 0 auto;
-    margin-top: 5%;
-    border: 1.1px solid lightgray;
-    background-color: white;
-    margin-bottom: 5%;
-  }
-  
-  .recuadro {
-    width: 462px;
-    height: 33px;
-    margin: 0 auto;
-    border-bottom: 1.1px solid lightgray;
-    background-color: #3c6e86;
-    display: grid;
-    place-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 13.2px;
-  }
-  
-  .img {
-    display: grid;
-    place-items: center;
-    justify-content: center;
-    margin-top: 5.5%;
-    margin-bottom: 2.2%;
-  }
-  
-  .formulario {
-    display: grid;
-    place-items: center;
-    justify-content: center;
-    color: #3c6e86;
-    font-size: 13.2px;
-  }
-  
-  input[type=text],
-  [type=password],
-  [type=email] {
-    border: 1.1px solid #3c6e86;
-    height: 25.3px;
-    width: 220px;
-    padding: 2.2px 0 2.2px 8.8px;
-  }
-  
-  form {
-    display: block;
-    margin-top: 0em;
-    unicode-bidi: isolate;
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-  input[type=submit] {
-    height: 28.6px;
-    width: 231px;
-    background-color: #3c6e86;
-    color: white;
-    border: 1.1px solid #3c6e86;
-    cursor: pointer;
-    margin-top: 11px;
-  }
-  
-  input[type=submit]:hover {
-    height: 28.6px;
-    width: 231px;
-    background-color: white;
-    color: #3c6e86;
-    border: 1.1px solid #a0ced4;
-    cursor: pointer;
-  }
-  
-  input::placeholder {
-    color: #64b7c0;
-    font-size: 13.2px;
-  }
-  
-  a {
-    transition: all 0.3s ease;
-    color: #008a9b;
-  }
-  
-  a:hover {
-    color: #f08100;
-  }
-  
-  a:link {
-    color: #008a9b;
-  }
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px; /* Ajusta el padding para crear espacio vacío */
+  box-sizing: border-box;
+}
+
+.recuadro_main {
+  width: 100%;
+  max-width: 462px;
+  padding: 20px;
+  border: 1.1px solid lightgray;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: auto; /* Asegura que el contenedor esté centrado verticalmente */
+}
+
+.recuadro {
+  width: 100%;
+  height: 33px;
+  border-bottom: 1.1px solid lightgray;
+  background-color: #3c6e86;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13.2px;
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5.5%;
+  margin-bottom: 2.2%;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #3c6e86;
+  font-size: 13.2px;
+}
+
+input[type=text],
+input[type=password],
+input[type=email] {
+  border: 1.1px solid #3c6e86;
+  height: 25.3px;
+  width: 220px;
+  padding: 2.2px 0 2.2px 8.8px;
+}
+
+form {
+  display: block;
+  margin-top: 0em;
+  unicode-bidi: isolate;
+}
+
+input[type=submit] {
+  height: 28.6px;
+  width: 231px;
+  background-color: #3c6e86;
+  color: white;
+  border: 1.1px solid #3c6e86;
+  cursor: pointer;
+  margin-top: 11px;
+}
+
+input[type=submit]:hover {
+  height: 28.6px;
+  width: 231px;
+  background-color: white;
+  color: #3c6e86;
+  border: 1.1px solid #a0ced4;
+  cursor: pointer;
+}
+
+input::placeholder {
+  color: #64b7c0;
+  font-size: 13.2px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+a {
+  transition: all 0.3s ease;
+  color: #008a9b;
+}
+
+a:hover {
+  color: #f08100;
+}
+
+a:link {
+  color: #008a9b;
+}
+
+#Registro {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+}
+
+.checkbox-container span {
+  margin-right: 8px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.button-container button {
+  width: 100%; /* Esto hará que el botón ocupe todo el ancho del contenedor */
+  max-width: 300px; /* Puedes ajustar este valor para definir un ancho máximo */
+}
 

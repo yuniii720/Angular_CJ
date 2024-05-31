@@ -14,13 +14,13 @@ import { AlertService } from '../../../../services/alert.service';
 export class ModCardComponent implements OnInit {
   tarjetaForm: FormGroup;
   clientes: Cliente[] = [];
-  AlertService: any;
 
   constructor(
     public dialogRef: MatDialogRef<ModCardComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { tarjeta: Tarjeta },
     private fb: FormBuilder,
-    private supabaseService: SupabaseService
+    private supabaseService: SupabaseService,
+    private alertService: AlertService
   ) {
     this.tarjetaForm = this.fb.group({
       cardNumber: [{ value: data.tarjeta.cardNumber, disabled: true }, Validators.required],
@@ -59,22 +59,20 @@ export class ModCardComponent implements OnInit {
         this.supabaseService.updateTarjeta(tarjetaId, updatedFields)
           .then(() => {
             console.log('Tarjeta actualizada con éxito');
-            this.AlertService.success('Tarjeta actualizada con éxito');
-            this.dialogRef.close();
+            this.alertService.success('Tarjeta actualizada con éxito');
+            this.dialogRef.close(true); // Cerrar el modal con true indicando éxito
           })
           .catch(error => {
-            this.AlertService.error('Error al actualizar tarjeta');
+            this.alertService.error('Error al actualizar tarjeta');
             console.error('Error al actualizar tarjeta:', error);
-            // Manejar el error, mostrar un mensaje al usuario, etc.
           });
       } else {
         console.error('El id de la tarjeta es undefined');
-        // Manejar el caso en que el id de la tarjeta sea undefined
       }
     }
   }
 
   closeDialog(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false); // Cerrar el modal sin cambios
   }
 }

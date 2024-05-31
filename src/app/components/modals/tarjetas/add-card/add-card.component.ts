@@ -41,14 +41,14 @@ export class AddCardComponent implements OnInit {
       pin: new FormControl(pin, Validators.required),
       cardType: new FormControl('Crédito', Validators.required),
       clientId: new FormControl('', Validators.required),
-      cardHolderName: new FormControl('', Validators.required), // Añadir el campo cardHolderName
-      accountId: new FormControl('', Validators.required) // Añadir el campo accountId
+      cardHolderName: new FormControl('', Validators.required), 
+      accountId: new FormControl('', Validators.required)
     });
   }
 
   async ngOnInit(): Promise<void> {
     await this.loadClientes();
-    await this.loadCuentas(); // Cargar las cuentas al inicializar el componente
+    await this.loadCuentas();
   }
 
   async loadClientes(): Promise<void> {
@@ -106,7 +106,7 @@ export class AddCardComponent implements OnInit {
           throw new Error(result.error.message);
         }
         this.alertService.success('Tarjeta de crédito guardada con éxito.');
-        this.dialogRef.close();
+        this.dialogRef.close(true); // Pasamos true para indicar que la operación fue exitosa
       } catch (error) {
         console.error('Error al guardar la tarjeta de crédito', error);
         this.alertService.error('Error al guardar la tarjeta de crédito.');
@@ -115,6 +115,6 @@ export class AddCardComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

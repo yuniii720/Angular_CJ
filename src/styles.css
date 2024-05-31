@@ -7,6 +7,25 @@ body {
   background-color: #e8f3f4;
 }
 
+footer {
+  background-color: rgba(0, 0, 0, 0.675);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  top: 5%;
+  position: relative;
+  font-size: 15px;
+
+}
+
+footer img {
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
+  border-radius: 10px;
+}
+
+
 .breadcrumbs {
   background-color: #3c6e8600;
   width: 100vw;
