@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
@@ -6,7 +6,7 @@ import { SaveResult } from '../../../../models/tarjeta.model';
 import { AlertService } from '../../../../services/alert.service';
 import { Tarjeta } from '../../../../models/tarjeta.model';
 import { Cliente } from '../../../../models/cliente.model';
-import { Cuenta } from '../../../../models/cuenta.model'; 
+import { Cuenta } from '../../../../models/cuenta.model';
 
 @Component({
   selector: 'app-add-card',
@@ -16,8 +16,10 @@ import { Cuenta } from '../../../../models/cuenta.model';
 export class AddCardComponent implements OnInit {
   creditCardForm: FormGroup;
   clientes: Cliente[] = [];
-  cuentas: Cuenta[] = []; 
-  filteredCuentas: Cuenta[] = []; 
+  cuentas: Cuenta[] = [];
+  filteredCuentas: Cuenta[] = [];
+
+  @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
     public dialogRef: MatDialogRef<AddCardComponent>,
@@ -32,7 +34,6 @@ export class AddCardComponent implements OnInit {
     const expirationYear = randomYear.toString().slice(-2);
     const expirationDateRandom = `${expirationMonth}/${expirationYear}`;
 
-    // Generar PIN aleatorio de 4 dígitos
     const pin = Math.floor(1000 + Math.random() * 9000).toString();
 
     this.creditCardForm = new FormGroup({
@@ -41,7 +42,7 @@ export class AddCardComponent implements OnInit {
       pin: new FormControl(pin, Validators.required),
       cardType: new FormControl('Crédito', Validators.required),
       clientId: new FormControl('', Validators.required),
-      cardHolderName: new FormControl('', Validators.required), 
+      cardHolderName: new FormControl('', Validators.required),
       accountId: new FormControl('', Validators.required)
     });
   }
@@ -80,7 +81,7 @@ export class AddCardComponent implements OnInit {
       this.creditCardForm.patchValue({
         cardHolderName: selectedClient.name
       });
-      this.filteredCuentas = this.cuentas.filter(cuenta => cuenta.client_id === clientId); // Filtrar las cuentas por clientId
+      this.filteredCuentas = this.cuentas.filter(cuenta => cuenta.client_id === clientId);
     }
   }
 
@@ -106,7 +107,7 @@ export class AddCardComponent implements OnInit {
           throw new Error(result.error.message);
         }
         this.alertService.success('Tarjeta de crédito guardada con éxito.');
-        this.dialogRef.close(true); // Pasamos true para indicar que la operación fue exitosa
+        this.dialogRef.close(true);
       } catch (error) {
         console.error('Error al guardar la tarjeta de crédito', error);
         this.alertService.error('Error al guardar la tarjeta de crédito.');
@@ -116,5 +117,16 @@ export class AddCardComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close(false);
+  }
+
+  onKeyPress(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === 'Enter') {
+      const inputs = this.inputs.toArray();
+      const index = inputs.findIndex(input => input.nativeElement === event.target);
+      if (index !== -1 && index < inputs.length - 1) {
+        inputs[index + 1].nativeElement.focus();
+      }
+    }
   }
 }

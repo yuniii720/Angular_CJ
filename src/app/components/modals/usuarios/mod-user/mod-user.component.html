@@ -4,7 +4,7 @@
     <!-- Campos del formulario -->
     <mat-form-field appearance="fill">
       <mat-label>Usuario</mat-label>
-      <input matInput type="text" formControlName="username" placeholder="Introduce nombre de usuario" required>
+      <input #input matInput type="text" formControlName="username" placeholder="Introduce nombre de usuario" required (keydown.enter)="onKeyPress($event)">
       <mat-error *ngIf="userForm.get('username')?.errors?.['required']">
         El campo nombre de usuario es obligatorio.
       </mat-error>
@@ -12,7 +12,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Contraseña</mat-label>
-      <input matInput type="password" formControlName="password" placeholder="Nueva contraseña">
+      <input #input matInput type="password" formControlName="password" placeholder="Nueva contraseña" (keydown.enter)="onKeyPress($event)">
       <mat-error *ngIf="userForm.get('password')?.errors?.['required']">
         El campo contraseña es obligatoria.
       </mat-error>
@@ -20,7 +20,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Nombre</mat-label>
-      <input matInput type="text" formControlName="name" placeholder="Introduce nombre completo" required>
+      <input #input matInput type="text" formControlName="name" placeholder="Introduce nombre completo" required (keydown.enter)="onKeyPress($event)">
       <mat-error *ngIf="userForm.get('name')?.errors?.['required']">
         El campo nombre completo es obligatorio.
       </mat-error>
@@ -28,7 +28,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email" placeholder="Introduce email" required>
+      <input #input matInput type="email" formControlName="email" placeholder="Introduce email" required (keydown.enter)="onKeyPress($event)">
       <mat-hint>Introduce un email válido (ej: usuario&#64;vnbank.com)</mat-hint>
       <mat-error *ngIf="userForm.get('email')?.errors?.['required']">
         El email es requerido.
@@ -40,7 +40,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
-      <mat-select formControlName="type" placeholder="Selecciona tipo de usuario" required>
+      <mat-select #input formControlName="type" placeholder="Selecciona tipo de usuario" required (keydown.enter)="onKeyPress($event)">
         <mat-option value="empleado">Empleado</mat-option>
         <mat-option value="superadmin">Super Admin</mat-option>
         <mat-option value="cliente">Cliente</mat-option>
@@ -52,14 +52,13 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Fecha de alta</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="hire_date" placeholder="Selecciona fecha de alta">
+      <input #input matInput [matDatepicker]="picker" formControlName="hire_date" placeholder="Selecciona fecha de alta" (keydown.enter)="onKeyPress($event)">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="userForm.get('hire_date')?.errors?.['required']">
         Debes seleccionar la fecha de alta.
       </mat-error>
     </mat-form-field>
-
   </form>
 </mat-dialog-content>
 

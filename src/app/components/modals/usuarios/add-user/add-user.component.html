@@ -1,12 +1,10 @@
 <h2 mat-dialog-title>Añadir Usuario</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
-    <!-- Campos del formulario -->
-
     <!-- Campo Usuario -->
     <mat-form-field appearance="fill">
       <mat-label>Usuario</mat-label>
-      <input matInput type="text" formControlName="username" placeholder="Introduce nombre de usuario" required>
+      <input #input matInput type="text" formControlName="username" placeholder="Introduce nombre de usuario" required cdkFocusInitial (keydown.enter)="onKeyPress($event)">
       <mat-error *ngIf="userForm.get('username')?.errors?.['required']">
         Debe rellenar el campo nombre de usuario.
       </mat-error>
@@ -15,7 +13,7 @@
     <!-- Campo Contraseña -->
     <mat-form-field appearance="fill" class="password-field">
       <mat-label>Contraseña</mat-label>
-      <input matInput type="password" formControlName="password" placeholder="Introduce contraseña" required>
+      <input #input matInput type="password" formControlName="password" placeholder="Introduce contraseña" required (keydown.enter)="onKeyPress($event)">
       <mat-hint class="password-hint">
         <div class="password-hint-container">
           Mínimo:
@@ -28,8 +26,7 @@
           <div [ngClass]="{'valid': passwordRequirements['lowerCase'], 'invalid': !passwordRequirements['lowerCase']}">
             1 letra minúscula &nbsp;|
           </div>
-          <div
-            [ngClass]="{'valid': passwordRequirements['specialChar'], 'invalid': !passwordRequirements['specialChar']}">
+          <div [ngClass]="{'valid': passwordRequirements['specialChar'], 'invalid': !passwordRequirements['specialChar']}">
             1 caracter especial
           </div>
         </div>
@@ -62,17 +59,19 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- Campo Nombre -->
     <mat-form-field appearance="fill">
       <mat-label>Nombre</mat-label>
-      <input matInput type="text" formControlName="name" placeholder="Introduce nombre completo" required>
+      <input #input matInput type="text" formControlName="name" placeholder="Introduce nombre completo" required (keydown.enter)="onKeyPress($event)">
       <mat-error *ngIf="userForm.get('name')?.errors?.['required']">
         Debe rellenar el campo nombre.
       </mat-error>
     </mat-form-field>
 
+    <!-- Campo Email -->
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email" placeholder="Introduce email">
+      <input #input matInput type="email" formControlName="email" placeholder="Introduce email" (keydown.enter)="onKeyPress($event)">
       <mat-hint>Introduce un email válido (ej: usuario&#64;vnbank.com)</mat-hint>
       <mat-error *ngIf="userForm.get('email')?.errors?.['required']">
         Debe rellenar el campo email (ej: usuario&#64;vnbank.com)
@@ -82,9 +81,10 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- Campo Tipo -->
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
-      <mat-select formControlName="type" placeholder="Selecciona tipo de usuario">
+      <mat-select #input formControlName="type" placeholder="Selecciona tipo de usuario" (keydown.enter)="onKeyPress($event)">
         <mat-option value="empleado">Empleado</mat-option>
         <mat-option value="superadmin">Super Admin</mat-option>
         <mat-option value="cliente">Cliente</mat-option>
@@ -94,9 +94,10 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- Campo Fecha de Alta -->
     <mat-form-field appearance="fill">
       <mat-label>Fecha de alta</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="hire_date" placeholder="Selecciona fecha de alta">
+      <input #input matInput [matDatepicker]="picker" formControlName="hire_date" placeholder="Selecciona fecha de alta" (keydown.enter)="onKeyPress($event)">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="userForm.get('hire_date')?.errors?.['required']">
@@ -107,7 +108,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid"
-    (click)="onSubmit()">Añadir</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid" (click)="onSubmit()">Añadir</button>
   <button mat-button (click)="closeDialog()">Cerrar</button>
 </mat-dialog-actions>
