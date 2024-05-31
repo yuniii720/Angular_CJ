@@ -44,16 +44,16 @@ export class ModUserComponent implements OnInit {
   async onSubmit(): Promise<void> {
     if (this.userForm.valid) {
       const formValue = this.userForm.value;
-      const updatedUserData: Usuario = {
-        ...this.data,  // Los datos existentes del usuario
-        ...formValue  // Los nuevos datos del formulario
+      const updatedUserData: Partial<Usuario> = {
+        username: formValue.username,
+        name: formValue.name,
+        email: formValue.email,
+        type: formValue.type,
+        hire_date: formValue.hire_date ? new Date(formValue.hire_date) : undefined
       };
 
-      // Convertir la fecha de alta a formato Date si existe
-      if (formValue.hire_date) {
-        updatedUserData.hire_date = new Date(formValue.hire_date);
-      } else {
-        updatedUserData.hire_date = undefined;
+      if (formValue.password) {
+        updatedUserData.password = formValue.password;
       }
 
       try {
@@ -67,7 +67,7 @@ export class ModUserComponent implements OnInit {
 
         // Asignar rol según el tipo de usuario
         let roleId;
-        switch (formValue.type) {
+        switch (formValue.type.toLowerCase()) { // Convertir a minúsculas para comparación
           case 'superadmin':
             roleId = 1;
             break;

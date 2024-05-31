@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
@@ -24,6 +24,8 @@ export class AddUserComponent implements OnInit, OnDestroy {
   };
   role_id: number | null = null;
   subs: Subscription = new Subscription();
+
+  @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
     public dialogRef: MatDialogRef<AddUserComponent>,
@@ -115,7 +117,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
         // Asignar rol según el tipo de usuario
         let roleId;
-        switch (newUserData.type) {
+        switch (newUserData.type.toLowerCase()) {
           case 'Super Admin':
             roleId = 1;
             break;

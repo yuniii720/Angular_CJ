@@ -1,36 +1,38 @@
-// src/app/components/tables/tablaclientes/tablaclientes.component.ts
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { SupabaseService } from '../../../services/supabase.service';
 import { Cliente } from '../../../models/cliente.model';
-import { EventService } from '../../../services/event.service';
 import { MatSort } from '@angular/material/sort';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-tablaclientes',
+  selector: 'app-tabla-clientes',
   templateUrl: './tablaclientes.component.html',
   styleUrls: ['./tablaclientes.component.css']
 })
-export class TablaClientesComponent implements OnInit, OnDestroy {
+export class TablaClientesComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Cliente>();
-  displayedColumns: string[] = ['id', 'name', 'dni', 'email', 'city', 'birth_date', 'created_at', 'gestionar'];
-  selectedColumn: string = 'name';
+  displayedColumns: string[] = ['id', 'name', 'email', 'dni', 'birth_date', 'city', 'created_at', 'gestionar'];
+  filteredColumns: string[] = [];
+  selectedColumn: keyof Cliente = 'name';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
-  filteredColumns: any;
 
-  constructor(private supabaseService: SupabaseService, private eventService: EventService) { }
+  constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
+    this.supabaseService.loadClientes();
+
     this.subs.add(this.supabaseService.clientes$.subscribe(data => {
       this.dataSource.data = data;
     }));
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.createFilter();
@@ -51,9 +53,11 @@ export class TablaClientesComponent implements OnInit, OnDestroy {
 
   createFilter(): (data: Cliente, filter: string) => boolean {
     return (data: Cliente, filter: string): boolean => {
-      const textToSearch = data[this.selectedColumn as keyof Cliente] && String(data[this.selectedColumn as keyof Cliente]).toLowerCase() || '';
+      const textToSearch = data[this.selectedColumn] && String(data[this.selectedColumn]).toLowerCase() || '';
       if (this.selectedColumn === 'birth_date' || this.selectedColumn === 'created_at') {
-        return false;
+        const datePipe = new DatePipe('en-US');
+        const formattedDate = datePipe.transform(data[this.selectedColumn] as any, 'dd/MM/yyyy');
+        return formattedDate?.indexOf(filter) !== -1;
       } else {
         return textToSearch.indexOf(filter) !== -1;
       }
@@ -68,9 +72,5 @@ export class TablaClientesComponent implements OnInit, OnDestroy {
   delCliente(cliente: Cliente): void {
     // Lógica para eliminar el cliente
     console.log('Eliminar cliente', cliente);
-  }
-
-  mostrarPopup() {
-    alert('¡Confirmación recibida!');
   }
 }

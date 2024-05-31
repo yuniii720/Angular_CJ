@@ -130,6 +130,20 @@ export class SupabaseService {
       const currentUsuarios = this.usuariosSubject.getValue();
       this.usuariosSubject.next([...currentUsuarios, userInsertData]);
 
+      // Si el nuevo usuario es de tipo 'Cliente', añadirlo también en la tabla Clientes
+      if (usuario.type.toLowerCase() === 'cliente') {
+        const newClienteData: Cliente = {
+          user_id: userId,
+          name: usuario.name,
+          email: usuario.email,
+          dni: '',
+          birth_date: null,
+          city: '',
+          created_at: new Date()
+        };
+        await this.addCliente(newClienteData);
+      }
+
       return userInsertData;
     } catch (error) {
       console.error('Error al añadir usuario', error);
@@ -185,18 +199,31 @@ export class SupabaseService {
     return typeof error === 'object' && error !== null && 'details' in error;
   }
 
-  updateUsuario(id: string, updatedFields: any): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const index = this.localUsuarios.findIndex(u => u.id === id);
-      if (index !== -1) {
-        this.localUsuarios[index] = { ...this.localUsuarios[index], ...updatedFields };
-        this.updatedUsuarios.push(this.localUsuarios[index]);
-        this.usuariosSubject.next([...this.localUsuarios]);
-        resolve();
-      } else {
-        reject('Usuario no encontrado');
+  async updateUsuario(id: string, updatedFields: Partial<Usuario>): Promise<void> {
+    const { data: updatedUserData, error } = await this.supabase.from('Usuarios').update(updatedFields).eq('id', id).select().single();
+    if (error) {
+      console.error('Error updating user', error);
+      throw new Error('Error updating user');
+    } else {
+      // Actualizar la lista local de usuarios
+      const usuariosActuales = this.usuariosSubject.getValue();
+      const updatedUsuarios = usuariosActuales.map(u => u.id === id ? { ...u, ...updatedUserData } : u);
+      this.usuariosSubject.next(updatedUsuarios);
+
+      // Si el usuario es de tipo 'Cliente', también actualizar la tabla Clientes
+      if (updatedFields.type && updatedFields.type.toLowerCase() === 'cliente') {
+        const { data: clienteData } = await this.supabase.from('Clientes').select('id').eq('user_id', id).single();
+        if (clienteData) {
+          const clienteId = clienteData.id;
+          const clienteFields = {
+            name: updatedFields.name,
+            email: updatedFields.email,
+            // Otros campos específicos de cliente que deban actualizarse
+          };
+          await this.updateCliente(clienteId, clienteFields);
+        }
       }
-    });
+    }
   }
 
   async deleteClienteByUserId(userId: string): Promise<void> {
@@ -332,7 +359,6 @@ export class SupabaseService {
     if (error) {
       console.error('Error loading clients', error);
     } else {
-      this.localClientes = data;
       this.clientesSubject.next(data);
     }
   }
@@ -374,14 +400,17 @@ export class SupabaseService {
     this.alertService.success('Cliente eliminado localmente.');
   }
 
-  async updateCliente(id: number, updatedFields: any) {
-    const { data, error } = await this.supabase.from('Clientes').update(updatedFields).match({ id });
+async updateCliente(id: number, updatedFields: Partial<Cliente>): Promise<void> {
+    const { data: updatedClienteData, error } = await this.supabase.from('Clientes').update(updatedFields).eq('id', id).select().single();
     if (error) {
       console.error('Error updating client', error);
       this.alertService.error('Error actualizando el cliente en la base de datos.');
       throw error;
     } else {
-      this.loadClientes();
+      // Actualizar la lista local de clientes
+      const clientesActuales = this.clientesSubject.getValue();
+      const updatedClientes = clientesActuales.map(c => c.id === id ? { ...c, ...updatedClienteData } : c);
+      this.clientesSubject.next(updatedClientes);
       this.alertService.success('Cliente actualizado en la base de datos.');
     }
   }
