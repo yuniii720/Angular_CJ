@@ -161,4 +161,15 @@ export class AddUserComponent implements OnInit, OnDestroy {
   closeDialog(): void {
     this.dialogRef.close();
   }
+
+  onKeyPress(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === 'Enter') {
+      const inputs = this.inputs.toArray();
+      const index = inputs.findIndex(input => input.nativeElement === event.target);
+      if (index !== -1 && index < inputs.length - 1) {
+        inputs[index + 1].nativeElement.focus();
+      }
+    }
+  }
 }
