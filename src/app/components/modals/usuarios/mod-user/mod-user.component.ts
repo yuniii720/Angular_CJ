@@ -1,17 +1,21 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Usuario } from '../../../../models/usuario.model';
 import { AlertService } from '../../../../services/alert.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-mod-user',
   templateUrl: './mod-user.component.html',
   styleUrls: ['./mod-user.component.css']
 })
-export class ModUserComponent implements OnInit {
+export class ModUserComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
+  subs: Subscription = new Subscription();
+
+  @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
     public dialogRef: MatDialogRef<ModUserComponent>,
@@ -39,6 +43,10 @@ export class ModUserComponent implements OnInit {
       type: this.data.type,
       hire_date: this.data.hire_date ? new Date(this.data.hire_date) : undefined
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   async onSubmit(): Promise<void> {
@@ -95,5 +103,16 @@ export class ModUserComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  onKeyPress(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === 'Enter') {
+      const inputs = this.inputs.toArray();
+      const index = inputs.findIndex(input => input.nativeElement === event.target);
+      if (index !== -1 && index < inputs.length - 1) {
+        inputs[index + 1].nativeElement.focus();
+      }
+    }
   }
 }
