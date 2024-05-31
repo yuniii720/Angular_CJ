@@ -110,7 +110,6 @@ export class SupabaseService {
       }
 
       const userId = authUser.id;
-
       if (!userId) {
         throw new Error('El ID del usuario es undefined');
       }
@@ -132,20 +131,6 @@ export class SupabaseService {
 
       const currentUsuarios = this.usuariosSubject.getValue();
       this.usuariosSubject.next([...currentUsuarios, userInsertData]);
-
-      // Si el nuevo usuario es de tipo 'Cliente', añadirlo también en la tabla Clientes
-      if (usuario.type.toLowerCase() === 'cliente') {
-        const newClienteData: Cliente = {
-          user_id: userId,
-          name: usuario.name,
-          email: usuario.email,
-          dni: '',
-          birth_date: null,
-          city: '',
-          created_at: new Date()
-        };
-        await this.addCliente(newClienteData);
-      }
 
       return userInsertData;
     } catch (error) {
@@ -615,7 +600,7 @@ async updateCliente(id: number, updatedFields: Partial<Cliente>): Promise<void> 
       this.tarjetasSubject.next(data);
     }
   }
-  
+
   getSaldoTotal(): Observable<number> {
     const clientId = this.authService.getClientId();
     if (!clientId) {

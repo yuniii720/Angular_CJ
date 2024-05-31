@@ -134,8 +134,8 @@ export class AddUserComponent implements OnInit, OnDestroy {
         // Insertar en la tabla de roles
         await this.supabaseService.addUserRole(addedUser.id!, roleId);
 
+        // Insertar en la tabla de Clientes si es necesario
         if (newUserData.type === 'Cliente') {
-          // Insertar en la tabla de Clientes
           const newClienteData: Cliente = {
             user_id: addedUser.id!, // Usar el mismo ID del usuario para el cliente
             name: formValue.name,
