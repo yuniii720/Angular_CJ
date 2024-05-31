@@ -42,19 +42,20 @@ export class AddCardComponent implements OnInit {
       pin: new FormControl(pin, Validators.required),
       cardType: new FormControl('Crédito', Validators.required),
       clientId: new FormControl('', Validators.required),
-      cardHolderName: new FormControl('', Validators.required),
+      cardHolderName: new FormControl({ value: '', disabled: true }, Validators.required),
       accountId: new FormControl('', Validators.required)
     });
   }
 
   async ngOnInit(): Promise<void> {
-    await this.loadClientes();
     await this.loadCuentas();
+    await this.loadClientes();
   }
 
   async loadClientes(): Promise<void> {
     try {
-      this.clientes = await this.supabaseService.getAllClientes();
+      const allClientes = await this.supabaseService.getAllClientes();
+      this.clientes = allClientes.filter(cliente => this.cuentas.some(cuenta => cuenta.client_id === cliente.id));
     } catch (error) {
       console.error('Error loading clients', error);
     }
@@ -82,6 +83,11 @@ export class AddCardComponent implements OnInit {
         cardHolderName: selectedClient.name
       });
       this.filteredCuentas = this.cuentas.filter(cuenta => cuenta.client_id === clientId);
+      if (this.filteredCuentas.length > 0) {
+        this.creditCardForm.patchValue({
+          accountId: this.filteredCuentas[0].id // Seleccionar automáticamente la primera cuenta
+        });
+      }
     }
   }
 

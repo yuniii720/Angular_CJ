@@ -15,7 +15,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Titular</mat-label>
-      <input #input matInput type="text" formControlName="cardHolderName" placeholder="Nombre del titular" required (keydown.enter)="onKeyPress($event)">
+      <input #input matInput type="text" formControlName="cardHolderName" placeholder="Nombre del titular" required (keydown.enter)="onKeyPress($event)" readonly>
       <mat-error *ngIf="creditCardForm.get('cardHolderName')?.errors?.['required']">
         Debe rellenar el campo nombre del titular.
       </mat-error>
