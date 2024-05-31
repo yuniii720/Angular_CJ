@@ -57,8 +57,8 @@ export class AddUserComponent implements OnInit, OnDestroy {
       if (userRole) {
         this.role_id = userRole.role_id;
         if (this.role_id === 2) { // Role 2 is for Empleado
-          this.userForm.get('type')?.setValue('cliente');
-          this.userForm.get('type')?.disable();
+          this.userForm.get('type')?.setValue('Cliente'); // Cambiado a 'Cliente' para coincidir con la opción del mat-select
+          this.userForm.get('type')?.disable(); // Deshabilita el campo de tipo para empleados
         }
       }
     }));
@@ -108,7 +108,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
         ...formValue,
         hire_date: hireDate,
         created_at: new Date(),
-        type: this.role_id === 2 ? 'cliente' : formValue.type
+        type: this.role_id === 2 ? 'Cliente' : formValue.type
       };
 
       try {
@@ -117,7 +117,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
         // Asignar rol según el tipo de usuario
         let roleId;
-        switch (newUserData.type.toLowerCase()) {
+        switch (newUserData.type) {
           case 'Super Admin':
             roleId = 1;
             break;
