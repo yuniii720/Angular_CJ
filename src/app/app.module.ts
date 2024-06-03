@@ -81,6 +81,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { BtnVerTarjetaComponent } from './components/buttons/tarjeta/btn-ver-tarjeta/btn-ver-tarjeta.component';
+import { SeeCardComponent } from './components/modals/tarjetas/see-card/see-card.component';
 
 
 @NgModule({
@@ -138,6 +140,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     SaveAccountComponent,
     EuroCurrencyPipe,
     SaveClientsComponent,
+    BtnVerTarjetaComponent,
+    SeeCardComponent,
   ],
   imports: [
     BrowserModule,

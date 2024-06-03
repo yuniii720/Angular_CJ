@@ -1,0 +1,153 @@
+$animation-speed: 0.5s;
+$background-color: #ffffff;
+$card-color: darken($background-color, 45);
+$card-height: 200px;
+$card-width: $card-height * 1.7;
+
+body {
+    color: #000; /* Cambiado a color de texto negro */
+    margin: 0 auto;
+    background: $background-color;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+}
+
+.wrapper {
+    height: $card-height; /* Ajustado a la altura de la tarjeta */
+    width: $card-width; /* Ajustado al ancho de la tarjeta */
+    perspective: 300px;
+}
+
+.card {
+    background: linear-gradient($card-color, darken($card-color, 10));
+    box-shadow: 0px 0px 30px 0px rgba(#000, 0.3);
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+
+}
+
+.cards {
+    .face {
+        @extend .card;
+        .head {
+            display: flex;
+            justify-content: space-between;
+            margin: 16px;
+            .title {
+                font-weight: 600;
+                font-size: 20px;
+            }
+        }
+        .main {
+            margin: 16px;
+            .number-title {
+                color: darken(#fff, 20);
+            }
+            .number {
+                font-size: 24px;
+            }
+        }
+        .dates {
+            display: flex;
+            justify-content: space-between;
+            margin: 16px;
+            .start {
+            }
+            .end {
+            }
+        }
+    }
+    .back {
+        animation: demo ($animation-speed + 2) ease-in-out;
+        transform: translateX(0) translateY(0);
+        transition: transform $animation-speed;
+        background: linear-gradient(
+            darken($card-color, 4),
+            darken($card-color, 14)
+        );
+        @extend .card;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        .magnetic-line {
+            background: #000;
+            margin-top: 16px;
+            height: 32px;
+            width: 100%;
+        }
+        .cvv {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(#fff, 0.2);
+            border-radius: 4px;
+            margin: 0 16px ($card-height / 3) 0;
+            text-align: end;
+            padding-right: 8px;
+            width: $card-width / 1.5 + 9;
+            height: 24px;
+        }
+    }
+}
+
+.cards:hover {
+    .back {
+        transform: translateX($card-width / 2) translateY(-50px);
+        transition: transform $animation-speed;
+    }
+}
+
+@keyframes demo {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX($card-width / 2) translateY(-50px);
+    }
+    75% {
+        transform: translateX($card-width / 2) translateY(-50px);
+    }
+    100% {
+        transform: translateX(0) translateY(0);
+    }
+}
+
+.tarjeta {
+    width: $card-width;
+    height: $card-height;
+    perspective: 300px;
+    display: block;
+}
+
+.twitter-follow-button {
+    position: absolute !important;
+    top: 8px;
+    left: 8px;
+}
+
+
+.card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .custom-dialog-container .mat-dialog-container {
+    background: transparent !important;  /* Fondo transparente */
+    box-shadow: none !important;         /* Eliminar sombra */
+    border: none !important;             /* Eliminar borde */
+    padding: 0 !important;               /* Eliminar padding */
+    overflow: hidden;                    /* Eliminar barras de desplazamiento */
+  }
+  

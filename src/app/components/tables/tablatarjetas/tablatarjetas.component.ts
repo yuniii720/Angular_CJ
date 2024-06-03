@@ -9,6 +9,7 @@ import { UserRole } from '../../../models/user-role.model';
 import { MatSort } from '@angular/material/sort';
 import { AuthService } from '../../../services/auth.service';
 import { AlertService } from '../../../services/alert.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tablatarjetas',
@@ -30,7 +31,8 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
   constructor(
     private supabaseService: SupabaseService,
     private authService: AuthService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +64,7 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
         });
       } else if (role === 'Bienvenido cliente') {
         const userId = this.authService.getUserId();
-        console.log('User ID from AuthService:', userId); // Añade esta línea para depurar
+        console.log('User ID from AuthService:', userId);
         if (userId) {
           this.supabaseService.getClientIdByUserId(userId).then(clientId => {
             if (clientId !== null) {
@@ -111,6 +113,7 @@ export class TablaTarjetasComponent implements OnInit, OnDestroy, AfterViewInit 
       }
     };
   }
+
 
   modTarjeta(tarjeta: Tarjeta): void {
     console.log('Modificar tarjeta', tarjeta);

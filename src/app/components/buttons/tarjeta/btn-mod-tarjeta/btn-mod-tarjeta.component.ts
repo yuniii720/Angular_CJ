@@ -32,7 +32,6 @@ export class BtnModTarjetaComponent {
       if (result) {
         this.alertService.success('La tarjeta fue actualizada correctamente');
         console.log('La tarjeta fue actualizada');
-        // Opcionalmente, recargar la lista de tarjetas
       } else {
         this.alertService.error('Error al actualizar la tarjeta');
       }

@@ -1,0 +1,12 @@
+.custom-dialog-container .mat-dialog-container {
+    background: transparent !important;  /* Fondo transparente */
+    box-shadow: none !important;         /* Eliminar sombra */
+    border: none !important;             /* Eliminar borde */
+    padding: 0 !important;               /* Eliminar padding */
+    overflow: hidden;                    /* Eliminar barras de desplazamiento */
+  }
+  
+  .cdk-overlay-backdrop {
+    background: rgba(0, 0, 0, 0.5) !important;  /* Fondo oscuro */
+  }
+  
