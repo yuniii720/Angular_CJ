@@ -21,26 +21,28 @@ export class RegisterComponent {
   ) {
     this.registroForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
       name: ['', Validators.required],
+      lastName: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      type: ['cliente', Validators.required] 
+      type: ['Cliente', Validators.required]
     });
   }
 
   async registerUser() {
     if (this.registroForm.valid) {
-      const { email, password, username, name, type } = this.registroForm.value;
+      const { email, password, name, lastName, type } = this.registroForm.value;
+      const baseUsername = `${name.charAt(0)}${lastName}`.toLowerCase();
 
       try {
+        const username = await this.authService.checkAndGenerateUsername(baseUsername);
         const user = await this.authService.signUp(email, password, username, name, type);
         console.log('Usuario registrado correctamente:', user);
 
-        const roleId = 3;
+        // Mostrar alerta de éxito
+        this.alertService.success('Usuario registrado correctamente.');
 
-        await this.authService.addUserRole(user.id, roleId);
-
-        this.router.navigate(['/login']);
+        // Redirigir al login
+        this.router.navigate([{ outlets: { auth: ['login'] } }]);
       } catch (error: any) {
         console.error('Error al registrar usuario:', error);
         this.alertService.error(`Error al registrar usuario: ${error.message || error}`);

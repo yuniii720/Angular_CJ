@@ -15,7 +15,7 @@ import { NotAuthorizedComponent } from './components/not-authorized/not-authoriz
 import { MainclienteComponent } from './components/maincliente/maincliente.component';
 
 const routes: Routes = [
-  { path: '', component: LandingpageComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
+  { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'landing', component: LandingpageComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
   { path: 'maincliente', component: MainclienteComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
   { path: 'login', component: LoginComponent, data: { breadcrumb: 'Iniciar Sesión' }, outlet: 'auth' },
@@ -28,7 +28,8 @@ const routes: Routes = [
   { path: 'cuentas', component: TablaCuentasComponent, data: { breadcrumb: 'Gestión de Cuentas' }, outlet: 'auth' },
   { path: 'tarjetas', component: TablaTarjetasComponent, data: { breadcrumb: 'Gestión de Tarjetas' }, outlet: 'auth' },
   { path: 'transferencias', component: TablatransferenciasComponent, data: { breadcrumb: 'Gestión de Transferencias' }, outlet: 'auth' },
-  { path: 'not-authorized', component: NotAuthorizedComponent }
+  { path: 'not-authorized', component: NotAuthorizedComponent },
+  { path: '**', redirectTo: '/landing' } // Ruta para manejar rutas no encontradas
 ];
 
 @NgModule({

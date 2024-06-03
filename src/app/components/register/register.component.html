@@ -1,48 +1,48 @@
 <div class="container">
-<div class="recuadro_main mat-elevation-z8">
-  <div>
-    <mat-toolbar color="primary" class="recuadro">Registro a la aplicación</mat-toolbar><br>
-    <div class="img"><img src="../../assets/img/logo.png" name="logo_c"></div><br><br>
-    <div class="formulario">
-      <form *ngIf="registroForm" [formGroup]="registroForm" (ngSubmit)="registerUser()">
-        <mat-form-field appearance="outline" class="custom-form-field">
-          <mat-label>Correo Electrónico</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="Ingrese su correo electrónico">
-          <mat-error *ngIf="registroForm.get('email')?.invalid && (registroForm.get('email')?.dirty || registroForm.get('email')?.touched)">
-            <div *ngIf="registroForm.get('email')?.errors?.['required']">El correo electrónico es requerido.</div>
-            <div *ngIf="registroForm.get('email')?.errors?.['email']">Correo electrónico no válido.</div>
-          </mat-error>
-        </mat-form-field><br><br>
+  <div class="recuadro_main mat-elevation-z8">
+    <div>
+      <mat-toolbar color="primary" class="recuadro">Registro a la aplicación</mat-toolbar><br>
+      <div class="img"><img src="../../assets/img/logo.png" name="logo_c"></div><br><br>
+      <div class="formulario">
+        <form *ngIf="registroForm" [formGroup]="registroForm" (ngSubmit)="registerUser()">
+          <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Correo Electrónico</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="Ingrese su correo electrónico">
+            <mat-error *ngIf="registroForm.get('email')?.invalid && (registroForm.get('email')?.dirty || registroForm.get('email')?.touched)">
+              <div *ngIf="registroForm.get('email')?.errors?.['required']">El correo electrónico es requerido.</div>
+              <div *ngIf="registroForm.get('email')?.errors?.['email']">Correo electrónico no válido.</div>
+            </mat-error>
+          </mat-form-field><br><br>
 
-        <mat-form-field appearance="outline" class="custom-form-field">
-          <mat-label>Nombre de Usuario</mat-label>
-          <input matInput type="text" formControlName="username" placeholder="Ingrese su nombre de usuario">
-          <mat-error *ngIf="registroForm.get('username')?.invalid && (registroForm.get('username')?.dirty || registroForm.get('username')?.touched)">
-            <div *ngIf="registroForm.get('username')?.errors?.['required']">El nombre de usuario es requerido.</div>
-          </mat-error>
-        </mat-form-field><br><br>
+          <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" formControlName="name" placeholder="Ingrese su nombre completo">
+            <mat-error *ngIf="registroForm.get('name')?.invalid && (registroForm.get('name')?.dirty || registroForm.get('name')?.touched)">
+              <div *ngIf="registroForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
+            </mat-error>
+          </mat-form-field><br><br>
 
-        <mat-form-field appearance="outline" class="custom-form-field">
-          <mat-label>Nombre</mat-label>
-          <input matInput type="text" formControlName="name" placeholder="Ingrese su nombre completo">
-          <mat-error *ngIf="registroForm.get('name')?.invalid && (registroForm.get('name')?.dirty || registroForm.get('name')?.touched)">
-            <div *ngIf="registroForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
-          </mat-error>
-        </mat-form-field><br><br>
+          <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Apellido</mat-label>
+            <input matInput type="text" formControlName="lastName" placeholder="Ingrese su apellido">
+            <mat-error *ngIf="registroForm.get('lastName')?.invalid && (registroForm.get('lastName')?.dirty || registroForm.get('lastName')?.touched)">
+              <div *ngIf="registroForm.get('lastName')?.errors?.['required']">El apellido es requerido.</div>
+            </mat-error>
+          </mat-form-field><br><br>
 
-        <mat-form-field appearance="outline" class="custom-form-field">
-          <mat-label>Contraseña</mat-label>
-          <input matInput type="password" formControlName="password" placeholder="Ingrese su contraseña">
-          <mat-error *ngIf="registroForm.get('password')?.invalid && (registroForm.get('password')?.dirty || registroForm.get('password')?.touched)">
-            <div *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
-            <div *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
-          </mat-error>
-        </mat-form-field><br><br>
+          <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" formControlName="password" placeholder="Ingrese su contraseña">
+            <mat-error *ngIf="registroForm.get('password')?.invalid && (registroForm.get('password')?.dirty || registroForm.get('password')?.touched)">
+              <div *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
+              <div *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+            </mat-error>
+          </mat-form-field><br><br>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="registroForm.invalid" class="submit-button">Regístrame</button>
-      </form><br>
-      <a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
+          <button mat-raised-button color="primary" type="submit" [disabled]="registroForm.invalid" class="submit-button">Regístrame</button>
+        </form><br>
+        <a id="Registro" [routerLink]="['', { outlets: { auth: ['login'] } }]">¿Ya tienes una cuenta? Inicia sesión aquí</a>
+      </div>
     </div>
   </div>
-</div>
 </div>

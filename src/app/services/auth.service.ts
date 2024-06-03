@@ -45,38 +45,43 @@ export class AuthService {
 
   async signUp(email: string, password: string, username: string, name: string, type: string): Promise<any> {
     const { data, error } = await this.supabase.auth.signUp({
-      email,
-      password
+        email,
+        password
     });
 
     if (error) {
-      throw error;
+        throw error;
     }
 
     const user = data.user;
     if (user) {
-      const { error: insertError } = await this.supabase
-        .from('Usuarios')
-        .insert([{ id: user.id, email, username, name, type }]);
+        const { error: insertError } = await this.supabase
+            .from('Usuarios')
+            .insert([{ id: user.id, email, username, name, password, type }]);
 
-      if (insertError) {
-        console.error('Error adding user to Usuarios:', insertError);
-        throw insertError;
-      }
+        if (insertError) {
+            console.error('Error adding user to Usuarios:', insertError);
+            throw insertError;
+        }
 
-      const roleId = this.getRoleIdFromType(type);
-      const { error: userRoleError } = await this.supabase
-        .from('userroles')
-        .insert([{ user_id: user.id, role_id: roleId }]);
+        const roleId = this.getRoleIdFromType(type);
+        await this.addUserRole(user.id, roleId);
 
-      if (userRoleError) {
-        console.error('Error adding user role to userroles:', userRoleError);
-        throw userRoleError;
-      }
+        // Insertar en la tabla Clientes si el tipo es Cliente
+        if (type === 'Cliente') {
+            const { error: clientInsertError } = await this.supabase
+                .from('Clientes')
+                .insert([{ user_id: user.id, email, name }]); // Añadir otros campos necesarios si los hay
+
+            if (clientInsertError) {
+                console.error('Error adding client to Clientes:', clientInsertError);
+                throw clientInsertError;
+            }
+        }
     }
 
     return user;
-  }
+}
 
   async signIn(email: string, password: string): Promise<any> {
     const { data, error } = await this.supabase.auth.signInWithPassword({
@@ -184,12 +189,49 @@ export class AuthService {
   }
 
   async addUserRole(userId: string, roleId: number): Promise<void> {
-    const { data, error } = await this.supabase
+    const { data: existingRole, error: fetchError, status } = await this.supabase
       .from('userroles')
-      .insert([{ user_id: userId, role_id: roleId }]);
+      .select('user_id, role_id')
+      .eq('user_id', userId)
+      .eq('role_id', roleId)
+      .maybeSingle();
+
+    if (fetchError && status !== 406) {
+      throw fetchError;
+    }
+
+    if (existingRole) {
+      console.log(`El rol ${roleId} ya está asignado al usuario ${userId}.`);
+      return;
+    }
+
+    const { error: insertError } = await this.supabase.from('userroles').insert([{ user_id: userId, role_id: roleId }]);
+    if (insertError) {
+      console.error('Error inserting user role:', insertError);
+      throw insertError;
+    }
+  }
+
+  async checkAndGenerateUsername(baseUsername: string): Promise<string> {
+    const { data, error } = await this.supabase
+      .from('Usuarios')
+      .select('username')
+      .ilike('username', `${baseUsername}%`);
 
     if (error) {
-      throw new Error(error.message);
+      console.error('Error fetching usernames:', error);
+      throw new Error('Error generating username');
     }
+
+    const usernames = data.map((user: any) => user.username);
+    let username = baseUsername;
+    let counter = 1;
+
+    while (usernames.includes(username)) {
+      username = `${baseUsername}${counter}`;
+      counter++;
+    }
+
+    return username;
   }
 }

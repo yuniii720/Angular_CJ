@@ -46,7 +46,7 @@ export class SupabaseService {
   balance: any;
   public tarjetas$ = this.tarjetasSubject.asObservable();
 
-  constructor(private http: HttpClient, private alertService: AlertService , private authService: AuthService) {
+  constructor(private http: HttpClient, private alertService: AlertService, private authService: AuthService) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.loadUsuarios();
     this.loadClientes();
@@ -387,7 +387,7 @@ export class SupabaseService {
     this.alertService.success('Cliente eliminado localmente.');
   }
 
-async updateCliente(id: number, updatedFields: Partial<Cliente>): Promise<void> {
+  async updateCliente(id: number, updatedFields: Partial<Cliente>): Promise<void> {
     const { data: updatedClienteData, error } = await this.supabase.from('Clientes').update(updatedFields).eq('id', id).select().single();
     if (error) {
       console.error('Error updating client', error);
