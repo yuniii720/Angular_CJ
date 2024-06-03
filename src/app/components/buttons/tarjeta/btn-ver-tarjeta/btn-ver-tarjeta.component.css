@@ -9,4 +9,6 @@
   .cdk-overlay-backdrop {
     background: rgba(0, 0, 0, 0.5) !important;  /* Fondo oscuro */
   }
-  
+  .mdc-dialog-container .mdc-dialog__surface {
+    background: rgba(0, 0, 0, 0.5) !important; /* Fondo semitransparente */
+}

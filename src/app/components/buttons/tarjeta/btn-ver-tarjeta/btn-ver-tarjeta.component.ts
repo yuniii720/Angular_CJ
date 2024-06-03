@@ -22,10 +22,10 @@ export class BtnVerTarjetaComponent {
     const dialogRef = this.dialog.open(SeeCardComponent, {
       width: '700px',
       height: '700px',
-      panelClass: 'custom-dialog-container',  // Clase personalizada para estilos
+      panelClass: 'custom-dialog-container',  
       data: { tarjeta: this.tarjetaSeleccionada },
-      maxWidth: '90vw',  // Ajustar el ancho máximo
-      maxHeight: '90vh'  // Ajustar la altura máxima
+      maxWidth: '90vw', 
+      maxHeight: '90vh'  
     });
 
     dialogRef.afterClosed().subscribe(result => {

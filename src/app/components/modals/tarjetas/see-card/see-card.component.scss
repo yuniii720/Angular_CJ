@@ -144,10 +144,16 @@ body {
   }
 
   .custom-dialog-container .mat-dialog-container {
-    background: transparent !important;  /* Fondo transparente */
-    box-shadow: none !important;         /* Eliminar sombra */
-    border: none !important;             /* Eliminar borde */
-    padding: 0 !important;               /* Eliminar padding */
-    overflow: hidden;                    /* Eliminar barras de desplazamiento */
-  }
-  
+    opacity: 0;               // Hacer la ventana modal transparente
+    pointer-events: none;     // Deshabilitar eventos de puntero en la ventana modal
+    visibility: hidden;       // Ocultar la ventana modal
+    background: transparent;  // Fondo transparente
+    box-shadow: none;         // Eliminar sombra
+    border: none;             // Eliminar borde
+    padding: 0;               // Eliminar padding
+    overflow: hidden;         // Eliminar barras de desplazamiento
+}
+
+.mdc-dialog-container .mdc-dialog__surface {
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+}
