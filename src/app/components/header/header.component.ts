@@ -14,11 +14,13 @@ interface UserRole {
 })
 export class HeaderComponent implements OnInit {
   userRoleMessage$: Observable<string> = of('');
-  userRoleClass$: Observable<string> = of(''); 
+  userRoleClass$: Observable<string> = of('');
+  userName$: Observable<string | null> = of(null);
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    this.userName$ = this.authService.getUsername();
     this.userRoleMessage$ = this.authService.getUserRole().pipe(
       map((userRole: UserRole | null) => {
         if (!userRole) {
@@ -56,5 +58,7 @@ export class HeaderComponent implements OnInit {
         }
       })
     );
+
+    this.userName$ = this.authService.getUsername();
   }
 }

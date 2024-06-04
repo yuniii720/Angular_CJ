@@ -1,6 +1,5 @@
 <mat-toolbar class="header">
 
-
   <nav class="menu" *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
     <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo">
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
@@ -24,7 +23,8 @@
   <span class="spacer"></span>
 
   <div class="header-right">
-    <a mat-button href="#usuario">{{ userRoleMessage$ | async }}</a>
+    <a mat-button href="#usuario">{{ userName$ | async }}</a>
+    <a id="userRoleMessage" mat-button href="#usuario">{{ userRoleMessage$ | async }}</a>
     <a mat-button href="#icon-user">
       <img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon" [ngClass]="userRoleClass$ | async">
     </a>

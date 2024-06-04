@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { of } from 'rxjs';
 
 interface UserRole {
   role_id: number;
@@ -43,45 +44,52 @@ export class AuthService {
     }
   }
 
+  getUsername(): Observable<string | null> {
+    if (this.user && this.user.email) {
+      return of(this.user.email.split('@')[0]);
+    }
+    return of(null);
+  }
+
   async signUp(email: string, password: string, username: string, name: string, type: string): Promise<any> {
     const { data, error } = await this.supabase.auth.signUp({
-        email,
-        password
+      email,
+      password
     });
 
     if (error) {
-        throw error;
+      throw error;
     }
 
     const user = data.user;
     if (user) {
-        const { error: insertError } = await this.supabase
-            .from('Usuarios')
-            .insert([{ id: user.id, email, username, name, password, type }]);
+      const { error: insertError } = await this.supabase
+        .from('Usuarios')
+        .insert([{ id: user.id, email, username, name, password, type }]);
 
-        if (insertError) {
-            console.error('Error adding user to Usuarios:', insertError);
-            throw insertError;
+      if (insertError) {
+        console.error('Error adding user to Usuarios:', insertError);
+        throw insertError;
+      }
+
+      const roleId = this.getRoleIdFromType(type);
+      await this.addUserRole(user.id, roleId);
+
+      // Insertar en la tabla Clientes si el tipo es Cliente
+      if (type === 'Cliente') {
+        const { error: clientInsertError } = await this.supabase
+          .from('Clientes')
+          .insert([{ user_id: user.id, email, name }]); // Añadir otros campos necesarios si los hay
+
+        if (clientInsertError) {
+          console.error('Error adding client to Clientes:', clientInsertError);
+          throw clientInsertError;
         }
-
-        const roleId = this.getRoleIdFromType(type);
-        await this.addUserRole(user.id, roleId);
-
-        // Insertar en la tabla Clientes si el tipo es Cliente
-        if (type === 'Cliente') {
-            const { error: clientInsertError } = await this.supabase
-                .from('Clientes')
-                .insert([{ user_id: user.id, email, name }]); // Añadir otros campos necesarios si los hay
-
-            if (clientInsertError) {
-                console.error('Error adding client to Clientes:', clientInsertError);
-                throw clientInsertError;
-            }
-        }
+      }
     }
 
     return user;
-}
+  }
 
   async signIn(email: string, password: string): Promise<any> {
     const { data, error } = await this.supabase.auth.signInWithPassword({

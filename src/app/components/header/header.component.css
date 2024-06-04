@@ -79,6 +79,10 @@
   border: 2px solid rgb(139, 228, 255);
 }
 
+#userRoleMessage {
+  display: none;
+}
+
 @media screen and (max-width: 500px) {
   .logo-img {
     margin-bottom: 15px;
