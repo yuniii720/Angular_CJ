@@ -5,7 +5,7 @@
       <mat-label>Descripción</mat-label>
       <input matInput formControlName="transaction" placeholder="Descripción del movimiento">
       <mat-error *ngIf="movimientoForm.get('transaction')?.hasError('required')">
-        Este campo es requerido
+        Este campo es obligatorio
       </mat-error>
     </mat-form-field>
 
@@ -13,7 +13,7 @@
       <mat-label>Importe</mat-label>
       <input matInput formControlName="amount" placeholder="Importe" type="number">
       <mat-error *ngIf="movimientoForm.get('amount')?.hasError('required')">
-        Este campo es requerido
+        Este campo es obligatorio
       </mat-error>
       <mat-error *ngIf="movimientoForm.get('amount')?.hasError('pattern')">
         Debe ser un número válido (opcionalmente con decimales)
@@ -26,7 +26,7 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="movimientoForm.get('date')?.hasError('required')">
-        Este campo es requerido
+        Este campo es obligatorio
       </mat-error>
     </mat-form-field>
 

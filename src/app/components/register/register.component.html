@@ -9,7 +9,7 @@
             <mat-label>Correo Electrónico</mat-label>
             <input matInput type="email" formControlName="email" placeholder="Ingrese su correo electrónico">
             <mat-error *ngIf="registroForm.get('email')?.invalid && (registroForm.get('email')?.dirty || registroForm.get('email')?.touched)">
-              <div *ngIf="registroForm.get('email')?.errors?.['required']">El correo electrónico es requerido.</div>
+              <div *ngIf="registroForm.get('email')?.errors?.['required']">El correo electrónico es obligatorio.</div>
               <div *ngIf="registroForm.get('email')?.errors?.['email']">Correo electrónico no válido.</div>
             </mat-error>
           </mat-form-field><br><br>
@@ -18,7 +18,7 @@
             <mat-label>Nombre</mat-label>
             <input matInput type="text" formControlName="name" placeholder="Ingrese su nombre completo">
             <mat-error *ngIf="registroForm.get('name')?.invalid && (registroForm.get('name')?.dirty || registroForm.get('name')?.touched)">
-              <div *ngIf="registroForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
+              <div *ngIf="registroForm.get('name')?.errors?.['required']">El nombre es obligatorio.</div>
             </mat-error>
           </mat-form-field><br><br>
 
@@ -26,7 +26,7 @@
             <mat-label>Apellido</mat-label>
             <input matInput type="text" formControlName="lastName" placeholder="Ingrese su apellido">
             <mat-error *ngIf="registroForm.get('lastName')?.invalid && (registroForm.get('lastName')?.dirty || registroForm.get('lastName')?.touched)">
-              <div *ngIf="registroForm.get('lastName')?.errors?.['required']">El apellido es requerido.</div>
+              <div *ngIf="registroForm.get('lastName')?.errors?.['required']">El apellido es obligatorio.</div>
             </mat-error>
           </mat-form-field><br><br>
 
@@ -34,7 +34,7 @@
             <mat-label>Contraseña</mat-label>
             <input matInput type="password" formControlName="password" placeholder="Ingrese su contraseña">
             <mat-error *ngIf="registroForm.get('password')?.invalid && (registroForm.get('password')?.dirty || registroForm.get('password')?.touched)">
-              <div *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
+              <div *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</div>
               <div *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
             </mat-error>
           </mat-form-field><br><br>
