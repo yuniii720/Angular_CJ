@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog'; // Agrega esta línea
+import { MatDialog } from '@angular/material/dialog'; 
 import { AddCardComponent } from '../../../modals/tarjetas/add-card/add-card.component';
+
 
 @Component({
   selector: 'app-btn-add-tarjeta',

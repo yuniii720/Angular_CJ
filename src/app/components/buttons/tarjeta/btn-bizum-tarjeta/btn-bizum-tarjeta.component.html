@@ -1,4 +1,4 @@
-<button mat-raised-button color="primary"
+<button mat-raised-button color="primary" (click)="openDialog()"
   [routerLink]="['', { outlets: { auth: ['Tarjetas'] } }]">
   Hacer bizum
   <mat-icon><img style="margin: 0 auto" src="../../../../../assets/img/bizum.svg"></mat-icon>

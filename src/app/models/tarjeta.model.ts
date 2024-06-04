@@ -12,5 +12,8 @@ export interface Tarjeta {
 }
 
 export interface SaveResult {
+  success?: boolean;
+  message?: string;
   error?: { message: string };
 }
+
