@@ -90,6 +90,7 @@ import { BtnModMovimientoComponent } from './components/buttons/movimientos/btn-
 import { AddMovimientoComponent } from './components/modals/movimientos/add-movimiento/add-movimiento.component';
 import { ModMovimientoComponent } from './components/modals/movimientos/mod-movimiento/mod-movimiento.component';
 import { DelMovimientoComponent } from './components/modals/movimientos/del-movimiento/del-movimiento.component';
+import { BtnBizumTarjetaComponent } from './components/buttons/tarjeta/btn-bizum-tarjeta/btn-bizum-tarjeta.component';
 
 @NgModule({
   declarations: [
@@ -155,6 +156,7 @@ import { DelMovimientoComponent } from './components/modals/movimientos/del-movi
     AddMovimientoComponent,
     ModMovimientoComponent,
     DelMovimientoComponent,
+    BtnBizumTarjetaComponent,
   ],
   imports: [
     BrowserModule,
