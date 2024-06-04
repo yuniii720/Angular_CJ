@@ -5,11 +5,11 @@
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
     </a>
 
-    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'" [routerLink]="['', { outlets: { auth: ['usuario'] } }]">Usuarios</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]">Clientes</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['movimientos'] } }]">Movimientos</a>
+    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'" [routerLink]="['', { outlets: { auth: ['usuario'] } }]"><mat-icon>person</mat-icon>Usuarios</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]"><mat-icon>group</mat-icon>Clientes</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]"><mat-icon>credit_card</mat-icon>Tarjetas</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['movimientos'] } }]"><mat-icon>swap_horiz</mat-icon>Movimientos</a>
 
   </nav>
 
@@ -17,9 +17,9 @@
     <a [routerLink]="['', { outlets: { auth: ['maincliente'] } }]" class="logo">
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
     </a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]">Cuentas</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]">Tarjetas</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['movimientos'] } }]">Movimientos</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]"><mat-icon>credit_card</mat-icon>Tarjetas</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['movimientos'] } }]"><mat-icon>swap_horiz</mat-icon>Movimientos</a>
 
   </nav>
 
@@ -32,7 +32,7 @@
       <img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon" [ngClass]="userRoleClass$ | async">
     </a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['landing'] } }]">
-      <img src="../../assets/img/icon-logout.svg" name="cajamar_logo" id="icon-logout" class="icon">
+      <a><mat-icon name="cajamar_logo" id="icon-logout" class="icon">logout</mat-icon></a>
     </a>
   </div>
 </mat-toolbar>

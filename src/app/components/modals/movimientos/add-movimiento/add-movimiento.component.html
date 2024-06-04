@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Añadir Movimiento</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="movimientoForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Descripción</mat-label>
+      <input matInput formControlName="transaction" placeholder="Descripción del movimiento">
+      <mat-error *ngIf="movimientoForm.get('transaction')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Importe</mat-label>
+      <input matInput formControlName="amount" placeholder="Importe" type="number">
+      <mat-error *ngIf="movimientoForm.get('amount')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
+      <mat-error *ngIf="movimientoForm.get('amount')?.hasError('pattern')">
+        Debe ser un número válido (opcionalmente con decimales)
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="movimientoForm.get('date')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+ <mat-form-field>
+        <mat-label>Canal</mat-label>
+        <mat-select formControlName="channel">
+          <mat-option value="Online">Online</mat-option>
+          <mat-option value="ATM">ATM</mat-option>
+          <mat-option value="In Store">In Store</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="category">
+          <mat-option value="Comida">Comida</mat-option>
+          <mat-option value="Transporte">Transporte</mat-option>
+          <mat-option value="Ocio">Ocio</mat-option>
+          <mat-option value="Servicios">Servicios</mat-option>
+          </mat-select>
+      </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" type="submit" [disabled]="!movimientoForm.valid" (click)="onSubmit()">Añadir</button>
+  <button mat-button (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>
