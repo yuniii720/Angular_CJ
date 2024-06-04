@@ -55,7 +55,6 @@ export class AddMovimientoComponent implements OnInit {
           setTimeout(async () => {
             try {
               await this.supabaseService.updateMovimientoStatus(data.id!, 'Success');
-              Swal.fire('Éxito', 'Movimiento confirmado correctamente', 'success');  // SweetAlert de éxito
             } catch (updateError) {
               console.error('Error al actualizar el estado del movimiento', updateError);
               Swal.fire('Error', 'Error al actualizar el estado del movimiento', 'error');  // SweetAlert de error
