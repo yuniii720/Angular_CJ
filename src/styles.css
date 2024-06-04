@@ -19,24 +19,6 @@ footer {
 
 }
 
-.mat-dialog-container {
-  background-color: rgba(255, 255, 255, 0.5) !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.cdk-overlay-backdrop.cdk-overlay-dark-backdrop.cdk-overlay-backdrop-showing {
-  background-color: rgba(0, 0, 0, 0.5) !important;
-}
-
-.cdk-global-overlay-wrapper,
-.cdk-overlay-pane,
-.mat-mdc-dialog-container,
-.mat-mdc-dialog-surface {
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
-
 
 footer img {
   width: 30px;
@@ -131,7 +113,3 @@ table.TablaCJ tbody>tr:hover {
   background-color: red;
 }
 
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
