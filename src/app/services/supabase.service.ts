@@ -50,6 +50,9 @@ export class SupabaseService {
   private updatedCuentas: Cuenta[] = [];
   private deletedCuentas: Cuenta[] = [];
 
+  private movimientosSubject = new BehaviorSubject<Movimiento[]>([]);
+  public movimientos$ = this.movimientosSubject.asObservable();
+
   balance: any;
   public tarjetas$ = this.tarjetasSubject.asObservable();
 
@@ -912,7 +915,11 @@ export class SupabaseService {
 
   // Movimientos
   async loadMovimientos() {
-    const { data, error } = await this.supabase.from('Movimientos').select('*').order('id', { ascending: true });
+    const { data, error } = await this.supabase
+      .from('Movimientos')
+      .select('*, account:Cuentas(account_number)')
+      .order('id', { ascending: true });
+
     if (error) {
       console.error('Error loading movements', error);
     } else {
