@@ -1,6 +1,7 @@
-import { AddMovimientoComponent } from '../../../modals/movimientos/add-movimiento/add-movimiento.component'; // Asegúrate de tener este componente
+import { AddMovimientoComponent } from '../../../modals/movimientos/add-movimiento/add-movimiento.component';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { SupabaseService } from '../../../../services/supabase.service';
 
 @Component({
   selector: 'app-btn-add-movimiento',
@@ -8,17 +9,24 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./btn-add-movimiento.component.css']
 })
 export class BtnAddMovimientoComponent {
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private supabaseService: SupabaseService) { }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddMovimientoComponent, {
-      width: '600px', // Ajusta el ancho según tus necesidades
-      data: { },       // Puedes pasar datos iniciales al diálogo si es necesario
+      width: '600px',
+      data: { account_id: 1 }, // Pasa el ID de la cuenta seleccionada
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      // Aquí puedes manejar el resultado del diálogo, si es que devuelve algún valor
+      if (result) {
+        this.supabaseService.addMovimiento(result).then(response => {
+          if (response.error) {
+            console.error('Error adding movimiento:', response.error);
+          } else {
+            console.log('Movimiento added successfully:', response.data);
+          }
+        });
+      }
     });
   }
 }

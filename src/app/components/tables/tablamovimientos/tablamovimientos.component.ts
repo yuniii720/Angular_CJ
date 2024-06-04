@@ -15,7 +15,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class TablaMovimientosComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Movimiento>();
-  displayedColumns: string[] = ['id', 'account', 'type', 'amount', 'date', 'actions'];
+  displayedColumns: string[] = ['id', 'account', 'type', 'amount', 'status', 'date', 'actions'];
   filteredColumns: string[] = [];
   selectedColumn: string = 'account';
   role_id: number | null = null;

@@ -2,6 +2,18 @@
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="movimientoForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
+      <mat-label>Cuenta</mat-label>
+      <mat-select formControlName="account_id">
+        <mat-option *ngFor="let account of cuentas" [value]="account.id">
+          {{ account.account_number }} - {{ account.clientName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="movimientoForm.get('account_id')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Descripción</mat-label>
       <input matInput formControlName="transaction" placeholder="Descripción del movimiento">
       <mat-error *ngIf="movimientoForm.get('transaction')?.hasError('required')">
@@ -30,24 +42,24 @@
       </mat-error>
     </mat-form-field>
 
- <mat-form-field>
-        <mat-label>Canal</mat-label>
-        <mat-select formControlName="channel">
-          <mat-option value="Online">Online</mat-option>
-          <mat-option value="ATM">ATM</mat-option>
-          <mat-option value="In Store">In Store</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Canal</mat-label>
+      <mat-select formControlName="channel">
+        <mat-option value="Online">Online</mat-option>
+        <mat-option value="ATM">ATM</mat-option>
+        <mat-option value="In Store">In Store</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Categoría</mat-label>
-        <mat-select formControlName="category">
-          <mat-option value="Comida">Comida</mat-option>
-          <mat-option value="Transporte">Transporte</mat-option>
-          <mat-option value="Ocio">Ocio</mat-option>
-          <mat-option value="Servicios">Servicios</mat-option>
-          </mat-select>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="Comida">Comida</mat-option>
+        <mat-option value="Transporte">Transporte</mat-option>
+        <mat-option value="Ocio">Ocio</mat-option>
+        <mat-option value="Servicios">Servicios</mat-option>
+      </mat-select>
+    </mat-form-field>
   </form>
 </mat-dialog-content>
 

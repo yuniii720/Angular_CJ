@@ -792,6 +792,7 @@ export class SupabaseService {
   async getAllCuentas(): Promise<Cuenta[]> {
     const { data, error } = await this.supabase.from('Cuentas').select('*');
     if (error) {
+      console.error('Error fetching accounts', error);
       throw error;
     }
     return data;
@@ -893,6 +894,9 @@ export class SupabaseService {
     const { data, error } = await this.supabase.from('Movimientos').insert([movimiento]).select().single();
     if (error) {
       console.error('Error adding movimiento', error);
+    } else {
+      const currentMovimientos = this.movimientosSubject.getValue();
+      this.movimientosSubject.next([...currentMovimientos, data]);
     }
     return { data, error };
   }

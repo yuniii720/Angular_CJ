@@ -1,18 +1,19 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Movimiento } from '../../../../models/movimiento.model';
-import { AlertService } from '../../../../services/alert.service'; // Importa el servicio de alertas
+import { AlertService } from '../../../../services/alert.service';
+import { Cuenta } from '../../../../models/cuenta.model';
 
 @Component({
   selector: 'app-add-movimiento',
   templateUrl: './add-movimiento.component.html',
   styleUrls: ['./add-movimiento.component.css']
 })
-export class AddMovimientoComponent {
+export class AddMovimientoComponent implements OnInit {
   movimientoForm: FormGroup;
-  account_id: number; // ID de la cuenta seleccionada
+  cuentas: Cuenta[] = []; // Lista de cuentas disponibles
 
   constructor(
     public dialogRef: MatDialogRef<AddMovimientoComponent>,
@@ -21,8 +22,8 @@ export class AddMovimientoComponent {
     private supabaseService: SupabaseService,
     private alertService: AlertService
   ) {
-    this.account_id = data.account_id; // Recibe el ID de la cuenta desde el componente padre
     this.movimientoForm = this.formBuilder.group({
+      account_id: ['', Validators.required],
       transaction: ['', Validators.required],
       amount: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d{1,2})?$/)]],
       date: [new Date(), Validators.required],
@@ -31,19 +32,25 @@ export class AddMovimientoComponent {
     });
   }
 
+  async ngOnInit(): Promise<void> {
+    try {
+      this.cuentas = await this.supabaseService.getAllCuentas();
+    } catch (error) {
+      console.error('Error loading accounts', error);
+      this.alertService.error('Error al cargar las cuentas');
+    }
+  }
+
   async onSubmit(): Promise<void> {
     if (this.movimientoForm.valid) {
-      const nuevoMovimiento: Movimiento = {
-        ...this.movimientoForm.value,
-        account_id: this.account_id
-      };
+      const nuevoMovimiento: Movimiento = this.movimientoForm.value;
 
       try {
         const { data, error } = await this.supabaseService.addMovimiento(nuevoMovimiento); // Llamar al nuevo método
         if (error) throw error; // Lanza el error si existe para que sea capturado en el catch
 
         this.alertService.success('Movimiento añadido correctamente');
-        this.dialogRef.close();
+        this.dialogRef.close(nuevoMovimiento); // Devuelve el nuevo movimiento al cerrar el diálogo
       } catch (error) {
         console.error('Error al añadir movimiento', error);
         this.alertService.error('Error al añadir movimiento');

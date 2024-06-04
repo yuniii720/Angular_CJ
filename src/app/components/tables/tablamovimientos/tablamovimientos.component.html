@@ -40,17 +40,22 @@
 
       <ng-container matColumnDef="account">
         <mat-header-cell *matHeaderCellDef mat-sort-header="account"> Cuenta </mat-header-cell>
-        <mat-cell *matCellDef="let movimiento"> {{movimiento.account}} </mat-cell>
+        <mat-cell *matCellDef="let movimiento"> {{movimiento.account_id}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="type">
-        <mat-header-cell *matHeaderCellDef mat-sort-header="type"> Tipo </mat-header-cell>
-        <mat-cell *matCellDef="let movimiento"> {{movimiento.type}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header="type"> Concepto </mat-header-cell>
+        <mat-cell *matCellDef="let movimiento"> {{movimiento.transaction}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="amount">
         <mat-header-cell *matHeaderCellDef mat-sort-header="amount"> Cantidad </mat-header-cell>
         <mat-cell *matCellDef="let movimiento"> {{movimiento.amount}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="status"> Estado </mat-header-cell>
+        <mat-cell *matCellDef="let movimiento"> {{movimiento.status}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="date">
@@ -59,7 +64,7 @@
       </ng-container>
 
       <ng-container matColumnDef="actions" stickyEnd>
-        <mat-header-cell *matHeaderCellDef class="gestionar-header"> Acciones </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="gestionar-header"> Gestionar </mat-header-cell>
         <mat-cell *matCellDef="let movimiento">
           <div class="button-container2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px">
             <app-btn-mod-movimiento [movimiento]="movimiento"></app-btn-mod-movimiento>
