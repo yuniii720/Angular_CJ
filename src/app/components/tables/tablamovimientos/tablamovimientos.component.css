@@ -146,6 +146,55 @@ p {
   text-indent: 10px;
 }
 
+/* Estilos para los estados */
+.status-processing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.processing {
+  background-color: gray;
+}
+
+.success {
+  background-color: green;
+}
+
+.tag {
+  padding: 2px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.processing-tag {
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 0.8em; /* Ajusta este valor a tus necesidades */
+}
+
+.success-tag {
+  background-color: #e6f9f0;
+  color: #33a065;
+  border: 1px solid #33a065;
+  font-size: 0.8em; /* Ajusta este valor a tus necesidades */
+}
+
 @media (max-width: 600px) {
   .mat-header-cell, .mat-cell {
     padding: 8px;

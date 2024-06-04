@@ -92,6 +92,7 @@ import { ModMovimientoComponent } from './components/modals/movimientos/mod-movi
 import { DelMovimientoComponent } from './components/modals/movimientos/del-movimiento/del-movimiento.component';
 import { BtnBizumTarjetaComponent } from './components/buttons/tarjeta/btn-bizum-tarjeta/btn-bizum-tarjeta.component';
 import { BizumCardComponent } from './components/modals/tarjetas/bizum-card/bizum-card.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -189,7 +190,8 @@ import { BizumCardComponent } from './components/modals/tarjetas/bizum-card/bizu
     MatGridListModule,
     MatCardModule,
     MatListModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   exports: [
     EuroCurrencyPipe,

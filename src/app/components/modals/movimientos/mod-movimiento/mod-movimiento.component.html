@@ -47,8 +47,8 @@
       <mat-label>Canal</mat-label>
       <mat-select formControlName="channel" placeholder="Selecciona canal" required>
         <mat-option value="Online">Online</mat-option>
-        <mat-option value="ATM">ATM</mat-option>
-        <mat-option value="In Store">In Store</mat-option>
+        <mat-option value="ATM">Cajero automático</mat-option>
+        <mat-option value="In Store">En tienda</mat-option>
       </mat-select>
       <mat-error *ngIf="movimientoForm.get('channel')?.errors?.['required']">
         Debes seleccionar un canal.
