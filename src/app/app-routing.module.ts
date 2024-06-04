@@ -9,11 +9,11 @@ import { AddUserComponent } from './components/modals/usuarios/add-user/add-user
 import { TablaClientesComponent } from './components/tables/tablaclientes/tablaclientes.component';
 import { TablaCuentasComponent } from './components/tables/tablacuentas/tablacuentas.component';
 import { TablaTarjetasComponent } from './components/tables/tablatarjetas/tablatarjetas.component';
-import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
+import { TablaMovimientosComponent } from './components/tables/tablamovimientos/tablamovimientos.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { MainclienteComponent } from './components/maincliente/maincliente.component';
- 
+
 const routes: Routes = [
   { path: '', component: LandingpageComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
   { path: 'landing', component: LandingpageComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
@@ -27,10 +27,10 @@ const routes: Routes = [
   { path: 'adduser', component: AddUserComponent, data: { breadcrumb: 'Agregar Usuario' }, outlet: 'auth' },
   { path: 'cuentas', component: TablaCuentasComponent, data: { breadcrumb: 'Gestión de Cuentas' }, outlet: 'auth' },
   { path: 'tarjetas', component: TablaTarjetasComponent, data: { breadcrumb: 'Gestión de Tarjetas' }, outlet: 'auth' },
-  { path: 'transferencias', component: TablatransferenciasComponent, data: { breadcrumb: 'Gestión de Transferencias' }, outlet: 'auth' },
+  { path: 'movimientos', component: TablaMovimientosComponent, data: { breadcrumb: 'Gestión de Movimientos' }, outlet: 'auth' },
   { path: 'not-authorized', component: NotAuthorizedComponent }
 ];
- 
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

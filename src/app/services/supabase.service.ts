@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, from } from 'rxjs';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
+import { Movimiento } from '../models/movimiento.model';
 import { AlertService } from './alert.service';
-import { map } from 'rxjs/operators';
-import { from } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { map } from 'rxjs/operators';
 
 export interface SaveResult {
   error?: { message: string };
@@ -21,6 +21,8 @@ export interface SaveResult {
 })
 export class SupabaseService {
   private supabase: SupabaseClient;
+
+  // Usuarios
   private usuariosSubject = new BehaviorSubject<Usuario[]>([]);
   public usuarios$ = this.usuariosSubject.asObservable();
   private localUsuarios: Usuario[] = [];
@@ -28,23 +30,30 @@ export class SupabaseService {
   private updatedUsuarios: Usuario[] = [];
   private deletedUsuarios: Usuario[] = [];
 
+  // Clientes
   private localClientes: Cliente[] = [];
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   public clientes$ = this.clientesSubject.asObservable();
   private updatedClientes: Cliente[] = [];
   private deletedClientes: Cliente[] = [];
 
+  // Cuentas
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
-  private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
-
   private localCuentas: Cuenta[] = [];
   private addedCuentas: Cuenta[] = [];
   private updatedCuentas: Cuenta[] = [];
   private deletedCuentas: Cuenta[] = [];
 
-  balance: any;
+  // Tarjetas
+  private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
   public tarjetas$ = this.tarjetasSubject.asObservable();
+
+  // Movimientos
+  private movimientosSubject = new BehaviorSubject<Movimiento[]>([]);
+  public movimientos$ = this.movimientosSubject.asObservable();
+
+  balance: any;
 
   constructor(private http: HttpClient, private alertService: AlertService, private authService: AuthService) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
@@ -52,6 +61,7 @@ export class SupabaseService {
     this.loadClientes();
     this.loadCuentas();
     this.loadTarjetas();
+    this.loadMovimientos();
   }
 
   async enviarDatos(data: any): Promise<Observable<any>> {
@@ -729,9 +739,6 @@ export class SupabaseService {
     );
   }
 
-
-
-
   async addTarjeta(tarjeta: Tarjeta): Promise<void> {
     try {
       const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]).select().single();
@@ -870,5 +877,31 @@ export class SupabaseService {
     if (error) {
       throw error;
     }
+  }
+
+  // Movimientos
+  async loadMovimientos() {
+    const { data, error } = await this.supabase.from('Movimientos').select('*').order('id', { ascending: true });
+    if (error) {
+      console.error('Error loading movements', error);
+    } else {
+      this.movimientosSubject.next(data);
+    }
+  }
+
+  async addMovimiento(movimiento: Movimiento): Promise<{ data: Movimiento | null, error: any }> {
+    const { data, error } = await this.supabase.from('Movimientos').insert([movimiento]).select().single();
+    if (error) {
+      console.error('Error adding movimiento', error);
+    }
+    return { data, error };
+  }
+
+  async deleteMovimiento(movimientoId: number): Promise<{ data: Movimiento | null, error: any }> {
+    const { data, error } = await this.supabase.from('Movimientos').delete().match({ id: movimientoId }).select().single();
+    if (error) {
+      console.error('Error deleting movimiento', error);
+    }
+    return { data, error };
   }
 }
