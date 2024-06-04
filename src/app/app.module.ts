@@ -83,7 +83,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BtnVerTarjetaComponent } from './components/buttons/tarjeta/btn-ver-tarjeta/btn-ver-tarjeta.component';
 import { SeeCardComponent } from './components/modals/tarjetas/see-card/see-card.component';
-
+import { TablamovimientosComponent } from './components/tables/tablamovimientos/tablamovimientos.component';
+import { MovimientosComponent } from './components/modals/movimientos/movimientos.component';
+import { BtnAddMovimientoComponent } from './components/buttons/movimientos/btn-add-movimiento/btn-add-movimiento.component';
+import { BtnDelMovimientoComponent } from './components/buttons/movimientos/btn-del-movimiento/btn-del-movimiento.component';
+import { BtnModMovimientoComponent } from './components/buttons/movimientos/btn-mod-movimiento/btn-mod-movimiento.component';
 
 @NgModule({
   declarations: [
@@ -142,6 +146,11 @@ import { SeeCardComponent } from './components/modals/tarjetas/see-card/see-card
     SaveClientsComponent,
     BtnVerTarjetaComponent,
     SeeCardComponent,
+    TablamovimientosComponent,
+    MovimientosComponent,
+    BtnAddMovimientoComponent,
+    BtnDelMovimientoComponent,
+    BtnModMovimientoComponent,
   ],
   imports: [
     BrowserModule,
