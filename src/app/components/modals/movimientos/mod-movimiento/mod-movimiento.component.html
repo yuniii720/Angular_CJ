@@ -1,1 +1,76 @@
-<p>mod-movimiento works!</p>
+<h2 mat-dialog-title>Modificar Movimiento</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="movimientoForm" class="movimiento-form">
+    <!-- Campos del formulario -->
+    <mat-form-field appearance="fill">
+      <mat-label>Cuenta</mat-label>
+      <mat-select formControlName="account_id" placeholder="Selecciona cuenta" required>
+        <mat-option *ngFor="let account of cuentas" [value]="account.id">
+          {{ account.account_number }} - {{ account.clientName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="movimientoForm.get('account_id')?.errors?.['required']">
+        Debes seleccionar una cuenta.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Descripción</mat-label>
+      <input matInput type="text" formControlName="transaction" placeholder="Introduce descripción" required>
+      <mat-error *ngIf="movimientoForm.get('transaction')?.errors?.['required']">
+        El campo descripción es obligatorio.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Importe</mat-label>
+      <input matInput type="number" formControlName="amount" placeholder="Introduce importe" required>
+      <mat-error *ngIf="movimientoForm.get('amount')?.errors?.['required']">
+        El campo importe es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="movimientoForm.get('amount')?.errors?.['pattern']">
+        Debe ser un número válido (opcionalmente con decimales).
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Selecciona fecha" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="movimientoForm.get('date')?.errors?.['required']">
+        Debes seleccionar la fecha.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Canal</mat-label>
+      <mat-select formControlName="channel" placeholder="Selecciona canal" required>
+        <mat-option value="Online">Online</mat-option>
+        <mat-option value="ATM">ATM</mat-option>
+        <mat-option value="In Store">In Store</mat-option>
+      </mat-select>
+      <mat-error *ngIf="movimientoForm.get('channel')?.errors?.['required']">
+        Debes seleccionar un canal.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="category" placeholder="Selecciona categoría" required>
+        <mat-option value="Comida">Comida</mat-option>
+        <mat-option value="Transporte">Transporte</mat-option>
+        <mat-option value="Ocio">Ocio</mat-option>
+        <mat-option value="Servicios">Servicios</mat-option>
+      </mat-select>
+      <mat-error *ngIf="movimientoForm.get('category')?.errors?.['required']">
+        Debes seleccionar una categoría.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!movimientoForm.valid" (click)="onSubmit()">Actualizar</button>
+  <button mat-button (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>

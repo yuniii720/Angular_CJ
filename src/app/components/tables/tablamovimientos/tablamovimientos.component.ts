@@ -35,10 +35,10 @@ export class TablaMovimientosComponent implements OnInit, OnDestroy, AfterViewIn
       if (userRole) {
         this.role_id = userRole.role_id;
       }
+    }));
 
-      this.subs.add(this.supabaseService.movimientos$.subscribe(data => {
-        this.dataSource.data = data;
-      }));
+    this.subs.add(this.supabaseService.movimientos$.subscribe(data => {
+      this.dataSource.data = data;
     }));
 
     this.dataSource.paginator = this.paginator;

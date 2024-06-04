@@ -46,11 +46,11 @@ export class AddMovimientoComponent implements OnInit {
       const nuevoMovimiento: Movimiento = this.movimientoForm.value;
 
       try {
-        const { data, error } = await this.supabaseService.addMovimiento(nuevoMovimiento); // Llamar al nuevo método
-        if (error) throw error; // Lanza el error si existe para que sea capturado en el catch
+        const { data, error } = await this.supabaseService.addMovimiento(nuevoMovimiento);
+        if (error) throw error;
 
         this.alertService.success('Movimiento añadido correctamente');
-        this.dialogRef.close(nuevoMovimiento); // Devuelve el nuevo movimiento al cerrar el diálogo
+        this.dialogRef.close(data); // Devuelve el nuevo movimiento al cerrar el diálogo
       } catch (error) {
         console.error('Error al añadir movimiento', error);
         this.alertService.error('Error al añadir movimiento');

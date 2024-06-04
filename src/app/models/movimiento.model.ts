@@ -7,5 +7,6 @@ export interface Movimiento {
   channel: string; // Canal de la transacción (ej: "Online", "ATM", "In Store")
   category: string; // Categoría del movimiento (ej: "Comida", "Transporte", "Ocio")
   account_id: number; // ID de la cuenta asociada al movimiento (clave foránea)
+  account?: { account_number: string }; // Cuenta asociada al movimiento (relación uno a uno)
   [key: string]: any;  // Índice de firma añadido
 }
