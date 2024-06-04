@@ -157,3 +157,17 @@ body {
 .mdc-dialog-container .mdc-dialog__surface {
     background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
 }
+
+/* styles.css o styles.scss */
+
+/* Estilo para el contenedor del modal */
+.mat-dialog-container {
+    background: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: none !important;
+  }
+  
+  /* Estilo para el fondo del overlay */
+  .cdk-overlay-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Ajusta la opacidad según sea necesario */
+  }
+  
