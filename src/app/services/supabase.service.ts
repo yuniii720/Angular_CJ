@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, from } from 'rxjs';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
 import { Cuenta } from '../models/cuenta.model';
 import { AlertService } from './alert.service';
+import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
-import { from } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 
 export interface SaveResult {
+  success?: boolean;
+  message?: string;
   error?: { message: string };
 }
 
@@ -37,6 +38,7 @@ export class SupabaseService {
   private cuentasSubject = new BehaviorSubject<Cuenta[]>([]);
   public cuentas$ = this.cuentasSubject.asObservable();
   private tarjetasSubject = new BehaviorSubject<Tarjeta[]>([]);
+  public tarjetas$ = this.tarjetasSubject.asObservable();
 
   private localCuentas: Cuenta[] = [];
   private addedCuentas: Cuenta[] = [];
@@ -44,9 +46,12 @@ export class SupabaseService {
   private deletedCuentas: Cuenta[] = [];
 
   balance: any;
-  public tarjetas$ = this.tarjetasSubject.asObservable();
 
-  constructor(private http: HttpClient, private alertService: AlertService, private authService: AuthService) {
+  constructor(
+    private http: HttpClient,
+    private alertService: AlertService,
+    private authService: AuthService
+  ) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.loadUsuarios();
     this.loadClientes();
@@ -193,7 +198,6 @@ export class SupabaseService {
       console.error('Error updating user', error);
       throw new Error('Error updating user');
     } else {
-
       const usuariosActuales = this.usuariosSubject.getValue();
       const updatedUsuarios = usuariosActuales.map(u => u.id === id ? { ...u, ...updatedUserData } : u);
       this.usuariosSubject.next(updatedUsuarios);
@@ -205,7 +209,6 @@ export class SupabaseService {
           const clienteFields = {
             name: updatedFields.name,
             email: updatedFields.email,
-            // Otros campos específicos de cliente que deban actualizarse
           };
           await this.updateCliente(clienteId, clienteFields);
         }
@@ -220,7 +223,6 @@ export class SupabaseService {
       throw error;
     }
 
-    // Actualizar la lista local de clientes
     const clientesActuales = this.clientesSubject.getValue();
     const updatedClientes = clientesActuales.filter(c => c.user_id !== userId);
     this.clientesSubject.next(updatedClientes);
@@ -228,22 +230,18 @@ export class SupabaseService {
 
   async deleteUsuario(id: string): Promise<void> {
     try {
-      // Primero, eliminar el cliente asociado, si existe
       await this.deleteClienteByUserId(id);
 
-      // Eliminar el usuario de la base de datos
       const { error } = await this.supabase.from('Usuarios').delete().match({ id });
       if (error) {
         console.error('Error deleting user from database', error);
         throw error;
       }
 
-      // Actualizar la lista local de usuarios
       const usuariosActuales = this.usuariosSubject.getValue();
       const updatedUsuarios = usuariosActuales.filter(u => u.id !== id);
       this.usuariosSubject.next(updatedUsuarios);
 
-      // Actualizar la lista local de clientes
       const clientesActuales = this.clientesSubject.getValue();
       const updatedClientes = clientesActuales.filter(c => c.user_id !== id);
       this.clientesSubject.next(updatedClientes);
@@ -301,14 +299,12 @@ export class SupabaseService {
     return data;
   }
 
-  // Método para añadir cliente localmente
   addLocalCliente(cliente: Cliente) {
     this.localClientes.push(cliente);
-    this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]); // Combina clientes locales y cargados
+    this.clientesSubject.next([...this.localClientes, ...this.clientesSubject.getValue()]);
     this.alertService.success('Cliente añadido localmente.');
   }
 
-  // Método para guardar todos los clientes locales en la base de datos
   async saveAllClientes() {
     try {
       for (const cliente of this.updatedClientes) {
@@ -340,7 +336,6 @@ export class SupabaseService {
     }
   }
 
-  // Asegúrate de que `loadClientes` esté correctamente llenando `localClientes`
   async loadClientes() {
     const { data, error } = await this.supabase.from('Clientes').select('*');
     if (error) {
@@ -350,7 +345,6 @@ export class SupabaseService {
     }
   }
 
-  // Método para actualizar cliente localmente
   updateLocalCliente(id: number, updatedFields: any) {
     const index = this.localClientes.findIndex(cliente => cliente.id === id);
     if (index !== -1) {
@@ -369,7 +363,6 @@ export class SupabaseService {
     this.alertService.success('Cliente modificado localmente.');
   }
 
-  // Método para eliminar cliente localmente
   deleteLocalCliente(id: number) {
     const index = this.localClientes.findIndex(cliente => cliente.id === id);
     if (index !== -1) {
@@ -394,7 +387,6 @@ export class SupabaseService {
       this.alertService.error('Error actualizando el cliente en la base de datos.');
       throw error;
     } else {
-      // Actualizar la lista local de clientes
       const clientesActuales = this.clientesSubject.getValue();
       const updatedClientes = clientesActuales.map(c => c.id === id ? { ...c, ...updatedClienteData } : c);
       this.clientesSubject.next(updatedClientes);
@@ -432,14 +424,12 @@ export class SupabaseService {
     }
   }
 
-  // Añadir cuenta localmente
   addLocalCuenta(cuenta: Cuenta): void {
     this.localCuentas.push(cuenta);
     this.cuentasSubject.next([...this.localCuentas]);
     this.alertService.success('Cuenta añadida localmente.');
   }
 
-  // Guardar cuentas locales en la base de datos
   async saveAllCuentas() {
     try {
       for (const cuenta of this.localCuentas) {
@@ -729,9 +719,6 @@ export class SupabaseService {
     );
   }
 
-
-
-
   async addTarjeta(tarjeta: Tarjeta): Promise<void> {
     try {
       const { data, error } = await this.supabase.from('Tarjetas').insert([tarjeta]).select().single();
@@ -779,7 +766,7 @@ export class SupabaseService {
     }
     const currentTarjetas = this.tarjetasSubject.getValue();
     this.tarjetasSubject.next([...currentTarjetas, data]);
-    return { error: undefined };
+    return { success: true, message: 'Tarjeta guardada correctamente' };
   }
 
   async getAllCuentas(): Promise<Cuenta[]> {
@@ -803,9 +790,9 @@ export class SupabaseService {
     if (error) {
       console.error('Error loading cards with account numbers', error);
     } else {
-      this.tarjetasSubject.next(data.map(tarjeta => ({
-        ...tarjeta,
-        account_number: tarjeta.Cuentas ? tarjeta.Cuentas.account_number : null
+      this.tarjetasSubject.next(data.map(t => ({
+        ...t,
+        account_number: t.Cuentas ? t.Cuentas.account_number : null
       })));
     }
   }
@@ -870,5 +857,48 @@ export class SupabaseService {
     if (error) {
       throw error;
     }
+  }
+
+  async enviarBizum(datos: any): Promise<SaveResult> {
+    try {
+      const { cuentaOrigen, importe, destinatario, motivo } = datos;
+
+      // Verificar saldo suficiente en la cuenta de origen
+      const { data: cuentaData, error: cuentaError } = await this.supabase
+        .from('Cuentas')
+        .select('balance')
+        .eq('id', cuentaOrigen)
+        .single();
+
+      if (cuentaError || !cuentaData || cuentaData.balance < importe) {
+        return { success: false, message: 'Saldo insuficiente o cuenta no encontrada' };
+      }
+
+      // Actualizar el saldo de la cuenta de origen
+      const { error: updateError } = await this.supabase
+        .from('Cuentas')
+        .update({ balance: cuentaData.balance - importe })
+        .eq('id', cuentaOrigen);
+
+      if (updateError) {
+        return { success: false, message: 'Error al actualizar el saldo' };
+      }
+
+      // Aquí podrías añadir lógica para enviar el Bizum al destinatario
+      // Por ejemplo, registrando la transacción en una tabla de movimientos
+
+      return { success: true, message: 'Bizum enviado correctamente' };
+    } catch (error) {
+      console.error('Error al enviar Bizum', error);
+      return { success: false, message: 'Error al enviar Bizum' };
+    }
+  }
+
+  async obtenerCuentas(): Promise<Cuenta[]> {
+    const { data, error } = await this.supabase.from('Cuentas').select('*');
+    if (error) {
+      throw error;
+    }
+    return data;
   }
 }
