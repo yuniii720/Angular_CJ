@@ -40,7 +40,7 @@
 
       <ng-container matColumnDef="account">
         <mat-header-cell *matHeaderCellDef mat-sort-header="account"> Cuenta </mat-header-cell>
-        <mat-cell *matCellDef="let movimiento"> {{movimiento.account?.account_number}} </mat-cell>
+        <mat-cell *matCellDef="let movimiento"> {{ movimiento.account?.account_number }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="type">
@@ -53,9 +53,29 @@
         <mat-cell *matCellDef="let movimiento"> {{movimiento.amount}} </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="channel">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="channel"> Canal </mat-header-cell>
+        <mat-cell *matCellDef="let movimiento"> {{movimiento.channel}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="category"> Categoría </mat-header-cell>
+        <mat-cell *matCellDef="let movimiento"> {{movimiento.category}} </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef mat-sort-header="status"> Estado </mat-header-cell>
-        <mat-cell *matCellDef="let movimiento"> {{movimiento.status}} </mat-cell>
+        <mat-cell *matCellDef="let movimiento" [ngClass]="{
+            'status-processing': movimiento.status === 'Processing',
+            'status-success': movimiento.status === 'Success'
+          }">
+          <span *ngIf="movimiento.status === 'Processing'" class="tag processing-tag">
+            <span class="dot processing"></span> En proceso
+          </span>
+          <span *ngIf="movimiento.status === 'Success'" class="tag success-tag">
+            <span class="dot success"></span> Confirmado
+          </span>
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="date">
@@ -76,6 +96,7 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="mat-elevation-z8 my-custom-table"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+      class="mat-elevation-z8 my-custom-table"></mat-paginator>
   </div>
 </div>

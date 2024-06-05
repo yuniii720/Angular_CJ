@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Movimiento } from '../../../../models/movimiento.model';
-import { AlertService } from '../../../../services/alert.service';
+import Swal from 'sweetalert2';  // Importa SweetAlert
 import { Cuenta } from '../../../../models/cuenta.model';
 
 @Component({
@@ -19,8 +19,7 @@ export class AddMovimientoComponent implements OnInit {
     public dialogRef: MatDialogRef<AddMovimientoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
-    private supabaseService: SupabaseService,
-    private alertService: AlertService
+    private supabaseService: SupabaseService
   ) {
     this.movimientoForm = this.formBuilder.group({
       account_id: ['', Validators.required],
@@ -28,7 +27,8 @@ export class AddMovimientoComponent implements OnInit {
       amount: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d{1,2})?$/)]],
       date: [new Date(), Validators.required],
       channel: ['', Validators.required],
-      category: ['', Validators.required]
+      category: ['', Validators.required],
+      status: ['Processing']  // Inicializar el estado como 'Processing'
     });
   }
 
@@ -37,7 +37,7 @@ export class AddMovimientoComponent implements OnInit {
       this.cuentas = await this.supabaseService.getAllCuentas();
     } catch (error) {
       console.error('Error loading accounts', error);
-      this.alertService.error('Error al cargar las cuentas');
+      Swal.fire('Error', 'Error al cargar las cuentas', 'error');  // SweetAlert de error
     }
   }
 
@@ -46,14 +46,27 @@ export class AddMovimientoComponent implements OnInit {
       const nuevoMovimiento: Movimiento = this.movimientoForm.value;
 
       try {
-        const { data, error } = await this.supabaseService.addMovimiento(nuevoMovimiento); // Llamar al nuevo método
-        if (error) throw error; // Lanza el error si existe para que sea capturado en el catch
+        const response = await this.supabaseService.addMovimiento(nuevoMovimiento);
+        const { data, error } = response;
+        if (error) throw error;
 
-        this.alertService.success('Movimiento añadido correctamente');
-        this.dialogRef.close(nuevoMovimiento); // Devuelve el nuevo movimiento al cerrar el diálogo
+        if (data) {
+          // Cambiar el estado a 'Success' después de 30 segundos
+          setTimeout(async () => {
+            try {
+              await this.supabaseService.updateMovimientoStatus(data.id!, 'Success');
+            } catch (updateError) {
+              console.error('Error al actualizar el estado del movimiento', updateError);
+              Swal.fire('Error', 'Error al actualizar el estado del movimiento', 'error');  // SweetAlert de error
+            }
+          }, 30000);
+
+          Swal.fire('Éxito', 'Movimiento añadido correctamente', 'success');  // SweetAlert de éxito
+          this.dialogRef.close(data);
+        }
       } catch (error) {
         console.error('Error al añadir movimiento', error);
-        this.alertService.error('Error al añadir movimiento');
+        Swal.fire('Error', 'Error al añadir movimiento', 'error');  // SweetAlert de error
       }
     }
   }

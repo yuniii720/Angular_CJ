@@ -11,7 +11,7 @@ import { Movimiento } from '../models/movimiento.model';
 import { AuthService } from './auth.service';
 import { AlertService } from './alert.service';
 import { map } from 'rxjs/operators';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface SaveResult {
   success?: boolean;
@@ -59,7 +59,8 @@ export class SupabaseService {
   constructor(
     private http: HttpClient,
     private alertService: AlertService,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     this.loadUsuarios();
@@ -917,7 +918,10 @@ export class SupabaseService {
   async loadMovimientos() {
     const { data, error } = await this.supabase
       .from('Movimientos')
-      .select('*, account:Cuentas(account_number)')
+      .select(`
+        *,
+        account:Cuentas(account_number)
+      `)
       .order('id', { ascending: true });
 
     if (error) {
@@ -928,21 +932,86 @@ export class SupabaseService {
   }
 
   async addMovimiento(movimiento: Movimiento): Promise<{ data: Movimiento | null, error: any }> {
-    const { data, error } = await this.supabase.from('Movimientos').insert([movimiento]).select().single();
+    const { data, error } = await this.supabase.from('Movimientos').insert([movimiento]).select(`
+      *,
+      account:Cuentas(account_number)
+    `).single();
+
     if (error) {
       console.error('Error adding movimiento', error);
     } else {
       const currentMovimientos = this.movimientosSubject.getValue();
-      this.movimientosSubject.next([...currentMovimientos, data]);
+      this.movimientosSubject.next([...currentMovimientos, data as Movimiento]);
+
+      if (data) {
+        // Cambiar el estado a 'Success' después de 30 segundos
+        setTimeout(async () => {
+          try {
+            await this.updateMovimientoStatus(data.id, 'Success');
+            const updatedMovimientos = this.movimientosSubject.getValue().map(movimiento =>
+              movimiento.id === data.id ? { ...movimiento, status: 'Success' } : movimiento
+            ) as Movimiento[];
+            this.movimientosSubject.next(updatedMovimientos);
+
+            // Mostrar el snackbar
+            this.snackBar.open('Movimiento confirmado correctamente', 'Cerrar', {
+              duration: 3000,
+            });
+          } catch (updateError) {
+            console.error('Error al actualizar el estado del movimiento', updateError);
+          }
+        }, 30000);
+      }
     }
     return { data, error };
   }
 
-  async deleteMovimiento(movimientoId: number): Promise<{ data: Movimiento | null, error: any }> {
+  async updateMovimiento(id: number, updatedFields: Partial<Movimiento>): Promise<void> {
+    const { data, error } = await this.supabase.from('Movimientos').update(updatedFields).eq('id', id).select().single();
+    if (error) {
+      console.error('Error updating movimiento', error);
+      this.alertService.error('Error', 'Error al actualizar el movimiento');  // SweetAlert de error
+      throw new Error('Error updating movimiento');
+    } else {
+      const movimientosActuales = this.movimientosSubject.getValue();
+      const updatedMovimientos = movimientosActuales.map(movimiento =>
+        movimiento.id === id ? { ...movimiento, ...updatedFields } : movimiento
+      );
+      this.movimientosSubject.next(updatedMovimientos);
+      this.alertService.success('Éxito', 'Movimiento actualizado correctamente');  // SweetAlert de éxito
+    }
+  }
+
+  async deleteMovimiento(movimientoId: number): Promise<void> {
     const { data, error } = await this.supabase.from('Movimientos').delete().match({ id: movimientoId }).select().single();
     if (error) {
       console.error('Error deleting movimiento', error);
+      throw error;
     }
-    return { data, error };
+
+    // Actualizar la lista de movimientos en el BehaviorSubject
+    const currentMovimientos = this.movimientosSubject.getValue();
+    const updatedMovimientos = currentMovimientos.filter(movimiento => movimiento.id !== movimientoId);
+    this.movimientosSubject.next(updatedMovimientos);
   }
+
+  async updateMovimientoStatus(id: number, status: 'Processing' | 'Success'): Promise<void> {
+    const { error } = await this.supabase
+      .from('Movimientos')
+      .update({ status })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating movimiento status', error);
+      throw error;
+    } else {
+      const currentMovimientos = this.movimientosSubject.getValue();
+      const updatedMovimientos = currentMovimientos.map(movimiento =>
+        movimiento.id === id ? { ...movimiento, status } : movimiento
+      );
+      this.movimientosSubject.next(updatedMovimientos);
+    }
+  }
+
+
 }

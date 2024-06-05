@@ -1,0 +1,31 @@
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* Añade espacio entre los campos del formulario */
+}
+
+.mat-form-field {
+  width: 100%;
+  /* Hace que los campos del formulario ocupen el ancho completo */
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  /* Alinea el botón de acción a la derecha */
+  padding-top: 20px;
+  /* Añade espacio por encima de los botones de acción */
+}
+
+.mat-dialog-actions {
+  justify-content: space-between;
+  /* Espacia uniformemente los botones de acción */
+}
+
+.mat-dialog-content {
+  overflow-y: auto;
+  /* Asegura que el contenido sea desplazable si es muy largo */
+  padding: 20px;
+  /* Añade un relleno alrededor del contenido del diálogo */
+}

@@ -45,9 +45,9 @@
     <mat-form-field>
       <mat-label>Canal</mat-label>
       <mat-select formControlName="channel">
-        <mat-option value="Online">Online</mat-option>
-        <mat-option value="ATM">ATM</mat-option>
-        <mat-option value="In Store">In Store</mat-option>
+        <mat-option value="Online">En línea</mat-option>
+        <mat-option value="ATM">Cajero automático</mat-option>
+        <mat-option value="In Store">En tienda</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -64,6 +64,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" type="submit" [disabled]="!movimientoForm.valid" (click)="onSubmit()">Añadir</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!movimientoForm.valid"
+    (click)="onSubmit()">Añadir</button>
   <button mat-button (click)="closeDialog()">Cerrar</button>
 </mat-dialog-actions>
