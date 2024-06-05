@@ -1,11 +1,11 @@
 <mat-card class="bizum-card">
-    <mat-card-header>
-      <mat-card-title>Enviar Bizum</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="bizumForm" (ngSubmit)="enviarBizum()">
-  
-        <mat-form-field appearance="fill">
+  <mat-card-header>
+    <mat-card-title>Enviar Bizum</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="bizumForm" (ngSubmit)="enviarBizum()" class="bizum-form">
+      <div class="form-grid">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Cuenta de Origen</mat-label>
           <mat-select formControlName="cuentaOrigen" required>
             <mat-option *ngFor="let cuenta of cuentas" [value]="cuenta.id">
@@ -16,7 +16,7 @@
             Debe seleccionar una cuenta de origen.
           </mat-error>
         </mat-form-field>
-  
+
         <mat-form-field appearance="fill">
           <mat-label>Importe (€)</mat-label>
           <input matInput type="number" formControlName="importe" placeholder="0.00" required>
@@ -27,7 +27,7 @@
             El importe mínimo es de 1 €.
           </mat-error>
         </mat-form-field>
-  
+
         <mat-form-field appearance="fill">
           <mat-label>Motivo</mat-label>
           <input matInput type="text" formControlName="motivo" placeholder="Introduce el motivo" required>
@@ -35,7 +35,7 @@
             Debe introducir un motivo.
           </mat-error>
         </mat-form-field>
-  
+
         <mat-form-field appearance="fill">
           <mat-label>Destinatario</mat-label>
           <mat-select formControlName="destinatario" required>
@@ -47,12 +47,11 @@
             Debe introducir un destinatario.
           </mat-error>
         </mat-form-field>
-  
-        <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit" [disabled]="!bizumForm.valid">Enviar Bizum</button>
-          <button mat-button (click)="closeModal()">Cerrar</button>
-        </mat-card-actions>
-      </form>
-    </mat-card-content>
-  </mat-card>
-  
+      </div>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!bizumForm.valid">Enviar Bizum</button>
+        <button mat-button (click)="closeModal()">Cerrar</button>
+      </mat-card-actions>
+    </form>
+  </mat-card-content>
+</mat-card>

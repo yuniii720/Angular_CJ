@@ -36,3 +36,56 @@ html {
   background-color: red;
   border: 1px solid black;
 }
+
+.search-field {
+  flex: 1; 
+  min-width: 200px;
+}
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; 
+}
+
+.search-field {
+  flex: 1; 
+  min-width: 200px;
+}
+
+
+.modal-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Campos de formulario en el modal */
+.modal-container .field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px; /* Espacio entre los campos */
+  margin-bottom: 20px;
+}
+
+.modal-container .full-width {
+  width: 100%;
+}
+
+.modal-container .button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-container h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
