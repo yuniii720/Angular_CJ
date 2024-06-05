@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, from } from 'rxjs';
+import { Observable, BehaviorSubject, from, of } from 'rxjs';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
@@ -10,7 +10,7 @@ import { Cuenta } from '../models/cuenta.model';
 import { Movimiento } from '../models/movimiento.model';
 import { AuthService } from './auth.service';
 import { AlertService } from './alert.service';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface SaveResult {
@@ -728,6 +728,35 @@ export class SupabaseService {
         return response.data ? response.data : [];
       })
     );
+  }
+
+  getMovimientos(): Observable<{ transaction: string, category: string, amount: number, date: string, channel: string, status: string }[]> {
+    const clientId = this.authService.getClientId();
+    if (!clientId) {
+      return new Observable(observer => observer.next([]));
+    }
+
+    return from(this.supabase
+      .from('Movimientos')
+      .select('transaction, category, amount, date, channel, status')
+      .eq('client_id', clientId)
+    ).pipe(
+      map(response => {
+        if (response.error) {
+          console.error('Error fetching movimientos:', response.error);
+          return [];
+        }
+        return response.data ? response.data : [];
+      }),
+      catchError(this.handleError('getMovimientos', []))
+    );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      return of(result as T);
+    };
   }
 
   async addTarjeta(tarjeta: Tarjeta): Promise<void> {

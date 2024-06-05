@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { SupabaseService } from '../../services/supabase.service';
+import { Movimiento } from '../../models/movimiento.model';
 
 @Component({
   selector: 'app-maincliente',
@@ -15,8 +16,11 @@ export class MainclienteComponent implements OnInit {
   deudaTotal: number = 0;
   operacionesRecientes: { descripcion: string, monto: number }[] = [];
   tarjetas: { cardNumber: string, saldo: number }[] = [];
+  movimientos: { category: string, transaction: string, amount: number, date: string, channel: string, status: string }[] = [];
 
-  constructor(private supabaseService: SupabaseService) {}
+  constructor(private supabaseService: SupabaseService) {
+    Chart.register(...registerables); // Asegúrate de que Chart.js esté registrado correctamente
+  }
 
   ngOnInit(): void {
     this.obtenerDatos();
@@ -29,5 +33,6 @@ export class MainclienteComponent implements OnInit {
     this.supabaseService.getDeudaTotal().subscribe(deuda => this.deudaTotal = deuda);
     this.supabaseService.getOperacionesRecientes().subscribe(operaciones => this.operacionesRecientes = operaciones);
     this.supabaseService.getTarjetas().subscribe(tarjetas => this.tarjetas = tarjetas);
+    this.supabaseService.getMovimientos().subscribe(movimientos => this.movimientos = movimientos);
   }
 }

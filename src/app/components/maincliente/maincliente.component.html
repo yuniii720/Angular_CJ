@@ -1,4 +1,5 @@
-<app-header></app-header><app-asistente></app-asistente>
+<app-header></app-header>
+<app-asistente></app-asistente>
 
 <mat-toolbar color="primary">
   <span>Dashboard</span>
@@ -8,15 +9,15 @@
   <div class="grid-container">
     <mat-grid-list cols="4" rowHeight="200px" gutterSize="16px">
       <mat-grid-tile>
-        <mat-card class="card" color="primary">
+        <mat-card class="card">
           <mat-card-title>Saldo Total</mat-card-title>
           <mat-card-content>
-            <p>{{ saldoTotal | currency }}</p>
+            <p>{{ saldoTotal | currency:'EUR' }}</p>
           </mat-card-content>
         </mat-card>
       </mat-grid-tile>
       <mat-grid-tile>
-        <mat-card class="card" color="accent">
+        <mat-card class="card">
           <mat-card-title>Cuentas Activas</mat-card-title>
           <mat-card-content>
             <p>{{ cuentasActivas }}</p>
@@ -24,7 +25,7 @@
         </mat-card>
       </mat-grid-tile>
       <mat-grid-tile>
-        <mat-card class="card" color="warn">
+        <mat-card class="card">
           <mat-card-title>Tarjetas Activas</mat-card-title>
           <mat-card-content>
             <p>{{ tarjetasActivas }}</p>
@@ -32,7 +33,7 @@
         </mat-card>
       </mat-grid-tile>
       <mat-grid-tile>
-        <mat-card class="card" color="primary">
+        <mat-card class="card">
           <mat-card-title>Deuda Total</mat-card-title>
           <mat-card-content>
             <p>No tienes deudas activas</p>
@@ -45,11 +46,11 @@
   <div class="row">
     <div class="col-lg-8 mb-4">
       <mat-card>
-        <mat-card-title>Operaciones Recientes</mat-card-title>
+        <mat-card-title>Movimientos</mat-card-title>
         <mat-card-content>
           <mat-list>
-            <mat-list-item *ngFor="let operacion of operacionesRecientes">
-              {{ operacion.descripcion }} - {{ operacion.monto | currency }}
+            <mat-list-item *ngFor="let movimiento of movimientos">
+              {{ movimiento.transaction }} - {{ movimiento.category }}
             </mat-list-item>
           </mat-list>
         </mat-card-content>
@@ -61,7 +62,7 @@
         <mat-card-content>
           <mat-list>
             <mat-list-item *ngFor="let tarjeta of tarjetas">
-              {{ tarjeta.cardNumber }} - {{ tarjeta.saldo | currency }}
+              {{ tarjeta.cardNumber }} - {{ tarjeta.saldo | currency:'EUR' }}
             </mat-list-item>
           </mat-list>
         </mat-card-content>
