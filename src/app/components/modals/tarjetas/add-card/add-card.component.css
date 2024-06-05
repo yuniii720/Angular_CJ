@@ -1,4 +1,17 @@
-.readonly-field input {
-    color: #808080; /* Color de texto gris */
-  }
-  
+/* Contenedor del formulario en el modal */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.full-width {
+  grid-column: span 2; /* Hace que el campo ocupe ambas columnas */
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+}
