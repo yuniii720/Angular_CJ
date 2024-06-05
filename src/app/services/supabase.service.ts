@@ -1060,5 +1060,4 @@ export class SupabaseService {
     }
   }
 
-
 }
