@@ -52,7 +52,7 @@
 
 
       <ng-container matColumnDef="cardNumber">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> N. de Cuenta </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> N. de Tarjeta </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.cardNumber }} </mat-cell>
       </ng-container>
 
@@ -68,7 +68,7 @@
       </ng-container>
 
       <ng-container matColumnDef="securityCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> CVC </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> CVV </mat-header-cell>
         <mat-cell *matCellDef="let tarjeta"> {{ tarjeta.securityCode }} </mat-cell>
       </ng-container>
 

@@ -47,9 +47,7 @@ export class BizumCardComponent implements OnInit {
         }
       }).catch(() => {
         this.alertService.error('Error al enviar Bizum');
-      });
-    } else {
-      alert('Completa todos los campos del formulario');
+      })
     }
   }
 
