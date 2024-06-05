@@ -94,6 +94,7 @@ import { BtnBizumTarjetaComponent } from './components/buttons/tarjeta/btn-bizum
 import { BizumCardComponent } from './components/modals/tarjetas/bizum-card/bizum-card.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FooterComponent } from './components/footer/footer.component';
+import { HipotecaComponent } from './components/hipoteca/hipoteca.component';
 
 @NgModule({
   declarations: [
@@ -162,6 +163,7 @@ import { FooterComponent } from './components/footer/footer.component';
     DelMovimientoComponent,
     BtnBizumTarjetaComponent,
     BizumCardComponent,
+    HipotecaComponent
   ],
   imports: [
     BrowserModule,
