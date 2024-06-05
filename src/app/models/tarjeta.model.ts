@@ -7,8 +7,8 @@ export interface Tarjeta {
   securityCode: string;
   cardType: string;
   PIN: string;
-  client_id: string; // Cambiado a string si es un UUID
-  account_id: number; // Mantener como number si es un entero
+  client_id: string;
+  account_id: number; 
 }
 
 export interface SaveResult {
