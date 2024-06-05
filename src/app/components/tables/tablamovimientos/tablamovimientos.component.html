@@ -50,7 +50,7 @@
 
       <ng-container matColumnDef="amount">
         <mat-header-cell *matHeaderCellDef mat-sort-header="amount"> Cantidad </mat-header-cell>
-        <mat-cell *matCellDef="let movimiento"> {{movimiento.amount}} </mat-cell>
+        <mat-cell *matCellDef="let movimiento"> {{movimiento.amount | euroCurrency}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="channel">
@@ -96,7 +96,6 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-      class="mat-elevation-z8 my-custom-table"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="mat-elevation-z8 my-custom-table"></mat-paginator>
   </div>
 </div>
