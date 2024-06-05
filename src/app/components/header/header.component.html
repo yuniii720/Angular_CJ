@@ -47,7 +47,7 @@
   <span class="spacer"></span>
 
   <div class="header-right">
-    <a mat-button href="#usuario">{{ userName$ | async }}</a>
+    <a mat-button href="#usuario">Bienvenido {{ userName$ | async }}</a>
     <a id="userRoleMessage" mat-button href="#usuario">{{ userRoleMessage$ | async }}</a>
     <a mat-button href="#icon-user">
       <img src="../../assets/img/icon-user.svg" name="cajamar_logo" class="icon" [ngClass]="userRoleClass$ | async">
