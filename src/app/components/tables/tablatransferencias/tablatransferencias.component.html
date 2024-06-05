@@ -40,12 +40,12 @@
 
       <ng-container matColumnDef="from_account">
         <mat-header-cell *matHeaderCellDef mat-sort-header="from_account"> Cuenta de Origen </mat-header-cell>
-        <mat-cell *matCellDef="let transferencia"> {{ transferencia.from_account }} </mat-cell>
+        <mat-cell *matCellDef="let transferencia"> {{ transferencia.from_account_id }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="to_account">
         <mat-header-cell *matHeaderCellDef mat-sort-header="to_account"> Cuenta de Destino </mat-header-cell>
-        <mat-cell *matCellDef="let transferencia"> {{ transferencia.to_account }} </mat-cell>
+        <mat-cell *matCellDef="let transferencia"> {{ transferencia.to_account_id }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="amount">
