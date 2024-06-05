@@ -93,6 +93,7 @@ import { DelMovimientoComponent } from './components/modals/movimientos/del-movi
 import { BtnBizumTarjetaComponent } from './components/buttons/tarjeta/btn-bizum-tarjeta/btn-bizum-tarjeta.component';
 import { BizumCardComponent } from './components/modals/tarjetas/bizum-card/bizum-card.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TablaClientesComponent,
     TablaCuentasComponent,
     TablaTarjetasComponent,
+    FooterComponent,
     LoginComponent,
     RegisterComponent,
     BtnModUserComponent,

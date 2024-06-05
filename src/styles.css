@@ -15,25 +15,6 @@ html {
   height: 100vh; /* Asegúrate de que el contenedor tenga altura completa de la ventana */
 }
 
-footer {
-  background-color: rgba(0, 0, 0, 0.675);
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  top: 5%;
-  position: relative;
-  font-size: 15px;
-
-}
-
-
-footer img {
-  width: 30px;
-  height: 30px;
-  margin: 0 10px;
-  border-radius: 10px;
-}
-
 .breadcrumbs {
   background-color: #3c6e8600;
   width: 100vw;
@@ -55,68 +36,3 @@ footer img {
   background-color: red;
   border: 1px solid black;
 }
-
-table.TablaCJ {
-  border: 2px solid #ffffff;
-  background-color: #a6d4d4;
-  width: 90%;
-  height: 15%;
-  text-align: center;
-  border-collapse: collapse;
-  position: absolute;
-  top: 36%;
-  left: 5%;
-}
-
-table.TablaCJ td,
-table.TablaCJ th {
-  padding: 3px 2px;
-}
-
-table.TablaCJ tbody td {
-  font-size: 15px;
-  font-weight: bold;
-  color: #3c6e86;
-}
-
-table.TablaCJ tr:nth-child(even) {
-  background: #d1e7ea;
-}
-
-table.TablaCJ thead {
-  background: #3c6e86;
-}
-
-table.TablaCJ thead th {
-  font-size: 20px;
-  font-weight: bold;
-  color: #FFFFFF;
-  text-align: center;
-  border-left: 2px solid;
-}
-
-table.TablaCJ thead th:first-child {
-  border-left: none;
-}
-
-table.TablaCJ tbody>tr:hover {
-  background: #b9dbdf;
-}
-
-.swal2-popup {
-  background-color: #ffffff;
-  color: #008a9b;
-}
-
-.swal2-confirm {
-  background-color: #008a9b !important;
-}
-
-.swal2-confirm:active {
-  box-shadow: 0 0 5px rgba(0, 128, 0, 0.7);
-}
-
-.swal2-cancel {
-  background-color: red;
-}
-
