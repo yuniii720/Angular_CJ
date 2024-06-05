@@ -1067,14 +1067,62 @@ export class SupabaseService {
   }
 
   // Transferencias
+async addTransfer(transferencia: Transferencia): Promise<any> {
+    try {
+      // Buscar los account_number de las cuentas basadas en los id proporcionados
+      const { data: fromAccount, error: fromAccountError } = await this.supabase
+        .from('Cuentas')
+        .select('account_number')
+        .eq('id', transferencia.from_account_id)
+        .single();
+
+      if (fromAccountError) throw new Error(`La cuenta de origen con id ${transferencia.from_account_id} no existe.`);
+
+      const { data: toAccount, error: toAccountError } = await this.supabase
+        .from('Cuentas')
+        .select('account_number')
+        .eq('id', transferencia.to_account_id)
+        .single();
+
+      if (toAccountError) throw new Error(`La cuenta de destino con id ${transferencia.to_account_id} no existe.`);
+
+      // Insertar la transferencia usando los account_number de las cuentas encontradas
+      const transferData = {
+        from_account_id: fromAccount.account_number,
+        to_account_id: toAccount.account_number,
+        amount: transferencia.amount,
+        currency: transferencia.currency,
+        description: transferencia.description,
+        transfer_date: new Date().toISOString(),
+        status: 'pendiente'
+      };
+
+      const { data, error } = await this.supabase
+        .from('Transferencias')
+        .insert([transferData])
+        .select(`*, from_account:from_account_id(account_number), to_account:to_account_id(account_number)`);
+
+      if (error) throw error;
+
+      // Actualizar el BehaviorSubject
+      const currentTransferencias = this.transferenciasSubject.getValue();
+      this.transferenciasSubject.next([...currentTransferencias, ...data]);
+
+      return { data };
+    } catch (error) {
+      console.error('Error adding transfer', error);
+      throw error;
+    }
+  }
+
   async loadTransferencias() {
     const { data, error } = await this.supabase
       .from('Transferencias')
       .select(`
-        *,
-        from_account:Cuentas(account_number),
-        to_account:Cuentas(account_number)
-      `)
+      *,
+      from_account:from_account_id(account_number),
+      to_account:to_account_id(account_number)
+    `)
       .order('id', { ascending: true });
 
     if (error) {
@@ -1082,22 +1130,6 @@ export class SupabaseService {
     } else {
       this.transferenciasSubject.next(data);
     }
-  }
-
-  async addTransfer(transferencia: Transferencia): Promise<{ data: Transferencia | null, error: any }> {
-    const { data, error } = await this.supabase.from('Transferencias').insert([transferencia]).select(`
-    *,
-    from_account:Cuentas(account_number),
-    to_account:Cuentas(account_number)
-  `).single();
-
-    if (error) {
-      console.error('Error adding transfer', error);
-    } else {
-      const currentTransferencias = this.transferenciasSubject.getValue();
-      this.transferenciasSubject.next([...currentTransferencias, data as Transferencia]);
-    }
-    return { data, error };
   }
 
   async updateTransfer(id: number, updatedFields: Partial<Transferencia>): Promise<void> {
@@ -1114,17 +1146,21 @@ export class SupabaseService {
     }
   }
 
-  // Transferencias
   async deleteTransfer(transferId: number): Promise<void> {
-    const { data, error } = await this.supabase.from('Transferencias').delete().match({ id: transferId }).select().single();
+    const { data, error } = await this.supabase
+      .from('Transferencias')
+      .delete()
+      .match({ id: transferId })
+      .select()
+      .single();
+
     if (error) {
       console.error('Error deleting transfer', error);
       throw error;
     }
 
-    const currentTransferencias = this.transferenciasSubject.getValue();
-    const updatedTransferencias = currentTransferencias.filter(transferencia => transferencia.id !== transferId);
-    this.transferenciasSubject.next(updatedTransferencias);
+    const currentTransfers = this.transferenciasSubject.getValue();
+    const updatedTransfers = currentTransfers.filter(transfer => transfer.id !== transferId);
+    this.transferenciasSubject.next(updatedTransfers);
   }
-
 }

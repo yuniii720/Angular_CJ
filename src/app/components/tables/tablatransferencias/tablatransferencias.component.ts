@@ -40,7 +40,9 @@ export class TablaTransferenciasComponent implements OnInit, OnDestroy, AfterVie
     this.subs.add(this.supabaseService.transferencias$.subscribe(data => {
       this.dataSource.data = data;
     }));
+  }
 
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.createFilter();
@@ -48,11 +50,6 @@ export class TablaTransferenciasComponent implements OnInit, OnDestroy, AfterVie
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(filterValue: string) {

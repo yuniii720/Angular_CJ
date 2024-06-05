@@ -1,60 +1,60 @@
 <h2 mat-dialog-title>Añadir Transferencia</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
+
+    <mat-form-field appearance="fill">
       <mat-label>Cuenta de Origen</mat-label>
-      <mat-select formControlName="from_account">
-        <mat-option *ngFor="let account of cuentas" [value]="account.account_number">
-          {{ account.account_number }} - {{ account.clientName }}
+      <mat-select formControlName="from_account_id" placeholder="Selecciona cuenta de origen" required>
+        <mat-option *ngFor="let account of cuentas" [value]="account.id">
+          {{ account.account_number }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="transferForm.get('from_account')?.hasError('required')">
-        Este campo es obligatorio
+      <mat-error *ngIf="transferForm.get('from_account_id')?.errors?.['required']">
+        Debes seleccionar una cuenta de origen.
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>Cuenta de Destino</mat-label>
-      <mat-select formControlName="to_account">
-        <mat-option *ngFor="let account of cuentas" [value]="account.account_number">
-          {{ account.account_number }} - {{ account.clientName }}
+      <mat-select formControlName="to_account_id" placeholder="Selecciona cuenta de destino" required>
+        <mat-option *ngFor="let account of cuentas" [value]="account.id">
+          {{ account.account_number }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="transferForm.get('to_account')?.hasError('required')">
-        Este campo es obligatorio
+      <mat-error *ngIf="transferForm.get('to_account_id')?.errors?.['required']">
+        Debes seleccionar una cuenta de destino.
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Importe</mat-label>
-      <input matInput formControlName="amount" placeholder="Importe" type="number">
-      <mat-error *ngIf="transferForm.get('amount')?.hasError('required')">
-        Este campo es obligatorio
-      </mat-error>
-      <mat-error *ngIf="transferForm.get('amount')?.hasError('pattern')">
-        Debe ser un número válido (opcionalmente con decimales)
-      </mat-error>
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="16px">
+      <mat-form-field fxFlex appearance="fill">
+        <mat-label>Importe</mat-label>
+        <input matInput type="number" formControlName="amount" placeholder="Introduce importe" required>
+        <mat-error *ngIf="transferForm.get('amount')?.errors?.['required']">
+          El campo importe es obligatorio.
+        </mat-error>
+        <mat-error *ngIf="transferForm.get('amount')?.errors?.['pattern']">
+          Debe ser un número válido (opcionalmente con decimales).
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Moneda</mat-label>
-      <input matInput formControlName="currency" placeholder="Moneda">
-      <mat-error *ngIf="transferForm.get('currency')?.hasError('required')">
-        Este campo es obligatorio
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field fxFlex appearance="fill">
+        <mat-label>Moneda</mat-label>
+        <input matInput type="text" formControlName="currency" placeholder="Introduce la moneda" required>
+        <mat-error *ngIf="transferForm.get('currency')?.errors?.['required']">
+          El campo moneda es obligatorio.
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>Descripción</mat-label>
-      <textarea matInput formControlName="description" placeholder="Descripción de la transferencia"></textarea>
-      <mat-error *ngIf="transferForm.get('description')?.hasError('required')">
-        Este campo es obligatorio
-      </mat-error>
+      <input matInput type="text" formControlName="description" placeholder="Introduce descripción">
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" type="submit" [disabled]="!transferForm.valid" (click)="onSubmit()">Añadir</button>
+  <button mat-raised-button color="primary" [disabled]="!transferForm.valid" (click)="onSubmit()">Añadir</button>
   <button mat-button (click)="closeDialog()">Cerrar</button>
 </mat-dialog-actions>
