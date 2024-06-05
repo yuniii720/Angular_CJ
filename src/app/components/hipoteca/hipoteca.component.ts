@@ -4,45 +4,54 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-hipoteca',
   templateUrl: './hipoteca.component.html',
-  styleUrls: ['./hipoteca.component.scss'] // Cambiado de styleUrl a styleUrls
+  styleUrls: ['./hipoteca.component.scss']
 })
 export class HipotecaComponent implements OnInit {
-  // Formulario para la simulación de hipoteca
   hipotecaForm: FormGroup;
-
-  // Resultados de la simulación
   resultado: any;
 
   constructor() {
     this.hipotecaForm = new FormGroup({
-      cantidadTotal: new FormControl('', Validators.required),
-      plazo: new FormControl('', Validators.required),
-      tipoInteres: new FormControl('', Validators.required)
+      cantidadTotal: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
+      plazo: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
+      tipoInteres: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/)])
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
-  // Función para limpiar campos
   limpiarFormulario(): void {
     this.hipotecaForm.reset();
+    this.resultado = null;
   }
 
-  // Función para calcular la simulación de hipoteca
   calcularSimulacion(): void {
-    const cantidadTotal = this.hipotecaForm.get('cantidadTotal')?.value;
-    const plazo = this.hipotecaForm.get('plazo')?.value;
-    const tipoInteres = this.hipotecaForm.get('tipoInteres')?.value;
+    if (this.hipotecaForm.invalid) {
+      this.resultado = 'Formulario inválido';
+      return;
+    }
 
-    // Cálculo de la simulación de hipoteca (simplificado)
+    const cantidadTotal = parseFloat(this.hipotecaForm.get('cantidadTotal')?.value);
+    const plazo = parseInt(this.hipotecaForm.get('plazo')?.value, 10);
+    const tipoInteres = parseFloat(this.hipotecaForm.get('tipoInteres')?.value);
+
+    if (isNaN(cantidadTotal) || isNaN(plazo) || isNaN(tipoInteres)) {
+      this.resultado = 'Caracteres no válidos';
+      return;
+    }
+
     const interesMensual = tipoInteres / 12 / 100;
     const numPagos = plazo * 12;
 
     const cuota = (cantidadTotal * interesMensual) / (1 - Math.pow(1 + interesMensual, -numPagos));
 
-    this.resultado = {
-      cuota: cuota.toFixed(2),
-      // total: total.toFixed(2)
-    };
+    if (isNaN(cuota) || !isFinite(cuota)) {
+      this.resultado = 'Error en el cálculo. Verifique los valores ingresados.';
+    } else {
+      this.resultado = {
+        cuota: cuota.toFixed(2),
+        // total: total.toFixed(2) // Descomenta y usa si también tienes 'total'
+      };
+    }
   }
 }
