@@ -1,15 +1,25 @@
-<div class="header">
-    <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo"><div class="img"><img src="../../assets/img/logo.png" name="vn_logo"></div></a>
-    <nav class="menu">
-
-      <a class="active" [routerLink]="['', { outlets: { auth: ['login'] } }]">Mis cuentas</a>
-      <a class="active" [routerLink]="['', { outlets: { auth: ['login'] } }]">Mis tarjetas</a>
-      <a class="active" [routerLink]="['', { outlets: { auth: ['login'] } }]">Transferencias</a>
-    </nav>
-    <div class="header-right">
-      <a class="active" [routerLink]="['', { outlets: { auth: ['register'] } }]">Registrate</a>
-      <a class="active" [routerLink]="['', { outlets: { auth: ['login'] } }]">Iniciar sesión</a>
-    </div>
+<mat-toolbar class="header" color="primary">
+  <a mat-button [routerLink]="['', { outlets: { auth: ['landing'] } }]">
+    <div class="logo-img"><img src="../../assets/img/logo.png" name="vn_logo" alt="Logo"></div>
+  </a>
+  <nav class="menu">
+    <a mat-button [routerLink]="['', { outlets: { auth: ['login'] } }]">
+      <mat-icon>account_balance</mat-icon> Mis cuentas
+    </a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['login'] } }]">
+      <mat-icon>credit_card</mat-icon> Mis tarjetas
+    </a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['login'] } }]">
+      <mat-icon>swap_horiz</mat-icon> Mis transferencias
+    </a>
+    <a mat-button [matMenuTriggerFor]="movimientosMenuCliente"><mat-icon>attach_money</mat-icon>Servicios</a>
+    <mat-menu #movimientosMenuCliente="matMenu">
+      <button mat-menu-item [routerLink]="['', { outlets: { auth: ['hipoteca'] } }]">Calculador de hipoteca</button>
+    </mat-menu>
+  </nav>
+  <span class="spacer"></span>
+  <div class="header-right">
+    <a mat-button [routerLink]="['', { outlets: { auth: ['register'] } }]">Registrate</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['login'] } }]">Iniciar sesión</a>
   </div>
-  
-  
+</mat-toolbar>

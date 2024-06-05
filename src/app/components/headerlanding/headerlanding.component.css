@@ -1,77 +1,114 @@
-img {
-    width: 80px;
+.header {
+  background-color: #ffffff;
+  padding: 0 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.logo-img {
+  width: 70px;
+  height: 70px; /* Asegura que la altura de la imagen sea consistente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img img {
+  width: 100%;
+  height: auto; /* Mantiene la proporción de la imagen */
+  object-fit: contain;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+}
+
+.menu a {
+  margin-left: 40px;
+  color: #3c6e86;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  color: #69bfe7;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-right a {
+  margin-right: 10px;
+  color: #3c6e86;
+}
+
+.header-right a:hover {
+  color: #69bfe7;
+}
+
+.mat-toolbar-row,
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content-wrapper {
+  margin-top: 0px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-top: 10px;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.super-admin {
+  border: 2px solid rgb(255, 0, 0);
+}
+
+.bienvenido-empleado {
+  border: 2px solid rgb(43, 129, 155);
+}
+
+.bienvenido-cliente {
+  border: 2px solid rgb(139, 228, 255);
+}
+
+#userRoleMessage {
+  display: none;
+}
+
+@media screen and (max-width: 500px) {
+  .logo-img {
+    margin-bottom: 15px;
   }
 
-  .icon {
-    width: 30px;
-    height: 30px;
-    margin: -10px 0;
-  }
-
-  #icon-logout {
-    width: 35px;
-    height: 35px;
-    margin: -12px 0;
-  }
-
-  .header {
-    overflow: hidden;
-    background-color: #ffffff;
-    padding: 20px 10px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    opacity: 1;
-  }
-
-  .header a {
-    float: left;
-    color: #3c6e86  ;
-    text-align: center;
-    padding: 0 12px 0;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 25px;
-  }
-
-  .header a.logo {
-    font-weight: bold;
-    margin: -15px 25px -15px 0;
-  }
-
-  .header a:hover {
-    color: #69bfe7  ;
-  }
-
-  nav {
-    float: left;
+  .menu a,
+  .header-right a {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
   }
 
   .header-right {
-    float: right;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
   }
 
-  @media screen and (max-width: 500px) {
-    img {
-      margin-bottom: 15px;
-    }
-
-    .header a {
-      float: none;
-      display: block;
-      text-align: left;
-      margin-top: 10px;
-    }
-
-    .header-left {
-      float: none;
-    }
-
-
-    .header-right {
-      margin-top: -150px;
-      float: right;
-    }
+  .mat-toolbar-row {
+    flex-wrap: wrap;
   }
+}

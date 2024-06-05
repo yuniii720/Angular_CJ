@@ -94,12 +94,6 @@ import { BtnBizumTarjetaComponent } from './components/buttons/tarjeta/btn-bizum
 import { BizumCardComponent } from './components/modals/tarjetas/bizum-card/bizum-card.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FooterComponent } from './components/footer/footer.component';
-import { BtnAddTransferComponent } from './components/buttons/transferencias/btn-add-transfer/btn-add-transfer.component';
-import { BtnModTransferComponent } from './components/buttons/transferencias/btn-mod-transfer/btn-mod-transfer.component';
-import { BtnDelTransferComponent } from './components/buttons/transferencias/btn-del-transfer/btn-del-transfer.component';
-import { AddTransferComponent } from './components/modals/transferencias/add-transfer/add-transfer.component';
-import { ModTransferComponent } from './components/modals/transferencias/mod-transfer/mod-transfer.component';
-import { DelTransferComponent } from './components/modals/transferencias/del-transfer/del-transfer.component';
 
 @NgModule({
   declarations: [
@@ -168,12 +162,6 @@ import { DelTransferComponent } from './components/modals/transferencias/del-tra
     DelMovimientoComponent,
     BtnBizumTarjetaComponent,
     BizumCardComponent,
-    BtnAddTransferComponent,
-    BtnModTransferComponent,
-    BtnDelTransferComponent,
-    AddTransferComponent,
-    ModTransferComponent,
-    DelTransferComponent,
   ],
   imports: [
     BrowserModule,
