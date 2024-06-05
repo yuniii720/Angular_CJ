@@ -13,6 +13,7 @@ import { TablaMovimientosComponent } from './components/tables/tablamovimientos/
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { MainclienteComponent } from './components/maincliente/maincliente.component';
+import { HipotecaComponent } from './components/hipoteca/hipoteca.component';
 
 const routes: Routes = [
   { path: '', component: LandingpageComponent, data: { breadcrumb: 'Inicio' }, outlet: 'auth' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'cuentas', component: TablaCuentasComponent, data: { breadcrumb: 'Gestión de Cuentas' }, outlet: 'auth' },
   { path: 'tarjetas', component: TablaTarjetasComponent, data: { breadcrumb: 'Gestión de Tarjetas' }, outlet: 'auth' },
   { path: 'movimientos', component: TablaMovimientosComponent, data: { breadcrumb: 'Gestión de Movimientos' }, outlet: 'auth' },
+  { path: 'hipoteca', component: HipotecaComponent, data: { breadcrumb: 'Calculador de hipoteca' }, outlet: 'auth' },
   { path: 'not-authorized', component: NotAuthorizedComponent }
 ];
 

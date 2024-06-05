@@ -1,0 +1,39 @@
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; /* Opcional: para bordes redondeados */
+  margin-top: 10%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+/* Añade margen entre los botones */
+.field button {
+  margin-top: 20px;
+  margin-right: 10px; /* Separación entre botones */
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.result {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; /* Opcional: para bordes redondeados */
+}

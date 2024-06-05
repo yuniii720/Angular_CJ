@@ -1,0 +1,35 @@
+<app-header></app-header>
+<div class="container">
+  <h2 class="title">Simulador de Hipoteca</h2>
+  <form [formGroup]="hipotecaForm" (ngSubmit)="calcularSimulacion()">
+    <div class="field">
+      <mat-form-field class="full-width">
+        <mat-label>Cantidad Total</mat-label>
+        <input matInput type="number" formControlName="cantidadTotal">
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field class="full-width">
+        <mat-label>Plazo (años)</mat-label>
+        <input matInput type="number" formControlName="plazo">
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field class="full-width">
+        <mat-label>Tipo de Interés (%)</mat-label>
+        <input matInput type="number" formControlName="tipoInteres">
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <button mat-raised-button color="primary" type="submit">Calcular</button>
+      <button mat-raised-button color="warn" type="button" (click)="limpiarFormulario()">Limpiar</button>
+    </div>
+  </form>
+  <div class="result" *ngIf="resultado">
+    <h3 class="title">Resultado</h3>
+    <p>Cuota mensual: {{ resultado.cuota }} €</p>
+    <!--
+    <p>Total: {{ resultado.total }} €</p>
+    -->
+  </div>
+</div>
