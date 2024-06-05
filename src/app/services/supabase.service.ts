@@ -12,6 +12,8 @@ import { AuthService } from './auth.service';
 import { AlertService } from './alert.service';
 import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { switchMap } from 'rxjs/operators';
+
 
 export interface SaveResult {
   success?: boolean;
@@ -730,34 +732,50 @@ export class SupabaseService {
     );
   }
 
-  getMovimientos(): Observable<{ transaction: string, category: string, amount: number, date: string, channel: string, status: string }[]> {
-    const clientId = this.authService.getClientId();
-    if (!clientId) {
-      return new Observable(observer => observer.next([]));
-    }
-
-    return from(this.supabase
-      .from('Movimientos')
-      .select('transaction, category, amount, date, channel, status')
-      .eq('client_id', clientId)
-    ).pipe(
-      map(response => {
-        if (response.error) {
-          console.error('Error fetching movimientos:', response.error);
-          return [];
-        }
-        return response.data ? response.data : [];
-      }),
-      catchError(this.handleError('getMovimientos', []))
-    );
-  }
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error); // log to console instead
       return of(result as T);
     };
   }
+
+  getMovimientos(): Observable<{ transaction: string, category: string, amount: number, date: string, channel: string, status: string }[]> {
+    const clientId = this.authService.getClientId();
+    if (!clientId) {
+      return of([]);
+    }
+
+    return from(this.supabase
+      .from('Cuentas')
+      .select('id')
+      .eq('client_id', clientId)
+    ).pipe(
+      switchMap(cuentasResponse => {
+        if (cuentasResponse.error) {
+          console.error('Error fetching cuentas:', cuentasResponse.error);
+          return of([]);
+        }
+        const cuentaIds = cuentasResponse.data.map((cuenta: any) => cuenta.id);
+
+        return from(this.supabase
+          .from('Movimientos')
+          .select('transaction, category, amount, date, channel, status')
+          .in('account_id', cuentaIds)
+        ).pipe(
+          map(movimientosResponse => {
+            if (movimientosResponse.error) {
+              console.error('Error fetching movimientos:', movimientosResponse.error);
+              return [];
+            }
+            return movimientosResponse.data ? movimientosResponse.data : [];
+          }),
+          catchError(this.handleError('getMovimientos', []))
+        );
+      }),
+      catchError(this.handleError('getCuentas', []))
+    );
+  }
+
 
   async addTarjeta(tarjeta: Tarjeta): Promise<void> {
     try {
