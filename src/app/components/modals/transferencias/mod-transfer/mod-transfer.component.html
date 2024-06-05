@@ -1,1 +1,58 @@
-<p>mod-transfer works!</p>
+<h2 mat-dialog-title>Modificar Transferencia</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="transferForm" class="transfer-form">
+    <!-- Campos del formulario -->
+    <mat-form-field appearance="fill">
+      <mat-label>Cuenta de Origen</mat-label>
+      <mat-select formControlName="from_account" placeholder="Selecciona cuenta de origen" required>
+        <mat-option *ngFor="let account of cuentas" [value]="account.account_number">
+          {{ account.account_number }} - {{ account.clientName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="transferForm.get('from_account')?.errors?.['required']">
+        Debes seleccionar una cuenta de origen.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Cuenta de Destino</mat-label>
+      <mat-select formControlName="to_account" placeholder="Selecciona cuenta de destino" required>
+        <mat-option *ngFor="let account of cuentas" [value]="account.account_number">
+          {{ account.account_number }} - {{ account.clientName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="transferForm.get('to_account')?.errors?.['required']">
+        Debes seleccionar una cuenta de destino.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Importe</mat-label>
+      <input matInput type="number" formControlName="amount" placeholder="Introduce importe" required>
+      <mat-error *ngIf="transferForm.get('amount')?.errors?.['required']">
+        El campo importe es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="transferForm.get('amount')?.errors?.['pattern']">
+        Debe ser un número válido (opcionalmente con decimales).
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Moneda</mat-label>
+      <input matInput type="text" formControlName="currency" placeholder="Introduce moneda" required>
+      <mat-error *ngIf="transferForm.get('currency')?.errors?.['required']">
+        El campo moneda es obligatorio.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Descripción</mat-label>
+      <input matInput type="text" formControlName="description" placeholder="Introduce descripción">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!transferForm.valid" (click)="onSubmit()">Actualizar</button>
+  <button mat-button (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>

@@ -1,12 +1,16 @@
 <mat-toolbar class="header">
-  <nav class="menu" *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
+  <nav class="menu"
+    *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'">
     <a [routerLink]="['', { outlets: { auth: ['main'] } }]" class="logo">
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
     </a>
 
-    <a mat-button *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'" [routerLink]="['', { outlets: { auth: ['usuario'] } }]"><mat-icon>person</mat-icon>Usuarios</a>
+    <a mat-button
+      *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'"
+      [routerLink]="['', { outlets: { auth: ['usuario'] } }]"><mat-icon>person</mat-icon>Usuarios</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]"><mat-icon>group</mat-icon>Clientes</a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
+    <a mat-button
+      [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]"><mat-icon>credit_card</mat-icon>Tarjetas</a>
     <a mat-button [matMenuTriggerFor]="movimientosMenu"><mat-icon>swap_horiz</mat-icon>Movimientos</a>
     <mat-menu #movimientosMenu="matMenu">
@@ -18,16 +22,15 @@
     <a mat-button [matMenuTriggerFor]="movimientosMenuCliente"><mat-icon>attach_money</mat-icon>Servicios</a>
     <mat-menu #movimientosMenuCliente="matMenu">
       <button mat-menu-item [routerLink]="['', { outlets: { auth: ['hipoteca'] } }]">Calcular hipoteca</button>
-
     </mat-menu>
   </nav>
-
 
   <nav class="menu" *ngIf="(userRoleMessage$ | async) === 'Bienvenido cliente'">
     <a [routerLink]="['', { outlets: { auth: ['maincliente'] } }]" class="logo">
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
     </a>
-    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
+    <a mat-button
+      [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]"><mat-icon>credit_card</mat-icon>Tarjetas</a>
     <a mat-button [matMenuTriggerFor]="movimientosMenuCliente"><mat-icon>swap_horiz</mat-icon>Movimientos</a>
     <mat-menu #movimientosMenuCliente="matMenu">
@@ -39,9 +42,7 @@
     <a mat-button [matMenuTriggerFor]="movimientosMenuCliente"><mat-icon>attach_money</mat-icon>Servicios</a>
     <mat-menu #movimientosMenuCliente="matMenu">
       <button mat-menu-item [routerLink]="['', { outlets: { auth: ['hipoteca'] } }]">Calcular hipoteca</button>
-
     </mat-menu>
-
   </nav>
 
   <span class="spacer"></span>

@@ -13,6 +13,7 @@ import { AlertService } from './alert.service';
 import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap } from 'rxjs/operators';
+import { Transferencia } from '../models/transferencia.model';
 
 
 export interface SaveResult {
@@ -57,6 +58,11 @@ export class SupabaseService {
 
   balance: any;
   public tarjetas$ = this.tarjetasSubject.asObservable();
+
+  // Transferencias
+  private transferenciasSubject = new BehaviorSubject<Transferencia[]>([]);
+  public transferencias$ = this.transferenciasSubject.asObservable();
+
 
   constructor(
     private http: HttpClient,
@@ -1058,6 +1064,67 @@ export class SupabaseService {
       );
       this.movimientosSubject.next(updatedMovimientos);
     }
+  }
+
+  // Transferencias
+  async loadTransferencias() {
+    const { data, error } = await this.supabase
+      .from('Transferencias')
+      .select(`
+        *,
+        from_account:Cuentas(account_number),
+        to_account:Cuentas(account_number)
+      `)
+      .order('id', { ascending: true });
+
+    if (error) {
+      console.error('Error loading transfers', error);
+    } else {
+      this.transferenciasSubject.next(data);
+    }
+  }
+
+  async addTransfer(transferencia: Transferencia): Promise<{ data: Transferencia | null, error: any }> {
+    const { data, error } = await this.supabase.from('Transferencias').insert([transferencia]).select(`
+    *,
+    from_account:Cuentas(account_number),
+    to_account:Cuentas(account_number)
+  `).single();
+
+    if (error) {
+      console.error('Error adding transfer', error);
+    } else {
+      const currentTransferencias = this.transferenciasSubject.getValue();
+      this.transferenciasSubject.next([...currentTransferencias, data as Transferencia]);
+    }
+    return { data, error };
+  }
+
+  async updateTransfer(id: number, updatedFields: Partial<Transferencia>): Promise<void> {
+    const { data, error } = await this.supabase.from('Transferencias').update(updatedFields).eq('id', id).select().single();
+    if (error) {
+      console.error('Error updating transfer', error);
+      throw new Error('Error updating transfer');
+    } else {
+      const transferenciasActuales = this.transferenciasSubject.getValue();
+      const updatedTransferencias = transferenciasActuales.map(transferencia =>
+        transferencia.id === id ? { ...transferencia, ...updatedFields } : transferencia
+      );
+      this.transferenciasSubject.next(updatedTransferencias);
+    }
+  }
+
+  // Transferencias
+  async deleteTransfer(transferId: number): Promise<void> {
+    const { data, error } = await this.supabase.from('Transferencias').delete().match({ id: transferId }).select().single();
+    if (error) {
+      console.error('Error deleting transfer', error);
+      throw error;
+    }
+
+    const currentTransferencias = this.transferenciasSubject.getValue();
+    const updatedTransferencias = currentTransferencias.filter(transferencia => transferencia.id !== transferId);
+    this.transferenciasSubject.next(updatedTransferencias);
   }
 
 }

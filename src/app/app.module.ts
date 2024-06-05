@@ -35,7 +35,7 @@ import { ModClientComponent } from './components/modals/clientes/mod-client/mod-
 import { DelClientComponent } from './components/modals/clientes/del-client/del-client.component';
 import { BtnModClientComponent } from './components/buttons/cliente/btn-mod-client/btn-mod-client.component';
 import { BtnDelClientComponent } from './components/buttons/cliente/btn-del-client/btn-del-client.component';
-import { TablatransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
+import { TablaTransferenciasComponent } from './components/tables/tablatransferencias/tablatransferencias.component';
 import { AddAccountComponent } from './components/modals/cuentas/add-account/add-account.component';
 import { ModAccountComponent } from './components/modals/cuentas/mod-account/mod-account.component';
 import { DelAccountComponent } from './components/modals/cuentas/del-account/del-account.component';
@@ -95,6 +95,12 @@ import { BizumCardComponent } from './components/modals/tarjetas/bizum-card/bizu
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FooterComponent } from './components/footer/footer.component';
 import { HipotecaComponent } from './components/hipoteca/hipoteca.component';
+import { BtnAddTransferComponent } from './components/buttons/transferencias/btn-add-transfer/btn-add-transfer.component';
+import { BtnModTransferComponent } from './components/buttons/transferencias/btn-mod-transfer/btn-mod-transfer.component';
+import { BtnDelTransferComponent } from './components/buttons/transferencias/btn-del-transfer/btn-del-transfer.component';
+import { AddTransferComponent } from './components/modals/transferencias/add-transfer/add-transfer.component';
+import { ModTransferComponent } from './components/modals/transferencias/mod-transfer/mod-transfer.component';
+import { DelTransferComponent } from './components/modals/transferencias/del-transfer/del-transfer.component';
 
 @NgModule({
   declarations: [
@@ -123,7 +129,7 @@ import { HipotecaComponent } from './components/hipoteca/hipoteca.component';
     DelClientComponent,
     BtnModClientComponent,
     BtnDelClientComponent,
-    TablatransferenciasComponent,
+    TablaTransferenciasComponent,
     AddAccountComponent,
     ModAccountComponent,
     DelAccountComponent,
@@ -163,7 +169,13 @@ import { HipotecaComponent } from './components/hipoteca/hipoteca.component';
     DelMovimientoComponent,
     BtnBizumTarjetaComponent,
     BizumCardComponent,
-    HipotecaComponent
+    HipotecaComponent,
+    BtnAddTransferComponent,
+    BtnModTransferComponent,
+    BtnDelTransferComponent,
+    AddTransferComponent,
+    ModTransferComponent,
+    DelTransferComponent,
   ],
   imports: [
     BrowserModule,

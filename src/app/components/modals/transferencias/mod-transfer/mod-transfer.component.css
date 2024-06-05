@@ -1,0 +1,24 @@
+.transfer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
+}
+
+.mat-dialog-actions {
+  justify-content: space-between;
+}
+
+.mat-dialog-content {
+  overflow-y: auto;
+  padding: 20px;
+}
