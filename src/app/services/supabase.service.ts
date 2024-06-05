@@ -1067,7 +1067,7 @@ export class SupabaseService {
   }
 
   // Transferencias
-async addTransfer(transferencia: Transferencia): Promise<any> {
+  async addTransfer(transferencia: Transferencia): Promise<any> {
     try {
       // Buscar los account_number de las cuentas basadas en los id proporcionados
       const { data: fromAccount, error: fromAccountError } = await this.supabase
@@ -1094,7 +1094,7 @@ async addTransfer(transferencia: Transferencia): Promise<any> {
         currency: transferencia.currency,
         description: transferencia.description,
         transfer_date: new Date().toISOString(),
-        status: 'pendiente'
+        status: 'Processing' // Inicialmente en estado 'Processing'
       };
 
       const { data, error } = await this.supabase
@@ -1107,6 +1107,24 @@ async addTransfer(transferencia: Transferencia): Promise<any> {
       // Actualizar el BehaviorSubject
       const currentTransferencias = this.transferenciasSubject.getValue();
       this.transferenciasSubject.next([...currentTransferencias, ...data]);
+
+      // Cambiar el estado a 'Success' después de 30 segundos
+      setTimeout(async () => {
+        try {
+          const updatedData = await this.updateTransferStatus(data[0].id, 'Success');
+          const updatedTransferencias = this.transferenciasSubject.getValue().map(transferencia =>
+            transferencia.id === data[0].id ? { ...transferencia, status: 'Success' } : transferencia
+          );
+          this.transferenciasSubject.next(updatedTransferencias);
+
+          // Mostrar el snackbar
+          this.snackBar.open('Transferencia confirmada correctamente', 'Cerrar', {
+            duration: 3000,
+          });
+        } catch (updateError) {
+          console.error('Error al actualizar el estado de la transferencia', updateError);
+        }
+      }, 30000);
 
       return { data };
     } catch (error) {
@@ -1162,5 +1180,23 @@ async addTransfer(transferencia: Transferencia): Promise<any> {
     const currentTransfers = this.transferenciasSubject.getValue();
     const updatedTransfers = currentTransfers.filter(transfer => transfer.id !== transferId);
     this.transferenciasSubject.next(updatedTransfers);
+  }
+
+  async updateTransferStatus(id: number, status: 'Processing' | 'Success'): Promise<void> {
+    const { error } = await this.supabase
+      .from('Transferencias')
+      .update({ status })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating transfer status', error);
+      throw error;
+    } else {
+      const currentTransferencias = this.transferenciasSubject.getValue();
+      const updatedTransferencias = currentTransferencias.map(transferencia =>
+        transferencia.id === id ? { ...transferencia, status } : transferencia
+      );
+      this.transferenciasSubject.next(updatedTransferencias);
+    }
   }
 }

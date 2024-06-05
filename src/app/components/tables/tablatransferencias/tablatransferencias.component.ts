@@ -15,7 +15,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class TablaTransferenciasComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Transferencia>();
-  displayedColumns: string[] = ['id', 'from_account', 'to_account', 'amount', 'currency', 'description', 'date', 'actions'];
+  displayedColumns: string[] = ['id', 'from_account', 'to_account', 'amount', 'currency', 'description', 'status', 'date', 'actions'];
   filteredColumns: string[] = [];
   selectedColumn: string = 'from_account';
   role_id: number | null = null;
@@ -40,9 +40,7 @@ export class TablaTransferenciasComponent implements OnInit, OnDestroy, AfterVie
     this.subs.add(this.supabaseService.transferencias$.subscribe(data => {
       this.dataSource.data = data;
     }));
-  }
 
-  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.createFilter();
@@ -50,6 +48,11 @@ export class TablaTransferenciasComponent implements OnInit, OnDestroy, AfterVie
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(filterValue: string) {

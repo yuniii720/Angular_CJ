@@ -63,9 +63,24 @@
         <mat-cell *matCellDef="let transferencia"> {{transferencia.description}} </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="status"> Estado </mat-header-cell>
+        <mat-cell *matCellDef="let transferencia" [ngClass]="{
+            'status-processing': transferencia.status === 'Processing',
+            'status-success': transferencia.status === 'Success'
+          }">
+          <span *ngIf="transferencia.status === 'Processing'" class="tag processing-tag">
+            <span class="dot processing"></span> En proceso
+          </span>
+          <span *ngIf="transferencia.status === 'Success'" class="tag success-tag">
+            <span class="dot success"></span> Confirmado
+          </span>
+        </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="date">
         <mat-header-cell *matHeaderCellDef mat-sort-header="date"> Fecha </mat-header-cell>
-        <mat-cell *matCellDef="let transferencia"> {{ transferencia.created_at | date: 'dd/MM/yyyy' }} </mat-cell>
+        <mat-cell *matCellDef="let transferencia"> {{ transferencia.transfer_date | date: 'dd/MM/yyyy' }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="actions" stickyEnd>
