@@ -7,10 +7,10 @@
 
 .circle-content {
   position: relative;
-  width: 450px; /* Aumenta el tamaño del contenedor del círculo */
-  height: 450px; /* Aumenta el tamaño del contenedor del círculo */
+  width: 420px;
+  height: 420px;
   border-radius: 50%;
-  overflow: visible; /* Permite que los iconos sobresalgan */
+  overflow: visible; 
 }
 
 .central-image {
@@ -87,7 +87,6 @@
   opacity: 1;
 }
 
-/* Posiciones específicas para cada ícono */
 .icon-1 { top: 10%; left: 50%; transform: translate(-50%, -50%); }
 .icon-2 { top: 30%; left: 85%; transform: translate(-50%, -50%); }
 .icon-3 { top: 70%; left: 85%; transform: translate(-50%, -50%); }
