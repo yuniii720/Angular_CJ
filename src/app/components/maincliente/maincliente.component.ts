@@ -19,7 +19,7 @@ export class MainclienteComponent implements OnInit {
   movimientos: { category: string, transaction: string, amount: number, date: string, channel: string, status: string }[] = [];
 
   constructor(private supabaseService: SupabaseService) {
-    Chart.register(...registerables); // Asegúrate de que Chart.js esté registrado correctamente
+    Chart.register(...registerables);
   }
 
   ngOnInit(): void {
