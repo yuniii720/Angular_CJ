@@ -15,7 +15,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class TablaTransferenciasComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Transferencia>();
-  displayedColumns: string[] = ['id', 'from_account', 'to_account', 'amount', 'currency', 'description', 'status', 'date', 'actions'];
+  displayedColumns: string[] = ['id', 'from_account', 'to_account', 'amount', 'description', 'status', 'date', 'actions'];
   filteredColumns: string[] = [];
   selectedColumn: string = 'from_account';
   role_id: number | null = null;
