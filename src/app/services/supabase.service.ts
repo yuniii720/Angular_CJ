@@ -1069,22 +1069,22 @@ export class SupabaseService {
   // Transferencias
   async addTransfer(transferencia: Transferencia): Promise<any> {
     try {
-      // Buscar los account_number de las cuentas basadas en los id proporcionados
+      // Buscar los detalles de las cuentas de origen y destino basadas en los IDs proporcionados
       const { data: fromAccount, error: fromAccountError } = await this.supabase
         .from('Cuentas')
-        .select('account_number')
+        .select('*')
         .eq('id', transferencia.from_account_id)
         .single();
 
-      if (fromAccountError) throw new Error(`La cuenta de origen con id ${transferencia.from_account_id} no existe.`);
+      if (fromAccountError || !fromAccount) throw new Error(`La cuenta de origen con id ${transferencia.from_account_id} no existe.`);
 
       const { data: toAccount, error: toAccountError } = await this.supabase
         .from('Cuentas')
-        .select('account_number')
+        .select('*')
         .eq('id', transferencia.to_account_id)
         .single();
 
-      if (toAccountError) throw new Error(`La cuenta de destino con id ${transferencia.to_account_id} no existe.`);
+      if (toAccountError || !toAccount) throw new Error(`La cuenta de destino con id ${transferencia.to_account_id} no existe.`);
 
       // Insertar la transferencia usando los account_number de las cuentas encontradas
       const transferData = {
@@ -1111,16 +1111,7 @@ export class SupabaseService {
       // Cambiar el estado a 'Success' después de 30 segundos
       setTimeout(async () => {
         try {
-          const updatedData = await this.updateTransferStatus(data[0].id, 'Success');
-          const updatedTransferencias = this.transferenciasSubject.getValue().map(transferencia =>
-            transferencia.id === data[0].id ? { ...transferencia, status: 'Success' } : transferencia
-          );
-          this.transferenciasSubject.next(updatedTransferencias);
-
-          // Mostrar el snackbar
-          this.snackBar.open('Transferencia confirmada correctamente', 'Cerrar', {
-            duration: 3000,
-          });
+          await this.updateTransferStatus(data[0].id, 'Success');
         } catch (updateError) {
           console.error('Error al actualizar el estado de la transferencia', updateError);
         }
@@ -1183,20 +1174,74 @@ export class SupabaseService {
   }
 
   async updateTransferStatus(id: number, status: 'Processing' | 'Success'): Promise<void> {
-    const { error } = await this.supabase
-      .from('Transferencias')
-      .update({ status })
-      .eq('id', id);
+    try {
+      const { data: transfer, error: transferError } = await this.supabase
+        .from('Transferencias')
+        .select('*')
+        .eq('id', id)
+        .single();
 
-    if (error) {
-      console.error('Error updating transfer status', error);
-      throw error;
-    } else {
+      if (transferError || !transfer) {
+        throw new Error('Error fetching transfer details');
+      }
+
+      // Actualizar el estado de la transferencia
+      const { error } = await this.supabase
+        .from('Transferencias')
+        .update({ status })
+        .eq('id', id);
+
+      if (error) {
+        console.error('Error updating transfer status', error);
+        throw error;
+      }
+
+      // Si el estado es "Success", actualizar los saldos de las cuentas implicadas
+      if (status === 'Success') {
+        const { data: fromAccount, error: fromAccountError } = await this.supabase
+          .from('Cuentas')
+          .select('*')
+          .eq('account_number', transfer.from_account_id)
+          .single();
+
+        if (fromAccountError || !fromAccount) throw new Error(`La cuenta de origen con account_number ${transfer.from_account_id} no existe.`);
+
+        const { data: toAccount, error: toAccountError } = await this.supabase
+          .from('Cuentas')
+          .select('*')
+          .eq('account_number', transfer.to_account_id)
+          .single();
+
+        if (toAccountError || !toAccount) throw new Error(`La cuenta de destino con account_number ${transfer.to_account_id} no existe.`);
+
+        if (fromAccount.balance < transfer.amount) {
+          throw new Error('Saldo insuficiente en la cuenta de origen.');
+        }
+
+        const { error: updateFromAccountError } = await this.supabase
+          .from('Cuentas')
+          .update({ balance: fromAccount.balance - transfer.amount })
+          .eq('id', fromAccount.id);
+
+        if (updateFromAccountError) throw new Error('Error al actualizar el saldo de la cuenta de origen.');
+
+        const { error: updateToAccountError } = await this.supabase
+          .from('Cuentas')
+          .update({ balance: toAccount.balance + transfer.amount })
+          .eq('id', toAccount.id);
+
+        if (updateToAccountError) throw new Error('Error al actualizar el saldo de la cuenta de destino.');
+      }
+
+      // Actualizar el BehaviorSubject
       const currentTransferencias = this.transferenciasSubject.getValue();
       const updatedTransferencias = currentTransferencias.map(transferencia =>
         transferencia.id === id ? { ...transferencia, status } : transferencia
       );
       this.transferenciasSubject.next(updatedTransferencias);
+    } catch (error) {
+      console.error('Error updating transfer status', error);
+      throw error;
     }
   }
 }
