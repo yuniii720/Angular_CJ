@@ -101,6 +101,7 @@ import { BtnDelTransferComponent } from './components/buttons/transferencias/btn
 import { AddTransferComponent } from './components/modals/transferencias/add-transfer/add-transfer.component';
 import { ModTransferComponent } from './components/modals/transferencias/mod-transfer/mod-transfer.component';
 import { DelTransferComponent } from './components/modals/transferencias/del-transfer/del-transfer.component';
+import { MemojiComponent } from './components/memoji/memoji.component';
 
 @NgModule({
   declarations: [
@@ -176,6 +177,7 @@ import { DelTransferComponent } from './components/modals/transferencias/del-tra
     AddTransferComponent,
     ModTransferComponent,
     DelTransferComponent,
+    MemojiComponent,
   ],
   imports: [
     BrowserModule,
