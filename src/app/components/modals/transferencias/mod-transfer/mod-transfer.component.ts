@@ -26,26 +26,29 @@ export class ModTransferComponent implements OnInit, OnDestroy {
   ) {
     // Se inicializa el FormGroup con valores vacíos o valores predeterminados
     this.transferForm = new FormGroup({
-      from_account: new FormControl('', Validators.required),
-      to_account: new FormControl('', Validators.required),
+      from_account: new FormControl({ value: '', disabled: true }, Validators.required),
+      to_account: new FormControl({ value: '', disabled: true }, Validators.required),
       amount: new FormControl('', [Validators.required, Validators.pattern(/^-?\d+(\.\d{1,2})?$/)]),
-      currency: new FormControl('', Validators.required),
       description: new FormControl('')
     });
   }
 
   async ngOnInit(): Promise<void> {
-    // Se cargan los datos de la transferencia en el formulario al inicializar el componente
-    this.transferForm.patchValue({
-      from_account: this.data.from_account,
-      to_account: this.data.to_account,
-      amount: this.data.amount,
-      currency: this.data.currency,
-      description: this.data.description
-    });
-
     try {
       this.cuentas = await this.supabaseService.getAllCuentas();
+
+      // Buscar las cuentas correspondientes a los account_number
+      const fromAccount = this.cuentas.find(account => account.account_number === this.data.from_account_id);
+      const toAccount = this.cuentas.find(account => account.account_number === this.data.to_account_id);
+
+      // Actualizar los valores del formulario
+      this.transferForm.patchValue({
+        from_account: fromAccount ? fromAccount.account_number : this.data.from_account,
+        to_account: toAccount ? toAccount.account_number : this.data.to_account,
+        amount: this.data.amount,
+        currency: this.data.currency,
+        description: this.data.description
+      });
     } catch (error) {
       console.error('Error loading accounts', error);
       Swal.fire('Error', 'Error al cargar las cuentas', 'error');  // SweetAlert de error
@@ -60,8 +63,6 @@ export class ModTransferComponent implements OnInit, OnDestroy {
     if (this.transferForm.valid) {
       const formValue = this.transferForm.value;
       const updatedTransferData: Partial<Transferencia> = {
-        from_account: formValue.from_account,
-        to_account: formValue.to_account,
         amount: formValue.amount,
         currency: formValue.currency,
         description: formValue.description

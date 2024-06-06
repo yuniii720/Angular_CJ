@@ -4,26 +4,12 @@
     <!-- Campos del formulario -->
     <mat-form-field appearance="fill">
       <mat-label>Cuenta de Origen</mat-label>
-      <mat-select formControlName="from_account" placeholder="Selecciona cuenta de origen" required>
-        <mat-option *ngFor="let account of cuentas" [value]="account.account_number">
-          {{ account.account_number }} - {{ account.clientName }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="transferForm.get('from_account')?.errors?.['required']">
-        Debes seleccionar una cuenta de origen.
-      </mat-error>
+      <input matInput formControlName="from_account" [disabled]="true">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Cuenta de Destino</mat-label>
-      <mat-select formControlName="to_account" placeholder="Selecciona cuenta de destino" required>
-        <mat-option *ngFor="let account of cuentas" [value]="account.account_number">
-          {{ account.account_number }} - {{ account.clientName }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="transferForm.get('to_account')?.errors?.['required']">
-        Debes seleccionar una cuenta de destino.
-      </mat-error>
+      <input matInput formControlName="to_account" [disabled]="true">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -34,14 +20,6 @@
       </mat-error>
       <mat-error *ngIf="transferForm.get('amount')?.errors?.['pattern']">
         Debe ser un número válido (opcionalmente con decimales).
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Moneda</mat-label>
-      <input matInput type="text" formControlName="currency" placeholder="Introduce moneda" required>
-      <mat-error *ngIf="transferForm.get('currency')?.errors?.['required']">
-        El campo moneda es obligatorio.
       </mat-error>
     </mat-form-field>
 
