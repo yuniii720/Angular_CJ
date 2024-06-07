@@ -1231,7 +1231,6 @@ export class SupabaseService {
           .eq('id', toAccount.id);
 
         if (updateToAccountError) throw new Error('Error al actualizar el saldo de la cuenta de destino.');
-
         // Mostrar el snackbar
         this.snackBar.open('Transferencia confirmada correctamente', 'Cerrar', {
           duration: 3000,
@@ -1316,5 +1315,4 @@ export class SupabaseService {
       throw error;
     }
   }
-
 }
