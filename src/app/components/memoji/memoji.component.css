@@ -1,3 +1,12 @@
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 .circle-container {
   display: flex;
   justify-content: center;
@@ -10,7 +19,10 @@
   width: 420px;
   height: 420px;
   border-radius: 50%;
-  overflow: visible; 
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centra el contenido dentro del círculo */
 }
 
 .central-image {
@@ -18,9 +30,10 @@
   height: 200px;
   border-radius: 50%;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 57%;
+  left: 58%;
   transform: translate(-50%, -50%);
+  object-fit: cover; /* Asegura que la imagen se ajuste bien dentro del contenedor */
 }
 
 .icon-container {
@@ -41,11 +54,13 @@
   align-items: center;
   font-size: 24px;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out, height 0.3s ease-in-out;
+  animation: float 3s ease-in-out infinite;
 }
 
 .icon:hover {
   background-color: #5c8ea6;
   cursor: pointer;
+  transform: scale(1.1);
 }
 
 .icon::before {
