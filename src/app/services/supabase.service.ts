@@ -1008,7 +1008,7 @@ export class SupabaseService {
 
             // Mostrar el snackbar
             this.snackBar.open('Movimiento confirmado correctamente', 'Cerrar', {
-              duration: 3000,
+              duration: 5000,
             });
           } catch (updateError) {
             console.error('Error al actualizar el estado del movimiento', updateError);
