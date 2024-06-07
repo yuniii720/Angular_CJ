@@ -1013,7 +1013,7 @@ export class SupabaseService {
           } catch (updateError) {
             console.error('Error al actualizar el estado del movimiento', updateError);
           }
-        }, 30000);
+        }, 10000);
       }
     }
     return { data, error };
@@ -1115,7 +1115,7 @@ export class SupabaseService {
         } catch (updateError) {
           console.error('Error al actualizar el estado de la transferencia', updateError);
         }
-      }, 30000);
+      }, 10000);
 
       return { data };
     } catch (error) {
@@ -1231,6 +1231,11 @@ export class SupabaseService {
           .eq('id', toAccount.id);
 
         if (updateToAccountError) throw new Error('Error al actualizar el saldo de la cuenta de destino.');
+
+        // Mostrar el snackbar
+        this.snackBar.open('Transferencia confirmada correctamente', 'Cerrar', {
+          duration: 3000,
+        });
       }
 
       // Actualizar el BehaviorSubject
@@ -1244,4 +1249,72 @@ export class SupabaseService {
       throw error;
     }
   }
+
+  async revertTransfer(transferId: number): Promise<void> {
+    try {
+      const { data: transfer, error: transferError } = await this.supabase
+        .from('Transferencias')
+        .select('*')
+        .eq('id', transferId)
+        .single();
+
+      if (transferError || !transfer) {
+        throw new Error('Error fetching transfer details');
+      }
+
+      // Verificar si la transferencia ya está confirmada
+      if (transfer.status !== 'Success') {
+        throw new Error('Solo se pueden revertir transferencias confirmadas.');
+      }
+
+      const { data: fromAccount, error: fromAccountError } = await this.supabase
+        .from('Cuentas')
+        .select('*')
+        .eq('account_number', transfer.from_account_id)
+        .single();
+
+      if (fromAccountError || !fromAccount) throw new Error(`La cuenta de origen con account_number ${transfer.from_account_id} no existe.`);
+
+      const { data: toAccount, error: toAccountError } = await this.supabase
+        .from('Cuentas')
+        .select('*')
+        .eq('account_number', transfer.to_account_id)
+        .single();
+
+      if (toAccountError || !toAccount) throw new Error(`La cuenta de destino con account_number ${transfer.to_account_id} no existe.`);
+
+      // Revertir los saldos de las cuentas
+      const { error: updateFromAccountError } = await this.supabase
+        .from('Cuentas')
+        .update({ balance: fromAccount.balance + transfer.amount })
+        .eq('id', fromAccount.id);
+
+      if (updateFromAccountError) throw new Error('Error al revertir el saldo de la cuenta de origen.');
+
+      const { error: updateToAccountError } = await this.supabase
+        .from('Cuentas')
+        .update({ balance: toAccount.balance - transfer.amount })
+        .eq('id', toAccount.id);
+
+      if (updateToAccountError) throw new Error('Error al revertir el saldo de la cuenta de destino.');
+
+      // Actualizar el estado de la transferencia a 'Reverted'
+      const { error: updateTransferError } = await this.supabase
+        .from('Transferencias')
+        .update({ status: 'Reverted' })
+        .eq('id', transferId);
+
+      if (updateTransferError) throw new Error('Error al actualizar el estado de la transferencia.');
+
+      // Mostrar el snackbar
+      this.snackBar.open('Transferencia revertida correctamente', 'Cerrar', {
+        duration: 3000,
+      });
+
+    } catch (error) {
+      console.error('Error reverting transfer', error);
+      throw error;
+    }
+  }
+
 }

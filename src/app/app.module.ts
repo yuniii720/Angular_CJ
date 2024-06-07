@@ -102,6 +102,8 @@ import { AddTransferComponent } from './components/modals/transferencias/add-tra
 import { ModTransferComponent } from './components/modals/transferencias/mod-transfer/mod-transfer.component';
 import { DelTransferComponent } from './components/modals/transferencias/del-transfer/del-transfer.component';
 import { MemojiComponent } from './components/memoji/memoji.component';
+import { BtnRevertTransferComponent } from './components/buttons/transferencias/btn-revert-transfer/btn-revert-transfer.component';
+import { RevertTransferComponent } from './components/modals/transferencias/revert-transfer/revert-transfer.component';
 
 @NgModule({
   declarations: [
@@ -178,6 +180,8 @@ import { MemojiComponent } from './components/memoji/memoji.component';
     ModTransferComponent,
     DelTransferComponent,
     MemojiComponent,
+    BtnRevertTransferComponent,
+    RevertTransferComponent,
   ],
   imports: [
     BrowserModule,
