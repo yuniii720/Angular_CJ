@@ -18,17 +18,17 @@ body {
   grid-template-rows: 3fr 5fr repeat(3, 0fr);
   grid-column-gap: 20px;
   grid-row-gap: 20px;
+  width: 920px;
 }
 
 .div1 {
   grid-area: 1 / 1 / 2 / 2;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 20px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden; /* Para ocultar el borde de la tarjeta cortada */
-  padding-right: 0; /* Quitar padding derecho */
 }
 
 .header {
@@ -44,15 +44,19 @@ body {
   color: #333;
 }
 
+.cards-container-wrapper {
+  padding-right: -50px; /* Ajuste necesario para alinear las tarjetas correctamente */
+  z-index: 10;
+}
+
 .cards-container {
   display: flex;
   gap: 20px;
   overflow-x: auto;
   padding: 20px 0;
-  padding-right: 20px; /* Agregar padding derecho */
   width: calc(200px * 2.5 + 40px * 2); /* Muestra 2 tarjetas y media */
   scroll-snap-type: x mandatory;
-  max-width: calc(100% + 20px); /* Ajustar el contenedor */
+  max-width: calc(200px * 2.5 + 40px * 2); /* Ajustar el contenedor */
 }
 
 /* Ocultar barra de scroll */
@@ -112,7 +116,7 @@ body {
 .div1, .div2, .div3, .div4, .div5, .div6 {
   background: white;
   padding: 20px;
-  border-radius: 25px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
