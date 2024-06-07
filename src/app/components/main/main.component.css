@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: radial-gradient(circle at top left, #f4e2d8, white),
+              radial-gradient(circle at top right, #fbc2eb, white);
+  background-blend-mode: lighten;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 200px;
+}
+
+.parent {
+  display: grid;
+  grid-template-columns: 5fr 2fr repeat(3, 0fr);
+  grid-template-rows: 3fr 5fr repeat(3, 0fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.div1 {
+  grid-area: 1 / 1 / 2 / 2;
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden; /* Para ocultar el borde de la tarjeta cortada */
+  padding-right: 0; /* Quitar padding derecho */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.my-cards .title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 20px 0;
+  padding-right: 20px; /* Agregar padding derecho */
+  width: calc(200px * 2.5 + 40px * 2); /* Muestra 2 tarjetas y media */
+  scroll-snap-type: x mandatory;
+  max-width: calc(100% + 20px); /* Ajustar el contenedor */
+}
+
+/* Ocultar barra de scroll */
+.cards-container::-webkit-scrollbar {
+  display: none;
+}
+.cards-container {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.card {
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  padding: 15px;
+  width: 200px;
+  scroll-snap-align: start;
+  flex: 0 0 auto; /* Mantener tamaño fijo */
+}
+
+.card-1 {
+  background-color: #a18cd1;
+}
+
+.card-2 {
+  background-color: #89cff0;
+}
+
+.card-info {
+  color: white;
+}
+
+.card-balance {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-type {
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+.card-details {
+  font-size: 0.875rem;
+  margin-top: 10px;
+}
+
+.add-card-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.div1, .div2, .div3, .div4, .div5, .div6 {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.div1 { grid-area: 1 / 1 / 2 / 2; }
+.div2 { grid-area: 2 / 1 / 3 / 2; }
+.div3 { grid-area: 3 / 1 / 4 / 2; }
+.div4 { grid-area: 1 / 2 / 2 / 3; }
+.div5 { grid-area: 2 / 2 / 3 / 3; }
+.div6 { grid-area: 3 / 2 / 4 / 3; }
