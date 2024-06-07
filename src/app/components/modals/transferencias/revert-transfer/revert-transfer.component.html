@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Revertir Transferencia</h2>
+<mat-dialog-content class="mat-typography">
+  <p>¿Estás seguro que deseas revertir esta transferencia?</p>
+  <p><strong>Cuenta de Origen:</strong> {{ data.from_account_id }}</p>
+  <p><strong>Cuenta de Destino:</strong> {{ data.to_account_id }}</p>
+  <p><strong>Importe:</strong> {{ data.amount }} {{ data.currency }}</p>
+  <p><strong>Descripción:</strong> {{ data.description }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="revertTransfer()">Revertir</button>
+  <button mat-button (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>
