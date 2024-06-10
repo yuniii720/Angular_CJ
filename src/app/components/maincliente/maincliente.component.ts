@@ -40,13 +40,16 @@ export class MainclienteComponent implements OnInit {
     this.supabaseService.getDeudaTotal().subscribe(deuda => this.deudaTotal = deuda);
     this.supabaseService.getOperacionesRecientes().subscribe(operaciones => this.operacionesRecientes = operaciones);
     this.supabaseService.getTarjetas().subscribe(tarjetas => this.tarjetas = tarjetas);
-    this.supabaseService.getMovimientos().subscribe(movimientos => this.movimientos = movimientos);
 
     const userId = this.authService.getUserId();
     if (userId) {
       from(this.supabaseService.getCuentasByUserId(userId)).subscribe((cuentas: Cuenta[]) => {
         this.cuentas = cuentas;
-        console.log("Cuentas obtenidas:", this.cuentas); // Verifica que las cuentas se están cargando
+        const accountIds = cuentas.map(cuenta => cuenta.id).filter(id => id !== undefined) as number[];
+        this.supabaseService.getMovimientosByAccountIds(accountIds).then(movimientos => {
+          this.movimientos = movimientos;
+          console.log("Movimientos obtenidos:", this.movimientos);
+        });
         this.actualizarChart();
       });
     }
@@ -54,7 +57,7 @@ export class MainclienteComponent implements OnInit {
 
   generarDatosFicticios(): void {
     const ingresosFicticios = [5000, 10000, 15000, 20000, 25000, 30000, 33235];
-    const fechasFicticias = ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06'];
+    const fechasFicticias = ['2023-01', '2023-02', '2023-03', '2023-04', '2023-05', '2023-06', '2023-07'];
 
     this.ingresosData = ingresosFicticios;
     this.fechasData = fechasFicticias;

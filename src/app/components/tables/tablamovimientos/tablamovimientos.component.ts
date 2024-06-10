@@ -7,6 +7,7 @@ import { Movimiento } from '../../../models/movimiento.model';
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
+import { Cuenta } from '../../../models/cuenta.model';
 
 @Component({
   selector: 'app-tabla-movimientos',
@@ -19,6 +20,7 @@ export class TablaMovimientosComponent implements OnInit, OnDestroy, AfterViewIn
   filteredColumns: string[] = [];
   selectedColumn: string = 'account';
   role_id: number | null = null;
+  cuentas: Cuenta[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -29,16 +31,22 @@ export class TablaMovimientosComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngOnInit(): void {
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'actions');
-    this.supabaseService.loadMovimientos();
+    
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.supabaseService.getCuentasByUserId(userId).then((cuentas: Cuenta[]) => {
+        this.cuentas = cuentas;
+        const accountIds = this.cuentas.map(cuenta => cuenta.id).filter(id => id !== undefined) as number[];
+        this.supabaseService.getMovimientosByAccountIds(accountIds).then(movimientos => {
+          this.dataSource.data = movimientos;
+        });
+      });
+    }
 
     this.subs.add(this.authService.getUserRole().subscribe(userRole => {
       if (userRole) {
         this.role_id = userRole.role_id;
       }
-    }));
-
-    this.subs.add(this.supabaseService.movimientos$.subscribe(data => {
-      this.dataSource.data = data;
     }));
 
     this.dataSource.paginator = this.paginator;

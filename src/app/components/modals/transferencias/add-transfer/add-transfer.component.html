@@ -1,11 +1,10 @@
 <h2 mat-dialog-title>Añadir Transferencia</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
-
     <mat-form-field appearance="fill">
       <mat-label>Cuenta de Origen</mat-label>
       <mat-select formControlName="from_account_id" placeholder="Selecciona cuenta de origen" required>
-        <mat-option *ngFor="let account of cuentas" [value]="account.id">
+        <mat-option *ngFor="let account of cuentasOrigen" [value]="account.id">
           {{ account.account_number }}
         </mat-option>
       </mat-select>
@@ -17,7 +16,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Cuenta de Destino</mat-label>
       <mat-select formControlName="to_account_id" placeholder="Selecciona cuenta de destino" required>
-        <mat-option *ngFor="let account of cuentas" [value]="account.id">
+        <mat-option *ngFor="let account of cuentasDestino" [value]="account.id">
           {{ account.account_number }}
         </mat-option>
       </mat-select>

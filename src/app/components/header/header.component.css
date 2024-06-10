@@ -5,7 +5,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 9999; /* Aumentar el valor de z-index para asegurarse que esté por encima de todo */
 }
 
 .logo-img {
@@ -56,7 +56,7 @@
 }
 
 .content-wrapper {
-  margin-top: 0px;
+  margin-top: 60px; /* Añadir margen superior para que el contenido no se superponga con el header */
 }
 
 .icon {

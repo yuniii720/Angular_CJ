@@ -916,6 +916,42 @@ export class SupabaseService {
     return data;
   }
 
+  getMovimientosByAccountIds(accountIds: number[]): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.supabase
+        .from('Movimientos')
+        .select('*')
+        .in('account_id', accountIds)
+        .then(({ data, error }) => {
+          if (error) {
+            console.error('Error fetching movimientos', error);
+            reject(error);
+          } else {
+            resolve(data || []);
+          }
+        });
+    });
+  }
+  
+  getTransferenciasByAccountIds(accountIds: number[]): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.supabase
+        .from('Transferencias')
+        .select('*')
+        .in('from_account_id', accountIds)
+        .or(`to_account_id.in.${accountIds.join(',')}`)
+        .then(({ data, error }) => {
+          if (error) {
+            console.error('Error fetching transferencias', error);
+            reject(error);
+          } else {
+            resolve(data || []);
+          }
+        });
+    });
+  }
+  
+
   async updateUserRole(userId: string, roleId: number): Promise<void> {
     const { error } = await this.supabase
       .from('userroles')

@@ -7,6 +7,7 @@ import { Transferencia } from '../../../models/transferencia.model';
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
+import { Cuenta } from '../../../models/cuenta.model';
 
 @Component({
   selector: 'app-tabla-transferencias',
@@ -19,6 +20,7 @@ export class TablaTransferenciasComponent implements OnInit, OnDestroy, AfterVie
   filteredColumns: string[] = [];
   selectedColumn: string = 'from_account';
   role_id: number | null = null;
+  cuentas: Cuenta[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -29,16 +31,22 @@ export class TablaTransferenciasComponent implements OnInit, OnDestroy, AfterVie
 
   ngOnInit(): void {
     this.filteredColumns = this.displayedColumns.filter(column => column !== 'actions');
-    this.supabaseService.loadTransferencias();
+    
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.supabaseService.getCuentasByUserId(userId).then((cuentas: Cuenta[]) => {
+        this.cuentas = cuentas;
+        const accountIds = this.cuentas.map(cuenta => cuenta.id).filter(id => id !== undefined) as number[];
+        this.supabaseService.getTransferenciasByAccountIds(accountIds).then(transferencias => {
+          this.dataSource.data = transferencias;
+        });
+      });
+    }
 
     this.subs.add(this.authService.getUserRole().subscribe(userRole => {
       if (userRole) {
         this.role_id = userRole.role_id;
       }
-    }));
-
-    this.subs.add(this.supabaseService.transferencias$.subscribe(data => {
-      this.dataSource.data = data;
     }));
 
     this.dataSource.paginator = this.paginator;

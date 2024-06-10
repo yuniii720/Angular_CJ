@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SupabaseService } from '../../../../services/supabase.service';
 import { Transferencia } from '../../../../models/transferencia.model';
 import Swal from 'sweetalert2';  // Importa SweetAlert
+import { AuthService } from '../../../../services/auth.service';  // Importa el servicio de autenticación
+import { Cuenta } from '../../../../models/cuenta.model';
 
 @Component({
   selector: 'app-add-transfer',
@@ -12,13 +14,15 @@ import Swal from 'sweetalert2';  // Importa SweetAlert
 })
 export class AddTransferComponent implements OnInit {
   transferForm: FormGroup;
-  cuentas: any[] = []; // Lista de cuentas disponibles
+  cuentasOrigen: Cuenta[] = []; // Lista de cuentas de origen disponibles
+  cuentasDestino: Cuenta[] = []; // Lista de cuentas de destino disponibles
 
   constructor(
     public dialogRef: MatDialogRef<AddTransferComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
-    private supabaseService: SupabaseService
+    private supabaseService: SupabaseService,
+    private authService: AuthService  // Inyecta el servicio de autenticación
   ) {
     this.transferForm = this.formBuilder.group({
       from_account_id: ['', Validators.required],
@@ -31,8 +35,11 @@ export class AddTransferComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      this.cuentas = await this.supabaseService.getAllCuentas();
-      console.log(this.cuentas);
+      const userId = this.authService.getUserId();
+      if (userId) {
+        this.cuentasOrigen = await this.supabaseService.getCuentasByUserId(userId);
+        this.cuentasDestino = await this.supabaseService.getAllCuentas();
+      }
     } catch (error) {
       console.error('Error loading accounts', error);
       Swal.fire('Error', 'Error al cargar las cuentas', 'error');
