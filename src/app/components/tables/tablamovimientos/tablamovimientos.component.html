@@ -38,11 +38,6 @@
         <mat-cell *matCellDef="let movimiento"> {{movimiento.id}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="account">
-        <mat-header-cell *matHeaderCellDef mat-sort-header="account"> Cuenta </mat-header-cell>
-        <mat-cell *matCellDef="let movimiento"> {{ movimiento.account?.account_number }} </mat-cell>
-      </ng-container>
-
       <ng-container matColumnDef="type">
         <mat-header-cell *matHeaderCellDef mat-sort-header="type"> Concepto </mat-header-cell>
         <mat-cell *matCellDef="let movimiento"> {{movimiento.transaction}} </mat-cell>

@@ -63,7 +63,7 @@ export class AddMovimientoComponent implements OnInit {
               console.error('Error al actualizar el estado del movimiento', updateError);
               Swal.fire('Error', 'Error al actualizar el estado del movimiento', 'error');
             }
-          }, 30000);
+          }, 10000);
 
           Swal.fire('Éxito', 'Movimiento añadido correctamente', 'success');
           this.dialogRef.close(data);

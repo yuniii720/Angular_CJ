@@ -3,6 +3,8 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, from, of } from 'rxjs';
+import { RealtimeChannel } from '@supabase/supabase-js';
+
 import { Tarjeta } from '../models/tarjeta.model';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
@@ -690,7 +692,7 @@ export class SupabaseService {
           console.error('Error fetching deuda total:', response.error);
           return 0;
         }
-        return response.data ? response.data.reduce((total: number, cuenta: any) => total + cuenta.balance, 0) : 0;  // Assuming debt calculation is similar to balance
+        return response.data ? response.data.reduce((total: number, cuenta: any) => total + cuenta.balance, 0) : 0;  
       })
     );
   }
@@ -702,7 +704,7 @@ export class SupabaseService {
     }
 
     return from(this.supabase
-      .from('Operaciones')  // Assuming there is an 'Operaciones' table
+      .from('Operaciones')  
       .select('descripcion, monto')
       .eq('client_id', clientId)
       .order('created_at', { ascending: false })
@@ -741,7 +743,7 @@ export class SupabaseService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
+      console.error(error); 
       return of(result as T);
     };
   }
@@ -933,24 +935,22 @@ export class SupabaseService {
     });
   }
   
-  getTransferenciasByAccountIds(accountIds: number[]): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      this.supabase
+  async getTransferenciasByAccountIds(accountIds: number[]) {
+    const { data, error } = await this.supabase
         .from('Transferencias')
         .select('*')
         .in('from_account_id', accountIds)
-        .or(`to_account_id.in.${accountIds.join(',')}`)
-        .then(({ data, error }) => {
-          if (error) {
-            console.error('Error fetching transferencias', error);
-            reject(error);
-          } else {
-            resolve(data || []);
-          }
-        });
-    });
-  }
-  
+        .or(`to_account_id.in.(${accountIds.join(',')})`);
+
+    if (error) {
+        console.error('Error fetching transferencias:', error);
+        return [];
+    }
+    return data;
+}
+
+
+
 
   async updateUserRole(userId: string, roleId: number): Promise<void> {
     const { error } = await this.supabase
@@ -966,7 +966,7 @@ export class SupabaseService {
     try {
       const { cuentaOrigen, importe, destinatario, motivo } = datos;
 
-      // Verificar saldo suficiente en la cuenta de origen
+
       const { data: cuentaData, error: cuentaError } = await this.supabase
         .from('Cuentas')
         .select('balance')
@@ -987,8 +987,7 @@ export class SupabaseService {
         return { success: false, message: 'Error al actualizar el saldo' };
       }
 
-      // Aquí podrías añadir lógica para enviar el Bizum al destinatario
-      // Por ejemplo, registrando la transacción en una tabla de movimientos
+
 
       return { success: true, message: 'Bizum enviado correctamente' };
     } catch (error) {
@@ -1006,7 +1005,7 @@ export class SupabaseService {
   }
 
   // Movimientos
-  async loadMovimientos() {
+  async loadMovimientos(): Promise<Movimiento[]> {
     const { data, error } = await this.supabase
       .from('Movimientos')
       .select(`
@@ -1017,10 +1016,13 @@ export class SupabaseService {
 
     if (error) {
       console.error('Error loading movements', error);
+      return [];
     } else {
       this.movimientosSubject.next(data);
+      return data;
     }
   }
+
 
   async addMovimiento(movimiento: Movimiento): Promise<{ data: Movimiento | null, error: any }> {
     const { data, error } = await this.supabase.from('Movimientos').insert([movimiento]).select(`
@@ -1035,7 +1037,7 @@ export class SupabaseService {
       this.movimientosSubject.next([...currentMovimientos, data as Movimiento]);
 
       if (data) {
-        // Cambiar el estado a 'Success' después de 30 segundos
+  
         setTimeout(async () => {
           try {
             await this.updateMovimientoStatus(data.id, 'Success');
@@ -1061,7 +1063,7 @@ export class SupabaseService {
     const { data, error } = await this.supabase.from('Movimientos').update(updatedFields).eq('id', id).select().single();
     if (error) {
       console.error('Error updating movimiento', error);
-      this.alertService.error('Error', 'Error al actualizar el movimiento');  // SweetAlert de error
+      this.alertService.error('Error', 'Error al actualizar el movimiento'); 
       throw new Error('Error updating movimiento');
     } else {
       const movimientosActuales = this.movimientosSubject.getValue();
@@ -1069,7 +1071,7 @@ export class SupabaseService {
         movimiento.id === id ? { ...movimiento, ...updatedFields } : movimiento
       );
       this.movimientosSubject.next(updatedMovimientos);
-      this.alertService.success('Éxito', 'Movimiento actualizado correctamente');  // SweetAlert de éxito
+      this.alertService.success('Éxito', 'Movimiento actualizado correctamente');  
     }
   }
 
@@ -1080,7 +1082,7 @@ export class SupabaseService {
       throw error;
     }
 
-    // Actualizar la lista de movimientos en el BehaviorSubject
+
     const currentMovimientos = this.movimientosSubject.getValue();
     const updatedMovimientos = currentMovimientos.filter(movimiento => movimiento.id !== movimientoId);
     this.movimientosSubject.next(updatedMovimientos);
@@ -1104,10 +1106,10 @@ export class SupabaseService {
     }
   }
 
-  // Transferencias
+
   async addTransfer(transferencia: Transferencia): Promise<any> {
     try {
-      // Buscar los detalles de las cuentas de origen y destino basadas en los IDs proporcionados
+
       const { data: fromAccount, error: fromAccountError } = await this.supabase
         .from('Cuentas')
         .select('*')
@@ -1124,7 +1126,7 @@ export class SupabaseService {
 
       if (toAccountError || !toAccount) throw new Error(`La cuenta de destino con id ${transferencia.to_account_id} no existe.`);
 
-      // Insertar la transferencia usando los account_number de las cuentas encontradas
+  
       const transferData = {
         from_account_id: fromAccount.account_number,
         to_account_id: toAccount.account_number,
@@ -1132,7 +1134,7 @@ export class SupabaseService {
         currency: transferencia.currency,
         description: transferencia.description,
         transfer_date: new Date().toISOString(),
-        status: 'Processing' // Inicialmente en estado 'Processing'
+        status: 'Processing' 
       };
 
       const { data, error } = await this.supabase
@@ -1142,11 +1144,11 @@ export class SupabaseService {
 
       if (error) throw error;
 
-      // Actualizar el BehaviorSubject
+  
       const currentTransferencias = this.transferenciasSubject.getValue();
       this.transferenciasSubject.next([...currentTransferencias, ...data]);
 
-      // Cambiar el estado a 'Success' después de 30 segundos
+
       setTimeout(async () => {
         try {
           await this.updateTransferStatus(data[0].id, 'Success');
@@ -1162,22 +1164,25 @@ export class SupabaseService {
     }
   }
 
-  async loadTransferencias() {
+  async loadTransferencias(): Promise<Transferencia[]> {
     const { data, error } = await this.supabase
       .from('Transferencias')
       .select(`
-      *,
-      from_account:from_account_id(account_number),
-      to_account:to_account_id(account_number)
-    `)
+        *,
+        from_account:from_account_id(account_number),
+        to_account:to_account_id(account_number)
+      `)
       .order('id', { ascending: true });
 
     if (error) {
       console.error('Error loading transfers', error);
+      return [];
     } else {
       this.transferenciasSubject.next(data);
+      return data;
     }
   }
+
 
   async updateTransfer(id: number, updatedFields: Partial<Transferencia>): Promise<void> {
     const { data, error } = await this.supabase.from('Transferencias').update(updatedFields).eq('id', id).select().single();
@@ -1191,6 +1196,15 @@ export class SupabaseService {
       );
       this.transferenciasSubject.next(updatedTransferencias);
     }
+  }
+
+  onMovimientosChange(): RealtimeChannel {
+    const channel = this.supabase.channel('public:movimientos')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'movimientos' }, (payload) => {
+        console.log('Change received!', payload);
+      });
+    channel.subscribe();
+    return channel;
   }
 
   async deleteTransfer(transferId: number): Promise<void> {
@@ -1223,7 +1237,6 @@ export class SupabaseService {
         throw new Error('Error fetching transfer details');
       }
 
-      // Actualizar el estado de la transferencia
       const { error } = await this.supabase
         .from('Transferencias')
         .update({ status })
@@ -1234,7 +1247,6 @@ export class SupabaseService {
         throw error;
       }
 
-      // Si el estado es "Success", actualizar los saldos de las cuentas implicadas
       if (status === 'Success') {
         const { data: fromAccount, error: fromAccountError } = await this.supabase
           .from('Cuentas')
@@ -1269,13 +1281,11 @@ export class SupabaseService {
           .eq('id', toAccount.id);
 
         if (updateToAccountError) throw new Error('Error al actualizar el saldo de la cuenta de destino.');
-        // Mostrar el snackbar
         this.snackBar.open('Transferencia confirmada correctamente', 'Cerrar', {
           duration: 3000,
         });
       }
 
-      // Actualizar el BehaviorSubject
       const currentTransferencias = this.transferenciasSubject.getValue();
       const updatedTransferencias = currentTransferencias.map(transferencia =>
         transferencia.id === id ? { ...transferencia, status } : transferencia
@@ -1299,7 +1309,6 @@ export class SupabaseService {
         throw new Error('Error fetching transfer details');
       }
 
-      // Verificar si la transferencia ya está confirmada
       if (transfer.status !== 'Success') {
         throw new Error('Solo se pueden revertir transferencias confirmadas.');
       }
@@ -1320,7 +1329,6 @@ export class SupabaseService {
 
       if (toAccountError || !toAccount) throw new Error(`La cuenta de destino con account_number ${transfer.to_account_id} no existe.`);
 
-      // Revertir los saldos de las cuentas
       const { error: updateFromAccountError } = await this.supabase
         .from('Cuentas')
         .update({ balance: fromAccount.balance + transfer.amount })
@@ -1335,7 +1343,6 @@ export class SupabaseService {
 
       if (updateToAccountError) throw new Error('Error al revertir el saldo de la cuenta de destino.');
 
-      // Actualizar el estado de la transferencia a 'Reverted'
       const { error: updateTransferError } = await this.supabase
         .from('Transferencias')
         .update({ status: 'Reverted' })
@@ -1343,7 +1350,6 @@ export class SupabaseService {
 
       if (updateTransferError) throw new Error('Error al actualizar el estado de la transferencia.');
 
-      // Mostrar el snackbar
       this.snackBar.open('Transferencia revertida correctamente', 'Cerrar', {
         duration: 3000,
       });

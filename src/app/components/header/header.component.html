@@ -14,8 +14,8 @@
     <a mat-button [matMenuTriggerFor]="movimientosMenu"><mat-icon>swap_horiz</mat-icon>Movimientos</a>
     <mat-menu #movimientosMenu="matMenu">
       <button mat-menu-item [routerLink]="['', { outlets: { auth: ['movimientos'] } }]">Movimientos</button>
-      <button mat-menu-item [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</button>
-      <button mat-menu-item [routerLink]="['', { outlets: { auth: ['bizum'] } }]">Bizum</button>
+      <!-- <button mat-menu-item [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</button> -->
+      
     </mat-menu>
 
     <a mat-button [matMenuTriggerFor]="serviciosMenu"><mat-icon>laptop_chromebook</mat-icon>Servicios</a>
@@ -33,8 +33,8 @@
     <a mat-button [matMenuTriggerFor]="movimientosMenuCliente"><mat-icon>swap_horiz</mat-icon>Movimientos</a>
     <mat-menu #movimientosMenuCliente="matMenu">
       <button mat-menu-item [routerLink]="['', { outlets: { auth: ['movimientos'] } }]">Movimientos</button>
-      <button mat-menu-item [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</button>
-      <button mat-menu-item [routerLink]="['', { outlets: { auth: ['bizum'] } }]">Bizum</button>
+      <!-- <button mat-menu-item [routerLink]="['', { outlets: { auth: ['transferencias'] } }]">Transferencias</button> -->
+      
     </mat-menu>
 
     <a mat-button [matMenuTriggerFor]="serviciosMenuCliente"><mat-icon>laptop_chromebook</mat-icon>Servicios</a>

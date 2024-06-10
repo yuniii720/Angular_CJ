@@ -72,8 +72,14 @@ export class AddCardComponent implements OnInit {
   generateCardNumber(): string {
     const prefix = '4000';
     const randomDigits = () => Math.floor(100000000000 + Math.random() * 900000000000).toString();
-    return `${prefix}${randomDigits()}`;
-  }
+    const cardNumber = `${prefix}${randomDigits()}`;
+
+    // Insert spaces every 4 digits
+    const formattedCardNumber = cardNumber.match(/.{1,4}/g)?.join(' ') || cardNumber;
+
+    return formattedCardNumber;
+}
+
 
   onClientChange(): void {
     const clientId = this.creditCardForm.get('clientId')?.value;
