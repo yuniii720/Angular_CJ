@@ -9,8 +9,7 @@
       *ngIf="(userRoleMessage$ | async) === 'Super Admin' || (userRoleMessage$ | async) === 'Bienvenido empleado'"
       [routerLink]="['', { outlets: { auth: ['usuario'] } }]"><mat-icon>person</mat-icon>Usuarios</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['cliente'] } }]"><mat-icon>group</mat-icon>Clientes</a>
-    <a mat-button
-      [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]"><mat-icon>credit_card</mat-icon>Tarjetas</a>
     <a mat-button [matMenuTriggerFor]="movimientosMenu"><mat-icon>swap_horiz</mat-icon>Movimientos</a>
     <mat-menu #movimientosMenu="matMenu">
@@ -19,8 +18,8 @@
       <button mat-menu-item [routerLink]="['', { outlets: { auth: ['bizum'] } }]">Bizum</button>
     </mat-menu>
 
-    <a mat-button [matMenuTriggerFor]="movimientosMenuCliente"><mat-icon>laptop_chromebook</mat-icon>Servicios</a>
-    <mat-menu #movimientosMenuCliente="matMenu">
+    <a mat-button [matMenuTriggerFor]="serviciosMenu"><mat-icon>laptop_chromebook</mat-icon>Servicios</a>
+    <mat-menu #serviciosMenu="matMenu">
       <button mat-menu-item [routerLink]="['', { outlets: { auth: ['hipoteca'] } }]">Calcular hipoteca</button>
     </mat-menu>
   </nav>
@@ -29,8 +28,7 @@
     <a [routerLink]="['', { outlets: { auth: ['maincliente'] } }]" class="logo">
       <img src="../../assets/img/logo.png" name="vn_logo" class="logo-img">
     </a>
-    <a mat-button
-      [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
+    <a mat-button [routerLink]="['', { outlets: { auth: ['cuentas'] } }]"><mat-icon>account_balance</mat-icon>Cuentas</a>
     <a mat-button [routerLink]="['', { outlets: { auth: ['tarjetas'] } }]"><mat-icon>credit_card</mat-icon>Tarjetas</a>
     <a mat-button [matMenuTriggerFor]="movimientosMenuCliente"><mat-icon>swap_horiz</mat-icon>Movimientos</a>
     <mat-menu #movimientosMenuCliente="matMenu">
@@ -39,8 +37,8 @@
       <button mat-menu-item [routerLink]="['', { outlets: { auth: ['bizum'] } }]">Bizum</button>
     </mat-menu>
 
-    <a mat-button [matMenuTriggerFor]="movimientosMenuCliente"><mat-icon>laptop_chromebook</mat-icon>Servicios</a>
-    <mat-menu #movimientosMenuCliente="matMenu">
+    <a mat-button [matMenuTriggerFor]="serviciosMenuCliente"><mat-icon>laptop_chromebook</mat-icon>Servicios</a>
+    <mat-menu #serviciosMenuCliente="matMenu">
       <button mat-menu-item [routerLink]="['', { outlets: { auth: ['hipoteca'] } }]">Calcular hipoteca</button>
     </mat-menu>
   </nav>
