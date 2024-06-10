@@ -7,6 +7,10 @@ html {
 
 }
 
+.relleno {
+  height: 100px; /* Ajusta el valor según lo necesario */
+}
+
 .full-height {
   display: flex;
   justify-content: center;
