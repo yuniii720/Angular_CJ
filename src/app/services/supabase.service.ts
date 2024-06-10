@@ -4,7 +4,6 @@ import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, from, of } from 'rxjs';
 import { RealtimeChannel } from '@supabase/supabase-js';
-
 import { Tarjeta } from '../models/tarjeta.model';
 import { Usuario } from '../models/usuario.model';
 import { Cliente } from '../models/cliente.model';
@@ -93,7 +92,6 @@ export class SupabaseService {
     return data;
   }
 
-  // Usuarios
   async loadUsuarios(filterType?: string) {
     let query = this.supabase.from('Usuarios').select('*').order('id', { ascending: true });
 
