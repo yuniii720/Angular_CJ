@@ -27,12 +27,12 @@ export class TablaCuentasComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   subs: Subscription = new Subscription();
-  userRoleMessage$: Observable<string> = of(''); // Inicialización con un valor predeterminado
+  userRoleMessage$: Observable<string> = of(''); 
 
   constructor(private supabaseService: SupabaseService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar'); // Inicializar filteredColumns
+    this.filteredColumns = this.displayedColumns.filter(column => column !== 'gestionar');
 
     this.userRoleMessage$ = this.authService.getUserRole().pipe(
       map((userRole: UserRole | null) => {

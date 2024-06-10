@@ -1,72 +1,79 @@
 <app-header></app-header>
-<app-asistente></app-asistente>
 
-<mat-toolbar color="primary">
-  <span>Dashboard</span>
-</mat-toolbar>
-
-<div class="container">
-  <div class="grid-container">
-    <mat-grid-list cols="4" rowHeight="200px" gutterSize="16px">
-      <mat-grid-tile>
-        <mat-card class="card">
-          <mat-card-title>Saldo Total</mat-card-title>
-          <mat-card-content>
-            <p>{{ saldoTotal | currency:'EUR' }}</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card class="card">
-          <mat-card-title>Cuentas Activas</mat-card-title>
-          <mat-card-content>
-            <p>{{ cuentasActivas }}</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card class="card">
-          <mat-card-title>Tarjetas Activas</mat-card-title>
-          <mat-card-content>
-            <p>{{ tarjetasActivas }}</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card class="card">
-          <mat-card-title>Deuda Total</mat-card-title>
-          <mat-card-content>
-            <p>No tienes deudas activas</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
-
-  <div class="row">
-    <div class="col-lg-8 mb-4">
-      <mat-card>
-        <mat-card-title>Movimientos</mat-card-title>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item *ngFor="let movimiento of movimientos">
-              {{ movimiento.transaction }} - {{ movimiento.category }}
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
+<body>
+  <div class="wrapper">
+    <mat-card class="parent no-shadow">
+      <mat-card class="div1 my-cards">
+        <div class="header">
+          <div class="title">Mis tarjetas</div>
+        </div>
+        <div class="cards-container-wrapper">
+          <div class="cards-container">
+            <mat-card class="card" *ngFor="let tarjeta of tarjetas">
+              <div class="card-info">
+                <div class="card-balance">{{ tarjeta.saldo | currency:'EUR' }}</div>
+                <div class="card-type">VISA</div>
+                <div class="card-details">
+                  <div class="card-holder">{{ tarjeta.cardNumber }}</div>
+                  <div class="card-expiry">Fecha de expiración</div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
       </mat-card>
-    </div>
-    <div class="col-lg-4 mb-4">
-      <mat-card>
-        <mat-card-title>Tarjetas</mat-card-title>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item *ngFor="let tarjeta of tarjetas">
-              {{ tarjeta.cardNumber }} - {{ tarjeta.saldo | currency:'EUR' }}
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
+
+      <mat-card class="div2 my-cards">
+        <div class="header">
+          <div class="title">Ingresos y Dinero Actual</div>
+        </div>
+        <canvas id="ingresosChart"></canvas>
       </mat-card>
-    </div>
+
+      <mat-card class="div3 my-cards saldo-card">
+        <div class="header">
+          <div class="title">Saldo Total</div>
+        </div>
+        <div class="saldo-total">
+          <p>{{ saldoTotal | currency:'EUR' }}</p>
+        </div>
+      </mat-card>
+
+      <mat-card class="div4 my-cards">
+        <div class="header">
+          <div class="title">Movimientos</div>
+        </div>
+        <ul>
+          <li *ngFor="let movimiento of movimientos">
+            {{ movimiento.transaction }} - <span class="movimiento-category">{{ movimiento.category }}</span>
+          </li>
+        </ul>
+      </mat-card>
+
+      <mat-card class="div5 my-cards">
+        <div class="header">
+          <div class="title">Cuentas</div>
+        </div>
+        <table mat-table [dataSource]="cuentas" class="mat-elevation-z8">
+          <ng-container matColumnDef="account_number">
+            <th mat-header-cell *matHeaderCellDef> Numero de cuenta</th>
+            <td mat-cell *matCellDef="let element"> {{element.account_number}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="balance">
+            <th mat-header-cell *matHeaderCellDef> Saldo </th>
+            <td mat-cell *matCellDef="let element"> {{element.balance | currency:'EUR'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef> Creada en</th>
+            <td mat-cell *matCellDef="let element"> {{element.created_at | date}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['account_number', 'balance', 'created_at']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['account_number', 'balance', 'created_at'];"></tr>
+        </table>
+      </mat-card>
+    </mat-card>
   </div>
-</div>
+</body>

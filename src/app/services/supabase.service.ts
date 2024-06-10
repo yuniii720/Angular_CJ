@@ -116,6 +116,7 @@ export class SupabaseService {
     return data;
   }
 
+
   async addUsuario(usuario: Usuario): Promise<Usuario> {
     try {
       const { data: authData, error: authError } = await this.supabase.auth.signUp({
@@ -841,6 +842,7 @@ export class SupabaseService {
     }
     return data;
   }
+
 
   async loadTarjetasConCuentas() {
     const { data, error } = await this.supabase

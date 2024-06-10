@@ -12,7 +12,7 @@ html {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh; /* Asegúrate de que el contenedor tenga altura completa de la ventana */
+  height: 100vh;
 }
 
 .breadcrumbs {
@@ -65,11 +65,10 @@ html {
   border-radius: 8px;
 }
 
-/* Campos de formulario en el modal */
 .modal-container .field {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px; /* Espacio entre los campos */
+  gap: 16px;
   margin-bottom: 20px;
 }
 
